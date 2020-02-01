@@ -1,0 +1,14 @@
+#忽略所有packages
+/slnShoppingForum/packages/*
+
+#忽略所有images
+/slnShoppingForum/prjShoppingForum/Images/*
+
+#忽略.vs的內容
+/slnShoppingForum/.vs
+
+#忽略bin的內容
+/slnShoppingForum/prjShoppingForum/bin
+
+#忽略debug的內容
+/slnShoppingForum/prjShoppingForum/obj

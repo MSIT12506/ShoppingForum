@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    <div style="width: 600px; margin:20px auto;">
+        標題：<br />
+        <input type="text" name="postTitle" />
+        <br />
+        <br />
+        內文：<br />
+        <div id="editor" style="height:350px">
+        </div>
+        <textarea id="tmpContent" name="tmpContent" style="display:none"></textarea>
+        <input type="submit" value="送出" />
+    </div>
+}
+
+<script src="~/Scripts/Forum/QuillEditor.New_Update.Post.js"></script>
+

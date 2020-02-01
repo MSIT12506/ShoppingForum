@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e4ae7a2d86fe4a6ba6e537356585e840" Name="Diagram1">
+        <EntityTypeShape EntityType="dbShoppingForumModel.tCategory" Width="1.5" PointX="1.5" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tEfficacy" Width="1.5" PointX="1.5" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForum" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumAnalysi" Width="1.5" PointX="10.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumAuth" Width="1.5" PointX="3" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumReply" Width="1.5" PointX="10.5" PointY="20.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumReplyAnalysi" Width="1.5" PointX="12.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tNote" Width="1.5" PointX="1.5" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tOrder" Width="1.5" PointX="3" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tOrderDetail" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tPart" Width="1.5" PointX="1.5" PointY="9.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tProduct" Width="1.5" PointX="3.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tProductImage" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tQuestion" Width="1.5" PointX="6" PointY="24.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tScore" Width="1.5" PointX="3" PointY="21" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tShoppingCart" Width="1.5" PointX="6" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tShoppingStatu" Width="1.5" PointX="3.75" PointY="24.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tTest" Width="1.5" PointX="8.25" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUser" Width="1.5" PointX="3" PointY="27.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserAuth" Width="1.5" PointX="5.25" PointY="28" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserProfile" Width="1.5" PointX="0.75" PointY="12.125" IsExpanded="true" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tProduct_tCategory" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForum_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForum_tUserProfile1" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumAnalysis_tForum" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumReply_tForum" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumAnalysis_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumAuth_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumReply_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumReply_tUserProfile1" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tProduct_tNote" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tOrder_tUser" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tOrderDetail_tOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tOrderDetail_tProduct" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tProduct_tPart" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tProductImage_tProduct" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tShoppingCart_tProduct" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tTest_fQuestionId" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tScore_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tTest_fUserId" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tShoppingCart_tShoppingStatus" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tShoppingCart_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tTest_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tUser_tUserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tUserAuth_tUser" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.tProdEfficacyRelation" ManuallyRouted="false" />
+        <AssociationConnector Association="dbShoppingForumModel.tUserFavorite" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

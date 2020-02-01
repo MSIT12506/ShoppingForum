@@ -1,0 +1,50 @@
+﻿@model IQueryable<prjShoppingForum.Models.Entity.tForum>
+
+@{
+    ViewBag.Title = "List";
+}
+
+<h1>List</h1>
+
+<div style="margin:20px auto">
+    <form>
+        <input type="text" name="" id="">
+        <input type="submit" value="查詢">
+    </form>
+
+    <div>
+        <button>下拉選view</button>
+        <button>下拉選排序</button>
+        @*<button class="button Post">發表文章</button>*@
+        <button class="button Post">@Html.ActionLink("發表文章", "Create", "Forum", null)</button>
+        <button class="button FavoriteList">收藏文章列表</button>
+        <button class="button HideList">隱藏文章列表</button>
+    </div>
+</div>
+
+
+<table class="table">
+    <tr>
+        <th>
+            標題:
+        </th>
+        <th>
+            動作:
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { fPostId = item.fPostId })
+                @Html.ActionLink("Delete", "Delete", new { fPostId = item.fPostId })
+            </td>
+        </tr>
+    }
+
+</table>

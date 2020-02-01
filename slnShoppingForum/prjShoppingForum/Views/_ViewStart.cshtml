@@ -1,0 +1,15 @@
+﻿@{
+    string controllerName = Request.RequestContext.RouteData.Values["Controller"].ToString();
+
+    //透過不同的layout，可以針對不同的controller做動態切換
+    switch (controllerName)
+    {
+        case "Forum":
+            Layout = "~/Views/Shared/_Layout_Forum.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
+
+}

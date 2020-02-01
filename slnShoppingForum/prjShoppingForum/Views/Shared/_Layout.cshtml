@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/Styles/main.css" />
+    <link rel="stylesheet" media="screen and  (max-width: 600px)" href="~/Styles/main_RWD600.css" />
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+            <h2><a href="HomePage.html"><img class="icon" alt="Tree of Birth" />Tree of Birth</a></h2>
+
+            <div class="navbar">
+                <a href="http://www.google.com">最新消息</a>
+                <a href="http://www.google.com">會員中心</a>
+                <a href="http://www.google.com">商品介紹</a>
+                <a href="http://www.google.com">配方遊戲</a>
+                <a href="http://www.google.com">討論區</a>
+            </div>
+        </header>
+
+        <!--中間區塊-->
+        <div id="content" style="min-height:800px; margin-top:150px">
+            @RenderBody()
+        </div>
+    </div>
+    <div class="push"></div>
+    <!--footer-->
+    <footer></footer>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+﻿<h2>Edit</h2>
+
+@model prjShoppingForum.Models.Entity.tForum
+
+@{
+    ViewBag.Title = "Edit";
+    string result = WebUtility.HtmlDecode(Model.fPostContent);
+}
+
+<div class="PostContent" style="width:600px; height:auto; margin:auto;">
+    @using (Html.BeginForm())
+    {
+        <div style="width: 600px; margin:20px auto;">
+            標題：<br />
+            <input type="text" name="postTitle" value="@Model.fPostTitle" />
+            <br />
+            <br />
+            內文：<br />
+            <div id="editor" style="height:500px">
+            </div>
+            <textarea id="tmpContent" name="tmpContent" style="display:none"></textarea>
+            <input type="submit" value="送出" />
+        </div>
+    }
+
+    <div class="targetSource" style="display:none">
+        @Html.Raw(result)
+    </div>
+</div>
+
+<script src="~/Scripts/Forum/QuillEditor.New_Update.Post.js"></script>
+<script src="~/Scripts/Forum/EventHandle.Edit.js"></script>
+

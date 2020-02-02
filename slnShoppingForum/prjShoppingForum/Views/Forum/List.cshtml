@@ -7,21 +7,13 @@
 <h1>List</h1>
 
 <div style="margin:20px auto">
-    <form>
-        <input type="text" name="" id="">
-        <input type="submit" value="查詢">
-    </form>
-
     <div>
         <button>下拉選view</button>
         <button>下拉選排序</button>
         @*<button class="button Post">發表文章</button>*@
         <button class="button Post">@Html.ActionLink("發表文章", "Create", "Forum", null)</button>
-        <button class="button FavoriteList">收藏文章列表</button>
-        <button class="button HideList">隱藏文章列表</button>
     </div>
 </div>
-
 
 <table class="table">
     <tr>
@@ -38,13 +30,21 @@
         <tr>
             <td>
                 @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                <br />
+                <button class="btn btn-primary">喜歡</button>
+                <button class="btn btn-primary">討厭</button>
+                <button class="btn btn-primary">分享</button>
+                <button class="btn btn-primary">留言</button>
+                <button class="btn btn-primary">收藏</button>
+                <button class="btn btn-primary">隱藏</button>
             </td>
 
             <td>
-                @Html.ActionLink("Edit", "Edit", new { fPostId = item.fPostId })
-                @Html.ActionLink("Delete", "Delete", new { fPostId = item.fPostId })
+                @Html.ActionLink("修改文章", "Edit", new { fPostId = item.fPostId })
+                @Html.ActionLink("文章停權(刪除)", "Delete", new { fPostId = item.fPostId })
             </td>
         </tr>
     }
 
 </table>
+

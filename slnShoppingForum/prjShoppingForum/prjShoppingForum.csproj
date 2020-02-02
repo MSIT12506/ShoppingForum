@@ -103,6 +103,11 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\disappear.png" />
+    <Content Include="Images\favorite.png" />
+    <Content Include="Images\logo.png" />
+    <Content Include="Images\NewPost.png" />
+    <Content Include="Images\PostList.png" />
     <Content Include="Models\Entity\dbShoppingForum.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>dbShoppingForum.edmx</DependentUpon>
@@ -137,6 +142,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Styles\Forum\layout.css" />
+    <Content Include="Styles\Forum\layout_rwd600.css" />
     <Content Include="Styles\main.css" />
     <Content Include="Styles\main_RWD600.css" />
     <Content Include="Web.config" />
@@ -257,7 +264,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Styles\Forum\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

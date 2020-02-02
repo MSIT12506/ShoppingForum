@@ -48,12 +48,12 @@
 </div>
 
 
-<div style="margin-top:20px;">
+<div class="allreply" style="margin:auto; margin-top:20px; width:600px; ">
     @for (int i = 0; i < Model.reply.Count; i++)
     {
         for (int k = 0; k < Model.reply[i].Count; k++)
         {
-    <div class="commentElement" data-id="@Model.reply[i][k].fReplyId" data-seq="@Model.reply[i][k].fReplySeqNo" style="width:600px ; height:auto; margin:auto;border:1px solid black; padding:5px">
+    <div class="commentElement" data-id="@Model.reply[i][k].fReplyId" data-seq="@Model.reply[i][k].fReplySeqNo" style="width:600px ; height:auto; border:1px solid black; padding:5px">
         @Html.Raw(Model.reply[i][k].fContent)
         <button class="btn-like btn btn-primary">喜歡</button>
         <button class="btn-hate btn btn-primary">討厭</button>

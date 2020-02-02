@@ -1,0 +1,88 @@
+﻿/*For Desktop View*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.forum-left{
+    height: 100vh;
+    width: 25vw;
+    left: 0;
+    top: 0;
+    position: fixed;
+}
+
+.btn-left{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    width: 15vw;
+    height: 5vh;
+    float: right;
+    padding-right: 25px;
+}
+
+.btn-logo{
+    width: 15vw;
+    height: 15vh;
+}
+
+.btn-area{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    height: 5vh;
+    margin-bottom: 200px;
+    border-radius: 5px;
+    padding: 1vh;
+}
+
+.btn-title{
+    display: none;
+}
+
+.forum-mid{
+    width: 50vw;
+    margin: auto;
+}
+
+.forum-right{
+    height: 100vh;
+    width: 25vw;
+    right: 0;
+    top: 0;
+    position: fixed;
+}
+
+/*待設定好所有區塊大小後，才可以針對裡面的圖片做縮放、調整位置*/
+img{
+    float: right;
+    
+    width: auto;
+    height: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.btn-right{
+    margin-top: 20px;
+    padding-left: 50px;
+}
+
+.btn-right.btn-right-top{
+    margin-top: 100px;
+}

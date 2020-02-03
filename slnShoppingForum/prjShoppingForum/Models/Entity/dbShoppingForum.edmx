@@ -4,13 +4,27 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbShoppingForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbShoppingForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tCategory">
           <Key>
             <PropertyRef Name="fCategoryID" />
           </Key>
           <Property Name="fCategoryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fCategoryName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="tDiscount">
+          <Key>
+            <PropertyRef Name="fDiscountCode" />
+          </Key>
+          <Property Name="fDiscountCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fDiscountName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fDiscountCategory" Type="varchar" MaxLength="5" Nullable="false" />
+          <Property Name="fDiscountMoneyRule" Type="bit" Nullable="false" />
+          <Property Name="fMoneyLimit" Type="int" Nullable="false" />
+          <Property Name="fDiscountContent" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="fStartdate" Type="datetime" Nullable="false" />
+          <Property Name="fEndDate" Type="datetime" Nullable="false" />
+          <Property Name="fEnable" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tEfficacy">
           <Key>
@@ -98,18 +112,18 @@
           </Key>
           <Property Name="fOrderId" Type="bigint" Nullable="false" />
           <Property Name="fUserId" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="fOrderDate" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="fShippedDate" Type="datetimeoffset" Precision="7" />
-          <Property Name="fRequiredDate" Type="datetimeoffset" Precision="7" />
+          <Property Name="fOrderDate" Type="datetime" Nullable="false" />
+          <Property Name="fShippedDate" Type="datetime" />
+          <Property Name="fRequiredDate" Type="datetime" />
           <Property Name="fScore" Type="int" />
-          <Property Name="fOrderCheck" Type="bit" />
-          <Property Name="fConsigneeName" Type="nchar" MaxLength="10" />
+          <Property Name="fConsigneeName" Type="nvarchar" MaxLength="20" />
           <Property Name="fConsigneeTelephone" Type="nvarchar" MaxLength="50" />
           <Property Name="fConsigneeCellPhone" Type="nvarchar" MaxLength="50" />
           <Property Name="fConsigneeAddress" Type="nvarchar" MaxLength="50" />
+          <Property Name="fConsigneeAreUser" Type="bit" />
           <Property Name="fOrderCompanyTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="fOrderTaxIdDNumber" Type="int" />
-          <Property Name="fOrderPostScript" Type="nvarchar" MaxLength="50" />
+          <Property Name="fOrderPostScript" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="tOrderDetail">
           <Key>
@@ -120,7 +134,6 @@
           <Property Name="fProductId" Type="int" Nullable="false" />
           <Property Name="fOrderQuantity" Type="int" />
           <Property Name="fPayment" Type="nvarchar" MaxLength="50" />
-          <Property Name="fOrderDetailCheck" Type="bit" />
         </EntityType>
         <EntityType Name="tPart">
           <Key>
@@ -241,6 +254,15 @@
           <Property Name="fAuth" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fAuthPost" Type="bit" Nullable="false" />
           <Property Name="fAuthReply" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tUserDiscountList">
+          <Key>
+            <PropertyRef Name="fUserId" />
+            <PropertyRef Name="fDiscountCode" />
+          </Key>
+          <Property Name="fUserId" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="fDiscountCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fCount" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tUserFavorite">
           <Key>
@@ -604,6 +626,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tUserDiscountList_tDiscount">
+          <End Role="tDiscount" Type="Self.tDiscount" Multiplicity="1" />
+          <End Role="tUserDiscountList" Type="Self.tUserDiscountList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tDiscount">
+              <PropertyRef Name="fDiscountCode" />
+            </Principal>
+            <Dependent Role="tUserDiscountList">
+              <PropertyRef Name="fDiscountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tUserDiscountList_tUserProfile">
+          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
+          <End Role="tUserDiscountList" Type="Self.tUserDiscountList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUserProfile">
+              <PropertyRef Name="fUserId" />
+            </Principal>
+            <Dependent Role="tUserDiscountList">
+              <PropertyRef Name="fUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tUserFavorite_tUser">
           <End Role="tUser" Type="Self.tUser" Multiplicity="1" />
           <End Role="tUserFavorite" Type="Self.tUserFavorite" Multiplicity="0..1" />
@@ -630,6 +676,7 @@
         </Association>
         <EntityContainer Name="dbShoppingForumModelStoreContainer">
           <EntitySet Name="tCategory" EntityType="Self.tCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tDiscount" EntityType="Self.tDiscount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tEfficacy" EntityType="Self.tEfficacy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tForum" EntityType="Self.tForum" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tForumAnalysis" EntityType="Self.tForumAnalysis" Schema="dbo" store:Type="Tables" />
@@ -650,6 +697,7 @@
           <EntitySet Name="tTest" EntityType="Self.tTest" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUser" EntityType="Self.tUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUserAuth" EntityType="Self.tUserAuth" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tUserDiscountList" EntityType="Self.tUserDiscountList" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUserFavorite" EntityType="Self.tUserFavorite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUserProfile" EntityType="Self.tUserProfile" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tForum_tUserProfile" Association="Self.FK_tForum_tUserProfile">
@@ -764,6 +812,14 @@
             <End Role="tUser" EntitySet="tUser" />
             <End Role="tUserAuth" EntitySet="tUserAuth" />
           </AssociationSet>
+          <AssociationSet Name="FK_tUserDiscountList_tDiscount" Association="Self.FK_tUserDiscountList_tDiscount">
+            <End Role="tDiscount" EntitySet="tDiscount" />
+            <End Role="tUserDiscountList" EntitySet="tUserDiscountList" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUserDiscountList_tUserProfile" Association="Self.FK_tUserDiscountList_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfile" />
+            <End Role="tUserDiscountList" EntitySet="tUserDiscountList" />
+          </AssociationSet>
           <AssociationSet Name="FK_tUserFavorite_tUser" Association="Self.FK_tUserFavorite_tUser">
             <End Role="tUser" EntitySet="tUser" />
             <End Role="tUserFavorite" EntitySet="tUserFavorite" />
@@ -773,18 +829,177 @@
             <End Role="tUserFavorite" EntitySet="tUserFavorite" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbShoppingForumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbShoppingForumEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tCategories" EntityType="dbShoppingForumModel.tCategory" />
+          <EntitySet Name="tDiscounts" EntityType="dbShoppingForumModel.tDiscount" />
+          <EntitySet Name="tEfficacies" EntityType="dbShoppingForumModel.tEfficacy" />
+          <EntitySet Name="tForums" EntityType="dbShoppingForumModel.tForum" />
+          <EntitySet Name="tForumAnalysis" EntityType="dbShoppingForumModel.tForumAnalysi" />
+          <EntitySet Name="tForumAuths" EntityType="dbShoppingForumModel.tForumAuth" />
+          <EntitySet Name="tForumReplies" EntityType="dbShoppingForumModel.tForumReply" />
+          <EntitySet Name="tForumReplyAnalysis" EntityType="dbShoppingForumModel.tForumReplyAnalysi" />
+          <EntitySet Name="tNotes" EntityType="dbShoppingForumModel.tNote" />
+          <EntitySet Name="tOrders" EntityType="dbShoppingForumModel.tOrder" />
+          <EntitySet Name="tOrderDetails" EntityType="dbShoppingForumModel.tOrderDetail" />
+          <EntitySet Name="tParts" EntityType="dbShoppingForumModel.tPart" />
+          <EntitySet Name="tProducts" EntityType="dbShoppingForumModel.tProduct" />
+          <EntitySet Name="tProductImages" EntityType="dbShoppingForumModel.tProductImage" />
+          <EntitySet Name="tQuestions" EntityType="dbShoppingForumModel.tQuestion" />
+          <EntitySet Name="tScores" EntityType="dbShoppingForumModel.tScore" />
+          <EntitySet Name="tShoppingCarts" EntityType="dbShoppingForumModel.tShoppingCart" />
+          <EntitySet Name="tShoppingStatus" EntityType="dbShoppingForumModel.tShoppingStatu" />
+          <EntitySet Name="tTests" EntityType="dbShoppingForumModel.tTest" />
+          <EntitySet Name="tUsers" EntityType="dbShoppingForumModel.tUser" />
+          <EntitySet Name="tUserAuths" EntityType="dbShoppingForumModel.tUserAuth" />
+          <EntitySet Name="tUserDiscountLists" EntityType="dbShoppingForumModel.tUserDiscountList" />
+          <EntitySet Name="tUserProfiles" EntityType="dbShoppingForumModel.tUserProfile" />
+          <AssociationSet Name="FK_tProduct_tCategory" Association="dbShoppingForumModel.FK_tProduct_tCategory">
+            <End Role="tCategory" EntitySet="tCategories" />
+            <End Role="tProduct" EntitySet="tProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUserDiscountList_tDiscount" Association="dbShoppingForumModel.FK_tUserDiscountList_tDiscount">
+            <End Role="tDiscount" EntitySet="tDiscounts" />
+            <End Role="tUserDiscountList" EntitySet="tUserDiscountLists" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForum_tUserProfile" Association="dbShoppingForumModel.FK_tForum_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForum" EntitySet="tForums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForum_tUserProfile1" Association="dbShoppingForumModel.FK_tForum_tUserProfile1">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForum" EntitySet="tForums" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumAnalysis_tForum" Association="dbShoppingForumModel.FK_tForumAnalysis_tForum">
+            <End Role="tForum" EntitySet="tForums" />
+            <End Role="tForumAnalysi" EntitySet="tForumAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumReply_tForum" Association="dbShoppingForumModel.FK_tForumReply_tForum">
+            <End Role="tForum" EntitySet="tForums" />
+            <End Role="tForumReply" EntitySet="tForumReplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumAnalysis_tUserProfile" Association="dbShoppingForumModel.FK_tForumAnalysis_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForumAnalysi" EntitySet="tForumAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumAuth_tUserProfile" Association="dbShoppingForumModel.FK_tForumAuth_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForumAuth" EntitySet="tForumAuths" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumReply_tUserProfile" Association="dbShoppingForumModel.FK_tForumReply_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForumReply" EntitySet="tForumReplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumReply_tUserProfile1" Association="dbShoppingForumModel.FK_tForumReply_tUserProfile1">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForumReply" EntitySet="tForumReplies" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumReplyAnalysis_tForumReply" Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply">
+            <End Role="tForumReply" EntitySet="tForumReplies" />
+            <End Role="tForumReplyAnalysi" EntitySet="tForumReplyAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tForumReplyAnalysis_tUserProfile" Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tForumReplyAnalysi" EntitySet="tForumReplyAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProduct_tNote" Association="dbShoppingForumModel.FK_tProduct_tNote">
+            <End Role="tNote" EntitySet="tNotes" />
+            <End Role="tProduct" EntitySet="tProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrder_tUser" Association="dbShoppingForumModel.FK_tOrder_tUser">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tOrder" EntitySet="tOrders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrderDetail_tOrder" Association="dbShoppingForumModel.FK_tOrderDetail_tOrder">
+            <End Role="tOrder" EntitySet="tOrders" />
+            <End Role="tOrderDetail" EntitySet="tOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tOrderDetail_tProduct" Association="dbShoppingForumModel.FK_tOrderDetail_tProduct">
+            <End Role="tProduct" EntitySet="tProducts" />
+            <End Role="tOrderDetail" EntitySet="tOrderDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProduct_tPart" Association="dbShoppingForumModel.FK_tProduct_tPart">
+            <End Role="tPart" EntitySet="tParts" />
+            <End Role="tProduct" EntitySet="tProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tProductImage_tProduct" Association="dbShoppingForumModel.FK_tProductImage_tProduct">
+            <End Role="tProduct" EntitySet="tProducts" />
+            <End Role="tProductImage" EntitySet="tProductImages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tShoppingCart_tProduct" Association="dbShoppingForumModel.FK_tShoppingCart_tProduct">
+            <End Role="tProduct" EntitySet="tProducts" />
+            <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tTest_fQuestionId" Association="dbShoppingForumModel.FK_tTest_fQuestionId">
+            <End Role="tQuestion" EntitySet="tQuestions" />
+            <End Role="tTest" EntitySet="tTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tScore_tUserProfile" Association="dbShoppingForumModel.FK_tScore_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tScore" EntitySet="tScores" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tTest_fUserId" Association="dbShoppingForumModel.FK_tTest_fUserId">
+            <End Role="tScore" EntitySet="tScores" />
+            <End Role="tTest" EntitySet="tTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tShoppingCart_tShoppingStatus" Association="dbShoppingForumModel.FK_tShoppingCart_tShoppingStatus">
+            <End Role="tShoppingStatu" EntitySet="tShoppingStatus" />
+            <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tShoppingCart_tUserProfile" Association="dbShoppingForumModel.FK_tShoppingCart_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tTest_tUserProfile" Association="dbShoppingForumModel.FK_tTest_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tTest" EntitySet="tTests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUser_tUserProfile" Association="dbShoppingForumModel.FK_tUser_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tUser" EntitySet="tUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUserAuth_tUser" Association="dbShoppingForumModel.FK_tUserAuth_tUser">
+            <End Role="tUser" EntitySet="tUsers" />
+            <End Role="tUserAuth" EntitySet="tUserAuths" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tUserDiscountList_tUserProfile" Association="dbShoppingForumModel.FK_tUserDiscountList_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tUserDiscountList" EntitySet="tUserDiscountLists" />
+          </AssociationSet>
+          <AssociationSet Name="tProdEfficacyRelation" Association="dbShoppingForumModel.tProdEfficacyRelation">
+            <End Role="tEfficacy" EntitySet="tEfficacies" />
+            <End Role="tProduct" EntitySet="tProducts" />
+          </AssociationSet>
+          <AssociationSet Name="tUserFavorite" Association="dbShoppingForumModel.tUserFavorite">
+            <End Role="tUser" EntitySet="tUsers" />
+            <End Role="tForum" EntitySet="tForums" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="tCategory">
           <Key>
             <PropertyRef Name="fCategoryID" />
           </Key>
           <Property Name="fCategoryID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fCategoryName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tProducts" Relationship="Self.FK_tProduct_tCategory" FromRole="tCategory" ToRole="tProduct" />
+          <NavigationProperty Name="tProducts" Relationship="dbShoppingForumModel.FK_tProduct_tCategory" FromRole="tCategory" ToRole="tProduct" />
+        </EntityType>
+        <EntityType Name="tDiscount">
+          <Key>
+            <PropertyRef Name="fDiscountCode" />
+          </Key>
+          <Property Name="fDiscountCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fDiscountName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fDiscountCategory" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="fDiscountMoneyRule" Type="Boolean" Nullable="false" />
+          <Property Name="fMoneyLimit" Type="Int32" Nullable="false" />
+          <Property Name="fDiscountContent" Type="Decimal" Nullable="false" Precision="10" Scale="2" />
+          <Property Name="fStartdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fEndDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fEnable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="tUserDiscountLists" Relationship="dbShoppingForumModel.FK_tUserDiscountList_tDiscount" FromRole="tDiscount" ToRole="tUserDiscountList" />
         </EntityType>
         <EntityType Name="tEfficacy">
           <Key>
@@ -792,16 +1007,16 @@
           </Key>
           <Property Name="fEfficacyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fEfficacyName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tProducts" Relationship="Self.tProdEfficacyRelation" FromRole="tEfficacy" ToRole="tProduct" />
+          <NavigationProperty Name="tProducts" Relationship="dbShoppingForumModel.tProdEfficacyRelation" FromRole="tEfficacy" ToRole="tProduct" />
         </EntityType>
         <EntityType Name="tForum">
           <Key>
             <PropertyRef Name="fPostId" />
           </Key>
           <Property Name="fPostId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fPostTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fPostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fPostTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPostContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fIsPost" Type="Boolean" Nullable="false" />
           <Property Name="fCreaTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="fUpdateTime" Type="DateTime" Nullable="false" Precision="3" />
@@ -811,11 +1026,11 @@
           <Property Name="fTopSeq" Type="Int32" Nullable="false" />
           <Property Name="fTotalViewCount" Type="Int32" Nullable="false" />
           <Property Name="fTotalReplyCount" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tForum_tUserProfile" FromRole="tForum" ToRole="tUserProfile" />
-          <NavigationProperty Name="tUserProfile1" Relationship="Self.FK_tForum_tUserProfile1" FromRole="tForum" ToRole="tUserProfile" />
-          <NavigationProperty Name="tForumAnalysis" Relationship="Self.FK_tForumAnalysis_tForum" FromRole="tForum" ToRole="tForumAnalysis" />
-          <NavigationProperty Name="tForumReplies" Relationship="Self.FK_tForumReply_tForum" FromRole="tForum" ToRole="tForumReply" />
-          <NavigationProperty Name="tUsers" Relationship="Self.tUserFavorite" FromRole="tForum" ToRole="tUser" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForum_tUserProfile" FromRole="tForum" ToRole="tUserProfile" />
+          <NavigationProperty Name="tUserProfile1" Relationship="dbShoppingForumModel.FK_tForum_tUserProfile1" FromRole="tForum" ToRole="tUserProfile" />
+          <NavigationProperty Name="tForumAnalysis" Relationship="dbShoppingForumModel.FK_tForumAnalysis_tForum" FromRole="tForum" ToRole="tForumAnalysi" />
+          <NavigationProperty Name="tForumReplies" Relationship="dbShoppingForumModel.FK_tForumReply_tForum" FromRole="tForum" ToRole="tForumReply" />
+          <NavigationProperty Name="tUsers" Relationship="dbShoppingForumModel.tUserFavorite" FromRole="tForum" ToRole="tUser" />
         </EntityType>
         <EntityType Name="tForumAnalysi">
           <Key>
@@ -823,17 +1038,17 @@
             <PropertyRef Name="fUserId" />
           </Key>
           <Property Name="fPostId" Type="Int32" Nullable="false" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fLikeHate" Type="Boolean" />
           <Property Name="fShareCount" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tForum" Relationship="Self.FK_tForumAnalysis_tForum" FromRole="tForumAnalysis" ToRole="tForum" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tForumAnalysis_tUserProfile" FromRole="tForumAnalysis" ToRole="tUserProfile" />
+          <NavigationProperty Name="tForum" Relationship="dbShoppingForumModel.FK_tForumAnalysis_tForum" FromRole="tForumAnalysi" ToRole="tForum" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumAnalysis_tUserProfile" FromRole="tForumAnalysi" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tForumAuth">
           <Key>
             <PropertyRef Name="fUserId" />
           </Key>
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fAuthBlackList" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAuthPostFlag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAuthReplyFlag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -841,7 +1056,7 @@
           <Property Name="fAuthUpdateReplyFlag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAuthDeletePostFlag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAuthDeleteReplyFlag" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tForumAuth_tUserProfile" FromRole="tForumAuth" ToRole="tUserProfile" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumAuth_tUserProfile" FromRole="tForumAuth" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tForumReply">
           <Key>
@@ -849,18 +1064,18 @@
             <PropertyRef Name="fReplyId" />
           </Key>
           <Property Name="fPostId" Type="Int32" Nullable="false" />
-          <Property Name="fReplyId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fReplyTargetId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fReplyId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fReplyTargetId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fReplySeqNo" Type="Int32" Nullable="false" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fReplyTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="fEnableFlag" Type="Boolean" Nullable="false" />
           <Property Name="fDeleteUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="fContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="tForum" Relationship="Self.FK_tForumReply_tForum" FromRole="tForumReply" ToRole="tForum" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tForumReply_tUserProfile" FromRole="tForumReply" ToRole="tUserProfile" />
-          <NavigationProperty Name="tUserProfile1" Relationship="Self.FK_tForumReply_tUserProfile1" FromRole="tForumReply" ToRole="tUserProfile" />
-          <NavigationProperty Name="tForumReplyAnalysi" Relationship="Self.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReply" ToRole="tForumReplyAnalysis" />
+          <Property Name="fContent" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tForum" Relationship="dbShoppingForumModel.FK_tForumReply_tForum" FromRole="tForumReply" ToRole="tForum" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile" FromRole="tForumReply" ToRole="tUserProfile" />
+          <NavigationProperty Name="tUserProfile1" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile1" FromRole="tForumReply" ToRole="tUserProfile" />
+          <NavigationProperty Name="tForumReplyAnalysi" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReply" ToRole="tForumReplyAnalysi" />
         </EntityType>
         <EntityType Name="tForumReplyAnalysi">
           <Key>
@@ -868,11 +1083,11 @@
             <PropertyRef Name="fReplyId" />
           </Key>
           <Property Name="fPostId" Type="Int32" Nullable="false" />
-          <Property Name="fReplyId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fReplyId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fLikeHate" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tForumReply" Relationship="Self.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReplyAnalysis" ToRole="tForumReply" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tForumReplyAnalysis_tUserProfile" FromRole="tForumReplyAnalysis" ToRole="tUserProfile" />
+          <NavigationProperty Name="tForumReply" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReplyAnalysi" ToRole="tForumReply" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" FromRole="tForumReplyAnalysi" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tNote">
           <Key>
@@ -880,28 +1095,28 @@
           </Key>
           <Property Name="fNoteID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fNoteName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tProducts" Relationship="Self.FK_tProduct_tNote" FromRole="tNote" ToRole="tProduct" />
+          <NavigationProperty Name="tProducts" Relationship="dbShoppingForumModel.FK_tProduct_tNote" FromRole="tNote" ToRole="tProduct" />
         </EntityType>
         <EntityType Name="tOrder">
           <Key>
             <PropertyRef Name="fOrderId" />
           </Key>
           <Property Name="fOrderId" Type="Int64" Nullable="false" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fOrderDate" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="fShippedDate" Type="DateTimeOffset" Precision="7" />
-          <Property Name="fRequiredDate" Type="DateTimeOffset" Precision="7" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fOrderDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fShippedDate" Type="DateTime" Precision="3" />
+          <Property Name="fRequiredDate" Type="DateTime" Precision="3" />
           <Property Name="fScore" Type="Int32" />
-          <Property Name="fOrderCheck" Type="Boolean" />
-          <Property Name="fConsigneeName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="fConsigneeName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fConsigneeTelephone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fConsigneeCellPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fConsigneeAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fConsigneeAreUser" Type="Boolean" />
           <Property Name="fOrderCompanyTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fOrderTaxIdDNumber" Type="Int32" />
-          <Property Name="fOrderPostScript" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tOrder_tUser" FromRole="tOrder" ToRole="tUserProfile" />
-          <NavigationProperty Name="tOrderDetails" Relationship="Self.FK_tOrderDetail_tOrder" FromRole="tOrder" ToRole="tOrderDetail" />
+          <Property Name="fOrderPostScript" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tOrder_tUser" FromRole="tOrder" ToRole="tUserProfile" />
+          <NavigationProperty Name="tOrderDetails" Relationship="dbShoppingForumModel.FK_tOrderDetail_tOrder" FromRole="tOrder" ToRole="tOrderDetail" />
         </EntityType>
         <EntityType Name="tOrderDetail">
           <Key>
@@ -912,9 +1127,8 @@
           <Property Name="fProductId" Type="Int32" Nullable="false" />
           <Property Name="fOrderQuantity" Type="Int32" />
           <Property Name="fPayment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fOrderDetailCheck" Type="Boolean" />
-          <NavigationProperty Name="tOrder" Relationship="Self.FK_tOrderDetail_tOrder" FromRole="tOrderDetail" ToRole="tOrder" />
-          <NavigationProperty Name="tProduct" Relationship="Self.FK_tOrderDetail_tProduct" FromRole="tOrderDetail" ToRole="tProduct" />
+          <NavigationProperty Name="tOrder" Relationship="dbShoppingForumModel.FK_tOrderDetail_tOrder" FromRole="tOrderDetail" ToRole="tOrder" />
+          <NavigationProperty Name="tProduct" Relationship="dbShoppingForumModel.FK_tOrderDetail_tProduct" FromRole="tOrderDetail" ToRole="tProduct" />
         </EntityType>
         <EntityType Name="tPart">
           <Key>
@@ -922,14 +1136,14 @@
           </Key>
           <Property Name="fPartID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fPartName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tProducts" Relationship="Self.FK_tProduct_tPart" FromRole="tPart" ToRole="tProduct" />
+          <NavigationProperty Name="tProducts" Relationship="dbShoppingForumModel.FK_tProduct_tPart" FromRole="tPart" ToRole="tProduct" />
         </EntityType>
         <EntityType Name="tProduct">
           <Key>
             <PropertyRef Name="fProductID" />
           </Key>
           <Property Name="fProductID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fProductChName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fProductChName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fProductDesc" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fUnitPrice" Type="Int32" />
           <Property Name="fQuantityPerUnit" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -940,13 +1154,13 @@
           <Property Name="fPartID" Type="Int32" Nullable="false" />
           <Property Name="fNoteID" Type="Int32" Nullable="false" />
           <Property Name="fCategoryID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tCategory" Relationship="Self.FK_tProduct_tCategory" FromRole="tProduct" ToRole="tCategory" />
-          <NavigationProperty Name="tNote" Relationship="Self.FK_tProduct_tNote" FromRole="tProduct" ToRole="tNote" />
-          <NavigationProperty Name="tOrderDetails" Relationship="Self.FK_tOrderDetail_tProduct" FromRole="tProduct" ToRole="tOrderDetail" />
-          <NavigationProperty Name="tPart" Relationship="Self.FK_tProduct_tPart" FromRole="tProduct" ToRole="tPart" />
-          <NavigationProperty Name="tProductImages" Relationship="Self.FK_tProductImage_tProduct" FromRole="tProduct" ToRole="tProductImage" />
-          <NavigationProperty Name="tShoppingCarts" Relationship="Self.FK_tShoppingCart_tProduct" FromRole="tProduct" ToRole="tShoppingCart" />
-          <NavigationProperty Name="tEfficacies" Relationship="Self.tProdEfficacyRelation" FromRole="tProduct" ToRole="tEfficacy" />
+          <NavigationProperty Name="tCategory" Relationship="dbShoppingForumModel.FK_tProduct_tCategory" FromRole="tProduct" ToRole="tCategory" />
+          <NavigationProperty Name="tNote" Relationship="dbShoppingForumModel.FK_tProduct_tNote" FromRole="tProduct" ToRole="tNote" />
+          <NavigationProperty Name="tOrderDetails" Relationship="dbShoppingForumModel.FK_tOrderDetail_tProduct" FromRole="tProduct" ToRole="tOrderDetail" />
+          <NavigationProperty Name="tPart" Relationship="dbShoppingForumModel.FK_tProduct_tPart" FromRole="tProduct" ToRole="tPart" />
+          <NavigationProperty Name="tProductImages" Relationship="dbShoppingForumModel.FK_tProductImage_tProduct" FromRole="tProduct" ToRole="tProductImage" />
+          <NavigationProperty Name="tShoppingCarts" Relationship="dbShoppingForumModel.FK_tShoppingCart_tProduct" FromRole="tProduct" ToRole="tShoppingCart" />
+          <NavigationProperty Name="tEfficacies" Relationship="dbShoppingForumModel.tProdEfficacyRelation" FromRole="tProduct" ToRole="tEfficacy" />
         </EntityType>
         <EntityType Name="tProductImage">
           <Key>
@@ -956,7 +1170,7 @@
           <Property Name="fProductID" Type="Int32" Nullable="false" />
           <Property Name="fProductImageId" Type="Int32" Nullable="false" />
           <Property Name="fProductImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tProduct" Relationship="Self.FK_tProductImage_tProduct" FromRole="tProductImage" ToRole="tProduct" />
+          <NavigationProperty Name="tProduct" Relationship="dbShoppingForumModel.FK_tProductImage_tProduct" FromRole="tProductImage" ToRole="tProduct" />
         </EntityType>
         <EntityType Name="tQuestion">
           <Key>
@@ -965,55 +1179,55 @@
           <Property Name="fQuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fQuestionName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fQuestion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="fAnswer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fAnswer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fItemA" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fItemB" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fItemC" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fItemD" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fItemE" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tTests" Relationship="Self.FK_tTest_fQuestionId" FromRole="tQuestion" ToRole="tTest" />
+          <NavigationProperty Name="tTests" Relationship="dbShoppingForumModel.FK_tTest_fQuestionId" FromRole="tQuestion" ToRole="tTest" />
         </EntityType>
         <EntityType Name="tScore">
           <Key>
             <PropertyRef Name="fUserId" />
           </Key>
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fScore" Type="Int32" />
           <Property Name="fActiveScore" Type="Int32" />
           <Property Name="fQuestionScore" Type="Int32" />
           <Property Name="fScoreDate" Type="DateTime" Precision="3" />
           <Property Name="fAuthTestFlag" Type="Boolean" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tScore_tUserProfile" FromRole="tScore" ToRole="tUserProfile" />
-          <NavigationProperty Name="tTests" Relationship="Self.FK_tTest_fUserId" FromRole="tScore" ToRole="tTest" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tScore_tUserProfile" FromRole="tScore" ToRole="tUserProfile" />
+          <NavigationProperty Name="tTests" Relationship="dbShoppingForumModel.FK_tTest_fUserId" FromRole="tScore" ToRole="tTest" />
         </EntityType>
         <EntityType Name="tShoppingCart">
           <Key>
             <PropertyRef Name="fBasketId" />
           </Key>
           <Property Name="fBasketId" Type="Int32" Nullable="false" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fProductID" Type="Int32" Nullable="false" />
           <Property Name="fQuantity" Type="Int16" Nullable="false" />
           <Property Name="fAddTime" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="fStatus" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="tProduct" Relationship="Self.FK_tShoppingCart_tProduct" FromRole="tShoppingCart" ToRole="tProduct" />
-          <NavigationProperty Name="tShoppingStatu" Relationship="Self.FK_tShoppingCart_tShoppingStatus" FromRole="tShoppingCart" ToRole="tShoppingStatus" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tShoppingCart_tUserProfile" FromRole="tShoppingCart" ToRole="tUserProfile" />
+          <NavigationProperty Name="tProduct" Relationship="dbShoppingForumModel.FK_tShoppingCart_tProduct" FromRole="tShoppingCart" ToRole="tProduct" />
+          <NavigationProperty Name="tShoppingStatu" Relationship="dbShoppingForumModel.FK_tShoppingCart_tShoppingStatus" FromRole="tShoppingCart" ToRole="tShoppingStatu" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tShoppingCart_tUserProfile" FromRole="tShoppingCart" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tShoppingStatu">
           <Key>
             <PropertyRef Name="fStatus" />
           </Key>
           <Property Name="fStatus" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fStatusName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="tShoppingCarts" Relationship="Self.FK_tShoppingCart_tShoppingStatus" FromRole="tShoppingStatus" ToRole="tShoppingCart" />
+          <Property Name="fStatusName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tShoppingCarts" Relationship="dbShoppingForumModel.FK_tShoppingCart_tShoppingStatus" FromRole="tShoppingStatu" ToRole="tShoppingCart" />
         </EntityType>
         <EntityType Name="tTest">
           <Key>
             <PropertyRef Name="fTestId" />
           </Key>
           <Property Name="fTestId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="fQuestionId" Type="Int32" Nullable="false" />
           <Property Name="fTestStar" Type="DateTime" Precision="3" />
           <Property Name="fTestEnd" Type="DateTime" Precision="3" />
@@ -1022,67 +1236,79 @@
           <Property Name="fCorrectCount" Type="Int32" />
           <Property Name="fScoreDate" Type="DateTime" Precision="3" />
           <Property Name="fQuestionScore" Type="Int32" />
-          <NavigationProperty Name="tQuestion" Relationship="Self.FK_tTest_fQuestionId" FromRole="tTest" ToRole="tQuestion" />
-          <NavigationProperty Name="tScore" Relationship="Self.FK_tTest_fUserId" FromRole="tTest" ToRole="tScore" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tTest_tUserProfile" FromRole="tTest" ToRole="tUserProfile" />
+          <NavigationProperty Name="tQuestion" Relationship="dbShoppingForumModel.FK_tTest_fQuestionId" FromRole="tTest" ToRole="tQuestion" />
+          <NavigationProperty Name="tScore" Relationship="dbShoppingForumModel.FK_tTest_fUserId" FromRole="tTest" ToRole="tScore" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tTest_tUserProfile" FromRole="tTest" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tUser">
           <Key>
             <PropertyRef Name="fUserId" />
           </Key>
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fPasswordSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fChkNum" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fResetPwCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fPasswordSalt" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fChkNum" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fResetPwCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fLoginTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="fLogoutTime" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <NavigationProperty Name="tUserProfile" Relationship="Self.FK_tUser_tUserProfile" FromRole="tUser" ToRole="tUserProfile" />
-          <NavigationProperty Name="tUserAuth" Relationship="Self.FK_tUserAuth_tUser" FromRole="tUser" ToRole="tUserAuth" />
-          <NavigationProperty Name="tForum" Relationship="Self.tUserFavorite" FromRole="tUser" ToRole="tForum" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tUser_tUserProfile" FromRole="tUser" ToRole="tUserProfile" />
+          <NavigationProperty Name="tUserAuth" Relationship="dbShoppingForumModel.FK_tUserAuth_tUser" FromRole="tUser" ToRole="tUserAuth" />
+          <NavigationProperty Name="tForum" Relationship="dbShoppingForumModel.tUserFavorite" FromRole="tUser" ToRole="tForum" />
         </EntityType>
         <EntityType Name="tUserAuth">
           <Key>
             <PropertyRef Name="fUserId" />
           </Key>
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fAuth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fAuth" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAuthPost" Type="Boolean" Nullable="false" />
           <Property Name="fAuthReply" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tUser" Relationship="Self.FK_tUserAuth_tUser" FromRole="tUserAuth" ToRole="tUser" />
+          <NavigationProperty Name="tUser" Relationship="dbShoppingForumModel.FK_tUserAuth_tUser" FromRole="tUserAuth" ToRole="tUser" />
+        </EntityType>
+        <EntityType Name="tUserDiscountList">
+          <Key>
+            <PropertyRef Name="fUserId" />
+            <PropertyRef Name="fDiscountCode" />
+          </Key>
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fDiscountCode" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCount" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tDiscount" Relationship="dbShoppingForumModel.FK_tUserDiscountList_tDiscount" FromRole="tUserDiscountList" ToRole="tDiscount" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tUserDiscountList_tUserProfile" FromRole="tUserDiscountList" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tUserProfile">
           <Key>
             <PropertyRef Name="fUserId" />
           </Key>
-          <Property Name="fUserId" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fUserId" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="fName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fGender" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fBirthday" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="fTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fPhone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fEmail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="fAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="fPhone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fCity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fCreateDate" Type="DateTime" Precision="3" />
           <Property Name="fScore" Type="Int32" />
-          <NavigationProperty Name="tForums" Relationship="Self.FK_tForum_tUserProfile" FromRole="tUserProfile" ToRole="tForum" />
-          <NavigationProperty Name="tForums1" Relationship="Self.FK_tForum_tUserProfile1" FromRole="tUserProfile" ToRole="tForum" />
-          <NavigationProperty Name="tForumAnalysis" Relationship="Self.FK_tForumAnalysis_tUserProfile" FromRole="tUserProfile" ToRole="tForumAnalysis" />
-          <NavigationProperty Name="tForumAuth" Relationship="Self.FK_tForumAuth_tUserProfile" FromRole="tUserProfile" ToRole="tForumAuth" />
-          <NavigationProperty Name="tForumReplies" Relationship="Self.FK_tForumReply_tUserProfile" FromRole="tUserProfile" ToRole="tForumReply" />
-          <NavigationProperty Name="tForumReplies1" Relationship="Self.FK_tForumReply_tUserProfile1" FromRole="tUserProfile" ToRole="tForumReply" />
-          <NavigationProperty Name="tForumReplyAnalysis" Relationship="Self.FK_tForumReplyAnalysis_tUserProfile" FromRole="tUserProfile" ToRole="tForumReplyAnalysis" />
-          <NavigationProperty Name="tOrders" Relationship="Self.FK_tOrder_tUser" FromRole="tUserProfile" ToRole="tOrder" />
-          <NavigationProperty Name="tScore" Relationship="Self.FK_tScore_tUserProfile" FromRole="tUserProfile" ToRole="tScore" />
-          <NavigationProperty Name="tShoppingCarts" Relationship="Self.FK_tShoppingCart_tUserProfile" FromRole="tUserProfile" ToRole="tShoppingCart" />
-          <NavigationProperty Name="tTests" Relationship="Self.FK_tTest_tUserProfile" FromRole="tUserProfile" ToRole="tTest" />
-          <NavigationProperty Name="tUser" Relationship="Self.FK_tUser_tUserProfile" FromRole="tUserProfile" ToRole="tUser" />
+          <NavigationProperty Name="tForums" Relationship="dbShoppingForumModel.FK_tForum_tUserProfile" FromRole="tUserProfile" ToRole="tForum" />
+          <NavigationProperty Name="tForums1" Relationship="dbShoppingForumModel.FK_tForum_tUserProfile1" FromRole="tUserProfile" ToRole="tForum" />
+          <NavigationProperty Name="tForumAnalysis" Relationship="dbShoppingForumModel.FK_tForumAnalysis_tUserProfile" FromRole="tUserProfile" ToRole="tForumAnalysi" />
+          <NavigationProperty Name="tForumAuth" Relationship="dbShoppingForumModel.FK_tForumAuth_tUserProfile" FromRole="tUserProfile" ToRole="tForumAuth" />
+          <NavigationProperty Name="tForumReplies" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile" FromRole="tUserProfile" ToRole="tForumReply" />
+          <NavigationProperty Name="tForumReplies1" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile1" FromRole="tUserProfile" ToRole="tForumReply" />
+          <NavigationProperty Name="tForumReplyAnalysis" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" FromRole="tUserProfile" ToRole="tForumReplyAnalysi" />
+          <NavigationProperty Name="tOrders" Relationship="dbShoppingForumModel.FK_tOrder_tUser" FromRole="tUserProfile" ToRole="tOrder" />
+          <NavigationProperty Name="tScore" Relationship="dbShoppingForumModel.FK_tScore_tUserProfile" FromRole="tUserProfile" ToRole="tScore" />
+          <NavigationProperty Name="tShoppingCarts" Relationship="dbShoppingForumModel.FK_tShoppingCart_tUserProfile" FromRole="tUserProfile" ToRole="tShoppingCart" />
+          <NavigationProperty Name="tTests" Relationship="dbShoppingForumModel.FK_tTest_tUserProfile" FromRole="tUserProfile" ToRole="tTest" />
+          <NavigationProperty Name="tUser" Relationship="dbShoppingForumModel.FK_tUser_tUserProfile" FromRole="tUserProfile" ToRole="tUser" />
+          <NavigationProperty Name="tUserDiscountLists" Relationship="dbShoppingForumModel.FK_tUserDiscountList_tUserProfile" FromRole="tUserProfile" ToRole="tUserDiscountList" />
         </EntityType>
         <Association Name="FK_tProduct_tCategory">
-          <End Role="tCategory" Type="Self.tCategory" Multiplicity="1" />
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tCategory" Role="tCategory" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tCategory">
               <PropertyRef Name="fCategoryID" />
@@ -1092,9 +1318,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tUserDiscountList_tDiscount">
+          <End Type="dbShoppingForumModel.tDiscount" Role="tDiscount" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tUserDiscountList" Role="tUserDiscountList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tDiscount">
+              <PropertyRef Name="fDiscountCode" />
+            </Principal>
+            <Dependent Role="tUserDiscountList">
+              <PropertyRef Name="fDiscountCode" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tForum_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tForum" Type="Self.tForum" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForum" Role="tForum" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1105,8 +1343,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForum_tUserProfile1">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="0..1" />
-          <End Role="tForum" Type="Self.tForum" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tForum" Role="tForum" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1117,20 +1355,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumAnalysis_tForum">
-          <End Role="tForum" Type="Self.tForum" Multiplicity="1" />
-          <End Role="tForumAnalysis" Type="Self.tForumAnalysi" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tForum" Role="tForum" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumAnalysi" Role="tForumAnalysi" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tForum">
               <PropertyRef Name="fPostId" />
             </Principal>
-            <Dependent Role="tForumAnalysis">
+            <Dependent Role="tForumAnalysi">
               <PropertyRef Name="fPostId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumReply_tForum">
-          <End Role="tForum" Type="Self.tForum" Multiplicity="1" />
-          <End Role="tForumReply" Type="Self.tForumReply" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tForum" Role="tForum" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumReply" Role="tForumReply" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tForum">
               <PropertyRef Name="fPostId" />
@@ -1141,20 +1379,20 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumAnalysis_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tForumAnalysis" Type="Self.tForumAnalysi" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumAnalysi" Role="tForumAnalysi" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
             </Principal>
-            <Dependent Role="tForumAnalysis">
+            <Dependent Role="tForumAnalysi">
               <PropertyRef Name="fUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumAuth_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tForumAuth" Type="Self.tForumAuth" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumAuth" Role="tForumAuth" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1165,8 +1403,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumReply_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tForumReply" Type="Self.tForumReply" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumReply" Role="tForumReply" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1177,8 +1415,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumReply_tUserProfile1">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="0..1" />
-          <End Role="tForumReply" Type="Self.tForumReply" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tForumReply" Role="tForumReply" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1189,34 +1427,34 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumReplyAnalysis_tForumReply">
-          <End Role="tForumReply" Type="Self.tForumReply" Multiplicity="1" />
-          <End Role="tForumReplyAnalysis" Type="Self.tForumReplyAnalysi" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tForumReply" Role="tForumReply" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumReplyAnalysi" Role="tForumReplyAnalysi" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="tForumReply">
               <PropertyRef Name="fPostId" />
               <PropertyRef Name="fReplyId" />
             </Principal>
-            <Dependent Role="tForumReplyAnalysis">
+            <Dependent Role="tForumReplyAnalysi">
               <PropertyRef Name="fPostId" />
               <PropertyRef Name="fReplyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tForumReplyAnalysis_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tForumReplyAnalysis" Type="Self.tForumReplyAnalysi" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tForumReplyAnalysi" Role="tForumReplyAnalysi" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
             </Principal>
-            <Dependent Role="tForumReplyAnalysis">
+            <Dependent Role="tForumReplyAnalysi">
               <PropertyRef Name="fUserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tProduct_tNote">
-          <End Role="tNote" Type="Self.tNote" Multiplicity="1" />
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tNote" Role="tNote" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tNote">
               <PropertyRef Name="fNoteID" />
@@ -1227,8 +1465,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tOrder_tUser">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tOrder" Type="Self.tOrder" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tOrder" Role="tOrder" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1239,8 +1477,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tOrderDetail_tOrder">
-          <End Role="tOrder" Type="Self.tOrder" Multiplicity="1" />
-          <End Role="tOrderDetail" Type="Self.tOrderDetail" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tOrder" Role="tOrder" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tOrderDetail" Role="tOrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tOrder">
               <PropertyRef Name="fOrderId" />
@@ -1251,8 +1489,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tOrderDetail_tProduct">
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="1" />
-          <End Role="tOrderDetail" Type="Self.tOrderDetail" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tOrderDetail" Role="tOrderDetail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tProduct">
               <PropertyRef Name="fProductID" />
@@ -1263,8 +1501,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tProduct_tPart">
-          <End Role="tPart" Type="Self.tPart" Multiplicity="1" />
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tPart" Role="tPart" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tPart">
               <PropertyRef Name="fPartID" />
@@ -1275,8 +1513,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tProductImage_tProduct">
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="1" />
-          <End Role="tProductImage" Type="Self.tProductImage" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tProductImage" Role="tProductImage" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tProduct">
               <PropertyRef Name="fProductID" />
@@ -1287,8 +1525,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tShoppingCart_tProduct">
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="1" />
-          <End Role="tShoppingCart" Type="Self.tShoppingCart" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tShoppingCart" Role="tShoppingCart" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tProduct">
               <PropertyRef Name="fProductID" />
@@ -1299,8 +1537,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tTest_fQuestionId">
-          <End Role="tQuestion" Type="Self.tQuestion" Multiplicity="1" />
-          <End Role="tTest" Type="Self.tTest" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tQuestion" Role="tQuestion" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tTest" Role="tTest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tQuestion">
               <PropertyRef Name="fQuestionId" />
@@ -1311,8 +1549,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tScore_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tScore" Type="Self.tScore" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tScore" Role="tScore" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1323,8 +1561,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tTest_fUserId">
-          <End Role="tScore" Type="Self.tScore" Multiplicity="1" />
-          <End Role="tTest" Type="Self.tTest" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tScore" Role="tScore" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tTest" Role="tTest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tScore">
               <PropertyRef Name="fUserId" />
@@ -1335,10 +1573,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tShoppingCart_tShoppingStatus">
-          <End Role="tShoppingStatus" Type="Self.tShoppingStatu" Multiplicity="1" />
-          <End Role="tShoppingCart" Type="Self.tShoppingCart" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tShoppingStatu" Role="tShoppingStatu" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tShoppingCart" Role="tShoppingCart" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="tShoppingStatus">
+            <Principal Role="tShoppingStatu">
               <PropertyRef Name="fStatus" />
             </Principal>
             <Dependent Role="tShoppingCart">
@@ -1347,8 +1585,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tShoppingCart_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tShoppingCart" Type="Self.tShoppingCart" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tShoppingCart" Role="tShoppingCart" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1359,8 +1597,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tTest_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tTest" Type="Self.tTest" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tTest" Role="tTest" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1371,8 +1609,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tUser_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tUser" Type="Self.tUser" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tUser" Role="tUser" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="tUserProfile">
               <PropertyRef Name="fUserId" />
@@ -1383,8 +1621,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tUserAuth_tUser">
-          <End Role="tUser" Type="Self.tUser" Multiplicity="1" />
-          <End Role="tUserAuth" Type="Self.tUserAuth" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tUser" Role="tUser" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tUserAuth" Role="tUserAuth" Multiplicity="0..1" />
           <ReferentialConstraint>
             <Principal Role="tUser">
               <PropertyRef Name="fUserId" />
@@ -1394,150 +1632,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tUserDiscountList_tUserProfile">
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tUserDiscountList" Role="tUserDiscountList" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tUserProfile">
+              <PropertyRef Name="fUserId" />
+            </Principal>
+            <Dependent Role="tUserDiscountList">
+              <PropertyRef Name="fUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="tProdEfficacyRelation">
-          <End Role="tEfficacy" Type="Self.tEfficacy" Multiplicity="*" />
-          <End Role="tProduct" Type="Self.tProduct" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tEfficacy" Role="tEfficacy" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="*" />
         </Association>
         <Association Name="tUserFavorite">
-          <End Role="tUser" Type="Self.tUser" Multiplicity="*" />
-          <End Role="tForum" Type="Self.tForum" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tUser" Role="tUser" Multiplicity="*" />
+          <End Type="dbShoppingForumModel.tForum" Role="tForum" Multiplicity="0..1" />
         </Association>
-        <EntityContainer Name="dbShoppingForumEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tCategories" EntityType="Self.tCategory" />
-          <EntitySet Name="tEfficacies" EntityType="Self.tEfficacy" />
-          <EntitySet Name="tForums" EntityType="Self.tForum" />
-          <EntitySet Name="tForumAnalysis" EntityType="Self.tForumAnalysi" />
-          <EntitySet Name="tForumAuths" EntityType="Self.tForumAuth" />
-          <EntitySet Name="tForumReplies" EntityType="Self.tForumReply" />
-          <EntitySet Name="tForumReplyAnalysis" EntityType="Self.tForumReplyAnalysi" />
-          <EntitySet Name="tNotes" EntityType="Self.tNote" />
-          <EntitySet Name="tOrders" EntityType="Self.tOrder" />
-          <EntitySet Name="tOrderDetails" EntityType="Self.tOrderDetail" />
-          <EntitySet Name="tParts" EntityType="Self.tPart" />
-          <EntitySet Name="tProducts" EntityType="Self.tProduct" />
-          <EntitySet Name="tProductImages" EntityType="Self.tProductImage" />
-          <EntitySet Name="tQuestions" EntityType="Self.tQuestion" />
-          <EntitySet Name="tScores" EntityType="Self.tScore" />
-          <EntitySet Name="tShoppingCarts" EntityType="Self.tShoppingCart" />
-          <EntitySet Name="tShoppingStatus" EntityType="Self.tShoppingStatu" />
-          <EntitySet Name="tTests" EntityType="Self.tTest" />
-          <EntitySet Name="tUsers" EntityType="Self.tUser" />
-          <EntitySet Name="tUserAuths" EntityType="Self.tUserAuth" />
-          <EntitySet Name="tUserProfiles" EntityType="Self.tUserProfile" />
-          <AssociationSet Name="FK_tProduct_tCategory" Association="Self.FK_tProduct_tCategory">
-            <End Role="tCategory" EntitySet="tCategories" />
-            <End Role="tProduct" EntitySet="tProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForum_tUserProfile" Association="Self.FK_tForum_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForum" EntitySet="tForums" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForum_tUserProfile1" Association="Self.FK_tForum_tUserProfile1">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForum" EntitySet="tForums" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumAnalysis_tForum" Association="Self.FK_tForumAnalysis_tForum">
-            <End Role="tForum" EntitySet="tForums" />
-            <End Role="tForumAnalysis" EntitySet="tForumAnalysis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumReply_tForum" Association="Self.FK_tForumReply_tForum">
-            <End Role="tForum" EntitySet="tForums" />
-            <End Role="tForumReply" EntitySet="tForumReplies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumAnalysis_tUserProfile" Association="Self.FK_tForumAnalysis_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForumAnalysis" EntitySet="tForumAnalysis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumAuth_tUserProfile" Association="Self.FK_tForumAuth_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForumAuth" EntitySet="tForumAuths" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumReply_tUserProfile" Association="Self.FK_tForumReply_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForumReply" EntitySet="tForumReplies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumReply_tUserProfile1" Association="Self.FK_tForumReply_tUserProfile1">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForumReply" EntitySet="tForumReplies" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumReplyAnalysis_tForumReply" Association="Self.FK_tForumReplyAnalysis_tForumReply">
-            <End Role="tForumReply" EntitySet="tForumReplies" />
-            <End Role="tForumReplyAnalysis" EntitySet="tForumReplyAnalysis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tForumReplyAnalysis_tUserProfile" Association="Self.FK_tForumReplyAnalysis_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tForumReplyAnalysis" EntitySet="tForumReplyAnalysis" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tProduct_tNote" Association="Self.FK_tProduct_tNote">
-            <End Role="tNote" EntitySet="tNotes" />
-            <End Role="tProduct" EntitySet="tProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tOrder_tUser" Association="Self.FK_tOrder_tUser">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tOrder" EntitySet="tOrders" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tOrderDetail_tOrder" Association="Self.FK_tOrderDetail_tOrder">
-            <End Role="tOrder" EntitySet="tOrders" />
-            <End Role="tOrderDetail" EntitySet="tOrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tOrderDetail_tProduct" Association="Self.FK_tOrderDetail_tProduct">
-            <End Role="tProduct" EntitySet="tProducts" />
-            <End Role="tOrderDetail" EntitySet="tOrderDetails" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tProduct_tPart" Association="Self.FK_tProduct_tPart">
-            <End Role="tPart" EntitySet="tParts" />
-            <End Role="tProduct" EntitySet="tProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tProductImage_tProduct" Association="Self.FK_tProductImage_tProduct">
-            <End Role="tProduct" EntitySet="tProducts" />
-            <End Role="tProductImage" EntitySet="tProductImages" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tShoppingCart_tProduct" Association="Self.FK_tShoppingCart_tProduct">
-            <End Role="tProduct" EntitySet="tProducts" />
-            <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tTest_fQuestionId" Association="Self.FK_tTest_fQuestionId">
-            <End Role="tQuestion" EntitySet="tQuestions" />
-            <End Role="tTest" EntitySet="tTests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tScore_tUserProfile" Association="Self.FK_tScore_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tScore" EntitySet="tScores" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tTest_fUserId" Association="Self.FK_tTest_fUserId">
-            <End Role="tScore" EntitySet="tScores" />
-            <End Role="tTest" EntitySet="tTests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tShoppingCart_tShoppingStatus" Association="Self.FK_tShoppingCart_tShoppingStatus">
-            <End Role="tShoppingStatus" EntitySet="tShoppingStatus" />
-            <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tShoppingCart_tUserProfile" Association="Self.FK_tShoppingCart_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tTest_tUserProfile" Association="Self.FK_tTest_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tTest" EntitySet="tTests" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tUser_tUserProfile" Association="Self.FK_tUser_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tUser" EntitySet="tUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tUserAuth_tUser" Association="Self.FK_tUserAuth_tUser">
-            <End Role="tUser" EntitySet="tUsers" />
-            <End Role="tUserAuth" EntitySet="tUserAuths" />
-          </AssociationSet>
-          <AssociationSet Name="tProdEfficacyRelation" Association="Self.tProdEfficacyRelation">
-            <End Role="tEfficacy" EntitySet="tEfficacies" />
-            <End Role="tProduct" EntitySet="tProducts" />
-          </AssociationSet>
-          <AssociationSet Name="tUserFavorite" Association="Self.tUserFavorite">
-            <End Role="tUser" EntitySet="tUsers" />
-            <End Role="tForum" EntitySet="tForums" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1546,281 +1661,305 @@
           <EntitySetMapping Name="tCategories">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tCategory">
               <MappingFragment StoreEntitySet="tCategory">
-                <ScalarProperty Name="fCategoryID" ColumnName="fCategoryID" />
                 <ScalarProperty Name="fCategoryName" ColumnName="fCategoryName" />
+                <ScalarProperty Name="fCategoryID" ColumnName="fCategoryID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tDiscounts">
+            <EntityTypeMapping TypeName="dbShoppingForumModel.tDiscount">
+              <MappingFragment StoreEntitySet="tDiscount">
+                <ScalarProperty Name="fEnable" ColumnName="fEnable" />
+                <ScalarProperty Name="fEndDate" ColumnName="fEndDate" />
+                <ScalarProperty Name="fStartdate" ColumnName="fStartdate" />
+                <ScalarProperty Name="fDiscountContent" ColumnName="fDiscountContent" />
+                <ScalarProperty Name="fMoneyLimit" ColumnName="fMoneyLimit" />
+                <ScalarProperty Name="fDiscountMoneyRule" ColumnName="fDiscountMoneyRule" />
+                <ScalarProperty Name="fDiscountCategory" ColumnName="fDiscountCategory" />
+                <ScalarProperty Name="fDiscountName" ColumnName="fDiscountName" />
+                <ScalarProperty Name="fDiscountCode" ColumnName="fDiscountCode" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tEfficacies">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tEfficacy">
               <MappingFragment StoreEntitySet="tEfficacy">
-                <ScalarProperty Name="fEfficacyID" ColumnName="fEfficacyID" />
                 <ScalarProperty Name="fEfficacyName" ColumnName="fEfficacyName" />
+                <ScalarProperty Name="fEfficacyID" ColumnName="fEfficacyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tForums">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tForum">
               <MappingFragment StoreEntitySet="tForum">
-                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fPostTitle" ColumnName="fPostTitle" />
-                <ScalarProperty Name="fPostContent" ColumnName="fPostContent" />
-                <ScalarProperty Name="fIsPost" ColumnName="fIsPost" />
-                <ScalarProperty Name="fCreaTime" ColumnName="fCreaTime" />
-                <ScalarProperty Name="fUpdateTime" ColumnName="fUpdateTime" />
-                <ScalarProperty Name="fEnableFlag" ColumnName="fEnableFlag" />
-                <ScalarProperty Name="fEnableUserId" ColumnName="fEnableUserId" />
-                <ScalarProperty Name="fDisableTime" ColumnName="fDisableTime" />
-                <ScalarProperty Name="fTopSeq" ColumnName="fTopSeq" />
-                <ScalarProperty Name="fTotalViewCount" ColumnName="fTotalViewCount" />
                 <ScalarProperty Name="fTotalReplyCount" ColumnName="fTotalReplyCount" />
+                <ScalarProperty Name="fTotalViewCount" ColumnName="fTotalViewCount" />
+                <ScalarProperty Name="fTopSeq" ColumnName="fTopSeq" />
+                <ScalarProperty Name="fDisableTime" ColumnName="fDisableTime" />
+                <ScalarProperty Name="fEnableUserId" ColumnName="fEnableUserId" />
+                <ScalarProperty Name="fEnableFlag" ColumnName="fEnableFlag" />
+                <ScalarProperty Name="fUpdateTime" ColumnName="fUpdateTime" />
+                <ScalarProperty Name="fCreaTime" ColumnName="fCreaTime" />
+                <ScalarProperty Name="fIsPost" ColumnName="fIsPost" />
+                <ScalarProperty Name="fPostContent" ColumnName="fPostContent" />
+                <ScalarProperty Name="fPostTitle" ColumnName="fPostTitle" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tForumAnalysis">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tForumAnalysi">
               <MappingFragment StoreEntitySet="tForumAnalysis">
-                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fLikeHate" ColumnName="fLikeHate" />
                 <ScalarProperty Name="fShareCount" ColumnName="fShareCount" />
+                <ScalarProperty Name="fLikeHate" ColumnName="fLikeHate" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tForumAuths">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tForumAuth">
               <MappingFragment StoreEntitySet="tForumAuth">
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fAuthBlackList" ColumnName="fAuthBlackList" />
-                <ScalarProperty Name="fAuthPostFlag" ColumnName="fAuthPostFlag" />
-                <ScalarProperty Name="fAuthReplyFlag" ColumnName="fAuthReplyFlag" />
-                <ScalarProperty Name="fAuthUpdatePostFlag" ColumnName="fAuthUpdatePostFlag" />
-                <ScalarProperty Name="fAuthUpdateReplyFlag" ColumnName="fAuthUpdateReplyFlag" />
-                <ScalarProperty Name="fAuthDeletePostFlag" ColumnName="fAuthDeletePostFlag" />
                 <ScalarProperty Name="fAuthDeleteReplyFlag" ColumnName="fAuthDeleteReplyFlag" />
+                <ScalarProperty Name="fAuthDeletePostFlag" ColumnName="fAuthDeletePostFlag" />
+                <ScalarProperty Name="fAuthUpdateReplyFlag" ColumnName="fAuthUpdateReplyFlag" />
+                <ScalarProperty Name="fAuthUpdatePostFlag" ColumnName="fAuthUpdatePostFlag" />
+                <ScalarProperty Name="fAuthReplyFlag" ColumnName="fAuthReplyFlag" />
+                <ScalarProperty Name="fAuthPostFlag" ColumnName="fAuthPostFlag" />
+                <ScalarProperty Name="fAuthBlackList" ColumnName="fAuthBlackList" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tForumReplies">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tForumReply">
               <MappingFragment StoreEntitySet="tForumReply">
-                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
-                <ScalarProperty Name="fReplyId" ColumnName="fReplyId" />
-                <ScalarProperty Name="fReplyTargetId" ColumnName="fReplyTargetId" />
-                <ScalarProperty Name="fReplySeqNo" ColumnName="fReplySeqNo" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fReplyTime" ColumnName="fReplyTime" />
-                <ScalarProperty Name="fEnableFlag" ColumnName="fEnableFlag" />
-                <ScalarProperty Name="fDeleteUserId" ColumnName="fDeleteUserId" />
                 <ScalarProperty Name="fContent" ColumnName="fContent" />
+                <ScalarProperty Name="fDeleteUserId" ColumnName="fDeleteUserId" />
+                <ScalarProperty Name="fEnableFlag" ColumnName="fEnableFlag" />
+                <ScalarProperty Name="fReplyTime" ColumnName="fReplyTime" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fReplySeqNo" ColumnName="fReplySeqNo" />
+                <ScalarProperty Name="fReplyTargetId" ColumnName="fReplyTargetId" />
+                <ScalarProperty Name="fReplyId" ColumnName="fReplyId" />
+                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tForumReplyAnalysis">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tForumReplyAnalysi">
               <MappingFragment StoreEntitySet="tForumReplyAnalysis">
-                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
-                <ScalarProperty Name="fReplyId" ColumnName="fReplyId" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
                 <ScalarProperty Name="fLikeHate" ColumnName="fLikeHate" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fReplyId" ColumnName="fReplyId" />
+                <ScalarProperty Name="fPostId" ColumnName="fPostId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tNotes">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tNote">
               <MappingFragment StoreEntitySet="tNote">
-                <ScalarProperty Name="fNoteID" ColumnName="fNoteID" />
                 <ScalarProperty Name="fNoteName" ColumnName="fNoteName" />
+                <ScalarProperty Name="fNoteID" ColumnName="fNoteID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tOrders">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tOrder">
               <MappingFragment StoreEntitySet="tOrder">
-                <ScalarProperty Name="fOrderId" ColumnName="fOrderId" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fOrderDate" ColumnName="fOrderDate" />
-                <ScalarProperty Name="fShippedDate" ColumnName="fShippedDate" />
-                <ScalarProperty Name="fRequiredDate" ColumnName="fRequiredDate" />
-                <ScalarProperty Name="fScore" ColumnName="fScore" />
-                <ScalarProperty Name="fOrderCheck" ColumnName="fOrderCheck" />
-                <ScalarProperty Name="fConsigneeName" ColumnName="fConsigneeName" />
-                <ScalarProperty Name="fConsigneeTelephone" ColumnName="fConsigneeTelephone" />
-                <ScalarProperty Name="fConsigneeCellPhone" ColumnName="fConsigneeCellPhone" />
-                <ScalarProperty Name="fConsigneeAddress" ColumnName="fConsigneeAddress" />
-                <ScalarProperty Name="fOrderCompanyTitle" ColumnName="fOrderCompanyTitle" />
-                <ScalarProperty Name="fOrderTaxIdDNumber" ColumnName="fOrderTaxIdDNumber" />
                 <ScalarProperty Name="fOrderPostScript" ColumnName="fOrderPostScript" />
+                <ScalarProperty Name="fOrderTaxIdDNumber" ColumnName="fOrderTaxIdDNumber" />
+                <ScalarProperty Name="fOrderCompanyTitle" ColumnName="fOrderCompanyTitle" />
+                <ScalarProperty Name="fConsigneeAreUser" ColumnName="fConsigneeAreUser" />
+                <ScalarProperty Name="fConsigneeAddress" ColumnName="fConsigneeAddress" />
+                <ScalarProperty Name="fConsigneeCellPhone" ColumnName="fConsigneeCellPhone" />
+                <ScalarProperty Name="fConsigneeTelephone" ColumnName="fConsigneeTelephone" />
+                <ScalarProperty Name="fConsigneeName" ColumnName="fConsigneeName" />
+                <ScalarProperty Name="fScore" ColumnName="fScore" />
+                <ScalarProperty Name="fRequiredDate" ColumnName="fRequiredDate" />
+                <ScalarProperty Name="fShippedDate" ColumnName="fShippedDate" />
+                <ScalarProperty Name="fOrderDate" ColumnName="fOrderDate" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fOrderId" ColumnName="fOrderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tOrderDetails">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tOrderDetail">
               <MappingFragment StoreEntitySet="tOrderDetail">
-                <ScalarProperty Name="fOrderDetailId" ColumnName="fOrderDetailId" />
-                <ScalarProperty Name="fOrderId" ColumnName="fOrderId" />
-                <ScalarProperty Name="fProductId" ColumnName="fProductId" />
-                <ScalarProperty Name="fOrderQuantity" ColumnName="fOrderQuantity" />
                 <ScalarProperty Name="fPayment" ColumnName="fPayment" />
-                <ScalarProperty Name="fOrderDetailCheck" ColumnName="fOrderDetailCheck" />
+                <ScalarProperty Name="fOrderQuantity" ColumnName="fOrderQuantity" />
+                <ScalarProperty Name="fProductId" ColumnName="fProductId" />
+                <ScalarProperty Name="fOrderId" ColumnName="fOrderId" />
+                <ScalarProperty Name="fOrderDetailId" ColumnName="fOrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tParts">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tPart">
               <MappingFragment StoreEntitySet="tPart">
-                <ScalarProperty Name="fPartID" ColumnName="fPartID" />
                 <ScalarProperty Name="fPartName" ColumnName="fPartName" />
+                <ScalarProperty Name="fPartID" ColumnName="fPartID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tProducts">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tProduct">
               <MappingFragment StoreEntitySet="tProduct">
-                <ScalarProperty Name="fProductID" ColumnName="fProductID" />
-                <ScalarProperty Name="fProductChName" ColumnName="fProductChName" />
-                <ScalarProperty Name="fProductDesc" ColumnName="fProductDesc" />
-                <ScalarProperty Name="fUnitPrice" ColumnName="fUnitPrice" />
-                <ScalarProperty Name="fQuantityPerUnit" ColumnName="fQuantityPerUnit" />
-                <ScalarProperty Name="fUnitsInStock" ColumnName="fUnitsInStock" />
-                <ScalarProperty Name="fUnitsOnOrder" ColumnName="fUnitsOnOrder" />
-                <ScalarProperty Name="fReorderLevel" ColumnName="fReorderLevel" />
-                <ScalarProperty Name="fDiscontinued" ColumnName="fDiscontinued" />
-                <ScalarProperty Name="fPartID" ColumnName="fPartID" />
-                <ScalarProperty Name="fNoteID" ColumnName="fNoteID" />
                 <ScalarProperty Name="fCategoryID" ColumnName="fCategoryID" />
+                <ScalarProperty Name="fNoteID" ColumnName="fNoteID" />
+                <ScalarProperty Name="fPartID" ColumnName="fPartID" />
+                <ScalarProperty Name="fDiscontinued" ColumnName="fDiscontinued" />
+                <ScalarProperty Name="fReorderLevel" ColumnName="fReorderLevel" />
+                <ScalarProperty Name="fUnitsOnOrder" ColumnName="fUnitsOnOrder" />
+                <ScalarProperty Name="fUnitsInStock" ColumnName="fUnitsInStock" />
+                <ScalarProperty Name="fQuantityPerUnit" ColumnName="fQuantityPerUnit" />
+                <ScalarProperty Name="fUnitPrice" ColumnName="fUnitPrice" />
+                <ScalarProperty Name="fProductDesc" ColumnName="fProductDesc" />
+                <ScalarProperty Name="fProductChName" ColumnName="fProductChName" />
+                <ScalarProperty Name="fProductID" ColumnName="fProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tProductImages">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tProductImage">
               <MappingFragment StoreEntitySet="tProductImage">
-                <ScalarProperty Name="fProductID" ColumnName="fProductID" />
-                <ScalarProperty Name="fProductImageId" ColumnName="fProductImageId" />
                 <ScalarProperty Name="fProductImagePath" ColumnName="fProductImagePath" />
+                <ScalarProperty Name="fProductImageId" ColumnName="fProductImageId" />
+                <ScalarProperty Name="fProductID" ColumnName="fProductID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tQuestions">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tQuestion">
               <MappingFragment StoreEntitySet="tQuestion">
-                <ScalarProperty Name="fQuestionId" ColumnName="fQuestionId" />
-                <ScalarProperty Name="fQuestionName" ColumnName="fQuestionName" />
-                <ScalarProperty Name="fQuestion" ColumnName="fQuestion" />
-                <ScalarProperty Name="fAnswer" ColumnName="fAnswer" />
-                <ScalarProperty Name="fItemA" ColumnName="fItemA" />
-                <ScalarProperty Name="fItemB" ColumnName="fItemB" />
-                <ScalarProperty Name="fItemC" ColumnName="fItemC" />
-                <ScalarProperty Name="fItemD" ColumnName="fItemD" />
                 <ScalarProperty Name="fItemE" ColumnName="fItemE" />
+                <ScalarProperty Name="fItemD" ColumnName="fItemD" />
+                <ScalarProperty Name="fItemC" ColumnName="fItemC" />
+                <ScalarProperty Name="fItemB" ColumnName="fItemB" />
+                <ScalarProperty Name="fItemA" ColumnName="fItemA" />
+                <ScalarProperty Name="fAnswer" ColumnName="fAnswer" />
+                <ScalarProperty Name="fQuestion" ColumnName="fQuestion" />
+                <ScalarProperty Name="fQuestionName" ColumnName="fQuestionName" />
+                <ScalarProperty Name="fQuestionId" ColumnName="fQuestionId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tScores">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tScore">
               <MappingFragment StoreEntitySet="tScore">
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fScore" ColumnName="fScore" />
-                <ScalarProperty Name="fActiveScore" ColumnName="fActiveScore" />
-                <ScalarProperty Name="fQuestionScore" ColumnName="fQuestionScore" />
-                <ScalarProperty Name="fScoreDate" ColumnName="fScoreDate" />
                 <ScalarProperty Name="fAuthTestFlag" ColumnName="fAuthTestFlag" />
+                <ScalarProperty Name="fScoreDate" ColumnName="fScoreDate" />
+                <ScalarProperty Name="fQuestionScore" ColumnName="fQuestionScore" />
+                <ScalarProperty Name="fActiveScore" ColumnName="fActiveScore" />
+                <ScalarProperty Name="fScore" ColumnName="fScore" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tShoppingCarts">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tShoppingCart">
               <MappingFragment StoreEntitySet="tShoppingCart">
-                <ScalarProperty Name="fBasketId" ColumnName="fBasketId" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fProductID" ColumnName="fProductID" />
-                <ScalarProperty Name="fQuantity" ColumnName="fQuantity" />
-                <ScalarProperty Name="fAddTime" ColumnName="fAddTime" />
                 <ScalarProperty Name="fStatus" ColumnName="fStatus" />
+                <ScalarProperty Name="fAddTime" ColumnName="fAddTime" />
+                <ScalarProperty Name="fQuantity" ColumnName="fQuantity" />
+                <ScalarProperty Name="fProductID" ColumnName="fProductID" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fBasketId" ColumnName="fBasketId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tShoppingStatus">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tShoppingStatu">
               <MappingFragment StoreEntitySet="tShoppingStatus">
-                <ScalarProperty Name="fStatus" ColumnName="fStatus" />
                 <ScalarProperty Name="fStatusName" ColumnName="fStatusName" />
+                <ScalarProperty Name="fStatus" ColumnName="fStatus" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tTests">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tTest">
               <MappingFragment StoreEntitySet="tTest">
-                <ScalarProperty Name="fTestId" ColumnName="fTestId" />
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fQuestionId" ColumnName="fQuestionId" />
-                <ScalarProperty Name="fTestStar" ColumnName="fTestStar" />
-                <ScalarProperty Name="fTestEnd" ColumnName="fTestEnd" />
-                <ScalarProperty Name="fTestCost" ColumnName="fTestCost" />
-                <ScalarProperty Name="fQuestionCount" ColumnName="fQuestionCount" />
-                <ScalarProperty Name="fCorrectCount" ColumnName="fCorrectCount" />
-                <ScalarProperty Name="fScoreDate" ColumnName="fScoreDate" />
                 <ScalarProperty Name="fQuestionScore" ColumnName="fQuestionScore" />
+                <ScalarProperty Name="fScoreDate" ColumnName="fScoreDate" />
+                <ScalarProperty Name="fCorrectCount" ColumnName="fCorrectCount" />
+                <ScalarProperty Name="fQuestionCount" ColumnName="fQuestionCount" />
+                <ScalarProperty Name="fTestCost" ColumnName="fTestCost" />
+                <ScalarProperty Name="fTestEnd" ColumnName="fTestEnd" />
+                <ScalarProperty Name="fTestStar" ColumnName="fTestStar" />
+                <ScalarProperty Name="fQuestionId" ColumnName="fQuestionId" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+                <ScalarProperty Name="fTestId" ColumnName="fTestId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tUsers">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tUser">
               <MappingFragment StoreEntitySet="tUser">
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fPassword" ColumnName="fPassword" />
-                <ScalarProperty Name="fPasswordSalt" ColumnName="fPasswordSalt" />
-                <ScalarProperty Name="fChkNum" ColumnName="fChkNum" />
-                <ScalarProperty Name="fResetPwCode" ColumnName="fResetPwCode" />
-                <ScalarProperty Name="fLoginTime" ColumnName="fLoginTime" />
                 <ScalarProperty Name="fLogoutTime" ColumnName="fLogoutTime" />
+                <ScalarProperty Name="fLoginTime" ColumnName="fLoginTime" />
+                <ScalarProperty Name="fResetPwCode" ColumnName="fResetPwCode" />
+                <ScalarProperty Name="fChkNum" ColumnName="fChkNum" />
+                <ScalarProperty Name="fPasswordSalt" ColumnName="fPasswordSalt" />
+                <ScalarProperty Name="fPassword" ColumnName="fPassword" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tUserAuths">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tUserAuth">
               <MappingFragment StoreEntitySet="tUserAuth">
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fAuth" ColumnName="fAuth" />
-                <ScalarProperty Name="fAuthPost" ColumnName="fAuthPost" />
                 <ScalarProperty Name="fAuthReply" ColumnName="fAuthReply" />
+                <ScalarProperty Name="fAuthPost" ColumnName="fAuthPost" />
+                <ScalarProperty Name="fAuth" ColumnName="fAuth" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tUserDiscountLists">
+            <EntityTypeMapping TypeName="dbShoppingForumModel.tUserDiscountList">
+              <MappingFragment StoreEntitySet="tUserDiscountList">
+                <ScalarProperty Name="fCount" ColumnName="fCount" />
+                <ScalarProperty Name="fDiscountCode" ColumnName="fDiscountCode" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tUserProfiles">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tUserProfile">
               <MappingFragment StoreEntitySet="tUserProfile">
-                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-                <ScalarProperty Name="fName" ColumnName="fName" />
-                <ScalarProperty Name="fGender" ColumnName="fGender" />
-                <ScalarProperty Name="fBirthday" ColumnName="fBirthday" />
-                <ScalarProperty Name="fTel" ColumnName="fTel" />
-                <ScalarProperty Name="fPhone" ColumnName="fPhone" />
-                <ScalarProperty Name="fEmail" ColumnName="fEmail" />
-                <ScalarProperty Name="fCity" ColumnName="fCity" />
-                <ScalarProperty Name="fAddress" ColumnName="fAddress" />
-                <ScalarProperty Name="fPhoto" ColumnName="fPhoto" />
-                <ScalarProperty Name="fCreateDate" ColumnName="fCreateDate" />
                 <ScalarProperty Name="fScore" ColumnName="fScore" />
+                <ScalarProperty Name="fCreateDate" ColumnName="fCreateDate" />
+                <ScalarProperty Name="fPhoto" ColumnName="fPhoto" />
+                <ScalarProperty Name="fAddress" ColumnName="fAddress" />
+                <ScalarProperty Name="fCity" ColumnName="fCity" />
+                <ScalarProperty Name="fEmail" ColumnName="fEmail" />
+                <ScalarProperty Name="fPhone" ColumnName="fPhone" />
+                <ScalarProperty Name="fTel" ColumnName="fTel" />
+                <ScalarProperty Name="fBirthday" ColumnName="fBirthday" />
+                <ScalarProperty Name="fGender" ColumnName="fGender" />
+                <ScalarProperty Name="fName" ColumnName="fName" />
+                <ScalarProperty Name="fUserId" ColumnName="fUserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <AssociationSetMapping Name="tProdEfficacyRelation" TypeName="dbShoppingForumModel.tProdEfficacyRelation" StoreEntitySet="tProdEfficacyRelation">
-            <EndProperty Name="tEfficacy">
-              <ScalarProperty Name="fEfficacyID" ColumnName="fEfficacyID" />
-            </EndProperty>
             <EndProperty Name="tProduct">
               <ScalarProperty Name="fProductID" ColumnName="fProductID" />
             </EndProperty>
+            <EndProperty Name="tEfficacy">
+              <ScalarProperty Name="fEfficacyID" ColumnName="fEfficacyID" />
+            </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="tUserFavorite" TypeName="dbShoppingForumModel.tUserFavorite" StoreEntitySet="tUserFavorite">
-            <EndProperty Name="tUser">
-              <ScalarProperty Name="fUserId" ColumnName="fUserId" />
-            </EndProperty>
             <EndProperty Name="tForum">
               <ScalarProperty Name="fPostId" ColumnName="fPostId" />
             </EndProperty>
+            <EndProperty Name="tUser">
+              <ScalarProperty Name="fUserId" ColumnName="fUserId" />
+            </EndProperty>
+            <Condition ColumnName="fPostId" IsNull="false" />
           </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>

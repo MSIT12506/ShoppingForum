@@ -12,15 +12,13 @@ namespace prjShoppingForum.Models.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tOrderDetail
+    public partial class tUserDiscountList
     {
-        public int fOrderDetailId { get; set; }
-        public long fOrderId { get; set; }
-        public int fProductId { get; set; }
-        public Nullable<int> fOrderQuantity { get; set; }
-        public string fPayment { get; set; }
+        public string fUserId { get; set; }
+        public string fDiscountCode { get; set; }
+        public int fCount { get; set; }
     
-        public virtual tOrder tOrder { get; set; }
-        public virtual tProduct tProduct { get; set; }
+        public virtual tDiscount tDiscount { get; set; }
+        public virtual tUserProfile tUserProfile { get; set; }
     }
 }

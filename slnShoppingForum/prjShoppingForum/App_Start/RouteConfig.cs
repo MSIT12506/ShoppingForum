@@ -16,7 +16,7 @@ namespace prjShoppingForum
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Forum", action = "List", id = UrlParameter.Optional }
+                defaults: new { controller = "Discount", action = "List", id = UrlParameter.Optional }
             );
         }
     }

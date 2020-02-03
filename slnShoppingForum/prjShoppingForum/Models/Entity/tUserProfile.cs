@@ -26,6 +26,7 @@ namespace prjShoppingForum.Models.Entity
             this.tOrders = new HashSet<tOrder>();
             this.tShoppingCarts = new HashSet<tShoppingCart>();
             this.tTests = new HashSet<tTest>();
+            this.tUserDiscountLists = new HashSet<tUserDiscountList>();
         }
     
         public string fUserId { get; set; }
@@ -62,5 +63,7 @@ namespace prjShoppingForum.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tTest> tTests { get; set; }
         public virtual tUser tUser { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tUserDiscountList> tUserDiscountLists { get; set; }
     }
 }

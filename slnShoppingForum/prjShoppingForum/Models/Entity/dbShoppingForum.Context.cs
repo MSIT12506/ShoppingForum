@@ -26,6 +26,7 @@ namespace prjShoppingForum.Models.Entity
         }
     
         public virtual DbSet<tCategory> tCategories { get; set; }
+        public virtual DbSet<tDiscount> tDiscounts { get; set; }
         public virtual DbSet<tEfficacy> tEfficacies { get; set; }
         public virtual DbSet<tForum> tForums { get; set; }
         public virtual DbSet<tForumAnalysi> tForumAnalysis { get; set; }
@@ -45,6 +46,7 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tTest> tTests { get; set; }
         public virtual DbSet<tUser> tUsers { get; set; }
         public virtual DbSet<tUserAuth> tUserAuths { get; set; }
+        public virtual DbSet<tUserDiscountList> tUserDiscountLists { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
     }
 }

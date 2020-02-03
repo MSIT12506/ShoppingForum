@@ -150,11 +150,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CDictionary.cs" />
+    <Compile Include="Models\Discount\CDiscount.cs" />
     <Compile Include="Models\Entity\dbShoppingForum.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -171,6 +173,9 @@
       <DependentUpon>dbShoppingForum.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tCategory.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tDiscount.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tEfficacy.cs">
@@ -230,6 +235,9 @@
     <Compile Include="Models\Entity\tUserAuth.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\tUserDiscountList.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tUserProfile.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
@@ -255,6 +263,8 @@
     <Content Include="Views\Shared\_Layout_Forum.cshtml" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Views\Discount\List.cshtml" />
+    <Content Include="Views\Discount\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -105,6 +105,10 @@
     <Content Include="Global.asax" />
     <Content Include="Images\disappear.png" />
     <Content Include="Images\favorite.png" />
+    <Content Include="Images\home_1.jpg" />
+    <Content Include="Images\home_2.jpg" />
+    <Content Include="Images\home_3.jpg" />
+    <Content Include="Images\home_4.jpg" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\PostList.png" />
@@ -144,6 +148,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Styles\Forum\layout.css" />
     <Content Include="Styles\Forum\layout_rwd600.css" />
+    <Content Include="Styles\Home\home.css" />
     <Content Include="Styles\main.css" />
     <Content Include="Styles\main_RWD600.css" />
     <Content Include="Web.config" />
@@ -152,6 +157,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -265,6 +271,7 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Views\Discount\List.cshtml" />
     <Content Include="Views\Discount\Create.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

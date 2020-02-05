@@ -14,7 +14,7 @@ namespace prjShoppingForum.Models.Entity
     
     public partial class tForumAuth
     {
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public string fAuthBlackList { get; set; }
         public string fAuthPostFlag { get; set; }
         public string fAuthReplyFlag { get; set; }

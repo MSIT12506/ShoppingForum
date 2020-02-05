@@ -23,14 +23,14 @@ namespace prjShoppingForum.Models.Entity
         }
     
         public int fPostId { get; set; }
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public string fPostTitle { get; set; }
         public string fPostContent { get; set; }
         public bool fIsPost { get; set; }
         public System.DateTime fCreaTime { get; set; }
         public System.DateTime fUpdateTime { get; set; }
         public bool fEnableFlag { get; set; }
-        public string fEnableUserId { get; set; }
+        public Nullable<int> fEnableUserId { get; set; }
         public Nullable<System.DateTime> fDisableTime { get; set; }
         public int fTopSeq { get; set; }
         public int fTotalViewCount { get; set; }

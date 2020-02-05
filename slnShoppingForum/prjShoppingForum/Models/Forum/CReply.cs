@@ -18,7 +18,7 @@ namespace tw.com.essentialoil.Forum.Models
             reply.fReplyId = Guid.NewGuid().ToString();
             reply.fReplyTargetId = vm.tmpTargetId;
             reply.fReplySeqNo = 0;
-            reply.fUserId = "user";   //TODO - 要動態產生
+            reply.fId = 1;   //TODO - 要動態產生
             reply.fReplyTime = DateTime.Now;
             reply.fEnableFlag = true;
             reply.fContent = vm.tmpContent;
@@ -41,7 +41,7 @@ namespace tw.com.essentialoil.Forum.Models
                 reply.fReplyId = Guid.NewGuid().ToString();
                 reply.fReplyTargetId = vm.tmpTargetId;
                 reply.fReplySeqNo = targetReply.fReplySeqNo + 1;
-                reply.fUserId = "user";   //TODO - 要動態產生
+                reply.fId = 1;   //TODO - 要動態產生
                 reply.fReplyTime = DateTime.Now;
                 reply.fEnableFlag = true;
                 reply.fContent = vm.tmpContent;

@@ -20,6 +20,8 @@ namespace prjShoppingForum.Models.Entity
             this.tOrderDetails = new HashSet<tOrderDetail>();
             this.tProductImages = new HashSet<tProductImage>();
             this.tShoppingCarts = new HashSet<tShoppingCart>();
+            this.tUserBrowseHistories = new HashSet<tUserBrowseHistory>();
+            this.tUserProductFavorites = new HashSet<tUserProductFavorite>();
             this.tEfficacies = new HashSet<tEfficacy>();
         }
     
@@ -29,22 +31,20 @@ namespace prjShoppingForum.Models.Entity
         public Nullable<int> fUnitPrice { get; set; }
         public string fQuantityPerUnit { get; set; }
         public Nullable<int> fUnitsInStock { get; set; }
-        public Nullable<int> fUnitsOnOrder { get; set; }
-        public Nullable<int> fReorderLevel { get; set; }
         public Nullable<bool> fDiscontinued { get; set; }
-        public int fPartID { get; set; }
-        public int fNoteID { get; set; }
         public int fCategoryID { get; set; }
     
         public virtual tCategory tCategory { get; set; }
-        public virtual tNote tNote { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrderDetail> tOrderDetails { get; set; }
-        public virtual tPart tPart { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tProductImage> tProductImages { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tUserBrowseHistory> tUserBrowseHistories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tUserProductFavorite> tUserProductFavorites { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tEfficacy> tEfficacies { get; set; }
     }

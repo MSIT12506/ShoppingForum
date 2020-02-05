@@ -15,7 +15,7 @@ namespace prjShoppingForum.Models.Entity
     public partial class tForumAnalysi
     {
         public int fPostId { get; set; }
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public Nullable<bool> fLikeHate { get; set; }
         public int fShareCount { get; set; }
     

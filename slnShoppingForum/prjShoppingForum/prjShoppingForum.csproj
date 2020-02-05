@@ -170,10 +170,19 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbShoppingForum.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\sysdiagram.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tCategory.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\tDiscount.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tEfficacy.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tfeature.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tForum.cs">
@@ -209,6 +218,12 @@
     <Compile Include="Models\Entity\tProductImage.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\tProductUnilateral.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tProductVegetableoil.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tQuestion.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
@@ -218,9 +233,6 @@
     <Compile Include="Models\Entity\tShoppingCart.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entity\tShoppingStatu.cs">
-      <DependentUpon>dbShoppingForum.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Entity\tTest.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
@@ -228,6 +240,15 @@
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tUserAuth.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tUserBrowseHistory.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tUserDiscountList.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tUserProductFavorite.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tUserProfile.cs">

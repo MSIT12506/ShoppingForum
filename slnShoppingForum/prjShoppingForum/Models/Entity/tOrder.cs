@@ -21,16 +21,16 @@ namespace prjShoppingForum.Models.Entity
         }
     
         public long fOrderId { get; set; }
-        public string fUserId { get; set; }
-        public System.DateTimeOffset fOrderDate { get; set; }
-        public Nullable<System.DateTimeOffset> fShippedDate { get; set; }
-        public Nullable<System.DateTimeOffset> fRequiredDate { get; set; }
+        public int fId { get; set; }
+        public System.DateTime fOrderDate { get; set; }
+        public Nullable<System.DateTime> fShippedDate { get; set; }
+        public Nullable<System.DateTime> fRequiredDate { get; set; }
         public Nullable<int> fScore { get; set; }
-        public Nullable<bool> fOrderCheck { get; set; }
         public string fConsigneeName { get; set; }
         public string fConsigneeTelephone { get; set; }
         public string fConsigneeCellPhone { get; set; }
         public string fConsigneeAddress { get; set; }
+        public Nullable<bool> fConsigneeAreUser { get; set; }
         public string fOrderCompanyTitle { get; set; }
         public Nullable<int> fOrderTaxIdDNumber { get; set; }
         public string fOrderPostScript { get; set; }

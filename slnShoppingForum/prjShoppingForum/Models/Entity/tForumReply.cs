@@ -18,10 +18,10 @@ namespace prjShoppingForum.Models.Entity
         public string fReplyId { get; set; }
         public string fReplyTargetId { get; set; }
         public int fReplySeqNo { get; set; }
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public System.DateTime fReplyTime { get; set; }
         public bool fEnableFlag { get; set; }
-        public string fDeleteUserId { get; set; }
+        public Nullable<int> fDeleteUserId { get; set; }
         public string fContent { get; set; }
     
         public virtual tForum tForum { get; set; }

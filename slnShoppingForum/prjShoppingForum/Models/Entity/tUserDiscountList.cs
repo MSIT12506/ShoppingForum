@@ -12,18 +12,13 @@ namespace prjShoppingForum.Models.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tUser
+    public partial class tUserDiscountList
     {
         public int fId { get; set; }
-        public string fPassword { get; set; }
-        public string fPasswordSalt { get; set; }
-        public string fChkNum { get; set; }
-        public string fResetPwCode { get; set; }
-        public System.DateTime fLoginTime { get; set; }
-        public System.DateTime fLogoutTime { get; set; }
+        public string fDiscountCode { get; set; }
+        public int fCount { get; set; }
     
+        public virtual tDiscount tDiscount { get; set; }
         public virtual tUserProfile tUserProfile { get; set; }
-        public virtual tUserAuth tUserAuth { get; set; }
-        public virtual tForum tForum { get; set; }
     }
 }

@@ -17,13 +17,13 @@ namespace prjShoppingForum.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tNote()
         {
-            this.tProducts = new HashSet<tProduct>();
+            this.tProductUnilaterals = new HashSet<tProductUnilateral>();
         }
     
         public int fNoteID { get; set; }
         public string fNoteName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tProduct> tProducts { get; set; }
+        public virtual ICollection<tProductUnilateral> tProductUnilaterals { get; set; }
     }
 }

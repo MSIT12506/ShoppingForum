@@ -15,14 +15,12 @@ namespace prjShoppingForum.Models.Entity
     public partial class tShoppingCart
     {
         public int fBasketId { get; set; }
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public int fProductID { get; set; }
         public short fQuantity { get; set; }
         public System.DateTime fAddTime { get; set; }
-        public int fStatus { get; set; }
     
         public virtual tProduct tProduct { get; set; }
-        public virtual tShoppingStatu tShoppingStatu { get; set; }
         public virtual tUserProfile tUserProfile { get; set; }
     }
 }

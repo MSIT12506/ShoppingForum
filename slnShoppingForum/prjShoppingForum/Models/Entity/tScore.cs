@@ -20,7 +20,7 @@ namespace prjShoppingForum.Models.Entity
             this.tTests = new HashSet<tTest>();
         }
     
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public Nullable<int> fScore { get; set; }
         public Nullable<int> fActiveScore { get; set; }
         public Nullable<int> fQuestionScore { get; set; }

@@ -25,8 +25,11 @@ namespace prjShoppingForum.Models.Entity
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<tCategory> tCategories { get; set; }
+        public virtual DbSet<tDiscount> tDiscounts { get; set; }
         public virtual DbSet<tEfficacy> tEfficacies { get; set; }
+        public virtual DbSet<tfeature> tfeatures { get; set; }
         public virtual DbSet<tForum> tForums { get; set; }
         public virtual DbSet<tForumAnalysi> tForumAnalysis { get; set; }
         public virtual DbSet<tForumAuth> tForumAuths { get; set; }
@@ -38,13 +41,17 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tPart> tParts { get; set; }
         public virtual DbSet<tProduct> tProducts { get; set; }
         public virtual DbSet<tProductImage> tProductImages { get; set; }
+        public virtual DbSet<tProductUnilateral> tProductUnilaterals { get; set; }
+        public virtual DbSet<tProductVegetableoil> tProductVegetableoils { get; set; }
         public virtual DbSet<tQuestion> tQuestions { get; set; }
         public virtual DbSet<tScore> tScores { get; set; }
         public virtual DbSet<tShoppingCart> tShoppingCarts { get; set; }
-        public virtual DbSet<tShoppingStatu> tShoppingStatus { get; set; }
         public virtual DbSet<tTest> tTests { get; set; }
         public virtual DbSet<tUser> tUsers { get; set; }
         public virtual DbSet<tUserAuth> tUserAuths { get; set; }
+        public virtual DbSet<tUserBrowseHistory> tUserBrowseHistories { get; set; }
+        public virtual DbSet<tUserDiscountList> tUserDiscountLists { get; set; }
+        public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
     }
 }

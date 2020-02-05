@@ -15,7 +15,7 @@ namespace prjShoppingForum.Models.Entity
     public partial class tTest
     {
         public int fTestId { get; set; }
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public int fQuestionId { get; set; }
         public Nullable<System.DateTime> fTestStar { get; set; }
         public Nullable<System.DateTime> fTestEnd { get; set; }

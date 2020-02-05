@@ -12,18 +12,25 @@ namespace prjShoppingForum.Models.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tShoppingStatu
+    public partial class tDiscount
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tShoppingStatu()
+        public tDiscount()
         {
-            this.tShoppingCarts = new HashSet<tShoppingCart>();
+            this.tUserDiscountLists = new HashSet<tUserDiscountList>();
         }
     
-        public int fStatus { get; set; }
-        public string fStatusName { get; set; }
+        public string fDiscountCode { get; set; }
+        public string fDiscountName { get; set; }
+        public string fDiscountCategory { get; set; }
+        public bool fDiscountMoneyRule { get; set; }
+        public int fMoneyLimit { get; set; }
+        public decimal fDiscountContent { get; set; }
+        public System.DateTime fStartdate { get; set; }
+        public System.DateTime fEndDate { get; set; }
+        public bool fEnable { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
+        public virtual ICollection<tUserDiscountList> tUserDiscountLists { get; set; }
     }
 }

@@ -19,7 +19,6 @@ namespace prjShoppingForum.Models.Entity
         public int fProductId { get; set; }
         public Nullable<int> fOrderQuantity { get; set; }
         public string fPayment { get; set; }
-        public Nullable<bool> fOrderDetailCheck { get; set; }
     
         public virtual tOrder tOrder { get; set; }
         public virtual tProduct tProduct { get; set; }

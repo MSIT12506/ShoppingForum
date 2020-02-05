@@ -18,7 +18,7 @@ namespace tw.com.essentialoil.Forum.Models
             dbShoppingForumEntities db = new dbShoppingForumEntities();
             
             tForum newForumRecord = new tForum();
-            newForumRecord.fUserId = "user";                    //TODO-要動態取得
+            newForumRecord.fId = 1;                    //TODO-要動態取得
             newForumRecord.fIsPost = true;
             newForumRecord.fCreaTime = DateTime.Now;
             newForumRecord.fUpdateTime = DateTime.Now;
@@ -89,7 +89,7 @@ namespace tw.com.essentialoil.Forum.Models
             if (result != null)
             {
                 result.fEnableFlag = false;
-                result.fEnableUserId = "user";    //TODO - 要動態產生
+                result.fEnableUserId = 1;    //TODO - 要動態產生
                 result.fDisableTime = DateTime.Now;
 
                 db.SaveChanges();

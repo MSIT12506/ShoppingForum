@@ -14,7 +14,7 @@ namespace prjShoppingForum.Models.Entity
     
     public partial class tUserAuth
     {
-        public string fUserId { get; set; }
+        public int fId { get; set; }
         public string fAuth { get; set; }
         public bool fAuthPost { get; set; }
         public bool fAuthReply { get; set; }

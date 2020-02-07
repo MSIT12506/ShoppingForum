@@ -12,13 +12,14 @@ namespace prjShoppingForum.Models.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class tUserAuth
+    public partial class tUserLog
     {
         public int fId { get; set; }
-        public string fAuth { get; set; }
-        public bool fAuthPost { get; set; }
-        public bool fAuthReply { get; set; }
+        public Nullable<System.DateTime> fLoginTime { get; set; }
+        public Nullable<System.DateTime> fLogoutTime { get; set; }
+        public Nullable<int> fErrorPasswordCount { get; set; }
+        public string fUserIP { get; set; }
     
-        public virtual tUser tUser { get; set; }
+        public virtual tUserProfile tUserProfile { get; set; }
     }
 }

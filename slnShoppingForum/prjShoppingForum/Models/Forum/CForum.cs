@@ -20,7 +20,7 @@ namespace tw.com.essentialoil.Forum.Models
             tForum newForumRecord = new tForum();
             newForumRecord.fId = 1;                    //TODO-要動態取得
             newForumRecord.fIsPost = true;
-            newForumRecord.fCreaTime = DateTime.Now;
+            newForumRecord.fCreateTime = DateTime.Now;
             newForumRecord.fUpdateTime = DateTime.Now;
             newForumRecord.fEnableFlag = true;
             newForumRecord.fTopSeq = 999;

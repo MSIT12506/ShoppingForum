@@ -30,10 +30,10 @@ namespace prjShoppingForum.Models.Entity
         public string fConsigneeTelephone { get; set; }
         public string fConsigneeCellPhone { get; set; }
         public string fConsigneeAddress { get; set; }
-        public Nullable<bool> fConsigneeAreUser { get; set; }
         public string fOrderCompanyTitle { get; set; }
         public Nullable<int> fOrderTaxIdDNumber { get; set; }
         public string fOrderPostScript { get; set; }
+        public string fPayment { get; set; }
     
         public virtual tUserProfile tUserProfile { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

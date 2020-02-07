@@ -39,6 +39,8 @@ namespace prjShoppingForum.Models.Entity
         public virtual ICollection<tOrderDetail> tOrderDetails { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tProductImage> tProductImages { get; set; }
+        public virtual tProductUnilateral tProductUnilateral { get; set; }
+        public virtual tProductVegetableoil tProductVegetableoil { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

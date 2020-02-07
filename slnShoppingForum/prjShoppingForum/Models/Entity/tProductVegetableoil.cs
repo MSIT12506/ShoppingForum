@@ -18,5 +18,6 @@ namespace prjShoppingForum.Models.Entity
         public Nullable<int> ffeatureID { get; set; }
     
         public virtual tfeature tfeature { get; set; }
+        public virtual tProduct tProduct { get; set; }
     }
 }

@@ -22,5 +22,6 @@ namespace prjShoppingForum.Models.Entity
     
         public virtual tNote tNote { get; set; }
         public virtual tPart tPart { get; set; }
+        public virtual tProduct tProduct { get; set; }
     }
 }

@@ -173,6 +173,9 @@
     <Compile Include="Models\Entity\sysdiagram.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\tAdminManager.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tCategory.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
@@ -236,16 +239,16 @@
     <Compile Include="Models\Entity\tTest.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entity\tUser.cs">
-      <DependentUpon>dbShoppingForum.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\Entity\tUserAuth.cs">
-      <DependentUpon>dbShoppingForum.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Entity\tUserBrowseHistory.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tUserDiscountList.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tUserFavorite.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Entity\tUserLog.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Entity\tUserProductFavorite.cs">

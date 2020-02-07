@@ -14,9 +14,16 @@ namespace prjShoppingForum.Models.Entity
     
     public partial class tfeature
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tfeature()
+        {
+            this.tProductVegetableoils = new HashSet<tProductVegetableoil>();
+        }
+    
         public int ffeatureID { get; set; }
         public string ffeatureName { get; set; }
     
-        public virtual tProductVegetableoil tProductVegetableoil { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tProductVegetableoil> tProductVegetableoils { get; set; }
     }
 }

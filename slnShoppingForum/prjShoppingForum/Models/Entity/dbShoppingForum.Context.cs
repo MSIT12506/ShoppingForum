@@ -47,11 +47,12 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tScore> tScores { get; set; }
         public virtual DbSet<tShoppingCart> tShoppingCarts { get; set; }
         public virtual DbSet<tTest> tTests { get; set; }
-        public virtual DbSet<tUser> tUsers { get; set; }
-        public virtual DbSet<tUserAuth> tUserAuths { get; set; }
         public virtual DbSet<tUserBrowseHistory> tUserBrowseHistories { get; set; }
         public virtual DbSet<tUserDiscountList> tUserDiscountLists { get; set; }
+        public virtual DbSet<tUserFavorite> tUserFavorites { get; set; }
+        public virtual DbSet<tUserLog> tUserLogs { get; set; }
         public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
+        public virtual DbSet<tAdminManager> tAdminManagers { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace prjShoppingForum.Models.Entity
         {
             this.tForumAnalysis = new HashSet<tForumAnalysi>();
             this.tForumReplies = new HashSet<tForumReply>();
-            this.tUsers = new HashSet<tUser>();
+            this.tUserFavorites = new HashSet<tUserFavorite>();
         }
     
         public int fPostId { get; set; }
@@ -27,7 +27,7 @@ namespace prjShoppingForum.Models.Entity
         public string fPostTitle { get; set; }
         public string fPostContent { get; set; }
         public bool fIsPost { get; set; }
-        public System.DateTime fCreaTime { get; set; }
+        public System.DateTime fCreateTime { get; set; }
         public System.DateTime fUpdateTime { get; set; }
         public bool fEnableFlag { get; set; }
         public Nullable<int> fEnableUserId { get; set; }
@@ -43,6 +43,6 @@ namespace prjShoppingForum.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tForumReply> tForumReplies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUser> tUsers { get; set; }
+        public virtual ICollection<tUserFavorite> tUserFavorites { get; set; }
     }
 }

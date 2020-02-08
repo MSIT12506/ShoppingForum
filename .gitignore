@@ -12,3 +12,13 @@
 
 #忽略debug的內容
 /slnShoppingForum/prjShoppingForum/obj
+
+#忽略content的內容
+/slnShoppingForum/prjShoppingForum/Content
+
+#忽略Scripts底下不必要的檔案
+/slnShoppingForum/prjShoppingForum/Scripts/*.*
+/slnShoppingForum/prjShoppingForum/Scripts/esm
+/slnShoppingForum/prjShoppingForum/Scripts/src
+/slnShoppingForum/prjShoppingForum/Scripts/umd
+

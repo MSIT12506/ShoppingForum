@@ -9,16 +9,15 @@ namespace tw.com.essentialoil.Forum.Models
 {
     public class CForum
     {
-        //Create New Post
-        public void newPost(CForumCreate c)
-        {
-            //Html Encode
-            //string afterEncoding = HttpUtility.HtmlEncode(c.tmpContent);
+        dbShoppingForumEntities db = new dbShoppingForumEntities();
 
-            dbShoppingForumEntities db = new dbShoppingForumEntities();
-            
+        //Create New Post
+        public void newPost(int userId, string title, string content)
+        {
             tForum newForumRecord = new tForum();
-            newForumRecord.fId = 1;                    //TODO-要動態取得
+            newForumRecord.fId = userId;
+            newForumRecord.fPostTitle = title;
+            newForumRecord.fPostContent = content;
             newForumRecord.fIsPost = true;
             newForumRecord.fCreateTime = DateTime.Now;
             newForumRecord.fUpdateTime = DateTime.Now;
@@ -26,8 +25,6 @@ namespace tw.com.essentialoil.Forum.Models
             newForumRecord.fTopSeq = 999;
             newForumRecord.fTotalReplyCount = 0;
             newForumRecord.fTotalViewCount = 0;
-            newForumRecord.fPostContent = c.tmpContent;
-            newForumRecord.fPostTitle = c.postTitle;
 
             db.tForums.Add(newForumRecord);
             
@@ -37,8 +34,6 @@ namespace tw.com.essentialoil.Forum.Models
         //Select All Post
         public IQueryable<tForum> queryAllPost()
         {
-            dbShoppingForumEntities db = new dbShoppingForumEntities();
-
             IQueryable<tForum> result = from i in db.tForums
                                         where i.fEnableFlag == true       //刪除的不要被select出來
                                         select i;
@@ -49,8 +44,7 @@ namespace tw.com.essentialoil.Forum.Models
         //Select Post by Id
         public tForum queryPostById(int fPostId)
         {
-            dbShoppingForumEntities db = new dbShoppingForumEntities();
-
+            //TODO - 補上權限控制
             tForum result = (from i in db.tForums
                           where i.fPostId == fPostId
                           select i).FirstOrDefault();
@@ -58,10 +52,29 @@ namespace tw.com.essentialoil.Forum.Models
             return result;
         }
 
+        //Select Post By Time
+        public List<tForum> queryPostByTime(DateTime prevDateTime) {
+            var results = from p in db.tForums
+                          where (p.fUpdateTime > prevDateTime) && (p.fEnableFlag == true)
+                          select p;
+
+            return results.ToList();
+        }
+
+        //Select 【Disable】 Post By Time
+        public List<tForum> queryPostByDelTime(DateTime prevDateTime)
+        {
+            var results = from p in db.tForums
+                          where (p.fDisableTime > prevDateTime) && (p.fEnableFlag == false)
+                          select p;
+
+            return results.ToList();
+        }
+
+        //Update Post By Id
         public void updatePostById(object fPostId, CForumCreate data)
         {
             int fId = Convert.ToInt32(fPostId);
-            dbShoppingForumEntities db = new dbShoppingForumEntities();
 
             tForum result = (from i in db.tForums
                              where i.fPostId == fId
@@ -78,10 +91,9 @@ namespace tw.com.essentialoil.Forum.Models
 
         }
 
+        //Delete Post By Id
         public void deletePostById(int fPostId)
         {
-            dbShoppingForumEntities db = new dbShoppingForumEntities();
-
             tForum result = (from i in db.tForums
                              where i.fPostId == fPostId && i.fEnableFlag == true
                              select i).FirstOrDefault();
@@ -97,5 +109,6 @@ namespace tw.com.essentialoil.Forum.Models
             }
 
         }
+
     }
 }

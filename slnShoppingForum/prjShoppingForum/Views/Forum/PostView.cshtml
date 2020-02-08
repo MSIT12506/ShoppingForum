@@ -3,26 +3,30 @@
 @{
     ViewBag.Title = "PostView";
     string result = Model.forum.fPostContent;
+    string jsonContent = Model.forum.fPostContent;
+    int replyCount = 0;
+    string targetId = "targetId";
+    string textarea = "textarea";
 }
 
-<style>
-    img {
-        max-height: 100%;
-        max-width: 100%;
-        width: auto;
-        height: auto;
-        margin: auto;
-    }
-</style>
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+@section Styles{
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+    <style>
+        img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            margin: auto;
+        }
+    </style>
+}
+
 <h1>@Model.forum.fPostTitle</h1>
 
 <div class="PostContent" style="width:600px; height:auto; margin:auto;">
     <div id="editor">
-
-    </div>
-    <div class="targetSource" style="display:none">
-        @Html.Raw(result)
     </div>
 </div>
 <br />
@@ -31,20 +35,9 @@
 
 <div class="comment" style="width:600px; height:auto; margin:auto;">
     回覆：<br />
-    @using (Html.BeginForm())
-    {
-        <div id="commentDiv">
-
-        </div>
-        <input type="submit" value="回覆" />
-        <textarea id="tmpPostId" name="tmpPostId" style="display:none">@Model.forum.fPostId</textarea>
-        <textarea id="tmpReplyType" name="tmpReplyType" style="display:none">POST</textarea>
-        <textarea id="tmpTargetId" name="tmpTargetId" style="display:none">@Model.forum.fPostId</textarea>
-        <textarea id="tmpContent" name="tmpContent" style="display:none"></textarea>
-        
-        @*@Html.ActionLink("回覆", "Reply", "Forum", new { fPostId = Model.fPostId, target = "post" }, new { @class = "btn btn-primary" })*@
-    }
-
+    <div class="modal-footer" id="commentDiv">
+    </div>
+    <button type="button" class="btn btn-primary" id="confirmReply">確認回覆</button>
 </div>
 
 
@@ -53,13 +46,19 @@
     {
         for (int k = 0; k < Model.reply[i].Count; k++)
         {
-    <div class="commentElement" data-id="@Model.reply[i][k].fReplyId" data-seq="@Model.reply[i][k].fReplySeqNo" style="width:600px ; height:auto; border:1px solid black; padding:5px">
-        @Html.Raw(Model.reply[i][k].fContent)
-        <button class="btn-like btn btn-primary">喜歡</button>
-        <button class="btn-hate btn btn-primary">討厭</button>
-        <button class="btn-share btn btn-primary">分享</button>
-        <button class="btn-comment btn btn-primary">留言</button>
-    </div>
+            replyCount++;
+
+            <div class="commentElement" data-id="@Model.reply[i][k].fReplyId" data-seq="@Model.reply[i][k].fReplySeqNo" style="width:600px ; height:auto; border:1px solid black; padding:5px">
+                
+
+                @*回覆區塊的quill，區塊的ID值必須動態產生*@
+                <div id=@targetId@replyCount.ToString()>test</div>
+                <textarea id=@textarea@replyCount.ToString() style="display:none;">@Html.Raw(Model.reply[i][k].fContent)</textarea>
+                <button class="btn-like btn btn-primary">喜歡</button>
+                <button class="btn-hate btn btn-primary">討厭</button>
+                <button class="btn-share btn btn-primary">分享</button>
+                <button class="btn-comment btn btn-primary">留言</button>
+            </div>
         }
     }
 </div>
@@ -72,7 +71,7 @@
         <div id="commentforcommentDiv">
 
         </div>
-    
+
         <input type="submit" value="回覆" />
         <textarea id="tmpPostId1" name="tmpPostId" style="display:none">@Model.forum.fPostId</textarea>
         <textarea id="tmpReplyType1" name="tmpReplyType" style="display:none">COMMENT</textarea>
@@ -83,5 +82,129 @@
 
 </div>
 
-<script src="~/Scripts/Forum/QuillEditor.Reply.js"></script>
+@section Scripts{
+    @*<script src="~/Scripts/Forum/QuillEditor.Reply.js"></script>*@
+
+    <script>
+        //文章的區塊，只能讀取，不能修改，設定readonly，且工具列是null
+        let quillPost = new Quill('#editor', {
+            modules: {
+                toolbar: null
+            },
+            readOnly: true,
+            theme: 'snow'
+        });
+
+        //jsonContent轉換為json物件，透過quill方法，呈現在quill-editor區塊
+        let content = @Html.Raw(jsonContent);
+        quillPost.setContents(content);
+
+        //回覆文章的區塊
+        let toolbarOptions = [
+            ['bold', 'italic', 'underline'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'script': 'super' }, { 'script': 'sub' }],      // superscript/subscript
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            ['image', 'video'],
+            ['clean']                                         // remove formatting button
+        ];
+
+        let quillComment = new Quill('#commentDiv', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            theme: 'snow',
+            placeholder: '請輸入要回覆的內容'
+        });
+
+        //確認發佈的click事件，註冊ajax事件
+        $('#confirmReply').on('click', function () {
+            //1. 取得文章的json內容
+            let content = JSON.stringify(quillComment.getContents());
+
+            $.post(
+                '@Url.Action("Reply","Forum")',
+                {
+                    targetType: "POST",
+                    postId: @Model.forum.fPostId,
+                    targetId: @Model.forum.fPostId.ToString(),
+                    content: content
+                },
+                function (response) {
+                    console.log(response);
+                }
+            )
+        })
+
+        //建立留言區的展示區塊
+        //建立全域變數，紀錄總共有多少則留言
+        let replyCount = @replyCount;
+
+        for (var i = 1; i <= replyCount; i++) {
+            let targetId = '#@targetId' + i.toString();
+            let contentId = '#@textarea' + i.toString();
+
+            //console.log(targetId);
+            //console.log(contentId);
+
+            //console.log($(targetId));
+            //console.log($(contentId));
+
+            let content = JSON.parse($(contentId).text());
+
+            new Quill(targetId, {
+                modules: {
+                    toolbar: null
+                },
+                readOnly: true,
+                theme: 'snow'
+            }).setContents(content)
+        }
+
+        //let quillPost = new Quill('#editor', {
+        //    modules: {
+        //        toolbar: null
+        //    },
+        //    readOnly: true,
+        //    theme: 'snow'
+        //});
+
+
+        //var quill2 = new Quill('#commentforcommentDiv', {
+        //    modules: {
+        //        toolbar: toolbarOptions
+        //    },
+        //    theme: 'snow',
+        //    placeholder: '請輸入要回覆的內容'
+        //});
+
+        ////註冊事件 - 當失去焦點，要可以抓到回覆區塊內的資料
+        ////回復文章
+        //$(".ql-editor").eq(1).blur(function () {
+        //    let content = $(".ql-editor").eq(1).html();
+        //    $("#tmpContent").text(content);
+        //});
+
+        ////回覆回覆
+        //$(".ql-editor").eq(2).blur(function () {
+        //    let content = $(".ql-editor").eq(2).html();
+        //    $("#tmpContent1").text(content);
+        //});
+
+        ////回覆回覆要點選後才會顯示
+        //$(".btn-comment").click(function () {
+        //    $("#tmpReplyType1").text("COMMENT");
+        //    $("#tmpTargetId1").text($(this).parent("div").attr("data-id"));
+        //    $("#commentforcomment").css("display","block")
+        //})
+
+        ////階層越高的，寬度越窄
+        //let commentList = $(".commentElement");
+        //for (var i = 0; i < commentList.length; i++) {
+        //    let targ = commentList.eq(i);
+        //    targ.css("width", (600 - parseInt(targ.attr("data-seq")) * 50).toString() + "px");
+        //}
+
+    </script>
+}
 

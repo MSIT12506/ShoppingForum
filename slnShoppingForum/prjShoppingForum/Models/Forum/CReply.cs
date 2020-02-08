@@ -11,46 +11,44 @@ namespace tw.com.essentialoil.Forum.Models
     {
         dbShoppingForumEntities db = new dbShoppingForumEntities();
         //Create New Reply
-        public void NewCommentForPost(CNewReplyCreate vm)
+        public void NewCommentForPost(CNewReplyCreate replyInfo, int userId)
         {
             tForumReply reply = new tForumReply();
-            reply.fPostId = vm.tmpPostId;
+            reply.fPostId = replyInfo.postId;
             reply.fReplyId = Guid.NewGuid().ToString();
-            reply.fReplyTargetId = vm.tmpTargetId;
+            reply.fReplyTargetId = replyInfo.targetId;
             reply.fReplySeqNo = 0;
-            reply.fId = 1;   //TODO - 要動態產生
+            reply.fId = userId;
             reply.fReplyTime = DateTime.Now;
             reply.fEnableFlag = true;
-            reply.fContent = vm.tmpContent;
+            reply.fContent = replyInfo.content;
 
             db.tForumReplies.Add(reply);
             db.SaveChanges();
         }
 
         //Create New Reply For Comment
-        public void NewCommentForComment(CNewReplyCreate vm)
+        public void NewCommentForComment(CNewReplyCreate replyInfo, int userId)
         {
             tForumReply targetReply = (from i in db.tForumReplies
-                                       where i.fReplyId == vm.tmpTargetId && i.fEnableFlag == true
+                                       where i.fReplyId == replyInfo.targetId && i.fEnableFlag == true
                                        select i).FirstOrDefault();
 
             if (targetReply != null)
             {
                 tForumReply reply = new tForumReply();
-                reply.fPostId = vm.tmpPostId;
+                reply.fPostId = replyInfo.postId;
                 reply.fReplyId = Guid.NewGuid().ToString();
-                reply.fReplyTargetId = vm.tmpTargetId;
+                reply.fReplyTargetId = replyInfo.targetId;
                 reply.fReplySeqNo = targetReply.fReplySeqNo + 1;
-                reply.fId = 1;   //TODO - 要動態產生
+                reply.fId = userId;
                 reply.fReplyTime = DateTime.Now;
                 reply.fEnableFlag = true;
-                reply.fContent = vm.tmpContent;
+                reply.fContent = replyInfo.content;
 
                 db.tForumReplies.Add(reply);
                 db.SaveChanges();
             }
-
-
         }
 
 

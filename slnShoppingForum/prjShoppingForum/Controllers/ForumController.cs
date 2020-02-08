@@ -5,6 +5,7 @@ using prjShoppingForum.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -21,12 +22,15 @@ namespace tw.com.essentialoil.Controllers
         //所有文章列表
         public ActionResult List()
         {
+            //一進入Action就先取出當下時間
+            ViewBag.DateTime = DateTime.Now.ToString();
+
             CForum forum = new CForum();
             
             return View(forum.queryAllPost());
         }
 
-        //選取文章的內容
+        //呈現文章的內容
         public ActionResult PostView(int fPostId) {
             CForum forum = new CForum();
             tForum tForum = forum.queryPostById(fPostId);
@@ -35,9 +39,14 @@ namespace tw.com.essentialoil.Controllers
             List<List<tForumReply>> replys = reply.getReplysById(fPostId);
 
             CPostView postview = new CPostView { forum = tForum, reply = replys };
+            
+            if (postview.forum != null)
+            {
+                string test = postview.forum.fPostContent;
+                return View(postview);
+            }
 
-            if (postview.forum != null) return View(postview);
-
+            
             return RedirectToAction("List");
         }
 
@@ -69,22 +78,6 @@ namespace tw.com.essentialoil.Controllers
 
         }
 
-        //新增文章
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        //新增文章[POST]
-        [HttpPost]
-        //[ValidateInput(false)]
-        public ActionResult Create(CForumCreate vm)
-        {
-            CForum forum = new CForum();
-            forum.newPost(vm);
-            return RedirectToAction("List");
-        }
-
         //刪除文章
         public ActionResult Delete(int fPostId)
         {
@@ -94,17 +87,118 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("List");
         }
 
-        //--------------------------Reply--------------------------
-        //回覆 文章/回覆
-        [HttpPost]
-        public ActionResult PostView(CNewReplyCreate vm)
-        {
-            CReply reply = new CReply();
-            if (vm.tmpReplyType == "POST") reply.NewCommentForPost(vm);
-            if (vm.tmpReplyType == "COMMENT") reply.NewCommentForComment(vm);
 
-            //return RedirectToAction("PostView", new RouteValueDictionary(new { controller = "Forum", action = "PostView", fPostId = fPostId }));
-            return RedirectToAction("List");
+        //----------------------------Ajax----------------------------
+        //新增文章
+        public ActionResult Create(string title, string content)
+        {
+            //TODO
+            //從Session讀取資料
+            //判斷是否有登入，如果有登入，取得該會員的fId
+
+            string status = "error";
+            if (!String.IsNullOrWhiteSpace(title))
+            {
+                CForum forum = new CForum();
+                forum.newPost(5, title, content);
+                status = "success";
+            }
+
+            //回傳狀態
+            return Content(status);
+        }
+
+        public ActionResult RefreshList(int lastPostId, string prevDtaetime) {
+
+            //一進入Action就先取出當下時間
+            string newTime = DateTime.Now.ToString();
+
+            //撈出更新時間在prevDateTime之後的所有文章
+            DateTime targetTime = Convert.ToDateTime(prevDtaetime);
+
+            CForum forum = new CForum();
+            List<tForum> forums = forum.queryPostByTime(targetTime);
+            List<tForum> delForums = forum.queryPostByDelTime(targetTime);
+
+            List<object> newForums = new List<object>();
+            List<object> updateForums = new List<object>();
+            List<object> deleteForums = new List<object>();
+
+            //利用postIdList區分是更新的文章還是新增的文章
+            foreach (tForum post in forums)
+            {
+                if ( post.fPostId > lastPostId )
+                {
+                    var newPost = new
+                    {
+                        title = post.fPostTitle,      //文章標題
+                        postId = post.fPostId         //文章編號
+                    };
+
+                    newForums.Add(newPost);
+                }
+                else
+                {
+                    var updatePost = new
+                    {
+                        title = post.fPostTitle,      //文章標題
+                        postId = post.fPostId         //文章編號
+                    };
+
+                    updateForums.Add(updatePost);
+                }
+            }
+
+            //取得所有刪除的文章編號
+            foreach (tForum post in delForums)
+            {
+                var deletePost = new
+                {
+                    postId = post.fPostId             //文章編號
+                };
+
+                deleteForums.Add(deletePost);
+            }
+
+            //定義回傳json
+            if (forums.Count > 0)
+            {
+                return Json(
+                    new
+                    {
+                        newTime = newTime,
+                        newForums = newForums,
+                        updateForums = updateForums,
+                        deleteForums = deleteForums
+                    }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(
+                    new
+                    {
+                        newTime = newTime,
+                        newForums = newForums,
+                        updateForums = updateForums,
+                        deleteForums = deleteForums
+                    }, JsonRequestBehavior.AllowGet);
+            }
+
+        }
+
+        //回覆文章
+        public ActionResult Reply(CNewReplyCreate replyInfo) {
+            string status = "error";
+
+            //TODO
+            //從Session讀取資料
+            //判斷是否有登入，如果有登入，取得該會員的fId
+
+            CReply reply = new CReply();
+            if (replyInfo.targetType == "POST") reply.NewCommentForPost(replyInfo, 5);
+            if (replyInfo.targetType == "COMMENT") reply.NewCommentForComment(replyInfo, 5);
+
+            return Content(status);
         }
     }
 }

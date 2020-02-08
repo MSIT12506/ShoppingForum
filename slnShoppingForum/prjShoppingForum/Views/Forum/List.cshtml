@@ -4,47 +4,179 @@
     ViewBag.Title = "List";
 }
 
-<h1>List</h1>
+<h1>討論區首頁</h1>
 
 <div style="margin:20px auto">
     <div>
-        <button>下拉選view</button>
-        <button>下拉選排序</button>
-        @*<button class="button Post">發表文章</button>*@
-        <button class="button Post">@Html.ActionLink("發表文章", "Create", "Forum", null)</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
+            發表文章
+        </button>
+
+        @* From Bootstrap Example *@
+        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">編輯文章</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    @* 標題區塊 *@
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">標題</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="請輸入標題" id="postTitle">
+                    </div>
+
+                    @* 編輯文章區塊 *@
+                    <div class="modal-body" id="editor">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmPost">確認發佈</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @* 紀錄上一筆的ajax時間，用來計算每次ajax的差異，不用每次全抓資料 *@
+        <div id="prevGetTime" style="display:none;">@ViewBag.DateTime</div>
     </div>
 </div>
 
-<table class="table">
-    <tr>
-        <th>
-            標題:
-        </th>
-        <th>
-            動作:
-        </th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
-                <br />
-                <button class="btn btn-primary">喜歡</button>
-                <button class="btn btn-primary">討厭</button>
-                <button class="btn btn-primary">分享</button>
-                <button class="btn btn-primary">留言</button>
-                <button class="btn btn-primary">收藏</button>
-                <button class="btn btn-primary">隱藏</button>
-            </td>
-
-            <td>
-                @Html.ActionLink("修改文章", "Edit", new { fPostId = item.fPostId })
-                @Html.ActionLink("文章停權(刪除)", "Delete", new { fPostId = item.fPostId })
-            </td>
-        </tr>
-    }
-
+<table class="table table-striped">
+    <thead>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td data-postid="@item.fPostId">
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                    <br />
+                    <button class="btn btn-primary">喜歡</button>
+                    <button class="btn btn-primary">討厭</button>
+                    <button class="btn btn-primary">分享</button>
+                    <button class="btn btn-primary">留言</button>
+                    <button class="btn btn-primary">收藏</button>
+                    <button class="btn btn-primary">隱藏</button>
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 
+@section Scripts{
+    <script>
+        //注意!! EventHandle.Edit 有修改，這邊也要做確認，避免兩邊IDmapping錯誤
+
+        //建立Quill文章編輯器
+        let toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'list': 'bullet' }, { 'list': 'ordered' }],
+            [{ 'script': 'super' }, { 'script': 'sub' }],      // superscript/subscript
+            [{ 'direction': 'rtl' }],                         // text direction
+            [{ 'indent': '+1' }, { 'indent': '-1' }],          // outdent/indent
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['image', 'video'],
+            ['clean']                                         // remove formatting button
+        ];
+
+        //ID選擇器：#editor <- 注意!
+        let quill = new Quill('#editor', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            placeholder: '請輸入文章內容',
+            theme: 'snow'
+        });
+
+        //確認發佈的click事件，註冊ajax事件
+        $('#confirmPost').on('click', function () {
+            //1. 取得文章的json內容
+            let content = JSON.stringify(quill.getContents());
+            let title = $("#postTitle").val();
+
+            $.post(
+                '@Url.Action("Create","Forum")',
+                {
+                    title: title,
+                    content: content
+                },
+                function (response) {
+                    console.log(response);
+                }
+            )
+        })
+
+        //設定定時觸發的ajax，獲得最新文章的資料()
+        
+        
+        function refreshPostList() {
+            //取得前一次的畫面內容時間，用來判斷那些文章有被異動過
+            let prevDateTime = $("#prevGetTime").text();
+            let lastPostId = @Model.Max(p => p.fPostId);
+
+            $.get(
+                '@Url.Action("RefreshList","Forum")',
+                {
+                    lastPostId: lastPostId,
+                    prevDtaetime: prevDateTime
+                },
+                function (responseDatas) {
+                    //先更新ajax的info欄位
+                    $("#prevGetTime").text(responseDatas.newTime);
+
+
+
+                    
+
+                    //判斷是否有新增的文章
+                    //1.處理刪除
+                    //-------------------------
+
+                    //2.處理新增
+                    $.each(responseDatas.newForums, function (idx, value) {
+                        let btnLike    = $('<button></button>').addClass('btn btn-primary').text('喜歡');    //喜歡
+                        let btnHate    = $('<button></button>').addClass('btn btn-primary').text('討厭');    //討厭
+                        let btnShare   = $('<button></button>').addClass('btn btn-primary').text('分享');    //分享
+                        let btnComment = $('<button></button>').addClass('btn btn-primary').text('留言');    //留言
+                        let btnFav     = $('<button></button>').addClass('btn btn-primary').text('收藏');    //收藏
+                        let btnHide    = $('<button></button>').addClass('btn btn-primary').text('隱藏');    //隱藏
+                        let br = $('<br />');
+
+                        let postid = value.postId;
+                        let url = '@Url.Action("PostView","Forum")?fPostId=' + postid;
+                        let link = $('<a></a>');
+                        let td = $('<td></td>');
+                        let tr = $('<tr></tr>');
+                        link.text(value.title).attr('href', url);
+
+                        td.append(link).append(br).append(btnLike).append(btnHate).append(btnShare).append(btnComment).append(btnFav).append(btnHide);
+                        tr.append(td);
+
+                        $('tbody').append(tr);
+                    })
+
+                    //3.處理更新
+                    //--------------------------
+
+                    console.log("test");
+                }
+            )
+        };
+
+        window.setInterval(refreshPostList, 5000);
+
+
+
+    </script>
+}

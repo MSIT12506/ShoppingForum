@@ -8,11 +8,9 @@ namespace tw.com.essentialoil.Forum.ViewModels
 {
     public class CNewReplyCreate
     {
-        public int tmpPostId { get; set; }
-        public string tmpReplyType { get; set; }
-        public string tmpTargetId { get; set; }
-        
-        [AllowHtml]
-        public string tmpContent { get; set; }
+        public int postId { get; set; }
+        public string targetType { get; set; }
+        public string targetId { get; set; }
+        public string content { get; set; }
     }
 }

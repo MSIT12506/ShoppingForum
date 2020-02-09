@@ -170,6 +170,7 @@
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
     <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\quill.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\src\methods\defaults.js" />
     <Content Include="Scripts\src\methods\destroy.js" />
@@ -241,6 +242,7 @@
     <Content Include="Styles\Forum\layout_rwd600.css" />
     <Content Include="Styles\main.css" />
     <Content Include="Styles\main_RWD600.css" />
+    <Content Include="Styles\quill.snow.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

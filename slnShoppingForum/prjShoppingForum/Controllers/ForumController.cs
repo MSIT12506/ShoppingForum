@@ -4,6 +4,7 @@ using prjShoppingForum.Models.Entity;
 //------------------------------------------//
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -23,7 +24,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult List()
         {
             //一進入Action就先取出當下時間
-            ViewBag.DateTime = DateTime.Now.ToString();
+            ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
             CForum forum = new CForum();
             
@@ -32,6 +33,10 @@ namespace tw.com.essentialoil.Controllers
 
         //呈現文章的內容
         public ActionResult PostView(int fPostId) {
+            
+            //一進入Action就先取出當下時間
+            ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
             CForum forum = new CForum();
             tForum tForum = forum.queryPostById(fPostId);
 
@@ -108,13 +113,14 @@ namespace tw.com.essentialoil.Controllers
             return Content(status);
         }
 
+        //定時更新文章List
         public ActionResult RefreshList(int lastPostId, string prevDtaetime) {
 
             //一進入Action就先取出當下時間
-            string newTime = DateTime.Now.ToString();
+            string newTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
             //撈出更新時間在prevDateTime之後的所有文章
-            DateTime targetTime = Convert.ToDateTime(prevDtaetime);
+            DateTime targetTime = DateTime.ParseExact(prevDtaetime, "yyyyMMddHHmmssfff", CultureInfo.CurrentCulture);
 
             CForum forum = new CForum();
             List<tForum> forums = forum.queryPostByTime(targetTime);
@@ -186,9 +192,9 @@ namespace tw.com.essentialoil.Controllers
 
         }
 
-        //回覆文章
+        //回覆文章 / 回覆回覆
         public ActionResult Reply(CNewReplyCreate replyInfo) {
-            string status = "error";
+            string status = "";
 
             //TODO
             //從Session讀取資料
@@ -200,5 +206,46 @@ namespace tw.com.essentialoil.Controllers
 
             return Content(status);
         }
+
+        //定時更新留言List
+        public ActionResult RefreshReplyList(int lastPostId, string prevDtaetime)
+        {
+
+            //一進入Action就先取出當下時間
+            string newTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+            //撈出更新時間在prevDateTime之後的所有留言
+            DateTime targetTime = DateTime.ParseExact(prevDtaetime, "yyyyMMddHHmmssfff",CultureInfo.CurrentCulture);
+
+            CReply reply = new CReply();
+            List<tForumReply> replys = reply.getNewReplysByTime(lastPostId, targetTime);
+
+            List<object> newReplyList = new List<object>();
+
+            if (replys.Count > 0)
+            {
+                foreach (var item in replys)
+                {
+                    var newReply = new
+                    {
+                        replyId = item.fReplyId,               //自己的ID
+                        replyTargetId = item.fReplyTargetId,   //回覆對象的ID
+                        replySeqNo = item.fReplySeqNo,
+                        replyContent = item.fContent
+                    };
+
+                    newReplyList.Add(newReply);
+                }
+            }
+
+            return Json(
+                new
+                {
+                    newTime = newTime,
+                    newReplyList = newReplyList
+                }, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

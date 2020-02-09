@@ -13,6 +13,8 @@
         </button>
 
         @* From Bootstrap Example *@
+        @* -------------------------------------------------------------------------------------------------- *@
+        @* -------------------------------------------------------------------------------------------------- *@
         <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
@@ -61,9 +63,10 @@
                     <button class="btn btn-primary">喜歡</button>
                     <button class="btn btn-primary">討厭</button>
                     <button class="btn btn-primary">分享</button>
-                    <button class="btn btn-primary">留言</button>
                     <button class="btn btn-primary">收藏</button>
                     <button class="btn btn-primary">隱藏</button>
+                    <button class="btn btn-primary">編輯</button>
+                    <button class="btn btn-danger">停用</button>
                 </td>
             </tr>
         }
@@ -118,8 +121,6 @@
         })
 
         //設定定時觸發的ajax，獲得最新文章的資料()
-        
-        
         function refreshPostList() {
             //取得前一次的畫面內容時間，用來判斷那些文章有被異動過
             let prevDateTime = $("#prevGetTime").text();
@@ -135,9 +136,6 @@
                     //先更新ajax的info欄位
                     $("#prevGetTime").text(responseDatas.newTime);
 
-
-
-                    
 
                     //判斷是否有新增的文章
                     //1.處理刪除
@@ -174,9 +172,6 @@
             )
         };
 
-        window.setInterval(refreshPostList, 5000);
-
-
-
+        window.setInterval(refreshPostList, 1000);
     </script>
 }

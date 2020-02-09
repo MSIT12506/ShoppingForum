@@ -103,7 +103,17 @@ namespace tw.com.essentialoil.Forum.Models
                     getCommentFlow(lvNum[i], result);
                 }
             }
-            
+        }
+
+        //Get All New Reply By Time
+        public List<tForumReply> getNewReplysByTime(int postId, DateTime targetTime) {
+
+            var replys = from m in db.tForumReplies
+                         where m.fEnableFlag == true && m.fPostId == postId && m.fReplyTime > targetTime
+                         orderby m.fReplyTime
+                         select m;
+
+            return replys.ToList();
         }
     }
 }

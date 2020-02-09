@@ -10,8 +10,6 @@
 }
 
 @section Styles{
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
     <style>
         img {
             max-height: 100%;
@@ -25,7 +23,7 @@
 
 <h1>@Model.forum.fPostTitle</h1>
 
-<div class="PostContent" style="width:600px; height:auto; margin:auto;">
+<div class="PostContent" style="width:800px; height:auto; margin:auto;">
     <div id="editor">
     </div>
 </div>
@@ -33,59 +31,76 @@
 <br />
 <br />
 
-<div class="comment" style="width:600px; height:auto; margin:auto;">
+<div class="comment" style="width:800px; height:auto; margin:auto;">
     回覆：<br />
     <div class="modal-footer" id="commentDiv">
     </div>
     <button type="button" class="btn btn-primary" id="confirmReply">確認回覆</button>
 </div>
 
-
-<div class="allreply" style="margin:auto; margin-top:20px; width:600px; ">
+<div class="allreply" style="margin:auto; margin-top:20px; width:800px; ">
     @for (int i = 0; i < Model.reply.Count; i++)
     {
         for (int k = 0; k < Model.reply[i].Count; k++)
         {
             replyCount++;
 
-            <div class="commentElement" data-id="@Model.reply[i][k].fReplyId" data-seq="@Model.reply[i][k].fReplySeqNo" style="width:600px ; height:auto; border:1px solid black; padding:5px">
-                
+            <div class="commentElement" data-id="@Model.reply[i][k].fReplyId" data-seq="@Model.reply[i][k].fReplySeqNo" style="width:800px ; height:auto; border:1px solid black; padding:5px">
 
                 @*回覆區塊的quill，區塊的ID值必須動態產生*@
-                <div id=@targetId@replyCount.ToString()>test</div>
+                <div id=@targetId@replyCount.ToString()></div>
+
+                @*用來塞資料的區塊，供後面js使用，不顯示*@
                 <textarea id=@textarea@replyCount.ToString() style="display:none;">@Html.Raw(Model.reply[i][k].fContent)</textarea>
+
                 <button class="btn-like btn btn-primary">喜歡</button>
                 <button class="btn-hate btn btn-primary">討厭</button>
-                <button class="btn-share btn btn-primary">分享</button>
-                <button class="btn-comment btn btn-primary">留言</button>
+                <button type="button" class="btn btn-primary btn-message" data-toggle="modal" data-target="#exampleModalScrollable">
+                    留言
+                </button>
             </div>
         }
     }
 </div>
 
+@* 紀錄上一筆的ajax時間，用來計算每次ajax的差異，不用每次全抓資料 *@
+<div id="prevGetTime" style="display:none;">@ViewBag.DateTime</div>
 
-@*針對回覆-回覆的部分，先塞一個回覆的區塊，等按下回覆後，會顯示這個區塊並供user輸入*@
-<div id="commentforcomment" style="display:none; width:600px; height:auto; margin:auto;">
-    @using (Html.BeginForm())
-    {
-        <div id="commentforcommentDiv">
+@* From Bootstrap Example *@
+<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">編輯回覆</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
+            @* 回覆留言區塊 *@
+            <div class="modal-body" id="message-editor">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
+                <button type="button" class="btn btn-primary btn-confrim-message" data-dismiss="modal" id="confirmPost">確認回覆</button>
+            </div>
         </div>
-
-        <input type="submit" value="回覆" />
-        <textarea id="tmpPostId1" name="tmpPostId" style="display:none">@Model.forum.fPostId</textarea>
-        <textarea id="tmpReplyType1" name="tmpReplyType" style="display:none">COMMENT</textarea>
-        <textarea id="tmpTargetId1" name="tmpTargetId" style="display:none"></textarea>
-        <textarea id="tmpContent1" name="tmpContent" style="display:none"></textarea>
-    }
-
-
+    </div>
 </div>
 
 @section Scripts{
-    @*<script src="~/Scripts/Forum/QuillEditor.Reply.js"></script>*@
-
     <script>
+        //回覆文章的區塊
+        let toolbarOptions = [
+            ['bold', 'italic', 'underline'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'script': 'super' }, { 'script': 'sub' }],      // superscript/subscript
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            ['image', 'video'],
+            ['clean']                                         // remove formatting button
+        ];
+
         //文章的區塊，只能讀取，不能修改，設定readonly，且工具列是null
         let quillPost = new Quill('#editor', {
             modules: {
@@ -100,15 +115,6 @@
         quillPost.setContents(content);
 
         //回覆文章的區塊
-        let toolbarOptions = [
-            ['bold', 'italic', 'underline'],        // toggled buttons
-            ['blockquote', 'code-block'],
-            [{ 'script': 'super' }, { 'script': 'sub' }],      // superscript/subscript
-            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-            ['image', 'video'],
-            ['clean']                                         // remove formatting button
-        ];
-
         let quillComment = new Quill('#commentDiv', {
             modules: {
                 toolbar: toolbarOptions
@@ -144,12 +150,6 @@
             let targetId = '#@targetId' + i.toString();
             let contentId = '#@textarea' + i.toString();
 
-            //console.log(targetId);
-            //console.log(contentId);
-
-            //console.log($(targetId));
-            //console.log($(contentId));
-
             let content = JSON.parse($(contentId).text());
 
             new Quill(targetId, {
@@ -161,49 +161,163 @@
             }).setContents(content)
         }
 
-        //let quillPost = new Quill('#editor', {
-        //    modules: {
-        //        toolbar: null
-        //    },
-        //    readOnly: true,
-        //    theme: 'snow'
-        //});
+        //回覆留言的區塊，全部共用一個
+        let messageQuill = new Quill('#message-editor', {
+            modules: {
+                toolbar: toolbarOptions
+            },
+            theme: 'snow',
+            placeholder: '請輸入要回覆的內容'
+        })
 
+        //建立全域變數，監控按鈕被按下時，所對應到的replyId(包括動態產生按鈕)
+        let targetId;
+        $(document).on('click', '.btn-message', function () {
+            targetId = $(this).parent().attr('data-id');
+            console.log(targetId)
+        });
 
-        //var quill2 = new Quill('#commentforcommentDiv', {
-        //    modules: {
-        //        toolbar: toolbarOptions
-        //    },
-        //    theme: 'snow',
-        //    placeholder: '請輸入要回覆的內容'
-        //});
+        //確認發佈的click事件，註冊ajax事件 -> For Reply Comment
+        $('.btn-confrim-message').on('click', function () {
+            //1. 取得文章的json內容
+            let content = JSON.stringify(messageQuill.getContents());
 
-        ////註冊事件 - 當失去焦點，要可以抓到回覆區塊內的資料
-        ////回復文章
-        //$(".ql-editor").eq(1).blur(function () {
-        //    let content = $(".ql-editor").eq(1).html();
-        //    $("#tmpContent").text(content);
-        //});
+            console.log(targetId);
 
-        ////回覆回覆
-        //$(".ql-editor").eq(2).blur(function () {
-        //    let content = $(".ql-editor").eq(2).html();
-        //    $("#tmpContent1").text(content);
-        //});
+            $.post(
+                '@Url.Action("Reply","Forum")',
+                {
+                    targetType: "COMMENT",
+                    postId: @Model.forum.fPostId,
+                    targetId: targetId,
+                    content: content
+                },
+                function (response) {
+                    console.log("");
+                }
+            )
+        })
 
-        ////回覆回覆要點選後才會顯示
-        //$(".btn-comment").click(function () {
-        //    $("#tmpReplyType1").text("COMMENT");
-        //    $("#tmpTargetId1").text($(this).parent("div").attr("data-id"));
-        //    $("#commentforcomment").css("display","block")
-        //})
+        //建立全域的參數，供製作不相同的id序號
+        let idNum = 0;
 
-        ////階層越高的，寬度越窄
-        //let commentList = $(".commentElement");
-        //for (var i = 0; i < commentList.length; i++) {
-        //    let targ = commentList.eq(i);
-        //    targ.css("width", (600 - parseInt(targ.attr("data-seq")) * 50).toString() + "px");
-        //}
+        //設定定時觸發的ajax，獲得最新留言的資料()
+        function refreshReplyList() {
+
+            //取得前一次的畫面內容時間，用來判斷那些文章有被異動過
+            let prevDateTime = $("#prevGetTime").text();
+            let lastPostId = @Model.forum.fPostId;     //進入文章後，lastPostId就不會變動了
+            //console.log(prevDateTime);
+
+            $.get(
+                '@Url.Action("RefreshReplyList","Forum")',
+                {
+                    lastPostId: lastPostId,
+                    prevDtaetime: prevDateTime
+                },
+                function (responseDatas) {
+                    //先更新ajax的info欄位
+                    $("#prevGetTime").text(responseDatas.newTime);
+
+                    //console.log(responseDatas);
+
+                    $.each(responseDatas.newReplyList, function (idx, value) {
+                        idNum = idNum + 1;
+
+                        let btnLike    = $('<button></button>').addClass('btn btn-primary').text('喜歡');    //喜歡
+                        let btnHate    = $('<button></button>').addClass('btn btn-primary').text('討厭');    //討厭
+                        let btnComment = $('<button></button>').addClass('btn btn-primary').text('留言');    //留言
+
+                        let br = $('<br />');
+                        let content = $('<div></div>');
+                        let div = $('<div></div>');
+
+                        let idName = 'ajax' + idNum;
+                        let quillIdName = '#' + idName;
+
+                        //ini for div-vuild
+                        btnComment.addClass('btn-message').attr('data-toggle', 'modal').attr('data-target', '#exampleModalScrollable');
+                        div.addClass('commentElement').attr('data-id', value.replyId).attr('data-seq', value.replySeqNo).attr('style', 'width:800px ; height:auto; border:1px solid black; padding:5px');
+                        content.attr('id', idName);
+                        div.append(content).append(br).append(btnLike).append(btnHate).append(btnComment);
+
+                        if (value.replyTargetId == lastPostId) {             //表示是回覆文章直接塞到最後就可以了
+                            $('.allreply').append(div);                      
+                        }                                                    
+                        else {                                               //表示是回覆連言要計算放置位置
+                            //找到回覆對象的那個區塊
+                            let targetDiv;            //回覆對象的區塊
+                            let targetAfterAll;       //回覆對象後面所有區塊
+                            let positionDiv = null;   //把留言插入的前一個區塊
+
+                            $(".commentElement").each(function () {
+                                if ($(this).attr('data-id')==value.replyTargetId) {
+                                    targetDiv = $(this);
+                                    targetAfterAll = $(this).nextAll();
+                                }
+                            })
+
+                            if (targetAfterAll.length==0) {
+                                positionDiv = targetDiv;
+                            }
+                            else {
+
+                                //預設是最後一個位置，只要中途有找到其他符合條件，就換掉
+                                positionDiv = $(targetAfterAll).eq(targetAfterAll.length - 1);
+
+                                //尋找data-seq比自己小的區塊 <- 要找前一個
+                                for (var i = 0; i < targetAfterAll.length; i++) {
+                                    if ($(targetAfterAll).eq(i).attr('data-seq') < value.replySeqNo) {
+                                        positionDiv = $(targetAfterAll).eq(i).prev();
+                                        break;
+                                    }
+                                }
+                            }
+
+                            //插入新區塊
+                            $(positionDiv).after(div);
+                        }
+
+                        
+
+                        //最後把結果寫回指定的div上面
+                        let quillTmp = new Quill(quillIdName, {
+                            modules: {
+                                toolbar: null
+                            },
+                            readOnly: true,
+                            theme: 'snow'
+                        });
+
+                        let contentTmp = value.replyContent;
+                        quillTmp.setContents(JSON.parse(contentTmp));
+
+                        modifyWidth(div);
+
+                    });
+
+                    console.log("test");
+                }
+            )
+        };
+
+        window.setInterval(refreshReplyList, 1000);
+
+        //階層越高的，寬度越窄
+        function modifyWidth(commentList) {
+            for (var i = 0; i < commentList.length; i++) {
+                let targ = commentList.eq(i);
+                let width = 800 - parseInt(targ.attr("data-seq")) * 50;
+                if (width < 250) {
+                    width = 250
+                }
+                targ.css("width", (width).toString() + "px");
+            }
+        }
+
+        //Call Function
+        let commentList = $(".commentElement");
+        modifyWidth(commentList);
 
     </script>
 }

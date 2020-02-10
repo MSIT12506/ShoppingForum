@@ -1,0 +1,35 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<prjShoppingForum.Models.Entity.tProduct>
+
+@{
+    ViewBag.Title = "ProductPage";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@Html.ActionLink("新增商品", "ProductCreate")
+<h2>商品列表</h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+        var imageScr = $"../../images/{item.fProductID}.jpg";
+
+        <div class="col-lg-4">
+            <div class="thumbnail">
+                <img src="@imageScr" style="width:30%" />
+                <div class="caption"></div>
+                <p>@Html.DisplayNameFor(m => m.FirstOrDefault().fProductChName) @item.fProductChName </p>
+                <p>@Html.DisplayNameFor(m => m.FirstOrDefault().fUnitPrice) @item.fUnitPrice</p>
+                <a class="btn btn-info">加入購物車</a>
+                @Html.ActionLink("修改商品", "ProductEdit", new {prodID=item.fProductID},
+              new {@class = "btn btn-info" })
+                @Html.ActionLink("刪除商品", "ProductDelete",new {prodID=item.fProductID}
+           ,new {onclick="return confirm('確定要刪除嗎?');", @class="btn btn-danger"})
+
+            </div>
+        </div>
+    }
+</div>
+@Html.PagedListPager(Model, page => Url.Action("ProductPage", new { page }))
+
+

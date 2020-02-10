@@ -320,6 +320,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -442,6 +443,7 @@
     <Compile Include="ViewModels\Forum\CForumCreate.cs" />
     <Compile Include="ViewModels\Forum\CNewReplyCreate.cs" />
     <Compile Include="ViewModels\Forum\CPostView.cs" />
+    <Compile Include="ViewModels\ShoppingCart\CShoppingCart.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -466,6 +468,8 @@
     <Content Include="Views\Product\ProductCreate.cshtml" />
     <Content Include="Views\Product\ProductEdit.cshtml" />
     <Content Include="Views\Product\ProductPage.cshtml" />
+    <Content Include="Views\ShoppingCart\shopping.cshtml" />
+    <Content Include="Views\ShoppingCart\viewCart.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

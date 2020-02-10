@@ -1,0 +1,58 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tProduct>
+
+@{
+    ViewBag.Title = "shopping";
+    int i = 0;
+    string productCount = "product";
+}
+
+<h2>產品清單</h2>
+<p>
+    @Html.ActionLink("前往購物車", "viewCart", "ShoppingCart", new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            產品ID
+        </th>
+        <th>
+            中文名字
+        </th>
+        <th>
+            單價
+        </th>
+        <th>
+            庫存量
+        </th>
+        <th>
+            數量
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    i++;
+    productCount = "product" + i.ToString();
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fProductID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fProductChName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fUnitPrice)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fUnitsInStock)
+        </td>
+        <td>
+            <input id="@productCount" type="number" value="1" min="1" max="@item.fUnitsInStock" />
+        </td>
+        <td>
+            @Html.ActionLink("加入購物車", "addCart", "ShoppingCart", new { productId = item.fProductID}, new { @class = "btn btn-warning" })
+        </td>
+    </tr>
+}
+</table>

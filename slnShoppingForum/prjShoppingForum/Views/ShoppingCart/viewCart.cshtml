@@ -1,0 +1,194 @@
+﻿@model tw.com.essentialoil.ShoppingCart.ViewModels.CShoppingCart
+
+@{
+    ViewBag.Title = "viewCart";
+    double price;
+    double totalPrice = 0;
+}
+<h2 style="margin-left:300px">購物車>付款方式>結帳</h2>
+<div style="text-align:right">
+    @Html.ActionLink("清空購物車", "deleteAll", "ShoppingCart", null, new { @style = "margin-left:650px", @class = "btn btn-warning" })
+</div>
+
+<style>
+    .container {
+        margin-top: 20px;
+    }
+
+    tr.active {
+        background: lightblue;
+    }
+</style>
+
+<br />
+<br />
+@using (Html.BeginForm())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="checkAll" />
+                </th>
+                <th>
+                    商品資訊
+                </th>
+                <th>
+                    圖片
+                </th>
+                <th>
+                    單價
+                </th>
+                <th>
+                    數量
+                </th>
+                <th>
+                    小計
+                </th>
+                <th>
+
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.ShoppingCart)
+            {
+                <tr data-id="">
+                    <td>
+                        <input type="checkbox" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tProduct.fProductChName)
+                    </td>
+                    <td>
+                        ToDo
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
+                    </td>
+                    <td>
+
+                        <input type="button" class="btn btn-secondary numberMinus" value="-" />
+                        <input type="hidden" class="txtStock" value="@item.tProduct.fUnitsInStock" />
+                        <input type="text" class="txtNum" value="@item.fQuantity" style="text-align: center;width:60px;" />
+                        <input type="button" class="btn btn-secondary numberPlus" value="+" />
+
+                    </td>
+                    <td>
+                        <span>
+                            @{
+                                price = item.fQuantity * (double)item.tProduct.fUnitPrice;
+                            }
+                            @price
+                        </span>
+                    </td>
+                    <td>
+                        @Html.ActionLink("收藏", "addFavorite", "ShoppingCart", new { productId = item.fProductID }, new { @class = "btn btn-danger" })
+                        @Html.ActionLink("刪除", "delete", "ShoppingCart", new { basket = item.fBasketId }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div style="text-align:right;font-size:50px">
+        總金額為
+        <span class="cartSumPrice">
+            @totalPrice
+        </span>
+    </div>
+    <div style="text-align:right">
+        @Html.ActionLink("<繼續購物", "shopping", "ShoppingCart", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("訂單產生>", "orderSend", "ShoppingCart", null, new { @class = "btn btn-danger" })
+    </div>
+    <br />
+    <br />
+    <div style="border:5px solid black;height:200px;width:100%">
+        推薦清單
+    </div>
+    <br />
+    <br />
+    <br />
+    <div style="border:5px solid black;height:200px;width:100%">
+        瀏覽紀錄
+    </div>
+}
+
+@section scripts{
+    <script>
+        $().attr("data-id")
+        //商品數量減少
+        $(".numberMinus").click(function () {
+            let num = $(this).siblings(".txtNum").val();
+            let numStock = $(this).siblings(".txtStock").val();
+            let productPrice = $(this).parent().prev().text();
+
+            if (num <= 1) {
+                $(this).prop("disabled", true);
+            }
+            else {
+                num--;
+                $(this).siblings(".txtNum").val(num);
+                $(this).prop("disabled", false);
+                $(this).parent().next().text(num * parseInt(productPrice));
+            }
+
+            if (num < parseInt(numStock)) {
+                $(this).siblings(".numberPlus").prop("disabled", false);
+            }
+        })
+        //商品數量增加
+        $(".numberPlus").click(function () {
+            let num = $(this).siblings(".txtNum").val();
+            let numStock = $(this).siblings(".txtStock").val();
+            let productPrice = $(this).parent().prev().text();
+
+            if (num < parseInt(numStock)) {
+                num++;
+                $(this).siblings(".txtNum").val(num);
+                $(this).parent().next().text(num * parseInt(productPrice));
+            }
+            else {
+                $(this).prop("disabled", true);
+            }
+
+            if (num > 0) {
+                $(this).siblings(".numberMinus").prop("disabled", false);
+            }
+        })
+        //勾選單項商品
+        let rowConut = $("tbody tr").length;                //全部商品項數
+        $("tbody :checkbox").click(function () {
+            let checked = $(this).prop("checked")
+            let checkedRow = $("tbody :checked").length;    //目前選擇項數
+            let sum = $(".cartSumPrice").text()             //總價
+            let price = $(this).parent().next().next().next().next().next().text();      //小記
+
+            if (checked) {
+                $(this).parent().parent().addClass("active")
+                sum = parseInt(sum) + parseInt(price);
+                $(".cartSumPrice").text(sum)
+            } else {
+                $(this).parent().parent().removeClass("active")
+                sum = parseInt(sum) - parseInt(price);
+                $(".cartSumPrice").text(sum)
+            }
+            if (rowConut == checkedRow) {
+                $("#checkAll").prop("checked", true)
+            } else {
+                $("#checkAll").prop("checked", false)
+
+            }
+        })
+        //勾選所有商品
+        $("#checkAll").click(function () {
+            let checked = $(this).prop("checked")
+            $("tbody :checkbox").prop("checked", checked)
+            if (checked) {
+                $("tbody tr").addClass("active")
+            } else {
+                $("tbody tr").removeClass("active")
+            }
+        })
+    </script>
+}

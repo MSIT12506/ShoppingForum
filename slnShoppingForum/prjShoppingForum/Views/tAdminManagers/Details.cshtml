@@ -1,0 +1,50 @@
+﻿@model prjShoppingForum.Models.Entity.tAdminManager
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tAdminManager</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerPasswordSalt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerPasswordSalt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerAuth)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ManagerId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

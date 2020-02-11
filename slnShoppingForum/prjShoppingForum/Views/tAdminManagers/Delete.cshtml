@@ -1,0 +1,56 @@
+﻿@model prjShoppingForum.Models.Entity.tAdminManager
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tAdminManager</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerPassword)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerPassword)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerPasswordSalt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerPasswordSalt)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerEmail)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerEmail)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerAuth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerAuth)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

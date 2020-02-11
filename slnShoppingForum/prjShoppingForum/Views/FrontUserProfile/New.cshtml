@@ -1,0 +1,53 @@
+﻿@*@model EssentialOiltest.Models.Entity.tUserProfile*@
+
+@{
+    ViewBag.Title = "New";
+}
+
+<h2>加入會員</h2>
+@using (Html.BeginForm())
+{
+    @*@Html.EditorForModel();*@
+    <hr />
+    <form action="~/Home/Login" method="post" name="LoginForm">
+        <h4>帳號:</h4>
+        <input type="text" name="userId" />
+        <h4>密碼:</h4>
+        <input type="password" name="userPwd" />
+        <h4>姓名:</h4>
+        <input type="text" name="userName" />
+        <h4>性別:</h4>
+        <input type="text" name="userGender" />
+        <h4>生日:</h4>
+        <input type="text" name="userBirthday" placeholder="e.g.:2020/02/09" />
+        <h4>電話:</h4>
+        <input type="text" name="userTel" />
+        <h4>手機:</h4>
+        <input type="text" name="userPhone" />
+        <h4>城市:</h4>
+        <input type="text" name="userCity" />
+        <h4>地址:</h4>
+        <input type="text" name="userAddress" />
+
+        <hr />
+    </form>
+
+    <input type="submit" name="userSignUp" value="註冊" />
+    <input type="reset" value="取消" />
+}
+
+@section scripts{
+    <script>
+        //找到要控制的HTML標籤
+        //TODO:註冊完導向首頁
+        //$('form[name="userSignUp"]').click(function () {
+        //    )
+
+        //})
+
+
+
+    </script>
+
+
+}

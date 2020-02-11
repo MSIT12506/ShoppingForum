@@ -6,7 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using tw.com.essentialoil.Discount.Models;
 
-namespace prjShoppingForum.Controllers
+namespace tw.com.essentialoil.Controllers
 {
     public class DiscountController : Controller
     {

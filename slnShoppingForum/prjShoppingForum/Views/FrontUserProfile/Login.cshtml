@@ -1,0 +1,44 @@
+﻿@using tw.com.essentialoil.User.Models;
+
+@{
+    ViewBag.Title = "Login";
+    string pic = " ";
+
+}
+
+<h2>Login</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        輸入使用者帳號<br />
+        @Html.TextBox("fUserId")
+    </p>
+    <p>
+        密碼<br />
+        @Html.Password("fPassword")
+    </p>
+    <p>
+        輸入驗證碼<br />
+        @if (Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
+        {
+            @Html.TextBox("fVeriCode")
+            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(0, 1) + ".png";
+            @:<img src="/Images/@pic" width="60" />
+            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(1, 1) + ".png";
+            @:<img src="/Images/@pic" width="60" />
+            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(2, 1) + ".png";
+            @:<img src="/Images/@pic" width="60" />
+            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(3, 1) + ".png";
+            @:<img src="/Images/@pic" width="60" />
+        }
+    </p>
+    if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
+    {
+        <p>@Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString()</p>
+
+    }
+    <p>
+        <input type="submit" value="送出" />
+    </p>
+}

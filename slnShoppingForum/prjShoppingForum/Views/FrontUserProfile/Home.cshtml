@@ -1,0 +1,25 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tUserProfile>
+@using prjShoppingForum.Models.Entity;
+@using tw.com.essentialoil.User.Models;
+@{
+    ViewBag.Title = "Home";
+}
+
+歡迎 @Session[UserDictionary.S_CURRENT_LOGINED_USER] 登入
+您的會員編號為 @Session[UserDictionary.S_CURRENT_LOGINED_USERfid]
+<h2>Home</h2>
+<p>@Html.ActionLink("編輯會員資訊", "UserEdit", "FrontUserProfile")</p>
+<form>
+    @{
+        foreach (var t in Model)
+        {
+            <p>姓名:@t.fName</p>
+            <p>生日:@t.fBirthday</p>
+            <p>性別:@t.fGender</p>
+            <p>市話:@t.fTel</p>
+            <p>手機:@t.fPhone</p>
+            <p>城市:@t.fCity</p>
+            <p>地址:@t.fAddress</p>
+        }
+    }
+</form>

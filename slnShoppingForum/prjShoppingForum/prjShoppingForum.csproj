@@ -328,11 +328,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminManager\tAdminManagersController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\Order\tOrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
+    <Compile Include="Controllers\USer\BackUser\BackUserProfileController.cs" />
+    <Compile Include="Controllers\USer\FrontUser\FrontUserProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -454,6 +457,9 @@
     <Compile Include="Models\Product\tProductPartial.cs" />
     <Compile Include="Models\Product\tProductUnilateralPartial.cs" />
     <Compile Include="Models\Product\tProductVegetableoilPartial.cs" />
+    <Compile Include="Models\User\CLoginData.cs" />
+    <Compile Include="Models\User\tUserProfilePartial.cs" />
+    <Compile Include="Models\User\UserDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\Forum\CForumCreate.cs" />
     <Compile Include="ViewModels\Forum\CNewReplyCreate.cs" />
@@ -489,6 +495,17 @@
     <Content Include="Views\Discount\List.cshtml" />
     <Content Include="Views\tOrders\OrderCreate.cshtml" />
     <Content Include="Views\tOrders\OrderList.cshtml" />
+    <Content Include="Views\BackUserProfile\Edit.cshtml" />
+    <Content Include="Views\BackUserProfile\Index.cshtml" />
+    <Content Include="Views\FrontUserProfile\Home.cshtml" />
+    <Content Include="Views\FrontUserProfile\Login.cshtml" />
+    <Content Include="Views\FrontUserProfile\New.cshtml" />
+    <Content Include="Views\FrontUserProfile\UserEdit.cshtml" />
+    <Content Include="Views\tAdminManagers\Create.cshtml" />
+    <Content Include="Views\tAdminManagers\Delete.cshtml" />
+    <Content Include="Views\tAdminManagers\Details.cshtml" />
+    <Content Include="Views\tAdminManagers\Edit.cshtml" />
+    <Content Include="Views\tAdminManagers\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,51 @@
+﻿@model IEnumerable<EssentialOiltest.Models.Entity.tAdminManager>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ManagerPassword)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManagerPasswordSalt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManagerEmail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ManagerAuth)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManagerPassword)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManagerPasswordSalt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManagerEmail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ManagerAuth)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ManagerId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ManagerId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ManagerId })
+        </td>
+    </tr>
+}
+
+</table>

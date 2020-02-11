@@ -1,0 +1,44 @@
+﻿@model EssentialOiltest.Models.Entity.tUserProfile
+@{
+    ViewBag.Title = "UserEdit";
+}
+
+<h2>編輯會員資料</h2>
+
+<form method="post" name="editform">
+    <p>
+        姓名<br /><input type="text" name="fName" value="@Model.fName" />
+    </p>
+    <p>
+        電話<br /><input type="text" name="fTel" value="@Model.fTel" />
+    </p>
+    <p>
+        手機<br /><input type="text" name="fPhone" value="@Model.fPhone" />
+    </p>
+    <p>
+        手機<br /><input type="text" name="fCity" value="@Model.fCity" />
+    </p>
+    <p>
+        地址<br /><input type="text" name="fAddress" value="@Model.fAddress" />
+    </p>
+    <p>
+        <input type="submit" value="送出" name="editbutton"/>
+    </p>
+
+</form>
+
+@section scripts{
+    <script>
+        //var xhr = null;
+        //$('input[name="editbutton"]').addEventListener("click", function () {
+        //    xhr = new XMLHttpRequest();
+        //    var formData = new FormData(document.editform);
+        //    xhr.open('POST', '/FrontUserProfile/UserEdit');
+        //    xhr.send(formData);
+        //}
+
+
+
+
+    </script>
+}

@@ -1,0 +1,103 @@
+﻿@model tw.com.essentialoil.Order.Models.OrderView
+    ViewBag.Title = "OrderList";
+}
+
+<h2>OrderList</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                訂單編號
+            </th>
+            <th>
+                商品名稱
+            </th>
+            <th>
+                商品價格
+            </th>
+            <th>
+                商品數量
+            </th>
+            <th>
+                訂單日期
+            </th>
+            <th>
+                收貨人姓名
+            </th>
+            <th>
+                收貨人電話
+            </th>
+            <th>
+                收貨人地址
+            </th>
+            <th>
+                發票公司抬頭
+            </th>
+            <th>
+                統一編號
+            </th>
+            <th>
+                訂單備註
+            </th>
+            <th>
+                支付方式
+            </th>
+        </tr>
+
+    </thead>
+    @*目前有小bug，待排除*@
+    <tbody>
+        @foreach (var list in Model.Order)
+        {
+            <tr>
+                <td>
+                    @list.fOrderId
+                </td>
+                <td>
+                    @foreach (var prod in Model.OrderDetail)
+                    {
+                        @prod.fProductId<br />
+                    }
+                </td>
+                <td>
+                    @foreach (var prod in Model.OrderDetail)
+                    {
+                        @prod.fUnitPrice<br />
+                    }
+                </td>
+                <td>
+                    @foreach (var prod in Model.OrderDetail)
+                    {
+                        @prod.fOrderQuantity<br />
+                    }
+                </td>
+                <td>
+                    @list.fOrderDate
+                </td>
+                <td>
+                    @list.fConsigneeName
+                </td>
+                <td>
+                    @list.fConsigneeCellPhone
+                </td>
+                <td>
+                    @list.fConsigneeAddress
+                </td>
+                <td>
+                    @list.fOrderCompanyTitle
+                </td>
+                <td>
+                    @list.fOrderTaxIdDNumber
+                </td>
+                <td>
+                    @list.fOrderPostScript
+                </td>
+                <td>
+                    @list.fPayment
+                </td>
+            </tr>
+            
+    }
+    </tbody>
+</table>

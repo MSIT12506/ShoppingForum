@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "OrderCreate";
+}
+
+<h2>OrderCreate</h2>
+<form class="form-row" name="OrderForm">
+    <p>收貨者姓名<input type="text" name="ConsigneeName" /></p>
+    <p>收貨者手機號碼<input type="text" name="ConsigneeCellPhone" /></p>
+    <p>收貨者地址<input type="text" name="ConsigneeAddress" /></p>
+    <p>發票公司抬頭<input type="text" name="OrderCompanyTitle" /></p>
+    <p>統一編號<input type="text" name="OrderTaxIdDNumber" /></p>
+    <p>訂單備註<input type="text" name="OrderPostScript" /></p>
+    <p>支付方式<input type="text" name="Payment" /></p>
+    <input type="checkbox" name="OrderCheck" /><p>確認您所輸入的資料正確，以利出貨正常配送。</p>
+    <input type="button" value="產生訂單" id="CreateOrder" name="CreateOrder" />
+</form>
+
+@section Scripts{
+    <script>
+        var btnCreateOrder = document.querySelector('#CreateOrder');
+        var xhr = null;
+        btnCreateOrder.addEventListener("click", function () {
+            xhr = new XMLHttpRequest();
+            var formData = new FormData(document.OrderForm);
+            xhr.open('POST', '/tOrders/OrderCreate');
+            xhr.send(formData);
+            //xhr.addEventListener('load', function () {
+            //    var data = xhr.responseText;
+            //    myDiv.innerHTML = "<h2>" + data + "</h2>";
+            //})
+        })
+    </script>
+}

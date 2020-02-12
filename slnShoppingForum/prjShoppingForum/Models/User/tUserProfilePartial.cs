@@ -11,8 +11,7 @@ namespace prjShoppingForum.Models.Entity
     public partial class tUserProfile
     {
         public class tUserProfileMetaData
-        {       
-    
+        {
         public int fId { get; set; }
         public string fUserId { get; set; }
         public string fPassword { get; set; }
@@ -31,33 +30,35 @@ namespace prjShoppingForum.Models.Entity
         public bool fAuthPost { get; set; }
         public bool fAuthReply { get; set; }
 
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForum> tForum { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForum> tForum1 { get; set; }
+        public virtual ICollection<tForum> tForums { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tForum> tForums1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tForumAnalysi> tForumAnalysis { get; set; }
         public virtual tForumAuth tForumAuth { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForumReply> tForumReply { get; set; }
+        public virtual ICollection<tForumReply> tForumReplies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForumReply> tForumReply1 { get; set; }
+        public virtual ICollection<tForumReply> tForumReplies1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tOrder> tOrder { get; set; }
+        public virtual ICollection<tOrder> tOrders { get; set; }
         public virtual tScore tScore { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tShoppingCart> tShoppingCart { get; set; }
+        public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tTest> tTest { get; set; }
+        public virtual ICollection<tTest> tTests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserBrowseHistory> tUserBrowseHistory { get; set; }
+        public virtual ICollection<tUserBrowseHistory> tUserBrowseHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserDiscountList> tUserDiscountList { get; set; }
+        public virtual ICollection<tUserDiscountList> tUserDiscountLists { get; set; }
         public virtual tUserLog tUserLog { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserProductFavorite> tUserProductFavorite { get; set; }
+        public virtual ICollection<tUserProductFavorite> tUserProductFavorites { get; set; }
         }
+
+        
     }
 }

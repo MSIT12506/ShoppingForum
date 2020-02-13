@@ -6,30 +6,77 @@
     ViewBag.Title = "ProductPage";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-@Html.ActionLink("新增商品", "ProductCreate")
-<h2>商品列表</h2>
-<div class="row">
+
+<h2>ProductFrontPage</h2>
+
+<p>
+    @Html.ActionLink("新增商品", "ProductCreate")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fProductID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fProductChName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fProductDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fUnitPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fQuantityPerUnit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fUnitsInStock)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fDiscontinued)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().fCategoryID)
+        </th>
+        <th></th>
+    </tr>
+
     @foreach (var item in Model)
     {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fProductID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fProductChName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fProductDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fUnitPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fQuantityPerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fUnitsInStock)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fDiscontinued)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fCategoryID)
+            </td>
+            <td>
 
-        var imageScr = $"../../images/{item.fProductID}.jpg";
-
-        <div class="col-lg-4">
-            <div class="thumbnail">
-                <img src="@imageScr" style="width:30%" />
-                <div class="caption"></div>
-                <p>@Html.DisplayNameFor(m => m.FirstOrDefault().fProductChName) @item.fProductChName </p>
-                <p>@Html.DisplayNameFor(m => m.FirstOrDefault().fUnitPrice) @item.fUnitPrice</p>
-                <a class="btn btn-info">加入購物車</a>
                 @Html.ActionLink("修改商品", "ProductEdit", new {prodID=item.fProductID},
               new {@class = "btn btn-info" })
                 @Html.ActionLink("刪除商品", "ProductDelete",new {prodID=item.fProductID}
            ,new {onclick="return confirm('確定要刪除嗎?');", @class="btn btn-danger"})
-
-            </div>
-        </div>
+            </td>
+        </tr>
     }
-</div>
+
+</table>
 @Html.PagedListPager(Model, page => Url.Action("ProductPage", new { page }))
-
-

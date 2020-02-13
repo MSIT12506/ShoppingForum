@@ -1,0 +1,77 @@
+﻿@model prjShoppingForum.Models.Entity.tProduct
+
+@{
+    ViewBag.Title = "ProductSinglePage";
+}
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        @{
+            var imageScr = $"../../images/Product/{Model.fProductID}.jpg";
+        }
+        <img src="@imageScr" style="width:30%" />
+        <dt>
+            @Html.DisplayNameFor(model => model.fProductChName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fProductChName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fProductDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fProductDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fUnitPrice)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fUnitPrice)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fQuantityPerUnit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fQuantityPerUnit)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.fDiscontinued)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fDiscontinued)
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tCategory.fCategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tCategory.fCategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tProductUnilateral.fOrigin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tProductUnilateral.fOrigin)
+        </dd>
+        @Html.ActionLink("加入購物車", "", new {prodID=Model.fProductID},
+          new {@class = "btn btn-info" })
+
+
+
+    </dl>
+</div>
+

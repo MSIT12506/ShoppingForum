@@ -333,6 +333,7 @@
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\Order\tOrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductFrontController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\USer\BackUser\BackUserProfileController.cs" />
     <Compile Include="Controllers\USer\FrontUser\FrontUserProfileController.cs" />
@@ -448,6 +449,8 @@
     <Compile Include="Models\Order\OrderView.cs" />
     <Compile Include="Models\Order\tOrderPartial.cs" />
     <Compile Include="Models\Product\DropDownList.cs" />
+    <Compile Include="Models\Product\ProductMenuRepository.cs" />
+    <Compile Include="Models\Product\ProductRepository.cs" />
     <Compile Include="Models\Product\tCategoryPartial.cs" />
     <Compile Include="Models\Product\tEfficacyPartial.cs" />
     <Compile Include="Models\Product\tfeaturePartial.cs" />
@@ -464,6 +467,7 @@
     <Compile Include="ViewModels\Forum\CForumCreate.cs" />
     <Compile Include="ViewModels\Forum\CNewReplyCreate.cs" />
     <Compile Include="ViewModels\Forum\CPostView.cs" />
+    <Compile Include="ViewModels\Product\ProductMenu.cs" />
     <Compile Include="ViewModels\ShoppingCart\CShoppingCart.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -506,6 +510,10 @@
     <Content Include="Views\tAdminManagers\Details.cshtml" />
     <Content Include="Views\tAdminManagers\Edit.cshtml" />
     <Content Include="Views\tAdminManagers\Index.cshtml" />
+    <Content Include="Views\ProductFront\ProductFrontPage.cshtml" />
+    <Content Include="Views\ProductFront\ProductSinglePage.cshtml" />
+    <Content Include="Views\ProductFront\_List_Product.cshtml" />
+    <Content Include="Views\ProductFront\_Product_Menu.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

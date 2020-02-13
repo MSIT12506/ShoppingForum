@@ -11,7 +11,7 @@ using System.Web.Mvc;
 //安裝PagedList.Mvc 4.5.0 && PagedList 1.17.0
 using PagedList;
 
-namespace slnProducts.Controllers
+namespace tw.com.essentialoil.Controllers
 {
     public class ProductController : Controller
     {
@@ -27,7 +27,7 @@ namespace slnProducts.Controllers
 
             var products = db.tProducts.ToList();
             var pageresult = products.ToPagedList(currentPage, pagesize);
-            return View("ProductPage", pageresult);
+            return View(pageresult);
         }
 
         //新增商品
@@ -48,6 +48,8 @@ namespace slnProducts.Controllers
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
             ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
             ViewBag.State = "success";
 
@@ -91,6 +93,8 @@ namespace slnProducts.Controllers
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
             ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
             var prod = db.tProducts.Where(m => m.fProductID == prodID).FirstOrDefault();
             return View(prod);
@@ -101,6 +105,8 @@ namespace slnProducts.Controllers
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
             ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
             db.SaveChanges();
             return RedirectToAction("ProductPage");

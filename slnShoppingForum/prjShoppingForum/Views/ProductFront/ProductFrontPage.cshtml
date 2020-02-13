@@ -1,0 +1,44 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<prjShoppingForum.Models.Entity.tProduct>
+
+@{
+    ViewBag.Title = "ProductFrontPage";
+}
+
+@*商品搜尋--依據商品名稱*@
+@Html.Label("搜尋名稱")
+@Html.TextBox("searchprod", "", new { @class = "form-control" })
+<input class="btn btn-primary" value="Search" type="button" onclick="searchProd()" />
+
+@*導入商品分類目錄*@
+@Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@*導入商品列表*@
+<h2>商品列表</h2>
+<div class="row" id="productListShow">
+   @Html.Partial("_List_Product",Model)
+</div>
+
+@*頁數選擇*@
+@Html.PagedListPager(Model, page => Url.Action("ProductFrontPage", new { page }))
+
+<script>
+    function searchProd()
+    {
+        window.open("/ProductFront/ProductFrontPage?searchprod=" + $("#searchprod").val(),"_self");
+        // 這個是AJAX 作法 但是雨樊等級不夠不能使用 GG
+        //$.get('/ProductFront/ProductFrontPage', {
+        //    searchprod: $("#searchprod").val()
+        //}, function (data) {
+        //    $("#productListShow").html(data);
+        //    alert($("#searchprod").val());
+        //} 
+        //)
+    }
+
+</script>
+
+

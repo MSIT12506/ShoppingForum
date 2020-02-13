@@ -1,0 +1,71 @@
+﻿@model tw.com.essentialoil.Product.ViewModels.ProductMenu
+<div>
+
+    @*商品分類--全部產品依功效分*@
+    <ul>
+        依功效分
+        @foreach (var efficacy in Model.EfficacyList)
+        {
+            <li>@Html.ActionLink(efficacy.fEfficacyName, "ProductFrontPage", new { efficacyId = efficacy.fEfficacyID })</li>
+        }
+    </ul>
+
+    @*商品分類--單方精油依香味調性分*@
+    <ul>
+        <a>依香味調性分</a>
+        @foreach (var note in Model.NoteList)
+        {
+            <li>@Html.ActionLink(note.fNoteName, "ProductFrontPage", new { noteId = note.fNoteID })</li>
+        }
+    </ul>
+
+    @foreach (var category in Model.CategoryList)
+    {
+        <p>
+            @Html.ActionLink(category.fCategoryName, "ProductFrontPage", new { categoryId = category.fCategoryID })
+        </p>
+
+        @*商品分類--單方精油依萃取部位分*@
+
+        if (category.fCategoryID == 1)
+        {
+            <ul>
+                @foreach (var part in Model.PartList)
+                {
+                    <li>
+                        @Html.ActionLink(part.fPartName, "ProductFrontPage", new { partId = part.fPartID })
+                    </li>
+                }
+            </ul>
+        }
+        @*商品分類--副方精油依功效分*@
+        if (category.fCategoryID == 2)
+        {
+            <ul>
+                @foreach (var efficacy in Model.EfficacyList.Take(5))
+                {
+                    <li>
+                        @Html.ActionLink(efficacy.fEfficacyName, "ProductFrontPage", new { efficacyId = efficacy.fEfficacyID })
+                    </li>
+                }
+            </ul>
+        }
+        @*商品分類--植物油依特性分*@
+        @*商品分類--純露依特性分*@
+        if (category.fCategoryID == 3 || category.fCategoryID == 4)
+        {
+            <ul>
+
+                @foreach (var feature in Model.FeatureList)
+                {
+                    <li>
+                        @Html.ActionLink(feature.ffeatureName, "ProductFrontPage", new { featureId = feature.ffeatureID, categoryId = category.fCategoryID })
+                    </li>
+                }
+            </ul>
+        }
+    }
+    <div>
+    </div>
+</div>
+

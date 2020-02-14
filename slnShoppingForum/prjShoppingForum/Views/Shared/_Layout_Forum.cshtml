@@ -8,14 +8,81 @@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="~/Styles/main.css" />
     <link rel="stylesheet" media="screen and  (max-width: 600px)" href="~/Styles/main_RWD600.css" />
-    <link rel="stylesheet" type="text/css" href="~/Styles/Forum/layout.css" />
-    <link rel="stylesheet" media="screen and  (max-width: 1100px)" href="~/Styles/Forum/layout_rwd600.css" />
-    @RenderSection("Styles",false)
+    <!-- Favicon  -->
+    <link rel="icon" href="~/Content/template/img/core-img/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="~/Content/template/css/core-style.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+    @RenderSection("Styles", false)
 
 
 </head>
 <body>
     <div class="ForumSharedLayout">
+        <header class="header_area">
+            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+                <!-- Classy Menu -->
+                <nav class="classy-navbar" id="essenceNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+                    <!-- Menu -->
+                    <div class="classy-menu">
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li>
+                                    <a href="">最新消息</a>
+                                </li>
+                                <li>
+                                    <a href="#">會員中心</a>
+                                </li>
+                                <li>
+                                    <a href="~/ProductFront/ProductFrontPage">商品介紹</a>
+                                </li>
+                                <li>
+                                    <a href="~/Forum/List">討論區</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+
+                <!-- Header Meta Data -->
+                <div class="header-meta d-flex clearfix justify-content-end">
+                    <!-- Search Area -->
+                    <div class="search-area">
+                        <div class="formfake">
+                            <input type="search" name="search" id="searchprod" placeholder="商品名稱">
+                            <button type="button" onclick="searchProd()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+
+                    </div>
+                    <!-- Favourite Area -->
+                    <div class="favourite-area">
+                        <a href="#"><img src="~/Content/template/img/core-img/heart.svg" alt=""></a>
+                    </div>
+                    <!-- User Login Info -->
+                    <div class="user-login-info">
+                        <a href="#"><img src="~/Content/template/img/core-img/user.svg" alt=""></a>
+                    </div>
+                    <!-- Cart Area -->
+                    <div class="cart-area">
+                        <a href="#" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span>3</span></a>
+                    </div>
+                </div>
+
+            </div>
+        </header>
         <div class="div-fixed forum-left">
             <div class="btn-left btn-logo"><img src="~/Images/logo.png" /></div>
             <div class="btn-left"><div class="btn-area"><img src="~/Images/PostList.png" /><div class="btn-title">首頁　　　　</div></div></div>
@@ -62,6 +129,11 @@
     @*For quill using*@
     <link href="~/Styles/quill.snow.css" rel="stylesheet">
     <script src="~/Scripts/quill.js"></script>
+
+    <script src="~/Content/template/js/popper.min.js"></script>
+    <script src="~/Content/template/js/plugins.js"></script>
+    <script src="~/Content/template/js/classy-nav.min.js"></script>
+    <script src="~/Content/template/js/active.js"></script>
     @RenderSection("Scripts", false)
 
 </body>

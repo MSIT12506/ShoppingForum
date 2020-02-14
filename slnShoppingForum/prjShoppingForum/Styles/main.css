@@ -30,8 +30,8 @@ h2 {
 footer {
     position: relative;
     width: 100%;
-    /*margin-top: -100px;*/
-    height: 100px;
+    margin-top: 10px;
+    height: 150px;
     background-color: #336666;
 }
 
@@ -70,7 +70,6 @@ html, body {
     margin-bottom: -50px;
 }
 
-.footer,
 .push {
     height: 50px;
 }

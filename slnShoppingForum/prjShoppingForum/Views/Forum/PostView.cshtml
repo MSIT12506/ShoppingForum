@@ -10,15 +10,7 @@
 }
 
 @section Styles{
-    <style>
-        img {
-            max-height: 100%;
-            max-width: 100%;
-            width: auto;
-            height: auto;
-            margin: auto;
-        }
-    </style>
+<link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 }
 
 <h1>@Model.forum.fPostTitle</h1>
@@ -31,9 +23,9 @@
 <br />
 <br />
 
-<div class="comment" style="width:800px; height:auto; margin:auto;">
+<div class="comment" style="width:800px; height:auto; margin:auto; ">
     回覆：<br />
-    <div class="modal-footer" id="commentDiv">
+    <div class="modal-footer" id="commentDivNew" style="min-height:300px">
     </div>
     <button type="button" class="btn btn-primary" id="confirmReply">確認回覆</button>
 </div>
@@ -115,12 +107,12 @@
         quillPost.setContents(content);
 
         //回覆文章的區塊
-        let quillComment = new Quill('#commentDiv', {
+        let quillComment = new Quill('#commentDivNew', {
             modules: {
                 toolbar: toolbarOptions
             },
-            theme: 'snow',
-            placeholder: '請輸入要回覆的內容'
+            placeholder: '請輸入要回覆的內容',
+            theme: 'snow'
         });
 
         //確認發佈的click事件，註冊ajax事件

@@ -31,7 +31,7 @@ namespace tw.com.essentialoil.Controllers
                 db.tShoppingCarts.Add(cart);
                 db.SaveChanges();
             }
-            return RedirectToAction("ProductFrontPage", "ProductFront");
+            return View();
         }
 
         public ActionResult viewCart()

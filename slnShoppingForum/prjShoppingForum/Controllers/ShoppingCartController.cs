@@ -83,19 +83,5 @@ namespace tw.com.essentialoil.Controllers
             }
             return RedirectToAction("viewCart");
         }
-
-        public ActionResult recalculate(tShoppingCart cart)
-        {
-            
-            foreach(var item in db.tShoppingCarts)
-            {
-                if (item.fBasketId == cart.fBasketId)
-                {
-                    item.fQuantity = cart.fQuantity;
-                }
-            }
-            db.SaveChanges();
-            return RedirectToAction("viewCart");
-        }
     }
 }

@@ -81,7 +81,6 @@
                         @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
                     </td>
                     <td>
-
                         <input type="button" class="btn btn-secondary numberMinus" value="-" />
                         <input type="hidden" class="txtStock" value="@item.tProduct.fUnitsInStock" />
                         <input type="text" class="txtNum" value="@item.fQuantity" style="text-align: center;width:60px;" />
@@ -102,7 +101,11 @@
         </tbody>
     </table>
     <div style="text-align:right;font-size:50px">
-        總金額為
+        總共
+        <span class="cartSumCount">
+
+        </span>
+        項商品，總金額為
         <span class="cartSumPrice">
             @totalPrice
         </span>
@@ -126,6 +129,10 @@
 
 @section scripts{
     <script>
+        $(document).ready(function () {
+            totalPrice();
+        })
+
         $().attr("data-id")
         //商品數量減少
         $(".numberMinus").click(function () {
@@ -181,7 +188,6 @@
                 $(this).parent().parent().addClass("active")
                 sum = parseInt(sum) + parseInt(price);
                 $(".cartSumPrice").text(sum)
-                totalPrice()
             } else {
                 $(this).parent().parent().removeClass("active")
                 sum = parseInt(sum) - parseInt(price);
@@ -192,6 +198,7 @@
             } else {
                 $("#checkAll").prop("checked", false)
             }
+            totalPrice() 
         })
         //勾選所有商品
         $("#checkAll").click(function () {
@@ -207,21 +214,21 @@
 
         //計算總價(將有打勾的小計全部加總)
         function totalPrice() {
-            let totalSum = 0;
+            let totalSumPrice = 0;
+            let totalSumCount = 0;
             $("tbody :checkbox").each(function () {
                 let checked = $(this).prop("checked")
                 if (checked) {
                     let productSum = parseInt($(this).parent().parent().find(".productSum").text())
-                    totalSum += productSum;
+                    totalSumPrice += productSum;
+                    let quantity = parseInt($(this).parent().next().next().next().next().find(".txtNum").val())
+                    totalSumCount += quantity;
                 }
             })
-            //$(".productSum").each(function () {
-            //    let content = parseInt($(this).text());
-            //    productSum += content;
-            //})
-            $(".cartSumPrice").text(totalSum)
+            $(".cartSumPrice").text(totalSumPrice)
+            $(".cartSumCount").text(totalSumCount)
         }
 
-            //計算總數量
+        //計算總數量
     </script>
 }

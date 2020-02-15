@@ -1,0 +1,31 @@
+﻿/*For Desktop View*/
+.homeimg{
+    width: 100vw;
+}
+
+.homenews {
+    width: 80vw;
+    margin: auto;
+    margin-top: 50px;
+    height: 300px;
+    background-color: blueviolet;
+}
+.newproduct {
+    width: 80vw;
+    margin: auto;
+    margin-top: 50px;
+    height: 200px;
+    background-color: blue;
+}
+.homeotherinfo {
+    display: flex;
+    width: 80vw;
+    margin: auto;
+}
+
+.homeotherinfosub {
+    width: 20vw;
+    height: 100px;
+    background-color:brown;
+    margin-right:0;
+}

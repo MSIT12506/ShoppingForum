@@ -105,7 +105,7 @@ namespace tw.com.essentialoil.Controllers
             if (!String.IsNullOrWhiteSpace(title))
             {
                 CForum forum = new CForum();
-                forum.newPost(5, title, content);
+                forum.newPost(1, title, content);
                 status = "success";
             }
 
@@ -201,8 +201,8 @@ namespace tw.com.essentialoil.Controllers
             //判斷是否有登入，如果有登入，取得該會員的fId
 
             CReply reply = new CReply();
-            if (replyInfo.targetType == "POST") reply.NewCommentForPost(replyInfo, 5);
-            if (replyInfo.targetType == "COMMENT") reply.NewCommentForComment(replyInfo, 5);
+            if (replyInfo.targetType == "POST") reply.NewCommentForPost(replyInfo, 1);
+            if (replyInfo.targetType == "COMMENT") reply.NewCommentForComment(replyInfo, 1);
 
             return Content(status);
         }

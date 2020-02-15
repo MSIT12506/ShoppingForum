@@ -6,28 +6,105 @@
     <title>@ViewBag.Title</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="~/Styles/main.css" />
-    <link rel="stylesheet" media="screen and  (max-width: 600px)" href="~/Styles/main_RWD600.css" />
-    <link rel="stylesheet" type="text/css" href="~/Styles/Forum/layout.css" />
-    <link rel="stylesheet" media="screen and  (max-width: 1100px)" href="~/Styles/Forum/layout_rwd600.css" />
-    @RenderSection("Styles",false)
+    @*<link rel="stylesheet" type="text/css" href="~/Styles/main.css" />*@
+    <link href="~/Styles/quill.snow.css" rel="stylesheet">
+    <!-- Favicon  -->
+    <link rel="icon" href="~/Content/template/img/core-img/favicon.ico">
+
+    <!-- Core Style CSS -->
+    <link rel="stylesheet" href="~/Content/template/css/core-style.css">
+    <link rel="stylesheet" href="~/Content/style.css">
+
+    @RenderSection("Styles", false)
 
 
 </head>
 <body>
     <div class="ForumSharedLayout">
-        <div class="div-fixed forum-left">
+        <header class="header_area">
+            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+                <!-- Classy Menu -->
+                <nav class="classy-navbar" id="essenceNav">
+                    <!-- Logo -->
+                    <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                    <!-- Navbar Toggler -->
+                    <div class="classy-navbar-toggler">
+                        <span class="navbarToggler"><span></span><span></span><span></span></span>
+                    </div>
+                    <!-- Menu -->
+                    <div class="classy-menu">
+                        <!-- close btn -->
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                        </div>
+                        <!-- Nav Start -->
+                        <div class="classynav">
+                            <ul>
+                                <li>
+                                    <a href="~/Home/Index"><img src="~/Images/logo.png" style="height:85px; width:auto;" /></a>
+                                </li>
+                                <li>
+                                    <a href="~/Forum/List">文章首頁</a>
+                                </li>
+                                <li>
+                                    <a href="#">收藏文章列表</a>
+                                </li>
+                                <li>
+                                    <a href="#">隱藏文章列表</a>
+                                </li>
+                                <li>
+                                    <a href="#">會員中心</a>
+                                </li>
+                                <li>
+                                    <button type="button" class="btn" data-toggle="modal" data-target="#exampleModalScrollable">
+                                        發表文章
+                                    </button>
+                                </li>
+
+                            </ul>
+                        </div>
+                        <!-- Nav End -->
+                    </div>
+                </nav>
+
+                <!-- Header Meta Data -->
+                <div class="header-meta d-flex clearfix justify-content-end">
+                    <!-- Search Area -->
+                    <div class="search-area">
+                        <div class="formfake">
+                            <input type="search" name="search" id="searchprod" placeholder="文章標題">
+                            <button type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </div>
+
+                    </div>
+                    <!-- Favourite Area -->
+                    <div class="favourite-area">
+                        <a href="#"><img src="~/Content/template/img/core-img/heart.svg" alt=""></a>
+                    </div>
+                    <!-- User Login Info -->
+                    <div class="user-login-info">
+                        <a href="#"><img src="~/Content/template/img/core-img/user.svg" alt=""></a>
+                    </div>
+                    <!-- Cart Area -->
+                    <div class="cart-area">
+                        <a href="#" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span>3</span></a>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        @*<div class="div-fixed forum-left">
             <div class="btn-left btn-logo"><img src="~/Images/logo.png" /></div>
             <div class="btn-left"><div class="btn-area"><img src="~/Images/PostList.png" /><div class="btn-title">首頁　　　　</div></div></div>
             <div class="btn-left"><div class="btn-area"><img src="~/Images/NewPost.png" /><div class="btn-title">發表文章　　</div></div></div>
             <div class="btn-left"><div class="btn-area"><img src="~/Images/favorite.png" /><div class="btn-title">收藏文章清單</div></div></div>
             <div class="btn-left"><div class="btn-area"><img src="~/Images/disappear.png" /><div class="btn-title">隱藏文章清單</div></div></div>
-        </div>
+        </div>*@
         <div class="forum-mid">
             @RenderBody()
         </div>
         <div class="forum-right">
-            <div class="btn-right btn-right-top">
+            @*<div class="btn-right btn-right-top">
                 <input type="text" />
                 <button>搜尋</button>
             </div>
@@ -50,18 +127,21 @@
                         <hr />
                     </li>
                 </ul>
-            </div>
+            </div>*@
 
         </div>
     </div>
 
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 
     @*For quill using*@
-    <link href="~/Styles/quill.snow.css" rel="stylesheet">
     <script src="~/Scripts/quill.js"></script>
+
+    <script src="~/Content/template/js/popper.min.js"></script>
+    <script src="~/Content/template/js/plugins.js"></script>
+    <script src="~/Content/template/js/classy-nav.min.js"></script>
+    <script src="~/Content/template/js/active.js"></script>
     @RenderSection("Scripts", false)
 
 </body>

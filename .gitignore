@@ -4,6 +4,9 @@
 #忽略所有images
 /slnShoppingForum/prjShoppingForum/Images/*
 
+#忽略所有admin-lte
+/slnShoppingForum/prjShoppingForum/admin-lte
+
 #忽略.vs的內容
 /slnShoppingForum/.vs
 

@@ -12,12 +12,14 @@ namespace prjShoppingForum.Models.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class tNewsMessage
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public int fMessageId { get; set; }
+        public int fNewsId { get; set; }
+        public System.DateTime fMessageTime { get; set; }
+        public string fMessageArticle { get; set; }
+        public string fM_AddUser { get; set; }
+    
+        public virtual tNew tNew { get; set; }
     }
 }

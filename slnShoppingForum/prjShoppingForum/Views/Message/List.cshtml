@@ -1,0 +1,59 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tNewsMessage>
+
+@{
+    ViewBag.Title = "留言管理";
+}
+
+<h2>留言列表</h2>
+
+<p>
+    @Html.ActionLink("新增留言", "New")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fMessageTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fMessageArticle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fM_AddUser)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tNew.fClass)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fMessageTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fMessageArticle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fM_AddUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tNew.fClass)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.fMessageId }) |
+
+                @Html.ActionLink("編輯", "Edit", new { fMessageId = item.fMessageId }) |
+                @Html.ActionLink("刪除", "Delete", new { fId = item.fMessageId }, new { @class = "btn btn-danger", onclick = "return confirm('確定要刪除嗎?')" })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+
+    <p>@Html.ActionLink("系統目錄", "Index", "Common")</p>
+
+</div>

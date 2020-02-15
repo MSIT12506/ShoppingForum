@@ -20,7 +20,7 @@ namespace prjShoppingForum.Models.Entity
             this.tOrderDetails = new HashSet<tOrderDetail>();
         }
     
-        public long fOrderId { get; set; }
+        public int fOrderId { get; set; }
         public int fId { get; set; }
         public System.DateTime fOrderDate { get; set; }
         public Nullable<System.DateTime> fShippedDate { get; set; }
@@ -33,6 +33,7 @@ namespace prjShoppingForum.Models.Entity
         public string fOrderCompanyTitle { get; set; }
         public Nullable<int> fOrderTaxIdDNumber { get; set; }
         public string fOrderPostScript { get; set; }
+        public string fDiscountCode { get; set; }
         public string fPayment { get; set; }
     
         public virtual tUserProfile tUserProfile { get; set; }

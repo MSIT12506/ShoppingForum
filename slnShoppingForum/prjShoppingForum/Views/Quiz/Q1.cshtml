@@ -1,0 +1,37 @@
+﻿<h2>@ViewBag.Title</h2>
+@using (Html.BeginForm("HandleQ1", "Quiz"))
+ {
+            <div>Q1:請問aaabbbccc???</div>
+            <br />
+            @Html.RadioButton("Q1", "A選項", true) <span>A選項</span> <br />
+            @Html.RadioButton("Q1", "B選項", false) <span>B選項</span> <br />
+            @Html.RadioButton("Q1", "C選項", false) <span>C選項</span> <br />
+            @Html.RadioButton("Q1", "D選項", false) <span>D選項</span> <br />
+            @Html.RadioButton("Q1", "E選項", false) <span>E選項</span> <br />
+            <br />
+            <input type="submit" value="下一題" />
+        }
+ }
+
+@*@model IEnumerable<MSIToil.Models.tQuestion>
+
+    @{
+    <h2>ViewBag.Title</h2>
+    }
+
+    <h2>作答系統</h2>
+    @using (Html.BeginForm("HandleQ1", "Quiz"))
+    {
+        foreach (var item in Model)
+        {
+            <div>Q1:@Html.DisplayFor(modelItem => item.fQuestion)</div>
+            <br />
+            @Html.RadioButton("Q1", "A選項", true) <span>"A選項"</span> <br />
+            @Html.RadioButton("Q1", "B選項", true) <span>"B選項"</span> <br />
+            @Html.RadioButton("Q1", "C選項", true) <span>"C選項"</span> <br />
+            @Html.RadioButton("Q1", "D選項", true) <span>"D選項"</span> <br />
+            @Html.RadioButton("Q1", "E選項", true) <span>"E選項"</span> <br />
+            <br />
+            <input type="submit" value="下一題" />
+        }
+    }*@

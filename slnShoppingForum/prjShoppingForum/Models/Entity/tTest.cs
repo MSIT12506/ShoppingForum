@@ -27,6 +27,5 @@ namespace prjShoppingForum.Models.Entity
     
         public virtual tQuestion tQuestion { get; set; }
         public virtual tScore tScore { get; set; }
-        public virtual tUserProfile tUserProfile { get; set; }
     }
 }

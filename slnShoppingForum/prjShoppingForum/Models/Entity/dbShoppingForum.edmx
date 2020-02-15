@@ -5,24 +5,9 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbShoppingForumModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
-        </EntityType>
-        <!--產生期間發現錯誤:
-警告 6002: 資料表/檢視 'dbShoppingForum.dbo.tAdminManager' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
         <EntityType Name="tAdminManager">
           <Key>
             <PropertyRef Name="ManagerId" />
-            <PropertyRef Name="ManagerPassword" />
-            <PropertyRef Name="ManagerEmail" />
-            <PropertyRef Name="ManagerAuth" />
           </Key>
           <Property Name="ManagerId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ManagerPassword" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -131,6 +116,34 @@
           <Property Name="fId" Type="int" Nullable="false" />
           <Property Name="fLikeHate" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="tNews">
+          <Key>
+            <PropertyRef Name="fNewsId" />
+          </Key>
+          <Property Name="fNewsId" Type="int" Nullable="false" />
+          <Property Name="fNewsStart" Type="datetime" Nullable="false" />
+          <Property Name="fNewsEnd" Type="datetime" Nullable="false" />
+          <Property Name="fClass" Type="nvarchar" MaxLength="50" />
+          <Property Name="fNewsTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fNewsDesc" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="fNewsArticle" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fNewsTag" Type="int" />
+          <Property Name="fGet_No" Type="int" />
+          <Property Name="fAddUser" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fChangUser" Type="nvarchar" MaxLength="50" />
+          <Property Name="fDeleteUser" Type="nvarchar" MaxLength="50" />
+          <Property Name="fApproved" Type="char" MaxLength="1" />
+        </EntityType>
+        <EntityType Name="tNewsMessage">
+          <Key>
+            <PropertyRef Name="fMessageId" />
+          </Key>
+          <Property Name="fMessageId" Type="int" Nullable="false" />
+          <Property Name="fNewsId" Type="int" Nullable="false" />
+          <Property Name="fMessageTime" Type="datetime" Nullable="false" />
+          <Property Name="fMessageArticle" Type="varchar(max)" />
+          <Property Name="fM_AddUser" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="tNote">
           <Key>
             <PropertyRef Name="fNoteID" />
@@ -142,7 +155,7 @@
           <Key>
             <PropertyRef Name="fOrderId" />
           </Key>
-          <Property Name="fOrderId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fOrderId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="fId" Type="int" Nullable="false" />
           <Property Name="fOrderDate" Type="datetime" Nullable="false" />
           <Property Name="fShippedDate" Type="datetime" />
@@ -155,6 +168,7 @@
           <Property Name="fOrderCompanyTitle" Type="nvarchar" MaxLength="50" />
           <Property Name="fOrderTaxIdDNumber" Type="int" />
           <Property Name="fOrderPostScript" Type="nvarchar(max)" />
+          <Property Name="fDiscountCode" Type="nvarchar" MaxLength="50" />
           <Property Name="fPayment" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tOrderDetail">
@@ -162,8 +176,9 @@
             <PropertyRef Name="fOrderId" />
             <PropertyRef Name="fProductId" />
           </Key>
-          <Property Name="fOrderId" Type="bigint" Nullable="false" />
+          <Property Name="fOrderId" Type="int" Nullable="false" />
           <Property Name="fProductId" Type="int" Nullable="false" />
+          <Property Name="fUnitPrice" Type="int" />
           <Property Name="fOrderQuantity" Type="int" />
         </EntityType>
         <EntityType Name="tPart">
@@ -459,6 +474,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tNewsMessage_tNews">
+          <End Role="tNews" Type="Self.tNews" Multiplicity="1" />
+          <End Role="tNewsMessage" Type="Self.tNewsMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tNews">
+              <PropertyRef Name="fNewsId" />
+            </Principal>
+            <Dependent Role="tNewsMessage">
+              <PropertyRef Name="fNewsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tOrder_tUser">
           <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
           <End Role="tOrder" Type="Self.tOrder" Multiplicity="*" />
@@ -663,18 +690,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tTest_tUserProfile">
-          <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
-          <End Role="tTest" Type="Self.tTest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tUserProfile">
-              <PropertyRef Name="fId" />
-            </Principal>
-            <Dependent Role="tTest">
-              <PropertyRef Name="fId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tUserBrowseHistory_tProduct">
           <End Role="tProduct" Type="Self.tProduct" Multiplicity="1" />
           <End Role="tUserBrowseHistory" Type="Self.tUserBrowseHistory" Multiplicity="*" />
@@ -772,7 +787,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="dbShoppingForumModelStoreContainer">
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tAdminManager" EntityType="Self.tAdminManager" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tCategory" EntityType="Self.tCategory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tDiscount" EntityType="Self.tDiscount" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tEfficacy" EntityType="Self.tEfficacy" Schema="dbo" store:Type="Tables" />
@@ -782,6 +797,8 @@
           <EntitySet Name="tForumAuth" EntityType="Self.tForumAuth" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tForumReply" EntityType="Self.tForumReply" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tForumReplyAnalysis" EntityType="Self.tForumReplyAnalysis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tNews" EntityType="Self.tNews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tNewsMessage" EntityType="Self.tNewsMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tNote" EntityType="Self.tNote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tOrder" EntityType="Self.tOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tOrderDetail" EntityType="Self.tOrderDetail" Schema="dbo" store:Type="Tables" />
@@ -801,15 +818,6 @@
           <EntitySet Name="tUserLog" EntityType="Self.tUserLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUserProductFavorite" EntityType="Self.tUserProductFavorite" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tUserProfile" EntityType="Self.tUserProfile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tAdminManager" EntityType="Self.tAdminManager" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [tAdminManager].[ManagerId] AS [ManagerId], 
-    [tAdminManager].[ManagerPassword] AS [ManagerPassword], 
-    [tAdminManager].[ManagerPasswordSalt] AS [ManagerPasswordSalt], 
-    [tAdminManager].[ManagerEmail] AS [ManagerEmail], 
-    [tAdminManager].[ManagerAuth] AS [ManagerAuth]
-    FROM [dbo].[tAdminManager] AS [tAdminManager]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_tForum_tUserProfile" Association="Self.FK_tForum_tUserProfile">
             <End Role="tUserProfile" EntitySet="tUserProfile" />
             <End Role="tForum" EntitySet="tForum" />
@@ -849,6 +857,10 @@
           <AssociationSet Name="FK_tForumReplyAnalysis_tUserProfile" Association="Self.FK_tForumReplyAnalysis_tUserProfile">
             <End Role="tUserProfile" EntitySet="tUserProfile" />
             <End Role="tForumReplyAnalysis" EntitySet="tForumReplyAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tNewsMessage_tNews" Association="Self.FK_tNewsMessage_tNews">
+            <End Role="tNews" EntitySet="tNews" />
+            <End Role="tNewsMessage" EntitySet="tNewsMessage" />
           </AssociationSet>
           <AssociationSet Name="FK_tOrder_tUser" Association="Self.FK_tOrder_tUser">
             <End Role="tUserProfile" EntitySet="tUserProfile" />
@@ -918,10 +930,6 @@
             <End Role="tScore" EntitySet="tScore" />
             <End Role="tTest" EntitySet="tTest" />
           </AssociationSet>
-          <AssociationSet Name="FK_tTest_tUserProfile" Association="Self.FK_tTest_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfile" />
-            <End Role="tTest" EntitySet="tTest" />
-          </AssociationSet>
           <AssociationSet Name="FK_tUserBrowseHistory_tProduct" Association="Self.FK_tUserBrowseHistory_tProduct">
             <End Role="tProduct" EntitySet="tProduct" />
             <End Role="tUserBrowseHistory" EntitySet="tUserBrowseHistory" />
@@ -960,7 +968,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="dbShoppingForumModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="dbShoppingForumEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="sysdiagrams" EntityType="dbShoppingForumModel.sysdiagram" />
+          <EntitySet Name="tAdminManagers" EntityType="dbShoppingForumModel.tAdminManager" />
           <EntitySet Name="tCategories" EntityType="dbShoppingForumModel.tCategory" />
           <EntitySet Name="tDiscounts" EntityType="dbShoppingForumModel.tDiscount" />
           <EntitySet Name="tEfficacies" EntityType="dbShoppingForumModel.tEfficacy" />
@@ -970,6 +978,8 @@
           <EntitySet Name="tForumAuths" EntityType="dbShoppingForumModel.tForumAuth" />
           <EntitySet Name="tForumReplies" EntityType="dbShoppingForumModel.tForumReply" />
           <EntitySet Name="tForumReplyAnalysis" EntityType="dbShoppingForumModel.tForumReplyAnalysi" />
+          <EntitySet Name="tNews" EntityType="dbShoppingForumModel.tNew" />
+          <EntitySet Name="tNewsMessages" EntityType="dbShoppingForumModel.tNewsMessage" />
           <EntitySet Name="tNotes" EntityType="dbShoppingForumModel.tNote" />
           <EntitySet Name="tOrders" EntityType="dbShoppingForumModel.tOrder" />
           <EntitySet Name="tOrderDetails" EntityType="dbShoppingForumModel.tOrderDetail" />
@@ -988,7 +998,6 @@
           <EntitySet Name="tUserLogs" EntityType="dbShoppingForumModel.tUserLog" />
           <EntitySet Name="tUserProductFavorites" EntityType="dbShoppingForumModel.tUserProductFavorite" />
           <EntitySet Name="tUserProfiles" EntityType="dbShoppingForumModel.tUserProfile" />
-          <EntitySet Name="tAdminManagers" EntityType="dbShoppingForumModel.tAdminManager" />
           <AssociationSet Name="FK_tProduct_tCategory" Association="dbShoppingForumModel.FK_tProduct_tCategory">
             <End Role="tCategory" EntitySet="tCategories" />
             <End Role="tProduct" EntitySet="tProducts" />
@@ -1044,6 +1053,10 @@
           <AssociationSet Name="FK_tForumReplyAnalysis_tUserProfile" Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile">
             <End Role="tUserProfile" EntitySet="tUserProfiles" />
             <End Role="tForumReplyAnalysi" EntitySet="tForumReplyAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tNewsMessage_tNews" Association="dbShoppingForumModel.FK_tNewsMessage_tNews">
+            <End Role="tNew" EntitySet="tNews" />
+            <End Role="tNewsMessage" EntitySet="tNewsMessages" />
           </AssociationSet>
           <AssociationSet Name="FK_tProductUnilateral_tNote" Association="dbShoppingForumModel.FK_tProductUnilateral_tNote">
             <End Role="tNote" EntitySet="tNotes" />
@@ -1105,10 +1118,6 @@
             <End Role="tUserProfile" EntitySet="tUserProfiles" />
             <End Role="tShoppingCart" EntitySet="tShoppingCarts" />
           </AssociationSet>
-          <AssociationSet Name="FK_tTest_tUserProfile" Association="dbShoppingForumModel.FK_tTest_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tTest" EntitySet="tTests" />
-          </AssociationSet>
           <AssociationSet Name="FK_tUserBrowseHistory_tUserProfile" Association="dbShoppingForumModel.FK_tUserBrowseHistory_tUserProfile">
             <End Role="tUserProfile" EntitySet="tUserProfiles" />
             <End Role="tUserBrowseHistory" EntitySet="tUserBrowseHistories" />
@@ -1130,15 +1139,15 @@
             <End Role="tProduct" EntitySet="tProducts" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="sysdiagram">
+        <EntityType Name="tAdminManager">
           <Key>
-            <PropertyRef Name="diagram_id" />
+            <PropertyRef Name="ManagerId" />
           </Key>
-          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ManagerId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerPasswordSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ManagerAuth" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="tCategory">
           <Key>
@@ -1259,6 +1268,36 @@
           <NavigationProperty Name="tForumReply" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReplyAnalysi" ToRole="tForumReply" />
           <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" FromRole="tForumReplyAnalysi" ToRole="tUserProfile" />
         </EntityType>
+        <EntityType Name="tNew">
+          <Key>
+            <PropertyRef Name="fNewsId" />
+          </Key>
+          <Property Name="fNewsId" Type="Int32" Nullable="false" />
+          <Property Name="fNewsStart" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fNewsEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fClass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fNewsTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fNewsDesc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="fNewsArticle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fNewsTag" Type="Int32" />
+          <Property Name="fGet_No" Type="Int32" />
+          <Property Name="fAddUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fChangUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fDeleteUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fApproved" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tNewsMessages" Relationship="dbShoppingForumModel.FK_tNewsMessage_tNews" FromRole="tNew" ToRole="tNewsMessage" />
+        </EntityType>
+        <EntityType Name="tNewsMessage">
+          <Key>
+            <PropertyRef Name="fMessageId" />
+          </Key>
+          <Property Name="fMessageId" Type="Int32" Nullable="false" />
+          <Property Name="fNewsId" Type="Int32" Nullable="false" />
+          <Property Name="fMessageTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fMessageArticle" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fM_AddUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tNew" Relationship="dbShoppingForumModel.FK_tNewsMessage_tNews" FromRole="tNewsMessage" ToRole="tNew" />
+        </EntityType>
         <EntityType Name="tNote">
           <Key>
             <PropertyRef Name="fNoteID" />
@@ -1271,7 +1310,7 @@
           <Key>
             <PropertyRef Name="fOrderId" />
           </Key>
-          <Property Name="fOrderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fOrderId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="fId" Type="Int32" Nullable="false" />
           <Property Name="fOrderDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="fShippedDate" Type="DateTime" Precision="3" />
@@ -1284,6 +1323,7 @@
           <Property Name="fOrderCompanyTitle" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fOrderTaxIdDNumber" Type="Int32" />
           <Property Name="fOrderPostScript" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fDiscountCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fPayment" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tOrder_tUser" FromRole="tOrder" ToRole="tUserProfile" />
           <NavigationProperty Name="tOrderDetails" Relationship="dbShoppingForumModel.FK_tOrderDetail_tOrder" FromRole="tOrder" ToRole="tOrderDetail" />
@@ -1293,8 +1333,9 @@
             <PropertyRef Name="fOrderId" />
             <PropertyRef Name="fProductId" />
           </Key>
-          <Property Name="fOrderId" Type="Int64" Nullable="false" />
+          <Property Name="fOrderId" Type="Int32" Nullable="false" />
           <Property Name="fProductId" Type="Int32" Nullable="false" />
+          <Property Name="fUnitPrice" Type="Int32" />
           <Property Name="fOrderQuantity" Type="Int32" />
           <NavigationProperty Name="tOrder" Relationship="dbShoppingForumModel.FK_tOrderDetail_tOrder" FromRole="tOrderDetail" ToRole="tOrder" />
           <NavigationProperty Name="tProduct" Relationship="dbShoppingForumModel.FK_tOrderDetail_tProduct" FromRole="tOrderDetail" ToRole="tProduct" />
@@ -1417,7 +1458,6 @@
           <Property Name="fQuestionScore" Type="Int32" />
           <NavigationProperty Name="tQuestion" Relationship="dbShoppingForumModel.FK_tTest_fQuestionId" FromRole="tTest" ToRole="tQuestion" />
           <NavigationProperty Name="tScore" Relationship="dbShoppingForumModel.FK_tTest_fUserId" FromRole="tTest" ToRole="tScore" />
-          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tTest_tUserProfile" FromRole="tTest" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tUserBrowseHistory">
           <Key>
@@ -1503,24 +1543,10 @@
           <NavigationProperty Name="tOrders" Relationship="dbShoppingForumModel.FK_tOrder_tUser" FromRole="tUserProfile" ToRole="tOrder" />
           <NavigationProperty Name="tScore" Relationship="dbShoppingForumModel.FK_tScore_tUserProfile" FromRole="tUserProfile" ToRole="tScore" />
           <NavigationProperty Name="tShoppingCarts" Relationship="dbShoppingForumModel.FK_tShoppingCart_tUserProfile" FromRole="tUserProfile" ToRole="tShoppingCart" />
-          <NavigationProperty Name="tTests" Relationship="dbShoppingForumModel.FK_tTest_tUserProfile" FromRole="tUserProfile" ToRole="tTest" />
           <NavigationProperty Name="tUserBrowseHistories" Relationship="dbShoppingForumModel.FK_tUserBrowseHistory_tUserProfile" FromRole="tUserProfile" ToRole="tUserBrowseHistory" />
           <NavigationProperty Name="tUserDiscountLists" Relationship="dbShoppingForumModel.FK_tUserDiscountList_tUserProfile" FromRole="tUserProfile" ToRole="tUserDiscountList" />
           <NavigationProperty Name="tUserLog" Relationship="dbShoppingForumModel.FK_tUserLog_tUserProfile" FromRole="tUserProfile" ToRole="tUserLog" />
           <NavigationProperty Name="tUserProductFavorites" Relationship="dbShoppingForumModel.FK_tUserProductFavorite_tUserProductFavorite" FromRole="tUserProfile" ToRole="tUserProductFavorite" />
-        </EntityType>
-        <EntityType Name="tAdminManager">
-          <Key>
-            <PropertyRef Name="ManagerId" />
-            <PropertyRef Name="ManagerPassword" />
-            <PropertyRef Name="ManagerEmail" />
-            <PropertyRef Name="ManagerAuth" />
-          </Key>
-          <Property Name="ManagerId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ManagerPassword" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ManagerPasswordSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ManagerEmail" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ManagerAuth" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_tProduct_tCategory">
           <End Type="dbShoppingForumModel.tCategory" Role="tCategory" Multiplicity="1" />
@@ -1689,6 +1715,18 @@
             </Principal>
             <Dependent Role="tForumReplyAnalysi">
               <PropertyRef Name="fId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tNewsMessage_tNews">
+          <End Type="dbShoppingForumModel.tNew" Role="tNew" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tNewsMessage" Role="tNewsMessage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tNew">
+              <PropertyRef Name="fNewsId" />
+            </Principal>
+            <Dependent Role="tNewsMessage">
+              <PropertyRef Name="fNewsId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1872,18 +1910,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tTest_tUserProfile">
-          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
-          <End Type="dbShoppingForumModel.tTest" Role="tTest" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tUserProfile">
-              <PropertyRef Name="fId" />
-            </Principal>
-            <Dependent Role="tTest">
-              <PropertyRef Name="fId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tUserBrowseHistory_tUserProfile">
           <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
           <End Type="dbShoppingForumModel.tUserBrowseHistory" Role="tUserBrowseHistory" Multiplicity="*" />
@@ -1942,14 +1968,14 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="dbShoppingForumModelStoreContainer" CdmEntityContainer="dbShoppingForumEntities">
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="dbShoppingForumModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="definition" ColumnName="definition" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="name" ColumnName="name" />
+          <EntitySetMapping Name="tAdminManagers">
+            <EntityTypeMapping TypeName="dbShoppingForumModel.tAdminManager">
+              <MappingFragment StoreEntitySet="tAdminManager">
+                <ScalarProperty Name="ManagerAuth" ColumnName="ManagerAuth" />
+                <ScalarProperty Name="ManagerEmail" ColumnName="ManagerEmail" />
+                <ScalarProperty Name="ManagerPasswordSalt" ColumnName="ManagerPasswordSalt" />
+                <ScalarProperty Name="ManagerPassword" ColumnName="ManagerPassword" />
+                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2060,6 +2086,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="tNews">
+            <EntityTypeMapping TypeName="dbShoppingForumModel.tNew">
+              <MappingFragment StoreEntitySet="tNews">
+                <ScalarProperty Name="fApproved" ColumnName="fApproved" />
+                <ScalarProperty Name="fDeleteUser" ColumnName="fDeleteUser" />
+                <ScalarProperty Name="fChangUser" ColumnName="fChangUser" />
+                <ScalarProperty Name="fAddUser" ColumnName="fAddUser" />
+                <ScalarProperty Name="fGet_No" ColumnName="fGet_No" />
+                <ScalarProperty Name="fNewsTag" ColumnName="fNewsTag" />
+                <ScalarProperty Name="fNewsArticle" ColumnName="fNewsArticle" />
+                <ScalarProperty Name="fNewsDesc" ColumnName="fNewsDesc" />
+                <ScalarProperty Name="fNewsTitle" ColumnName="fNewsTitle" />
+                <ScalarProperty Name="fClass" ColumnName="fClass" />
+                <ScalarProperty Name="fNewsEnd" ColumnName="fNewsEnd" />
+                <ScalarProperty Name="fNewsStart" ColumnName="fNewsStart" />
+                <ScalarProperty Name="fNewsId" ColumnName="fNewsId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tNewsMessages">
+            <EntityTypeMapping TypeName="dbShoppingForumModel.tNewsMessage">
+              <MappingFragment StoreEntitySet="tNewsMessage">
+                <ScalarProperty Name="fM_AddUser" ColumnName="fM_AddUser" />
+                <ScalarProperty Name="fMessageArticle" ColumnName="fMessageArticle" />
+                <ScalarProperty Name="fMessageTime" ColumnName="fMessageTime" />
+                <ScalarProperty Name="fNewsId" ColumnName="fNewsId" />
+                <ScalarProperty Name="fMessageId" ColumnName="fMessageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tNotes">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tNote">
               <MappingFragment StoreEntitySet="tNote">
@@ -2072,6 +2128,7 @@
             <EntityTypeMapping TypeName="dbShoppingForumModel.tOrder">
               <MappingFragment StoreEntitySet="tOrder">
                 <ScalarProperty Name="fPayment" ColumnName="fPayment" />
+                <ScalarProperty Name="fDiscountCode" ColumnName="fDiscountCode" />
                 <ScalarProperty Name="fOrderPostScript" ColumnName="fOrderPostScript" />
                 <ScalarProperty Name="fOrderTaxIdDNumber" ColumnName="fOrderTaxIdDNumber" />
                 <ScalarProperty Name="fOrderCompanyTitle" ColumnName="fOrderCompanyTitle" />
@@ -2092,6 +2149,7 @@
             <EntityTypeMapping TypeName="dbShoppingForumModel.tOrderDetail">
               <MappingFragment StoreEntitySet="tOrderDetail">
                 <ScalarProperty Name="fOrderQuantity" ColumnName="fOrderQuantity" />
+                <ScalarProperty Name="fUnitPrice" ColumnName="fUnitPrice" />
                 <ScalarProperty Name="fProductId" ColumnName="fProductId" />
                 <ScalarProperty Name="fOrderId" ColumnName="fOrderId" />
               </MappingFragment>
@@ -2269,17 +2327,6 @@
                 <ScalarProperty Name="fPassword" ColumnName="fPassword" />
                 <ScalarProperty Name="fUserId" ColumnName="fUserId" />
                 <ScalarProperty Name="fId" ColumnName="fId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tAdminManagers">
-            <EntityTypeMapping TypeName="dbShoppingForumModel.tAdminManager">
-              <MappingFragment StoreEntitySet="tAdminManager">
-                <ScalarProperty Name="ManagerAuth" ColumnName="ManagerAuth" />
-                <ScalarProperty Name="ManagerEmail" ColumnName="ManagerEmail" />
-                <ScalarProperty Name="ManagerPasswordSalt" ColumnName="ManagerPasswordSalt" />
-                <ScalarProperty Name="ManagerPassword" ColumnName="ManagerPassword" />
-                <ScalarProperty Name="ManagerId" ColumnName="ManagerId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

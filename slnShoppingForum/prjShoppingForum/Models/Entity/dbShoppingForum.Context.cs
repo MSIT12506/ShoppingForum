@@ -25,7 +25,7 @@ namespace prjShoppingForum.Models.Entity
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
+        public virtual DbSet<tAdminManager> tAdminManagers { get; set; }
         public virtual DbSet<tCategory> tCategories { get; set; }
         public virtual DbSet<tDiscount> tDiscounts { get; set; }
         public virtual DbSet<tEfficacy> tEfficacies { get; set; }
@@ -35,6 +35,8 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tForumAuth> tForumAuths { get; set; }
         public virtual DbSet<tForumReply> tForumReplies { get; set; }
         public virtual DbSet<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
+        public virtual DbSet<tNew> tNews { get; set; }
+        public virtual DbSet<tNewsMessage> tNewsMessages { get; set; }
         public virtual DbSet<tNote> tNotes { get; set; }
         public virtual DbSet<tOrder> tOrders { get; set; }
         public virtual DbSet<tOrderDetail> tOrderDetails { get; set; }
@@ -53,6 +55,5 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tUserLog> tUserLogs { get; set; }
         public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
-        public virtual DbSet<tAdminManager> tAdminManagers { get; set; }
     }
 }

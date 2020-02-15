@@ -14,8 +14,9 @@ namespace prjShoppingForum.Models.Entity
     
     public partial class tOrderDetail
     {
-        public long fOrderId { get; set; }
+        public int fOrderId { get; set; }
         public int fProductId { get; set; }
+        public Nullable<int> fUnitPrice { get; set; }
         public Nullable<int> fOrderQuantity { get; set; }
     
         public virtual tOrder tOrder { get; set; }

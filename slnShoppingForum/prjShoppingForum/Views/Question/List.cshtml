@@ -1,0 +1,55 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tQuestion>
+
+@{
+    ViewBag.Title = "每日一答";
+}
+
+<h2>每日一答</h2>
+
+<p>
+    @Html.ActionLink("新增題目", "New")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fQuestionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fQuestion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fAnswer)
+        </th>
+
+        <th>操作</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fQuestionName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fQuestion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fAnswer)
+        </td>
+   
+        <td>
+            @Html.ActionLink("編輯", "Edit", new { fQuizId = item.fQuestionId }) |
+            @Html.ActionLink("刪除", "Delete", new { fQuizId = item.fQuestionId }, new { @class = "btn btn-danger", onclick = "return confirm('確定要刪除嗎?')" })
+
+            
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<div>
+
+    <p>@Html.ActionLink("系統目錄", "Index", "Common")</p>
+
+</div>

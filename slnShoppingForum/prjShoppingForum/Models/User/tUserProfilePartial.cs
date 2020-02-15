@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace prjShoppingForum.Models.Entity
 {
@@ -16,6 +17,7 @@ namespace prjShoppingForum.Models.Entity
         public string fUserId { get; set; }
         public string fPassword { get; set; }
         public string fPasswordSalt { get; set; }
+        [DisplayName("±b¸¹")]
         public string fName { get; set; }
         public string fGender { get; set; }
         public System.DateTime fBirthday { get; set; }
@@ -48,8 +50,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual tScore tScore { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tTest> tTests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUserBrowseHistory> tUserBrowseHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

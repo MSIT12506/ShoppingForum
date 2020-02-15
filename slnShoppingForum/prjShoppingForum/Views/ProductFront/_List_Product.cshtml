@@ -1,5 +1,15 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tProduct>
 
+<script>
+        function addToCart(productId) {
+            $.ajax({
+                type: 'POST',
+                url:'@Url.Action("addCart", "ShoppingCart")',
+                data: { productId: productId}
+            })
+        }
+</script>
+
 @foreach (var item in Model)
 {
     var imageScr = $"../../images/Product/{item.fProductID}.jpg";
@@ -22,9 +32,8 @@
             <span>@Html.DisplayNameFor(m => m.FirstOrDefault().fUnitPrice) @item.fUnitPrice</span>
             <br />
             @*加入購物車按鈕*@
-            @Html.ActionLink("加入購物車", "addCart", "ShoppingCart", new { productId = @item.fProductID }, new { @class = "btn btn-info" })
+            <a class="btn btn-info" onclick="addToCart(@item.fProductID)">加入購物車</a>
         </div>
     </div>
 }
-
 

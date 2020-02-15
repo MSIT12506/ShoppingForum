@@ -22,7 +22,7 @@
                 <!-- Classy Menu -->
                 <nav class="classy-navbar" id="essenceNav">
                     <!-- Logo -->
-                    <a class="nav-brand" href="index.html"><img src="~/Content/template/img/core-img/logo.png" alt=""></a>
+                    <a class="nav-brand" href="~/Home/Index"><img src="~/Content/template/img/core-img/logo.png" alt=""></a>
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
                         <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -74,8 +74,7 @@
                     </div>
                     <!-- Cart Area -->
                     <div class="cart-area">
-                        @Html.ActionLink("購物車", "viewCart", "ShoppingCart", null, new { @class = "btn btn-info" })
-                        <a href="#" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span>3</span></a>
+                        <a href="@Url.Action("viewCart", "ShoppingCart")" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span>3</span></a>
                     </div>
                 </div>
 
@@ -106,7 +105,6 @@
             if (e.keyCode == 13) {
                 searchProd();
             }
-            
         })
     </script>
     @RenderSection("Scripts", false)

@@ -31,7 +31,7 @@ namespace tw.com.essentialoil.Controllers
                 db.tShoppingCarts.Add(cart);
                 db.SaveChanges();
             }
-            return RedirectToAction("ProductFrontPage", "ProductFront");
+            return View();
         }
 
         public ActionResult viewCart()
@@ -81,20 +81,6 @@ namespace tw.com.essentialoil.Controllers
                 db.tUserProductFavorites.Add(favorite);
                 db.SaveChanges();
             }
-            return RedirectToAction("viewCart");
-        }
-
-        public ActionResult recalculate(tShoppingCart cart)
-        {
-            
-            foreach(var item in db.tShoppingCarts)
-            {
-                if (item.fBasketId == cart.fBasketId)
-                {
-                    item.fQuantity = cart.fQuantity;
-                }
-            }
-            db.SaveChanges();
             return RedirectToAction("viewCart");
         }
     }

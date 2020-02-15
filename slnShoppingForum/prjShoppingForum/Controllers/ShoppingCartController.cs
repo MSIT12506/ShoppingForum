@@ -17,12 +17,6 @@ namespace tw.com.essentialoil.Controllers
         int userId = 1;
 
         // GET: ShoppingCart
-        public ActionResult shopping()
-        {
-            var table = from p in db.tProducts
-                        select p;
-            return View(table);
-        }
 
         public ActionResult addCart(int productId)
         {
@@ -37,7 +31,7 @@ namespace tw.com.essentialoil.Controllers
                 db.tShoppingCarts.Add(cart);
                 db.SaveChanges();
             }
-            return RedirectToAction("shopping");
+            return RedirectToAction("ProductFrontPage", "ProductFront");
         }
 
         public ActionResult viewCart()

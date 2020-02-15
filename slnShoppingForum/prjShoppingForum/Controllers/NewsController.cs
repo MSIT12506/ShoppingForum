@@ -27,10 +27,10 @@ namespace tw.com.essentialoil.Controllers
             return View(new tNew());
         }
         [HttpPost]
-        public ActionResult New()
+        public ActionResult New(string tmp)
         {
             dbShoppingForumEntities db = new dbShoppingForumEntities();
-            db.tNews.Add(p);
+            //db.tNews.Add(tmp);
             db.SaveChanges();
             return RedirectToAction("List");
         }

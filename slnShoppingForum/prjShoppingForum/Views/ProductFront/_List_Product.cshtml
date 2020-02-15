@@ -22,8 +22,7 @@
             <span>@Html.DisplayNameFor(m => m.FirstOrDefault().fUnitPrice) @item.fUnitPrice</span>
             <br />
             @*加入購物車按鈕*@
-            @Html.ActionLink("加入購物車", "", new {prodID=item.fProductID},
-          new {@class = "btn btn-info" })
+            @Html.ActionLink("加入購物車", "addCart", "ShoppingCart", new { productId = @item.fProductID }, new { @class = "btn btn-info" })
         </div>
     </div>
 }

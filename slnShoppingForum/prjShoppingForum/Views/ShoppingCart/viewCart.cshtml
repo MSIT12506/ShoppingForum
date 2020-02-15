@@ -2,7 +2,6 @@
 
 @{
     ViewBag.Title = "viewCart";
-    double price;
     double totalPrice = 0;
 }
 <h2 style="margin-left:300px">購物車>付款方式>結帳</h2>
@@ -17,6 +16,20 @@
 
     tr.active {
         background: lightblue;
+    }
+
+    .productSum {
+        color: red
+    }
+
+    .numberPlus {
+        height: 40px;
+        width: 40px;
+    }
+
+    .numberMinus {
+        height: 40px;
+        width: 40px;
     }
 </style>
 
@@ -76,11 +89,8 @@
 
                     </td>
                     <td>
-                        <span>
-                            @{
-                                price = item.fQuantity * (double)item.tProduct.fUnitPrice;
-                            }
-                            @price
+                        <span class="productSum">
+                            @(item.fQuantity * (double)item.tProduct.fUnitPrice)
                         </span>
                     </td>
                     <td>
@@ -98,7 +108,7 @@
         </span>
     </div>
     <div style="text-align:right">
-        @Html.ActionLink("<繼續購物", "shopping", "ShoppingCart", null, new { @class = "btn btn-info" })
+        @Html.ActionLink("<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info" })
         @Html.ActionLink("訂單產生>", "orderSend", "ShoppingCart", null, new { @class = "btn btn-danger" })
     </div>
     <br />
@@ -131,6 +141,8 @@
                 $(this).siblings(".txtNum").val(num);
                 $(this).prop("disabled", false);
                 $(this).parent().next().text(num * parseInt(productPrice));
+                $(this).parent().next().addClass("productSum")
+                totalPrice()
             }
 
             if (num < parseInt(numStock)) {
@@ -147,11 +159,12 @@
                 num++;
                 $(this).siblings(".txtNum").val(num);
                 $(this).parent().next().text(num * parseInt(productPrice));
+                $(this).parent().next().addClass("productSum")
+                totalPrice()
             }
             else {
                 $(this).prop("disabled", true);
             }
-
             if (num > 0) {
                 $(this).siblings(".numberMinus").prop("disabled", false);
             }
@@ -168,6 +181,7 @@
                 $(this).parent().parent().addClass("active")
                 sum = parseInt(sum) + parseInt(price);
                 $(".cartSumPrice").text(sum)
+                totalPrice()
             } else {
                 $(this).parent().parent().removeClass("active")
                 sum = parseInt(sum) - parseInt(price);
@@ -177,7 +191,6 @@
                 $("#checkAll").prop("checked", true)
             } else {
                 $("#checkAll").prop("checked", false)
-
             }
         })
         //勾選所有商品
@@ -189,6 +202,26 @@
             } else {
                 $("tbody tr").removeClass("active")
             }
+            totalPrice()
         })
+
+        //計算總價(將有打勾的小計全部加總)
+        function totalPrice() {
+            let totalSum = 0;
+            $("tbody :checkbox").each(function () {
+                let checked = $(this).prop("checked")
+                if (checked) {
+                    let productSum = parseInt($(this).parent().parent().find(".productSum").text())
+                    totalSum += productSum;
+                }
+            })
+            //$(".productSum").each(function () {
+            //    let content = parseInt($(this).text());
+            //    productSum += content;
+            //})
+            $(".cartSumPrice").text(totalSum)
+        }
+
+            //計算總數量
     </script>
 }

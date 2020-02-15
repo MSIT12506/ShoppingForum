@@ -74,6 +74,7 @@
                     </div>
                     <!-- Cart Area -->
                     <div class="cart-area">
+                        @Html.ActionLink("購物車", "viewCart", "ShoppingCart", null, new { @class = "btn btn-info" })
                         <a href="#" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span>3</span></a>
                     </div>
                 </div>
@@ -91,7 +92,7 @@
     <!--footer-->
     <footer></footer>
 
-    <script src="~/Scripts/src/"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/template/js/popper.min.js"></script>
     <script src="~/Content/template/js/plugins.js"></script>

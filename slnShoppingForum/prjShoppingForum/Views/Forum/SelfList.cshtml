@@ -1,0 +1,99 @@
+﻿@model List<List<prjShoppingForum.Models.Entity.tForum>>
+
+@{
+    ViewBag.Title = "SelfList";
+}
+
+<h2>收藏文章清單</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>文章序號</th>
+            <th>文章標題</th>
+            <th>取消收藏</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model[1])
+        {
+            <tr>
+                <td>
+                    @item.fPostId
+                </td>
+                <td>
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                </td>
+                <td data-postid="@item.fPostId">
+                    <button class="favRev btn btn-primary">取消收藏</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<h2>隱藏文章清單</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>文章序號</th>
+            <th>文章標題</th>
+            <th>取消隱藏</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model[0])
+        {
+            <tr>
+                <td>
+                    @item.fPostId
+                </td>
+                <td>
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                </td>
+                <td data-postid="@item.fPostId">
+                    <button class="hideRev btn btn-primary">取消隱藏</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        $('.favRev').click(function () {
+            let pid = $(this).parent().attr('data-postid');
+            let targetTr = $(this).parent().parent();
+            console.log(pid);
+
+            $.post(
+                '@Url.Action("RemovePost", "Forum")',
+                {
+                    pid: pid
+
+                }, function (response) {
+                    $(targetTr).remove();
+                }
+            )
+
+        })
+
+        $('.hideRev').click(function () {
+            let pid = $(this).parent().attr('data-postid');
+            let targetTr = $(this).parent().parent();
+            console.log(pid);
+
+            $.post(
+                '@Url.Action("RemovePost", "Forum")',
+                {
+                    pid: pid
+
+                }, function (response) {
+                    $(targetTr).remove();
+                }
+            )
+
+        })
+    </script>
+}

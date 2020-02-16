@@ -83,6 +83,12 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         //把get, post寫在同一個Action?
         public ActionResult Login(CLoginData data)
         {
+            //判斷已經登入過，可是卻再次近來
+            if (Session[CDictionary.UserLoginInfo] != null)
+            {
+                return RedirectToAction("Home");
+            }
+
             //判斷data內的屬性是否為null，不是判斷data是否為null
             string userid = (data.fUserId == null) ? null : data.fUserId;
             string password = (data.fPassword == null) ? null : data.fPassword;
@@ -96,6 +102,17 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 if (loginUser!=null)
                 {
                     Session[CDictionary.UserLoginInfo] = new UserLoginInfo() { user_fid = loginUser.fId, user_name = loginUser.fName, user_userid = loginUser.fUserId };
+
+                    //登入後要回到前一頁
+                    LoginPageInfo loginPageInfo = Session[CDictionary.LoginPageInfo] as LoginPageInfo;
+                    if (loginPageInfo != null)
+                    {
+                        return RedirectToRoute(new
+                        {
+                            controller = loginPageInfo.controllerName,
+                            action = loginPageInfo.actionName
+                        });
+                    }
                     return RedirectToAction("Home");
                 }
             }

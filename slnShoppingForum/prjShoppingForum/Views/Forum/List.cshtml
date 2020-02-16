@@ -1,4 +1,4 @@
-﻿@model IQueryable<prjShoppingForum.Models.Entity.tForum>
+﻿@model List<prjShoppingForum.Models.Entity.tForum>
 
 @{
     ViewBag.Title = "List";
@@ -66,11 +66,14 @@
                     <br />
                     <button class="btn btn-primary">喜歡</button>
                     <button class="btn btn-primary">討厭</button>
-                    <button class="btn btn-primary">分享</button>
-                    <button class="btn btn-primary">收藏</button>
-                    <button class="btn btn-primary">隱藏</button>
-                    <button class="btn btn-primary">編輯</button>
-                    <button class="btn btn-danger">停用</button>
+                    <button class="btn btn-primary btn-favorite">收藏</button>
+                    <button class="btn btn-primary btn-hide">隱藏</button>
+                    @{
+                        if (item.tUserProfile.fId == ViewBag.sessionId)
+                        {
+                            <button class="btn btn-danger">@Html.ActionLink("編輯", "Edit", new { fPostId = item.fPostId })</button>
+                        }
+                    }
                 </td>
             </tr>
         }
@@ -149,26 +152,39 @@
                     $.each(responseDatas.newForums, function (idx, value) {
                         let btnLike    = $('<button></button>').addClass('btn btn-primary').text('喜歡');    //喜歡
                         let btnHate    = $('<button></button>').addClass('btn btn-primary').text('討厭');    //討厭
-                        let btnShare   = $('<button></button>').addClass('btn btn-primary').text('分享');    //分享
-                        let btnFav     = $('<button></button>').addClass('btn btn-primary').text('收藏');    //收藏
-                        let btnHide    = $('<button></button>').addClass('btn btn-primary').text('隱藏');    //隱藏
-                        let btnEdit    = $('<button></button>').addClass('btn btn-primary').text('編輯');    //編輯
-                        let btnStop    = $('<button></button>').addClass('btn btn-danger').text('停用');     //停用
+                        let btnFav     = $('<button></button>').addClass('btn btn-primary btn-favorite').text('收藏');    //收藏
+                        let btnHide    = $('<button></button>').addClass('btn btn-primary btn-hide').text('隱藏');    //隱藏
+                        let btnEdit    = $('<button></button>').addClass('btn btn-danger');    //編輯
                         
 
                         let br = $('<br />');
 
                         let postid = value.postId;
+                        let editable = value.editable;
                         let url = '@Url.Action("PostView","Forum")?fPostId=' + postid;
+                        let urlEdit = '@Url.Action("Edit","Forum")?fPostId=' + postid;
                         let link = $('<a></a>');
+                        let linkEdit = $('<a></a>');
                         let td = $('<td></td>');
+                        td.attr('data-postid', postid);
                         let tr = $('<tr></tr>');
                         link.text(value.title).attr('href', url);
+                        linkEdit.text('編輯').attr('href', urlEdit);
 
-                        td.append(link).append(br).append(btnLike).append(btnHate).append(btnShare).append(btnFav).append(btnHide).append(btnEdit).append(btnStop);
+                        console.log(editable);
+
+                        if (editable == 'True') {
+                            td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide).append(btnEdit.append(linkEdit));
+                        } else {
+                            td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide);
+                        }
+
+
+                        
                         tr.append(td);
 
-                        $('tbody').append(tr);
+                        $('tbody').prepend(tr);
+                        
                     })
 
                     //3.處理更新
@@ -180,5 +196,41 @@
         };
 
         window.setInterval(refreshPostList, 1000);
+    </script>
+
+    @* 收藏文章 / 隱藏文章 *@
+    <script>
+        //收藏
+        $(document).on('click', '.btn-favorite', function () {
+            let pid = $(this).parent().attr('data-postid');
+            let targetTr = $(this).parent().parent();
+            $.post(
+                '@Url.Action("FavirotePost", "Forum")',
+                {
+                    pid: pid
+
+                }, function (response) {
+                    $(targetTr).remove();
+                    window.alert('已加入收藏清單');
+                }
+            )
+        })
+
+        //隱藏
+        $(document).on('click', '.btn-hide', function () {
+            let pid = $(this).parent().attr('data-postid');
+            let targetTr = $(this).parent().parent();
+            $.post(
+                '@Url.Action("HidePost", "Forum")',
+                {
+                    pid: pid
+
+                }, function (response) {
+                    $(targetTr).remove();
+                    window.alert('已加入隱藏清單');
+                }
+            )
+        })
+
     </script>
 }

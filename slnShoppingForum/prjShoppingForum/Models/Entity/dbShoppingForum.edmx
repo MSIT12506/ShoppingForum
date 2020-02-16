@@ -310,6 +310,7 @@
           </Key>
           <Property Name="fId" Type="int" Nullable="false" />
           <Property Name="fPostId" Type="int" Nullable="false" />
+          <Property Name="fIsFavorite" Type="bit" />
         </EntityType>
         <EntityType Name="tUserLog">
           <Key>
@@ -1488,6 +1489,7 @@
           </Key>
           <Property Name="fId" Type="Int32" Nullable="false" />
           <Property Name="fPostId" Type="Int32" Nullable="false" />
+          <Property Name="fIsFavorite" Type="Boolean" />
           <NavigationProperty Name="tForum" Relationship="dbShoppingForumModel.FK_tUserFavorite_tUserFavorite" FromRole="tUserFavorite" ToRole="tForum" />
         </EntityType>
         <EntityType Name="tUserLog">
@@ -2281,6 +2283,7 @@
           <EntitySetMapping Name="tUserFavorites">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tUserFavorite">
               <MappingFragment StoreEntitySet="tUserFavorite">
+                <ScalarProperty Name="fIsFavorite" ColumnName="fIsFavorite" />
                 <ScalarProperty Name="fPostId" ColumnName="fPostId" />
                 <ScalarProperty Name="fId" ColumnName="fId" />
               </MappingFragment>

@@ -15,6 +15,7 @@ using System.Web.Routing;
 using tw.com.essentialoil.Forum.Models;
 using tw.com.essentialoil.Forum.ViewModels;
 using tw.com.essentialoil.Models;
+using tw.com.essentialoil.User.Models;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -23,17 +24,38 @@ namespace tw.com.essentialoil.Controllers
         //所有文章列表
         public ActionResult List()
         {
+            //user - fid
+            int id = 0;
+
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session,"Forum","List"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                id = userLoginInfo.user_fid;
+            }
+
             //一進入Action就先取出當下時間
             ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
+            //紀錄session-id
+            ViewBag.sessionId = id;
             CForum forum = new CForum();
-            
-            return View(forum.queryAllPost());
+            return View(forum.queryAllPost(id));
         }
 
         //呈現文章的內容
         public ActionResult PostView(int fPostId) {
-            
+
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session, "Forum", "List"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
+
             //一進入Action就先取出當下時間
             ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
@@ -58,7 +80,11 @@ namespace tw.com.essentialoil.Controllers
         //修改文章內容
         public ActionResult Edit(int fPostId)
         {
-            Session[CDictionary.UPDATE_FORUM_ID] = fPostId;
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session, "Forum", "List"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
 
             CForum forum = new CForum();
             tForum tForum = forum.queryPostById(fPostId);
@@ -71,16 +97,39 @@ namespace tw.com.essentialoil.Controllers
         //修改文章內容[POST]
         [HttpPost]
         //[ValidateInput(false)]
-        public ActionResult Edit(CForumCreate vm)
+        public ActionResult Edit(string postId, string title, string content)
         {
-            if (Session[CDictionary.UPDATE_FORUM_ID] != null)
-            {
-                CForum forum = new CForum();
-                forum.updatePostById(Session[CDictionary.UPDATE_FORUM_ID], vm);
-            }
+            CForum forum = new CForum();
+            forum.updatePostById(postId, title, content);
 
             return RedirectToAction("List");
 
+        }
+
+        //收藏/隱藏文章列表
+        public ActionResult SelfList()
+        {
+            //user - fid
+            int id = 0;
+
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session, "Forum", "SelfList"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                id = userLoginInfo.user_fid;
+            }
+
+            //一進入Action就先取出當下時間
+            ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+
+            //紀錄session-id
+            ViewBag.sessionId = id;
+            CForum forum = new CForum();
+            return View(forum.querySelfPost(id));
         }
 
         //刪除文章
@@ -88,8 +137,8 @@ namespace tw.com.essentialoil.Controllers
         {
             CForum forum = new CForum();
             forum.deletePostById(fPostId);
-            
-            return RedirectToAction("List");
+
+            return Content("success");
         }
 
 
@@ -97,15 +146,14 @@ namespace tw.com.essentialoil.Controllers
         //新增文章
         public ActionResult Create(string title, string content)
         {
-            //TODO
             //從Session讀取資料
-            //判斷是否有登入，如果有登入，取得該會員的fId
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
 
             string status = "error";
             if (!String.IsNullOrWhiteSpace(title))
             {
                 CForum forum = new CForum();
-                forum.newPost(1, title, content);
+                forum.newPost(userLoginInfo.user_fid, title, content);
                 status = "success";
             }
 
@@ -130,6 +178,9 @@ namespace tw.com.essentialoil.Controllers
             List<object> updateForums = new List<object>();
             List<object> deleteForums = new List<object>();
 
+            //取得session資訊
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
             //利用postIdList區分是更新的文章還是新增的文章
             foreach (tForum post in forums)
             {
@@ -138,7 +189,8 @@ namespace tw.com.essentialoil.Controllers
                     var newPost = new
                     {
                         title = post.fPostTitle,      //文章標題
-                        postId = post.fPostId         //文章編號
+                        postId = post.fPostId,         //文章編號
+                        editable = (post.tUserProfile.fId == userLoginInfo.user_fid).ToString()
                     };
 
                     newForums.Add(newPost);
@@ -196,13 +248,12 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult Reply(CNewReplyCreate replyInfo) {
             string status = "";
 
-            //TODO
             //從Session讀取資料
-            //判斷是否有登入，如果有登入，取得該會員的fId
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
 
             CReply reply = new CReply();
-            if (replyInfo.targetType == "POST") reply.NewCommentForPost(replyInfo, 1);
-            if (replyInfo.targetType == "COMMENT") reply.NewCommentForComment(replyInfo, 1);
+            if (replyInfo.targetType == "POST") reply.NewCommentForPost(replyInfo, userLoginInfo.user_fid);
+            if (replyInfo.targetType == "COMMENT") reply.NewCommentForComment(replyInfo, userLoginInfo.user_fid);
 
             return Content(status);
         }
@@ -231,7 +282,10 @@ namespace tw.com.essentialoil.Controllers
                         replyId = item.fReplyId,               //自己的ID
                         replyTargetId = item.fReplyTargetId,   //回覆對象的ID
                         replySeqNo = item.fReplySeqNo,
-                        replyContent = item.fContent
+                        replyContent = item.fContent,
+                        replyName = item.tUserProfile.fName,
+                        replyDate = item.fReplyTime.ToLongDateString(),
+                        replyTime = item.fReplyTime.ToLongTimeString()
                     };
 
                     newReplyList.Add(newReply);
@@ -246,6 +300,62 @@ namespace tw.com.essentialoil.Controllers
                 }, JsonRequestBehavior.AllowGet);
 
         }
+
+        //新增文章到收藏清單
+        public ActionResult FavirotePost(string pid)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CForum forum = new CForum();
+            int postId = Convert.ToInt32(pid);
+            forum.addFavirotePost(userLoginInfo.user_fid, postId);
+
+            return Content("");
+        }
+
+        //新增文章到隱藏清單
+        public ActionResult HidePost(string pid)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CForum forum = new CForum();
+            int postId = Convert.ToInt32(pid);
+            forum.addHidePost(userLoginInfo.user_fid, postId);
+
+            return Content("");
+        }
+
+        //移除收藏/隱藏清單的文章
+        public ActionResult RemovePost(string pid)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CForum forum = new CForum();
+            int postId = Convert.ToInt32(pid);
+            forum.removePost(userLoginInfo.user_fid, postId);
+
+            return Content("");
+        }
+
+        //搜尋文章功能
+        public ActionResult SearchPost(string searchText)
+        {
+            CForum forum = new CForum();
+            if (searchText != null)
+            {
+                List<tForum> forums = forum.searchString(searchText.Trim());
+                return View(forums);
+            }
+
+            return RedirectToAction("List");
+        }
+
+
+
+
+
+
+
 
     }
 }

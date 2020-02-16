@@ -5,36 +5,36 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="e4ae7a2d86fe4a6ba6e537356585e840" Name="Diagram1">
-        <EntityTypeShape EntityType="dbShoppingForumModel.tAdminManager" Width="1.5" PointX="8.75" PointY="7.25" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tCategory" Width="1.5" PointX="1.5" PointY="2.75" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tDiscount" Width="1.5" PointX="0.75" PointY="14.25" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tEfficacy" Width="1.5" PointX="1.5" PointY="5" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tfeature" Width="1.5" PointX="3.75" PointY="43.875" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tForum" Width="1.5" PointX="3" PointY="38.125" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tForumAnalysi" Width="1.5" PointX="8.25" PointY="29.25" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tForumAuth" Width="1.5" PointX="3" PointY="12.25" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tForumReply" Width="1.5" PointX="5.25" PointY="28.625" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tForumReplyAnalysi" Width="1.5" PointX="8.5" PointY="24.125" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tNew" Width="1.5" PointX="8.75" PointY="2.5" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tNewsMessage" Width="1.5" PointX="11" PointY="3.25" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tNote" Width="1.5" PointX="3.75" PointY="49.75" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tOrder" Width="1.5" PointX="3" PointY="33.125" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tOrderDetail" Width="1.5" PointX="5.25" PointY="34.25" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tPart" Width="1.5" PointX="3.75" PointY="52" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tProduct" Width="1.5" PointX="3.75" PointY="2.5" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tProductImage" Width="1.5" PointX="6" PointY="7" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tProductUnilateral" Width="1.5" PointX="6" PointY="3.375" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tProductVegetableoil" Width="1.5" PointX="6" PointY="0.75" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tQuestion" Width="1.5" PointX="3" PointY="8.375" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tScore" Width="1.5" PointX="3" PointY="18.5" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tShoppingCart" Width="1.5" PointX="6" PointY="22.5" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tTest" Width="1.5" PointX="5.25" PointY="18.125" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tUserBrowseHistory" Width="1.5" PointX="3" PointY="22.625" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tUserDiscountList" Width="1.5" PointX="3" PointY="15.625" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tUserFavorite" Width="1.5" PointX="5.25" PointY="46.5" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tUserLog" Width="1.5" PointX="3" PointY="30.375" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tUserProductFavorite" Width="1.5" PointX="3" PointY="25.625" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tUserProfile" Width="1.5" PointX="0.75" PointY="18.25" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tAdminManager" Width="1.5" PointX="0.75" PointY="1.125" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tCategory" Width="1.5" PointX="3.75" PointY="6.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tDiscount" Width="1.5" PointX="3.75" PointY="28.125" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tEfficacy" Width="1.5" PointX="3.75" PointY="8.75" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tfeature" Width="1.5" PointX="6" PointY="11.625" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForum" Width="1.5" PointX="3" PointY="11.25" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumAnalysi" Width="1.5" PointX="5.25" PointY="18.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumAuth" Width="1.5" PointX="3" PointY="38.75" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumReply" Width="1.5" PointX="8.25" PointY="15.875" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tForumReplyAnalysi" Width="1.5" PointX="10.5" PointY="18.875" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tNew" Width="1.5" PointX="10.75" PointY="1.375" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tNewsMessage" Width="1.5" PointX="13" PointY="2.125" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tNote" Width="1.5" PointX="6" PointY="3.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tOrder" Width="1.5" PointX="3" PointY="16.25" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tOrderDetail" Width="1.5" PointX="8.25" PointY="20.375" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tPart" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tProduct" Width="1.5" PointX="6" PointY="6.25" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tProductImage" Width="1.5" PointX="8.25" PointY="13.25" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tProductUnilateral" Width="1.5" PointX="8.25" PointY="4.125" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tProductVegetableoil" Width="1.5" PointX="8.25" PointY="7.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tQuestion" Width="1.5" PointX="3" PointY="42.25" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tScore" Width="1.5" PointX="3" PointY="35.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tShoppingCart" Width="1.5" PointX="6" PointY="24.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tTest" Width="1.5" PointX="5.25" PointY="35.125" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserBrowseHistory" Width="1.5" PointX="3" PointY="24.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserDiscountList" Width="1.5" PointX="6" PointY="21.625" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserFavorite" Width="1.5" PointX="5.25" PointY="15.375" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserLog" Width="1.5" PointX="3" PointY="32.625" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserProductFavorite" Width="1.5" PointX="3" PointY="21.5" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tUserProfile" Width="1.5" PointX="0.75" PointY="17.25" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tProduct_tCategory" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tUserDiscountList_tDiscount" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tProductVegetableoil_tfeature" />

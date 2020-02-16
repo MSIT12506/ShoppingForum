@@ -18,6 +18,18 @@ namespace prjShoppingForum
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
+
+            routes.MapRoute(
+                name: "Login",
+                url: "{controller}/{action}/{id}",
+                defaults: new { controller = "FrontUserProfile", action = "Login"}
+            );
+
+            //routes.MapRoute(
+            //    name: "Forum",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Forum", action = "List", id = UrlParameter.Optional }
+            //);
         }
     }
 }

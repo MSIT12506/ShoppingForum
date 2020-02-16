@@ -5,29 +5,72 @@
 @{
     ViewBag.Title = "Edit";
     string result = WebUtility.HtmlDecode(Model.fPostContent);
+    string jsonContent = Model.fPostContent;
 }
 
 <div class="PostContent" style="width:600px; height:auto; margin:auto;">
-    @using (Html.BeginForm())
-    {
-        <div style="width: 600px; margin:20px auto;">
-            標題：<br />
-            <input type="text" name="postTitle" value="@Model.fPostTitle" />
-            <br />
-            <br />
-            內文：<br />
-            <div id="editor" style="height:500px">
-            </div>
-            <textarea id="tmpContent" name="tmpContent" style="display:none"></textarea>
-            <input type="submit" value="送出" />
+    <div style="width: 600px; margin:20px auto;">
+        標題：<br />
+        <input type="text" name="postTitle" value="@Model.fPostTitle" id="postTitleForEdit"/>
+        <br />
+        <br />
+        內文：<br />
+        <div id="editorForEdit" style="min-height:500px">
         </div>
-    }
-
-    <div class="targetSource" style="display:none">
-        @Html.Raw(result)
+        <button type="button" class="btn btn-primary" id="confirmEdit">修改完畢</button>
     </div>
 </div>
 
-<script src="~/Scripts/Forum/QuillEditor.New_Update.Post.js"></script>
-<script src="~/Scripts/Forum/EventHandle.Edit.js"></script>
+@section Scripts{
+    <script>
+        let toolbarOptionsForEdit = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'list': 'bullet' }, { 'list': 'ordered' }],
+            [{ 'script': 'super' }, { 'script': 'sub' }],      // superscript/subscript
+            [{ 'direction': 'rtl' }],                         // text direction
+            [{ 'indent': '+1' }, { 'indent': '-1' }],          // outdent/indent
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['image', 'video'],
+            ['clean']                                         // remove formatting button
+        ];
+
+        //文章的區塊，只能讀取，不能修改，設定readonly，且工具列是null
+        let quillPost = new Quill('#editorForEdit', {
+            modules: {
+                toolbar: toolbarOptionsForEdit
+            },
+            theme: 'snow'
+        });
+
+        //jsonContent轉換為json物件，透過quill方法，呈現在quill-editor區塊
+        let content = @Html.Raw(jsonContent);
+        console.log(content);
+        quillPost.setContents(content);
+    </script>
+
+    <script>
+        $("#confirmEdit").click(function () {
+            //取得修改後文章內容
+            let title = $("#postTitleForEdit").val();
+            let content = JSON.stringify(quillPost.getContents());
+
+            $.post(
+                '@Url.Action("Edit", "Forum")',
+                {
+                    postId: @Model.fPostId,
+                    title: title,
+                    content: content
+                }, function (res) {
+                    $(window).attr('location', '@Url.Action("List","Forum")');
+                }
+            )
+        })
+
+    </script>
+}
+
 

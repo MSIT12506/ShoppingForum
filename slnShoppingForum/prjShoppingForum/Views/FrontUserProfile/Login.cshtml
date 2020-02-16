@@ -24,13 +24,13 @@
         {
             @Html.TextBox("fVeriCode")
             pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(0, 1) + ".png";
-            @:<img src="/Images/@pic" width="60" />
+            @:<img src="/Images/Member/@pic" width="60" />
             pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(1, 1) + ".png";
-            @:<img src="/Images/@pic" width="60" />
+            @:<img src="/Images/Member/@pic" width="60" />
             pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(2, 1) + ".png";
-            @:<img src="/Images/@pic" width="60" />
+            @:<img src="/Images/Member/@pic" width="60" />
             pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(3, 1) + ".png";
-            @:<img src="/Images/@pic" width="60" />
+            @:<img src="/Images/Member/@pic" width="60" />
         }
     </p>
     if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)

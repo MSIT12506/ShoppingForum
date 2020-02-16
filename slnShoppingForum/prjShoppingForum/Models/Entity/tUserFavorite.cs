@@ -16,6 +16,7 @@ namespace prjShoppingForum.Models.Entity
     {
         public int fId { get; set; }
         public int fPostId { get; set; }
+        public Nullable<bool> fIsFavorite { get; set; }
     
         public virtual tForum tForum { get; set; }
     }

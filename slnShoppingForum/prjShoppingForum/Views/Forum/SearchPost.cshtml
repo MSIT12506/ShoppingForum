@@ -1,0 +1,28 @@
+﻿@model List<prjShoppingForum.Models.Entity.tForum>
+@{
+    ViewBag.Title = "SearchPost";
+}
+
+<h2>搜尋結果</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>文章序號</th>
+            <th>文章標題</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.fPostId
+                </td>
+                <td>
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

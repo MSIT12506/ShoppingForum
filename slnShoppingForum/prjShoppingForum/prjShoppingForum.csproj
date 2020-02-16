@@ -1069,6 +1069,7 @@
     <Content Include="Scripts\umd\popper.min.js" />
     <Content Include="Styles\Home\home.css" />
     <Content Include="Styles\quill.snow.css" />
+    <Content Include="Styles\Site.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1094,6 +1095,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\CDictionary.cs" />
+    <Compile Include="Models\CRedirectToLogin.cs" />
     <Compile Include="Models\Discount\CDiscount.cs" />
     <Compile Include="Models\Entity\dbShoppingForum.Context.cs">
       <AutoGen>True</AutoGen>
@@ -1306,6 +1308,8 @@
     <Content Include="Views\Test\Delete.cshtml" />
     <Content Include="Views\Test\Edit.cshtml" />
     <Content Include="Views\Test\List.cshtml" />
+    <Content Include="Views\Forum\SelfList.cshtml" />
+    <Content Include="Views\Forum\SearchPost.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

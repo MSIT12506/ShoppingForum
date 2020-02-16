@@ -10,6 +10,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using tw.com.essentialoil.User.Models;
+using tw.com.essentialoil.Models;
 
 namespace tw.com.essentialoil.Controllers.FrontUser
 {
@@ -66,50 +67,47 @@ namespace tw.com.essentialoil.Controllers.FrontUser
 
         public ActionResult Home()
         {
-            if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
+            if (Session[CDictionary.UserLoginInfo] == null)
                 return RedirectToAction("Login");
             else
             {
-                var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
-                var detail = db.tUserProfiles.Where(p => p.fName == g).Select(q=>q);
-                return View(detail);
+                //var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
+                //var detail = db.tUserProfiles.Where(p => p.fName == g).Select(q=>q);
+
+                //Read From Session
+                UserLoginInfo userLoginIfno = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                return View(userLoginIfno);
             }
         }
+
+        //把get, post寫在同一個Action?
         public ActionResult Login(CLoginData data)
         {
-            if (Session[UserDictionary.S_AUTHENTICATED_CODE] == null)
+            //判斷data內的屬性是否為null，不是判斷data是否為null
+            string userid = (data.fUserId == null) ? null : data.fUserId;
+            string password = (data.fPassword == null) ? null : data.fPassword;
+            string authCode = (data.fVeriCode == null) ? null : data.fVeriCode;
+            string targetAuthCode = Session[UserDictionary.S_AUTHENTICATED_CODE]?.ToString();
+
+            //畫面上面的輸入欄位缺一不可
+            if (userid != null && password != null && authCode != null)
             {
-                Session[UserDictionary.S_AUTHENTICATED_CODE] =
+                tUserProfile loginUser = db.tUserProfiles.Where(u => u.fUserId == userid && u.fPassword == password && targetAuthCode == authCode).FirstOrDefault();
+                if (loginUser!=null)
+                {
+                    Session[CDictionary.UserLoginInfo] = new UserLoginInfo() { user_fid = loginUser.fId, user_name = loginUser.fName, user_userid = loginUser.fUserId };
+                    return RedirectToAction("Home");
+                }
+            }
+
+            //讓每次登入失敗或是第一次進入登入頁，都可以重新刷新驗證碼
+            Session[UserDictionary.S_AUTHENTICATED_CODE] =
                     r.Next(0, 10).ToString() +
                     r.Next(0, 10).ToString() +
                     r.Next(0, 10).ToString() +
                     r.Next(0, 10).ToString();
-            }
-            if (data != null)
-            {
-                var cust = from d in db.tUserProfiles
-                           where d.fUserId == data.fUserId
-                           select d.fPassword;
-                if (cust != null)
-                {
-                    if (cust.Contains(data.fPassword))
-                    {
-                        var Ufid = db.tUserProfiles.FirstOrDefault(u => u.fUserId == data.fUserId).fId;
-                        //var UfId = from d in db.tUserProfile
-                        //              where d.fUserId == data.fUserId
-                        //              select d.fId;
-                        if (data.fVeriCode.Equals(Session[UserDictionary.S_AUTHENTICATED_CODE].ToString()) && Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
-                        {
-                            Session[UserDictionary.S_CURRENT_LOGINED_USER] = data.fUserId;
-                            Session[UserDictionary.S_CURRENT_LOGINED_USERfid] = Ufid;
-                            return RedirectToAction("Home");
-                        }
-                        else
-                            ViewBag.ErrorMessage = "驗證碼不符";
-                    }
-                    else ViewBag.ErrorMessage = "密碼不正確";
-                }
-            }
+
+            //進入登入頁
             return View();
         }
 

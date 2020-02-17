@@ -32,22 +32,33 @@ namespace tw.com.essentialoil.Forum.Models
         }
 
         //Select All Post
-        public List<tForum> queryAllPost(int id)
+        public List<CForumList> queryAllPost(int id)
         {
             //確認是否有收藏/隱藏的文章，如果有則不顯示(by user)
             List<int> hates = (from p in db.tUserFavorites
                                where p.fId == id
                                select p.fPostId).ToList();
 
-            List<tForum> result = (from i in db.tForums
-                                   where i.fEnableFlag == true       //刪除的不要被select出來
-                                   &&    i.fTopSeq >= 999            //置頂文章不要呈現
-                                   orderby i.fCreateTime descending  //新到舊作為預設排序(文章建立時間)
-                                   select i).ToList();
+            List<CForumList> result = (from i in db.tForums
+                                       where i.fEnableFlag == true       //刪除的不要被select出來
+                                       && i.fTopSeq >= 999               //置頂文章不要呈現
+                                       orderby i.fCreateTime descending  //新到舊作為預設排序(文章建立時間)
+                                       select new CForumList() { postId = i.fPostId, postTitle = i.fPostTitle, userFid = i.tUserProfile.fId, likeOrHate = null }).ToList();
 
             foreach (int item in hates)
             {
-                result.RemoveAll(r => r.fPostId == item);
+                result.RemoveAll(r => r.postId == item);
+            }
+
+            //判斷是否有喜歡或是討厭的紀錄
+            foreach (var item in result)
+            {
+                bool? isLikeHate = db.tForumAnalysis.Where(p => p.fPostId == item.postId && p.fId == item.userFid).Select(p => p.fLikeHate).FirstOrDefault();
+
+                if (isLikeHate != null)
+                {
+                    item.likeOrHate = isLikeHate.ToString();
+                }
             }
 
             return result;
@@ -67,7 +78,6 @@ namespace tw.com.essentialoil.Forum.Models
         //Select Post by Id
         public tForum queryPostById(int fPostId)
         {
-            //TODO - 補上權限控制
             tForum result = (from i in db.tForums
                           where i.fPostId == fPostId
                           select i).FirstOrDefault();
@@ -223,5 +233,6 @@ namespace tw.com.essentialoil.Forum.Models
 
             return results;
         }
+
     }
 }

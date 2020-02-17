@@ -53,9 +53,10 @@ namespace tw.com.essentialoil.Forum.Models
 
 
         //Get All Reply By Id
-        public List<List<tForumReply>> getReplysById(int fPostId)
+        public List<List<CPostReplyInfo>> getReplysById(int fPostId)
         {
             List<List<tForumReply>> result = new List<List<tForumReply>>();
+            List<List<CPostReplyInfo>> results = new List<List<CPostReplyInfo>>();
 
             //先取得該文章的所有留言
             var allReply = from m in db.tForumReplies
@@ -84,7 +85,27 @@ namespace tw.com.essentialoil.Forum.Models
                 }
             }
 
-            return result;
+            foreach (var item in result)
+            {
+                List<CPostReplyInfo> replyInfoList = new List<CPostReplyInfo>();
+
+                foreach (var reply in item)
+                {
+                    CPostReplyInfo info = new CPostReplyInfo() { replyId = reply.fReplyId, replyContent = reply.fContent, replyTime = reply.fReplyTime, replySeqNo = reply.fReplySeqNo, userName = reply.tUserProfile.fName, isLikeOrHate = null };
+                    bool? q = db.tForumReplyAnalysis.Where(r => r.fId == reply.fId && r.fPostId == reply.fPostId && r.fReplyId == reply.fReplyId).Select(r => r.fLikeHate).FirstOrDefault();
+
+                    if (q != null)
+                    {
+                        info.isLikeOrHate = q.ToString();
+                    }
+
+                    replyInfoList.Add(info);
+                }
+
+                results.Add(replyInfoList);
+            }
+
+            return results;
         }
 
         public void getCommentFlow(tForumReply reply, List<tForumReply> result)
@@ -114,6 +135,29 @@ namespace tw.com.essentialoil.Forum.Models
                          select m;
 
             return replys.ToList();
+        }
+
+        //新增留言的【喜歡/討厭】紀錄
+        public void addLikeOrHateCount(int userId, int postId, string replyId, bool result)
+        {
+            //檢查是否已經有討厭或是喜歡的紀錄
+            tForumReplyAnalysi checkRecord = db.tForumReplyAnalysis.Where(p => p.fId == userId && p.fPostId == postId && p.fReplyId == replyId).FirstOrDefault();
+
+            if (checkRecord == null)
+            {
+                tForumReplyAnalysi addLikeRecord = new tForumReplyAnalysi();
+                addLikeRecord.fId = userId;
+                addLikeRecord.fPostId = postId;
+                addLikeRecord.fReplyId = replyId;
+                addLikeRecord.fLikeHate = result;
+                db.tForumReplyAnalysis.Add(addLikeRecord);
+                db.SaveChanges();
+            }
+            else
+            {
+                checkRecord.fLikeHate = result;
+                db.SaveChanges();
+            }
         }
     }
 }

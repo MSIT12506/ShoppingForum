@@ -17,7 +17,7 @@ namespace prjShoppingForum.Models.Entity
         public int fPostId { get; set; }
         public string fReplyId { get; set; }
         public int fId { get; set; }
-        public bool fLikeHate { get; set; }
+        public Nullable<bool> fLikeHate { get; set; }
     
         public virtual tForumReply tForumReply { get; set; }
         public virtual tUserProfile tUserProfile { get; set; }

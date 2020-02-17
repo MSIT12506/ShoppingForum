@@ -14,6 +14,12 @@ namespace prjShoppingForum.Models.Entity
     
     public partial class tForumReply
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tForumReply()
+        {
+            this.tForumReplyAnalysis = new HashSet<tForumReplyAnalysi>();
+        }
+    
         public int fPostId { get; set; }
         public string fReplyId { get; set; }
         public string fReplyTargetId { get; set; }
@@ -27,6 +33,7 @@ namespace prjShoppingForum.Models.Entity
         public virtual tForum tForum { get; set; }
         public virtual tUserProfile tUserProfile { get; set; }
         public virtual tUserProfile tUserProfile1 { get; set; }
-        public virtual tForumReplyAnalysi tForumReplyAnalysi { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
     }
 }

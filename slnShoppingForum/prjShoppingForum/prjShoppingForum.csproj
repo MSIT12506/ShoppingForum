@@ -1235,6 +1235,7 @@
     <Compile Include="ViewModels\CNewsview.cs" />
     <Compile Include="ViewModels\CQuizTest.cs" />
     <Compile Include="ViewModels\Forum\CForumCreate.cs" />
+    <Compile Include="ViewModels\Forum\CForumList.cs" />
     <Compile Include="ViewModels\Forum\CNewReplyCreate.cs" />
     <Compile Include="ViewModels\Forum\CPostView.cs" />
     <Compile Include="ViewModels\HomePage.cs" />

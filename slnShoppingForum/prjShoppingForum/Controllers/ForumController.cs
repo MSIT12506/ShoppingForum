@@ -71,7 +71,7 @@ namespace tw.com.essentialoil.Controllers
             tForum tForum = forum.queryPostById(fPostId);
 
             CReply reply = new CReply();
-            List<List<tForumReply>> replys = reply.getReplysById(fPostId);
+            List<List<CPostReplyInfo>> replys = reply.getReplysById(fPostId);
 
             CPostView postview = new CPostView { forum = tForum, reply = replys };
             
@@ -140,7 +140,7 @@ namespace tw.com.essentialoil.Controllers
             return View(forum.querySelfPost(id));
         }
 
-        //刪除文章
+        //刪除文章(TODO - 後台)
         public ActionResult Delete(int fPostId)
         {
             CForum forum = new CForum();
@@ -161,7 +161,6 @@ namespace tw.com.essentialoil.Controllers
 
             return RedirectToAction("List");
         }
-
 
         //----------------------------Ajax----------------------------
         //新增文章
@@ -358,6 +357,53 @@ namespace tw.com.essentialoil.Controllers
             return Content("");
         }
 
+        //新增文章的點擊資訊(喜歡)
+        public ActionResult ClickLike(string pid)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CForum forum = new CForum();
+            int postId = Convert.ToInt32(pid);
+            forum.addFavirotePost(userLoginInfo.user_fid, postId);
+
+            return Content("");
+        }
+
+        //新增文章的點擊資訊(喜歡)
+        public ActionResult ClickHate(string pid)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CForum forum = new CForum();
+            int postId = Convert.ToInt32(pid);
+            forum.addHidePost(userLoginInfo.user_fid, postId);
+
+            return Content("");
+        }
+
+        //新增留言的點擊資訊(喜歡)
+        public ActionResult ReplyClickLike(string pid, string replyId)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CReply reply = new CReply();
+            int postId = Convert.ToInt32(pid);
+            reply.addLikeOrHateCount(userLoginInfo.user_fid, postId, replyId, true);
+
+            return Content("");
+        }
+
+        //新增留言的點擊資訊(喜歡)
+        public ActionResult ReplyClickHate(string pid, string replyId)
+        {
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+
+            CReply reply = new CReply();
+            int postId = Convert.ToInt32(pid);
+            reply.addLikeOrHateCount(userLoginInfo.user_fid, postId, replyId, false);
+
+            return Content("");
+        }
 
     }
 }

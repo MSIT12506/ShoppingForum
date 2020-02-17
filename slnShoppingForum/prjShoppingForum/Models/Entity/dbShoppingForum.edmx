@@ -110,11 +110,12 @@
           <Key>
             <PropertyRef Name="fPostId" />
             <PropertyRef Name="fReplyId" />
+            <PropertyRef Name="fId" />
           </Key>
           <Property Name="fPostId" Type="int" Nullable="false" />
           <Property Name="fReplyId" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fId" Type="int" Nullable="false" />
-          <Property Name="fLikeHate" Type="bit" Nullable="false" />
+          <Property Name="fLikeHate" Type="bit" />
         </EntityType>
         <EntityType Name="tNews">
           <Key>
@@ -451,7 +452,7 @@
         </Association>
         <Association Name="FK_tForumReplyAnalysis_tForumReply">
           <End Role="tForumReply" Type="Self.tForumReply" Multiplicity="1" />
-          <End Role="tForumReplyAnalysis" Type="Self.tForumReplyAnalysis" Multiplicity="0..1" />
+          <End Role="tForumReplyAnalysis" Type="Self.tForumReplyAnalysis" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tForumReply">
               <PropertyRef Name="fPostId" />
@@ -1255,17 +1256,18 @@
           <NavigationProperty Name="tForum" Relationship="dbShoppingForumModel.FK_tForumReply_tForum" FromRole="tForumReply" ToRole="tForum" />
           <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile" FromRole="tForumReply" ToRole="tUserProfile" />
           <NavigationProperty Name="tUserProfile1" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile1" FromRole="tForumReply" ToRole="tUserProfile" />
-          <NavigationProperty Name="tForumReplyAnalysi" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReply" ToRole="tForumReplyAnalysi" />
+          <NavigationProperty Name="tForumReplyAnalysis" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReply" ToRole="tForumReplyAnalysi" />
         </EntityType>
         <EntityType Name="tForumReplyAnalysi">
           <Key>
             <PropertyRef Name="fPostId" />
             <PropertyRef Name="fReplyId" />
+            <PropertyRef Name="fId" />
           </Key>
           <Property Name="fPostId" Type="Int32" Nullable="false" />
           <Property Name="fReplyId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fId" Type="Int32" Nullable="false" />
-          <Property Name="fLikeHate" Type="Boolean" Nullable="false" />
+          <Property Name="fLikeHate" Type="Boolean" />
           <NavigationProperty Name="tForumReply" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReplyAnalysi" ToRole="tForumReply" />
           <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" FromRole="tForumReplyAnalysi" ToRole="tUserProfile" />
         </EntityType>
@@ -1696,7 +1698,7 @@
         </Association>
         <Association Name="FK_tForumReplyAnalysis_tForumReply">
           <End Type="dbShoppingForumModel.tForumReply" Role="tForumReply" Multiplicity="1" />
-          <End Type="dbShoppingForumModel.tForumReplyAnalysi" Role="tForumReplyAnalysi" Multiplicity="0..1" />
+          <End Type="dbShoppingForumModel.tForumReplyAnalysi" Role="tForumReplyAnalysi" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tForumReply">
               <PropertyRef Name="fPostId" />

@@ -1310,6 +1310,8 @@
     <Content Include="Views\Test\List.cshtml" />
     <Content Include="Views\Forum\SelfList.cshtml" />
     <Content Include="Views\Forum\SearchPost.cshtml" />
+    <Content Include="Views\Quiz\Index.cshtml" />
+    <Content Include="Views\Forum\TopList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

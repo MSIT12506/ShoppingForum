@@ -41,6 +41,7 @@ namespace tw.com.essentialoil.Forum.Models
 
             List<tForum> result = (from i in db.tForums
                                    where i.fEnableFlag == true       //刪除的不要被select出來
+                                   &&    i.fTopSeq >= 999            //置頂文章不要呈現
                                    orderby i.fCreateTime descending  //新到舊作為預設排序(文章建立時間)
                                    select i).ToList();
 
@@ -50,6 +51,17 @@ namespace tw.com.essentialoil.Forum.Models
             }
 
             return result;
+        }
+
+        public List<tForum> queryTopPost()
+        {
+            List<tForum> topLists = (from f in db.tForums
+                                     where f.fEnableFlag == true
+                                     &&    f.fTopSeq < 999
+                                     orderby f.fTopSeq ascending
+                                     select f).ToList();
+
+            return topLists;
         }
 
         //Select Post by Id

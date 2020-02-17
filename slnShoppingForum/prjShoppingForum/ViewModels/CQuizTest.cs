@@ -48,12 +48,6 @@ namespace tw.com.essentialoil.ShoppingCart.ViewModels
         [DisplayName("測驗積分")]
         public Nullable<int> fQuestionScore { get; set; }
 
-        [DisplayName("題目表")]
-        public virtual tQuestion tQuestion { get; set; }
-        [DisplayName("帳戶積分表")]
-        public virtual tScore tScore { get; set; }
-        [DisplayName("會員主表")]
-        public virtual tUserProfile tUserProfile { get; set; }
 
     }
 }

@@ -1,0 +1,22 @@
+﻿@model List<prjShoppingForum.Models.Entity.tForum>
+
+
+<h2>置頂專區</h2>
+
+<table class="table table-striped">
+    <thead>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td data-postid="@item.fPostId">
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<hr />

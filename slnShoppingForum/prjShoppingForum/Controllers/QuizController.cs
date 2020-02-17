@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using tw.com.essentialoil.ShoppingCart.ViewModels;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -13,8 +14,8 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult Index()
         {
             dbShoppingForumEntities db = new dbShoppingForumEntities();
-            ViewBag.Title = "第一題";
-            return View();
+            CQuizTest qt = new CQuizTest();
+            return View(qt);
         }
 
         public ActionResult HandleQ1(string Q1)

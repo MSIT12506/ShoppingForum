@@ -47,6 +47,14 @@ namespace tw.com.essentialoil.Controllers
             return View(forum.queryAllPost(id));
         }
 
+        //置頂文章列表
+        public ActionResult TopList()
+        {
+            CForum forum = new CForum();
+
+            return PartialView(forum.queryTopPost());
+        }
+
         //呈現文章的內容
         public ActionResult PostView(int fPostId) {
 
@@ -139,6 +147,19 @@ namespace tw.com.essentialoil.Controllers
             forum.deletePostById(fPostId);
 
             return Content("success");
+        }
+
+        //搜尋文章功能
+        public ActionResult SearchPost(string searchText)
+        {
+            CForum forum = new CForum();
+            if (searchText != null)
+            {
+                List<tForum> forums = forum.searchString(searchText.Trim());
+                return View(forums);
+            }
+
+            return RedirectToAction("List");
         }
 
 
@@ -336,25 +357,6 @@ namespace tw.com.essentialoil.Controllers
 
             return Content("");
         }
-
-        //搜尋文章功能
-        public ActionResult SearchPost(string searchText)
-        {
-            CForum forum = new CForum();
-            if (searchText != null)
-            {
-                List<tForum> forums = forum.searchString(searchText.Trim());
-                return View(forums);
-            }
-
-            return RedirectToAction("List");
-        }
-
-
-
-
-
-
 
 
     }

@@ -155,6 +155,11 @@
                 },
                 function (response) {
                     console.log(response);
+
+                    //清空資料
+                    quillComment.setContents([
+                        { insert: '' }
+                    ]);
                 }
             )
         })
@@ -211,6 +216,11 @@
                 },
                 function (response) {
                     console.log("");
+
+                    //清空資料
+                    messageQuill.setContents([
+                        { insert: '' }
+                    ]);
                 }
             )
         })

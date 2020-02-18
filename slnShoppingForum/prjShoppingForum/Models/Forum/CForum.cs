@@ -234,5 +234,27 @@ namespace tw.com.essentialoil.Forum.Models
             return results;
         }
 
+        public void addLikeOrHateCount(int userId, int postId, bool result)
+        {
+            //檢查是否已經有討厭或是喜歡的紀錄
+            tForumAnalysi checkRecord = db.tForumAnalysis.Where(p => p.fId == userId && p.fPostId == postId ).FirstOrDefault();
+
+            if (checkRecord == null)
+            {
+                tForumAnalysi addLikeRecord = new tForumAnalysi();
+                addLikeRecord.fId = userId;
+                addLikeRecord.fPostId = postId;
+                addLikeRecord.fLikeHate = result;
+                db.tForumAnalysis.Add(addLikeRecord);
+                db.SaveChanges();
+            }
+            else
+            {
+                checkRecord.fLikeHate = result;
+                db.SaveChanges();
+            }
+
+
+        }
     }
 }

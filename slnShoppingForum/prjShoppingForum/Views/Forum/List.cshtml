@@ -19,7 +19,7 @@
         @* From Bootstrap Example *@
         @* -------------------------------------------------------------------------------------------------- *@
         @* -------------------------------------------------------------------------------------------------- *@
-        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+        <div class="modal fade" id="ModalScrollableForPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -56,6 +56,7 @@
 
 @Html.Action("TopList")
 
+<h2>文章列表</h2>
 <table class="table table-striped table-mainlist">
     <thead>
     </thead>
@@ -101,7 +102,7 @@
 </table>
 
 @section Scripts{
-    <script>
+<script>
         //注意!! EventHandle.Edit 有修改，這邊也要做確認，避免兩邊IDmapping錯誤
 
         //建立Quill文章編輯器
@@ -131,19 +132,25 @@
 
         //確認發佈的click事件，註冊ajax事件
         $('#confirmPost').on('click', function () {
-                            //1. 取得文章的json內容
-                            let content = JSON.stringify(quill.getContents());
-                            let title = $("#postTitle").val();
+            //1. 取得文章的json內容
+            let content = JSON.stringify(quill.getContents());
+            let title = $("#postTitle").val();
 
             $.post(
                 '@Url.Action("Create","Forum")',
                 {
-                            title: title,
+                    title: title,
                     content: content
                 },
                 function (response) {
-                                console.log(response);
-                            }
+                    console.log(response);
+
+                    //清空資料
+                    $("#postTitle").val('');
+                    quill.setContents([
+                        { insert: '' }
+                    ]);
+                }
             )
         })
 
@@ -216,7 +223,7 @@
         };
 
                         window.setInterval(refreshPostList, 1000);
-    </script>
+</script>
 
     @* 收藏文章 / 隱藏文章 *@
     <script>

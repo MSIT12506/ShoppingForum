@@ -364,19 +364,19 @@ namespace tw.com.essentialoil.Controllers
 
             CForum forum = new CForum();
             int postId = Convert.ToInt32(pid);
-            forum.addFavirotePost(userLoginInfo.user_fid, postId);
+            forum.addLikeOrHateCount(userLoginInfo.user_fid, postId, true);
 
             return Content("");
         }
 
-        //新增文章的點擊資訊(喜歡)
+        //新增文章的點擊資訊(討厭)
         public ActionResult ClickHate(string pid)
         {
             UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
 
             CForum forum = new CForum();
             int postId = Convert.ToInt32(pid);
-            forum.addHidePost(userLoginInfo.user_fid, postId);
+            forum.addLikeOrHateCount(userLoginInfo.user_fid, postId, false);
 
             return Content("");
         }

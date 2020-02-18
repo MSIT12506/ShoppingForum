@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "MemberCenter";
+}
+@*@section css{
+        <style>
+
+
+            .btn-light {
+                width: 100%
+            }
+        </style>
+    }*@
+
+<h2>會員中心</h2>
+@*<p>@Html.ActionLink("編輯會員資訊", "UserEdit", "FrontUserProfile")</p>
+<p>@Html.ActionLink("會員基本資料", "MemberDetail", "FrontUserProfile")</p>*@
+<div class="row" style="margin-left:30px">
+    <div class="col-md-3">
+        <div class="container">
+            <div class="btn-group-vertical">
+                <input type="button" value="個人資料" id="detail" class="btn btn-info  btn-lg" />
+                <input type="button" value="修改密碼" id="edit" class="btn btn-info  btn-lg" />
+                <input type="button" value="歷史訂單" id="orderlist" class="btn btn-info  btn-lg" />
+                <input type="button" value="商品追蹤清單" id="button4" class="btn btn-info  btn-lg" />
+                <input type="button" value="積分/優惠券" id="button5" class="btn btn-info  btn-lg" />
+                <input type="button" value="文章收藏" id="button6" class="btn btn-info  btn-lg" />
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8" id="divbox1">
+        @*@{Html.RenderAction("MemberDetail", "FrontUserProfile");}*@
+        @*@{Html.RenderPartial("MemberDetail")}*@
+
+
+        @*<div class="col-md-6">
+                 <table id="products" class="table">
+                     <thead>
+                         <tr>
+                             <th>Id</th>
+                             <th>Name</th>
+                             <th>Detail</th>
+                             <th>UnitsInStock</th>
+                         </tr>
+                     </thead>
+                     <tbody class="productList"></tbody>
+                 </table>
+
+
+            </div>*@
+
+
+    </div>
+</div>
+@section scripts{
+    <script>
+        var detail = document.querySelector('#detail');
+        var url = '@Url.Action("MemberDetail", "FrontUserProfile")'
+        $('#detail').click(function () {
+            $('#divbox1').load(url);
+        })
+
+        var orderurl = '@Url.Action("MyOrderList", "FrontUserProfile")'
+        $('#orderlist').click(function () {
+            $('#divbox1').load(orderurl);
+        })
+
+        var editurl = '@Url.Action("MemberPasswordEdit", "FrontUserProfile")'
+        $('#edit').click(function () {
+            $('#divbox1').load(editurl);
+        })
+        
+    </script>
+}

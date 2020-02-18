@@ -11,6 +11,7 @@ using System.Web;
 using System.Web.Mvc;
 using tw.com.essentialoil.User.Models;
 using tw.com.essentialoil.Models;
+using tw.com.essentialoil.Order.Models;
 
 namespace tw.com.essentialoil.Controllers.FrontUser
 {
@@ -19,7 +20,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         private dbShoppingForumEntities db = new dbShoppingForumEntities();
 
         // GET: tUserProfile
-
+        //新增使用者
         public ActionResult New()
         {
             return View();
@@ -27,22 +28,29 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         [HttpPost]
         public ActionResult New(tUserProfile c)
         {
+            c.fCreateDate = DateTime.Now;
+            c.fAuth = "1";
+            c.fAuthPost = true;
+            c.fAuthReply = true;
             db.tUserProfiles.Add(c);
             db.SaveChanges();
-            return RedirectToAction("Home");
+            return RedirectToAction("Login");
         }
+
+        //使用者登入後修改個人資料
         public ActionResult UserEdit(string g)
         {
-            if(Session[UserDictionary.S_CURRENT_LOGINED_USER]!=null)
-            g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
+            if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
+                g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
             tUserProfile cust = (new dbShoppingForumEntities()).tUserProfiles.FirstOrDefault(c => c.fUserId == g);
             if (cust == null)
-                return RedirectToAction("Home");
+                return RedirectToAction("MemberCenter");
             return View(cust);
         }
         [HttpPost]
-        public ActionResult UserEdit(string fName, string fTel, string fPhone,string fCity,string fAddress)
+        public ActionResult UserEdit(string fName, string fTel, string fPhone, string fCity, string fAddress)
         {
+
             var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
             tUserProfile cust = db.tUserProfiles.FirstOrDefault(t => t.fUserId == g);
             if (cust != null)
@@ -54,10 +62,10 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 cust.fAddress = fAddress;
                 db.SaveChanges();
             }
-            return RedirectToAction("Home");
+            return RedirectToAction("MemberCenter");
         }
 
-        //LogIn
+        //使用者登入
         Random r = new Random();
         public async Task<ActionResult> Index()
         {
@@ -65,18 +73,16 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             return View(await tUserProfile.ToListAsync());
         }
 
+        //新版Home
         public ActionResult Home()
         {
-            if (Session[CDictionary.UserLoginInfo] == null)
+            if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
                 return RedirectToAction("Login");
             else
             {
-                //var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
-                //var detail = db.tUserProfiles.Where(p => p.fName == g).Select(q=>q);
-
-                //Read From Session
-                UserLoginInfo userLoginIfno = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
-                return View(userLoginIfno);
+                var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
+                var detail = db.tUserProfiles.FirstOrDefault(c => c.fUserId == g);
+                return View(detail);
             }
         }
 
@@ -102,6 +108,8 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 if (loginUser!=null)
                 {
                     Session[CDictionary.UserLoginInfo] = new UserLoginInfo() { user_fid = loginUser.fId, user_name = loginUser.fName, user_userid = loginUser.fUserId };
+                    Session[UserDictionary.S_CURRENT_LOGINED_USER] = loginUser.fName;
+                    Session[UserDictionary.S_CURRENT_LOGINED_USERfid] = loginUser.fId;
 
                     //登入後要回到前一頁
                     LoginPageInfo loginPageInfo = Session[CDictionary.LoginPageInfo] as LoginPageInfo;
@@ -129,7 +137,73 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         }
 
 
+        public ActionResult LoginAjax(string fUserId, string fPassword, string fVeriCode)
+        {
+            var loginUser = db.tUserProfiles.FirstOrDefault(u => u.fUserId == fUserId);
+            string message = "無此帳號";
+            if (loginUser != null)
+            {
+                message = "帳號確認";
+            }
 
+            return Content(message);
+        }
+        //會員中心
+        public ActionResult MemberCenter()
+        {
+            if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
+                return RedirectToAction("Login");
+            return View();
+        }
+        //給會員中心使用的數個PartialView
+
+        public ActionResult MemberDetail()
+        {
+            if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
+                return RedirectToAction("Login");
+            else
+            {
+                var q = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
+                //var q = "CindyHu@test.con";
+                var detail = db.tUserProfiles.FirstOrDefault(c => c.fUserId == q);
+                return PartialView(detail);
+            }
+        }
+        public ActionResult MemberPasswordEdit()
+        {
+            if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
+                return RedirectToAction("Login");
+            return PartialView();
+        }
+
+        [HttpPost]
+        public ActionResult MemberPasswordEdit(string fPassword, string newPassword, string checkPassword)
+        {
+
+            var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
+            tUserProfile cust = db.tUserProfiles.FirstOrDefault(t => t.fUserId == g);
+            if (cust.fPassword == fPassword)
+            {
+                if (newPassword == checkPassword)
+                {
+                    cust.fPassword = newPassword;
+                    db.SaveChanges();
+                    Session.Clear();
+                    return RedirectToAction("Login");
+                }
+            }
+            return View();
+        }
+
+        public ActionResult MyOrderList()
+        {
+            var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERfid]);
+            //var id = db.tOrders.FirstOrDefault(p => p.fId == q);
+            var prod = db.tOrders.Where(p => p.fId == q).Select(p => p);
+            var detail = db.tOrderDetails.Select(p => p);
+            var list = new OrderView() { Order = prod, OrderDetail = detail };
+            return PartialView(list);
+        }
 
 
 

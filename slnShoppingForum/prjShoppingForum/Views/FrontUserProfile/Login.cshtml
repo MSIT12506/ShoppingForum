@@ -7,38 +7,78 @@
 }
 
 <h2>Login</h2>
+<hr />
 
-@using (Html.BeginForm())
-{
-    <p>
-        輸入使用者帳號<br />
-        @Html.TextBox("fUserId")
-    </p>
-    <p>
-        密碼<br />
-        @Html.Password("fPassword")
-    </p>
-    <p>
-        輸入驗證碼<br />
-        @if (Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
-        {
-            @Html.TextBox("fVeriCode")
-            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(0, 1) + ".png";
-            @:<img src="/Images/Member/@pic" width="60" />
-            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(1, 1) + ".png";
-            @:<img src="/Images/Member/@pic" width="60" />
-            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(2, 1) + ".png";
-            @:<img src="/Images/Member/@pic" width="60" />
-            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(3, 1) + ".png";
-            @:<img src="/Images/Member/@pic" width="60" />
-        }
-    </p>
-    if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
-    {
-        <p>@Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString()</p>
 
-    }
-    <p>
-        <input type="submit" value="送出" />
-    </p>
+<form @*action="/FrontUserProfile/Login" method="post"*@ name="LoginForm">
+    <fieldset style="width: 500px; border: 1px solid lightseagreen; margin: 15px; border-radius: 15px">
+        <div style="width: 450px; border-bottom: 2px solid #F0F0F0; margin:25px; padding-left:85px; padding-bottom:10px;">
+
+            <p>帳號：</p>
+            <input type="text" name="fUserId" placeholder="請輸入Email" id="inputid" /><div id="div1"></div><br />
+            <p>密碼：</p>
+            <input type="password" name="fPassword" placeholder="請輸入密碼" />
+           <br /><br />
+            <p>輸入驗證碼：</p>
+            <input type="text" name="fVeriCode" />
+            @*@using (Html.BeginForm())*@
+            <p>
+
+                @if (Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
+                {
+                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(0, 1) + ".png";
+                    @:<img src="/Images/Member/@pic" width="30" />
+                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(1, 1) + ".png";
+                    @:<img src="/Images/Member/@pic" width="30" />
+                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(2, 1) + ".png";
+                    @:<img src="/Images/Member/@pic" width="30" />
+                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(3, 1) + ".png";
+                    @:<img src="/Images/Member/@pic" width="30" />
+                }
+            </p>
+            @if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
+            {
+                <p style="color:lightcoral">@Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString()</p>
+                <p style="color:lightcoral">@Session["UserInfo"]</p>
+            }
+
+        </div>
+        <div style=" width:450px; margin:20px; text-align:center;">
+            <input type="submit" value="登入" id="buttonLogin" class="btn btn-warning" />
+            <input type="button" value="取消" id="buttonCancelLogin" class="btn btn-warning" />
+        </div>
+    </fieldset>
+</form>
+<br />
+
+
+
+@section scripts{
+    <script>
+        //apply ajax
+        var buttonLogin = document.querySelector('#buttonLogin');
+        var UserIdInput = document.querySelector('#inputid');
+        var buttonCancelLogin = document.querySelector('#buttonCancelLogin');
+        var myDiv = document.querySelector('#div1');
+
+        var xhr = null;
+        UserIdInput.addEventListener("blur", function () {
+            xhr = new XMLHttpRequest();
+            var formData = new FormData(document.LoginForm);
+            xhr.open('POST', '/FrontUserProfile/LoginAjax');
+            xhr.send(formData);
+
+            xhr.addEventListener('load', function () {
+                var data = xhr.responseText;
+                myDiv.innerHTML = "<h2>" + data + "</h2>";
+            })
+        });
+        //buttonLogin.addEventListener("click", function () {
+        //    FormData(document.LoginForm).submit();
+        //});
+    </script>
+
+
 }
+
+

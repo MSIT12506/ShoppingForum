@@ -1,53 +1,71 @@
-﻿@*@model EssentialOiltest.Models.Entity.tUserProfile*@
+﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
 @{
     ViewBag.Title = "New";
+
 }
 
-<h2>加入會員</h2>
-@using (Html.BeginForm())
-{
-    @*@Html.EditorForModel();*@
-    <hr />
-    <form action="~/Home/Login" method="post" name="LoginForm">
-        <h4>帳號:</h4>
-        <input type="text" name="userId" />
-        <h4>密碼:</h4>
-        <input type="password" name="userPwd" />
-        <h4>姓名:</h4>
-        <input type="text" name="userName" />
-        <h4>性別:</h4>
-        <input type="text" name="userGender" />
-        <h4>生日:</h4>
-        <input type="text" name="userBirthday" placeholder="e.g.:2020/02/09" />
-        <h4>電話:</h4>
-        <input type="text" name="userTel" />
-        <h4>手機:</h4>
-        <input type="text" name="userPhone" />
-        <h4>城市:</h4>
-        <input type="text" name="userCity" />
-        <h4>地址:</h4>
-        <input type="text" name="userAddress" />
+<h2>會員註冊</h2>
+<hr />
+<form action="/FrontUserProfile/New" method="post" name="LoginForm">
+    <fieldset style="width: 500px; border: 1px solid lightseagreen; margin: 15px; border-radius: 15px">
 
-        <hr />
-    </form>
+        <div style="width: 450px; border-bottom: 2px solid #F0F0F0; margin:25px; padding-left:85px; padding-bottom:10px;">
+            <label>帳號：</label>
+            <input type="text" name="fUserId" class="radiusborder" placeholder="請輸入Email" />
+            <span id="idsp"></span>
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
 
-    <input type="submit" name="userSignUp" value="註冊" />
-    <input type="reset" value="取消" />
-}
 
-@section scripts{
+            <label>密碼：</label>
+            <input type="password" name="fPassword" />
+            <span id="idsp"></span>
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
+            <span style="font-size:15px; color:lightseagreen; font-weight:bold">(至少6個字且必須包含字母、數字與特殊字元)</span><br />
+
+            <label>姓名：</label>
+            <input type="text" name="fName" />
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
+
+            <label>性別：</label>
+            <input type="radio" name="fGender" value="male" id="m1" /><label for="m1">男</label>
+            <label>
+                <input type="radio" name="fGender" value="female" />女
+            </label>
+            <span style="font-size:12px; color:crimson; font-weight:bold">*請勾選</span><br />
+
+            <label>生日：</label>
+            <input type="text" name="fBirthday" placeholder="e.g.:2020/02/09" />
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
+
+            <label>電話：</label>
+            <input type="text" name="fTel" /><br />
+            <label>手機：</label>
+            <input type="text" name="fPhone" />
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
+
+            <label>城市：</label>
+            <input type="text" name="fCity" />
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
+
+            <label>地址：</label>
+            <input type="text" name="fAddress" />
+            <span style="font-size:12px; color:crimson; font-weight:bold">*必填</span><br />
+
+        </div>
+        <div style=" width:450px; margin:20px; text-align:center;">
+            <input type="button" name="userSignUp" value="註冊" class="btn btn-warning"/>
+            <input type="reset" value="取消" class="btn btn-warning"/>
+        </div>
+    </fieldset>
+</form>
+
+@section Scripts{
     <script>
-        //找到要控制的HTML標籤
-        //TODO:註冊完導向首頁
-        //$('form[name="userSignUp"]').click(function () {
-        //    )
-
-        //})
-
-
-
+        var btnCreateUser = document.querySelector('input[name="userSignUp"]');
+        var xhr = null;
+        btnCreateUser.addEventListener("click", function () {
+        document.LoginForm.submit();
+        })
     </script>
-
-
 }

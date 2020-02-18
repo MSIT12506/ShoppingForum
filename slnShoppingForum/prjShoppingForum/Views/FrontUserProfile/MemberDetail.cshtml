@@ -1,0 +1,31 @@
+﻿@model prjShoppingForum.Models.Entity.tUserProfile
+
+<h1>會員基本資料</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>姓名</th>
+            <th>電子信箱</th>
+            <th>性別</th>
+            <th>生日</th>
+            <th>電話</th>
+            <th>手機</th>
+            <th>城市</th>
+            <th>地址</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td >@Model.fName</td>
+            <td>@Model.fUserId</td>
+            <td>@Model.fGender</td>
+            <td>@Model.fBirthday</td>
+            <td>@Model.fTel</td>
+            <td>@Model.fPhone</td>
+            <td>@Model.fCity</td>
+            <td>@Model.fAddress</td>
+        </tr>
+    </tbody>
+</table>
+

@@ -5,7 +5,7 @@
 /slnShoppingForum/prjShoppingForum/Images/*
 
 #忽略所有admin-lte
-/slnShoppingForum/prjShoppingForum/admin-lte
+/slnShoppingForum/prjShoppingForum/AdminLTE
 
 #忽略.vs的內容
 /slnShoppingForum/.vs
@@ -25,4 +25,3 @@
 /slnShoppingForum/prjShoppingForum/Scripts/src
 /slnShoppingForum/prjShoppingForum/Scripts/umd
 /slnShoppingForum/prjShoppingForum/Scripts/ckeditor
-

@@ -111,6 +111,57 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AdminLTE\dist\css\adminlte.css" />
+    <Content Include="Content\AdminLTE\dist\img\AdminLTELogo.png" />
+    <Content Include="Content\AdminLTE\dist\img\avatar.png" />
+    <Content Include="Content\AdminLTE\dist\img\avatar04.png" />
+    <Content Include="Content\AdminLTE\dist\img\avatar2.png" />
+    <Content Include="Content\AdminLTE\dist\img\avatar3.png" />
+    <Content Include="Content\AdminLTE\dist\img\avatar5.png" />
+    <Content Include="Content\AdminLTE\dist\img\boxed-bg.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\boxed-bg.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\american-express.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\cirrus.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\mastercard.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\mestro.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\paypal.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\paypal2.png" />
+    <Content Include="Content\AdminLTE\dist\img\credit\visa.png" />
+    <Content Include="Content\AdminLTE\dist\img\default-150x150.png" />
+    <Content Include="Content\AdminLTE\dist\img\icons.png" />
+    <Content Include="Content\AdminLTE\dist\img\photo1.png" />
+    <Content Include="Content\AdminLTE\dist\img\photo2.png" />
+    <Content Include="Content\AdminLTE\dist\img\photo3.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\photo4.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\prod-1.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\prod-2.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\prod-3.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\prod-4.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\prod-5.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user1-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user2-160x160.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user3-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user4-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user5-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user6-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user7-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\img\user8-128x128.jpg" />
+    <Content Include="Content\AdminLTE\dist\js\adminlte.js" />
+    <Content Include="Content\AdminLTE\dist\js\adminlte.min.js" />
+    <Content Include="Content\AdminLTE\dist\js\demo.js" />
+    <Content Include="Content\AdminLTE\dist\js\pages\dashboard.js" />
+    <Content Include="Content\AdminLTE\dist\js\pages\dashboard2.js" />
+    <Content Include="Content\AdminLTE\dist\js\pages\dashboard3.js" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.js" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\css\all.css" />
+    <Content Include="Content\AdminLTE\plugins\jquery\core.js" />
+    <Content Include="Content\AdminLTE\plugins\jquery\jquery.js" />
+    <Content Include="Content\AdminLTE\plugins\jquery\jquery.min.js" />
+    <Content Include="Content\AdminLTE\plugins\jquery\jquery.slim.js" />
+    <Content Include="Content\AdminLTE\plugins\jquery\jquery.slim.min.js" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -285,6 +336,7 @@
     <Content Include="Images\Product\7.jpg" />
     <Content Include="Images\Product\8.jpg" />
     <Content Include="Images\Product\9.jpg" />
+    <Content Include="Images\係精a油＿003_128X128.png" />
     <Content Include="Models\Entity\dbShoppingForum.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>dbShoppingForum.edmx</DependentUpon>
@@ -914,6 +966,14 @@
     <Content Include="Content\bootstrap-reboot.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Content\AdminLTE\dist\js\adminlte.js.map" />
+    <Content Include="Content\AdminLTE\dist\js\adminlte.min.js.map" />
+    <Content Include="Content\AdminLTE\plugins\jquery\jquery.min.map" />
+    <Content Include="Content\AdminLTE\plugins\jquery\jquery.slim.min.map" />
     <None Include="packages.config" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -1003,6 +1063,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AdminLTEController.cs" />
     <Compile Include="Controllers\AdminManager\tAdminManagersController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\DiscountController.cs" />
@@ -1242,6 +1303,8 @@
     <Content Include="Views\Forum\SearchPost.cshtml" />
     <Content Include="Views\Quiz\Index.cshtml" />
     <Content Include="Views\Forum\TopList.cshtml" />
+    <Content Include="Views\AdminLTE\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_Layout_AdminLTE.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

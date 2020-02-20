@@ -1,5 +1,30 @@
 ﻿@model tw.com.essentialoil.ShoppingCart.ViewModels.CShoppingCart
 
+<script>
+    function addToFavorite(productId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("addFavorite", "ShoppingCart")',
+            data: { productId : productId}
+        })
+    }
+
+    function doubleCheckAll() {
+        let c = confirm('確定要清空購物車嗎?');
+        if (c == true) {
+            location.href = `/ShoppingCart/deleteAll`;
+        }
+    }
+
+    function doubleCheck(fBasketId) {
+        let c = confirm('確定要刪除嗎?');
+        if (c == true) {
+            location.href = `/ShoppingCart/delete?basket=${fBasketId}`;
+        }
+    }
+
+</script>
+
 @{
     ViewBag.Title = "viewCart";
     double totalPrice = 0;
@@ -7,7 +32,7 @@
 }
 <h2 style="margin-left:300px">購物車>付款方式>結帳</h2>
 <div style="text-align:right">
-    @Html.ActionLink("清空購物車", "deleteAll", "ShoppingCart", null, new { @style = "margin-left:650px", @class = "btn btn-warning" })
+    <a class="btn btn-warning" style="margin-left:650px" onclick="doubleCheckAll()">清空購物車</a>
 </div>
 
 <style>
@@ -94,8 +119,8 @@
                         </span>
                     </td>
                     <td>
-                        @Html.ActionLink("收藏", "addFavorite", "ShoppingCart", new { productId = item.fProductID }, new { @class = "btn btn-danger" })
-                        @Html.ActionLink("刪除", "delete", "ShoppingCart", new { basket = item.fBasketId }, new { @class = "btn btn-primary" })
+                        @Html.ActionLink("收藏", "addFavorite", "ShoppingCart", new { productId = item.fProductID }, new { @class = "btn btn-danger" , onclick = "addToFavorite(@item.fProductID)" })
+                        <a class="btn btn-primary" onclick = "doubleCheck(@item.fBasketId)">刪除</a>
                     </td>
                 </tr>
             }
@@ -111,7 +136,7 @@
     </div>
     <div style="text-align:right">
         @Html.ActionLink("<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info" })
-        @Html.ActionLink("訂單產生>", "orderSend", "ShoppingCart", new { totalBasketId = totalBasketId }, new { @id = "toOrder" , @class = "btn btn-danger" })
+        @Html.ActionLink("訂單產生>", "orderSend", "ShoppingCart", new { totalBasketId = totalBasketId }, new { @id = "toOrder" , @class = "btn btn-danger"})
     </div>
     <br />
     <br />
@@ -133,6 +158,7 @@
 
         $(document).ready(function () {
             tatalResult();
+            saveToDB();
         })
 
         //商品數量減少
@@ -150,7 +176,8 @@
                 $(this).prop("disabled", false);
                 $(this).parent().next().text(num * parseInt(productPrice));
                 $(this).parent().next().addClass("productSum")
-                tatalResult()
+                tatalResult();
+                saveToDB();
             }
 
             if (num < parseInt(numStock)) {
@@ -169,6 +196,7 @@
                 $(this).parent().next().text(num * parseInt(productPrice));
                 $(this).parent().next().addClass("productSum")
                 tatalResult();
+                saveToDB();
             }
             else {
                 $(this).prop("disabled", true);
@@ -233,17 +261,29 @@
         }
 
         function totalProductId() {
-            totalBasketId = "";
+            let totalBasketId = "";
             $("tbody :checkbox").each(function () {
                 let checked = $(this).prop("checked");
                 if (checked) {
-                    let busketId = $(this).parent().parent().attr("data-id");
-                    totalBasketId = totalBasketId + busketId + "_";
+                    let basketId = $(this).parent().parent().attr("data-id");
+                    totalBasketId = totalBasketId + basketId + "_";
                 }
             })
             $("#toOrder").attr("href", `/ShoppingCart/orderSend?totalBasketId=${totalBasketId}`);
-            console.log(`/ShoppingCart/orderSend?${totalBasketId}`);
+            saveToDB();
         }
 
+        function saveToDB() {
+            $("tbody :checkbox").each(function () {
+                let basketId = $(this).parent().parent().attr("data-id");
+                let quantity = parseInt($(this).parent().next().next().next().next().find(".txtNum").val());
+
+                $.ajax({
+                    type: 'POST',
+                    url:'@Url.Action("editCart", "ShoppingCart")',
+                    data: { basketId: basketId, quantity: quantity}
+                })
+            })
+        }
     </script>
 }

@@ -74,7 +74,7 @@
                     </div>
                     <!-- Cart Area -->
                     <div class="cart-area">
-                        <a href="@Url.Action("viewCart", "ShoppingCart")" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span>3</span></a>
+                        <a href="@Url.Action("viewCart", "ShoppingCart")" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span id="totalQuantity"></span></a>
                     </div>
                 </div>
 
@@ -157,3 +157,19 @@
     @RenderSection("Scripts", false)
 </body>
 </html>
+<script>
+
+    $(document).ready(
+        cartCount()
+    )
+
+    function cartCount() {
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', '@Url.Action("cartTotalQuantity", "ShoppingCart")');
+        xhr.send();
+        xhr.addEventListener('load', function () {
+            var count = xhr.responseText;
+            $("#totalQuantity").text(count);
+        })
+    }
+</script>

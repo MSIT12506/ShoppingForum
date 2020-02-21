@@ -24,10 +24,6 @@ namespace prjShoppingForum.Models.Entity
             public Nullable<int> fOrderTaxIdDNumber { get; set; }
             public string fOrderPostScript { get; set; }
             public string fPayment { get; set; }
-    
-            public virtual tUserProfile tUserProfile { get; set; }
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-            public virtual ICollection<tOrderDetail> tOrderDetail { get; set; }
         }
     }
 }

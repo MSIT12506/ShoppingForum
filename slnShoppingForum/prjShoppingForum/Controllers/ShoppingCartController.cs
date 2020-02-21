@@ -162,8 +162,8 @@ namespace tw.com.essentialoil.Controllers
 
         public ActionResult orderSend(string totalBasketId)
         {
-            return RedirectToAction("viewCart");
+            return RedirectToAction("OrderCreate", "tOrders", totalBasketId);
         }
-        
+
     }
 }

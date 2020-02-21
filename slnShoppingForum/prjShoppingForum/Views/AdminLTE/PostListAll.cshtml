@@ -1,0 +1,49 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tForum>
+
+@{
+    ViewBag.Title = "PostListAll";
+}
+
+<h2>文章停權/恢復權限</h2>
+<br />
+<table class="table table-dark" style="width:100%">
+    <thead>
+        <tr>
+            <th>文章序號</th>
+            <th>文章標題</th>
+            <th>停權</th>
+            <th>作者</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ 
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.fPostId
+                    </td>
+                    <td>
+                        @item.fPostTitle
+                    </td>
+                    <td>
+                        @{ 
+                            if (item.fEnableFlag==true)
+                            {
+                                <button class="btn btn-danger">停權</button>
+                            }else
+	                        {
+                                <button class="btn btn-primary">啟用</button>
+	                        }
+                        }
+                    </td>
+                    <td>
+                        @item.tUserProfile.fName
+                    </td>
+                </tr>
+            }
+            
+        }
+        
+    </tbody>
+</table>

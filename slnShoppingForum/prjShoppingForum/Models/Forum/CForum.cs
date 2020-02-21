@@ -31,7 +31,14 @@ namespace tw.com.essentialoil.Forum.Models
             db.SaveChanges();
         }
 
-        //Select All Post
+        //Select All Posts Contain disabled ones
+        public IEnumerable<tForum> queryAllPostContainDisable()
+        {
+            var qAll = db.tForums.Select(p => p).OrderBy(p=>p.fCreateTime);
+            return qAll;
+        }
+
+        //Select All enabled Post
         public List<CForumList> queryAllPost(int id)
         {
             //確認是否有收藏/隱藏的文章，如果有則不顯示(by user)

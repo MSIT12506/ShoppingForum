@@ -15,9 +15,9 @@
         <div style="width: 450px; border-bottom: 2px solid #F0F0F0; margin:25px; padding-left:85px; padding-bottom:10px;">
 
             <p>帳號：</p>
-            <input type="text" name="fUserId" placeholder="請輸入Email" id="inputid" /><div id="div1"></div><br />
+            <input type="text" name="fUserId" placeholder="請輸入Email" id="inputUserId" /><div id="div1"></div><br />
             <p>密碼：</p>
-            <input type="password" name="fPassword" placeholder="請輸入密碼" />
+            <input type="password" name="fPassword" id="inputPassword" placeholder="請輸入密碼" />
            <br /><br />
             <p>輸入驗證碼：</p>
             <input type="text" name="fVeriCode" />
@@ -55,9 +55,9 @@
 
 @section scripts{
     <script>
-        //apply ajax
+        //apply ajax:此為現階段測試用，之後會刪除
         var buttonLogin = document.querySelector('#buttonLogin');
-        var UserIdInput = document.querySelector('#inputid');
+        var UserIdInput = document.querySelector('#inputUserId');
         var buttonCancelLogin = document.querySelector('#buttonCancelLogin');
         var myDiv = document.querySelector('#div1');
 
@@ -70,15 +70,14 @@
 
             xhr.addEventListener('load', function () {
                 var data = xhr.responseText;
-                myDiv.innerHTML = "<h2>" + data + "</h2>";
+                myDiv.innerHTML = `<h4 style="font-family: 微軟正黑體">` + data + "</h4>";
             })
         });
         //buttonLogin.addEventListener("click", function () {
         //    FormData(document.LoginForm).submit();
-        //});
+        //});  
     </script>
-
-
+    
 }
 
 

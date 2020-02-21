@@ -36,16 +36,29 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             db.SaveChanges();
             return RedirectToAction("Login");
         }
+        //新增使用者前，先判斷該帳號是否已經存在
+        public ActionResult NewUserAjax(string fUserId, string fPassword, string fVeriCode)
+        {
+            var loginUser = db.tUserProfiles.FirstOrDefault(u => u.fUserId == fUserId);
+            string message = "此帳號尚未註冊";
+            if (loginUser != null)
+            {
+                message = "帳號已註冊";
+            }
+            return Content(message);
+        }
+
 
         //使用者登入後修改個人資料
-        public ActionResult UserEdit(string g)
+        public ActionResult UserEdit()
         {
             if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
-                g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
-            tUserProfile cust = (new dbShoppingForumEntities()).tUserProfiles.FirstOrDefault(c => c.fUserId == g);
-            if (cust == null)
-                return RedirectToAction("MemberCenter");
-            return View(cust);
+            {
+                var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
+                tUserProfile cust = (new dbShoppingForumEntities()).tUserProfiles.FirstOrDefault(c => c.fUserId == g);
+                return PartialView(cust);
+            }
+            return RedirectToAction("Login");
         }
         [HttpPost]
         public ActionResult UserEdit(string fName, string fTel, string fPhone, string fCity, string fAddress)
@@ -73,7 +86,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             return View(await tUserProfile.ToListAsync());
         }
 
-        //新版Home
+        //Home:user登入狀態，之後會修改，目前先不要使用
         public ActionResult Home()
         {
             if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
@@ -86,57 +99,44 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             }
         }
 
-        //把get, post寫在同一個Action?
+        
         public ActionResult Login(CLoginData data)
         {
-            //判斷已經登入過，可是卻再次近來
-            if (Session[CDictionary.UserLoginInfo] != null)
+            //產生驗證碼
+            if (Session[UserDictionary.S_AUTHENTICATED_CODE] == null)
             {
-                return RedirectToAction("Home");
-            }
-
-            //判斷data內的屬性是否為null，不是判斷data是否為null
-            string userid = (data.fUserId == null) ? null : data.fUserId;
-            string password = (data.fPassword == null) ? null : data.fPassword;
-            string authCode = (data.fVeriCode == null) ? null : data.fVeriCode;
-            string targetAuthCode = Session[UserDictionary.S_AUTHENTICATED_CODE]?.ToString();
-
-            //畫面上面的輸入欄位缺一不可
-            if (userid != null && password != null && authCode != null)
-            {
-                tUserProfile loginUser = db.tUserProfiles.Where(u => u.fUserId == userid && u.fPassword == password && targetAuthCode == authCode).FirstOrDefault();
-                if (loginUser!=null)
-                {
-                    Session[CDictionary.UserLoginInfo] = new UserLoginInfo() { user_fid = loginUser.fId, user_name = loginUser.fName, user_userid = loginUser.fUserId };
-                    Session[UserDictionary.S_CURRENT_LOGINED_USER] = loginUser.fName;
-                    Session[UserDictionary.S_CURRENT_LOGINED_USERfid] = loginUser.fId;
-
-                    //登入後要回到前一頁
-                    LoginPageInfo loginPageInfo = Session[CDictionary.LoginPageInfo] as LoginPageInfo;
-                    if (loginPageInfo != null)
-                    {
-                        return RedirectToRoute(new
-                        {
-                            controller = loginPageInfo.controllerName,
-                            action = loginPageInfo.actionName
-                        });
-                    }
-                    return RedirectToAction("Home");
-                }
-            }
-
-            //讓每次登入失敗或是第一次進入登入頁，都可以重新刷新驗證碼
-            Session[UserDictionary.S_AUTHENTICATED_CODE] =
+                Session[UserDictionary.S_AUTHENTICATED_CODE] =
                     r.Next(0, 10).ToString() +
                     r.Next(0, 10).ToString() +
                     r.Next(0, 10).ToString() +
                     r.Next(0, 10).ToString();
+            }
+            //使用者輸入資料
+            if (data != null)
+            {
+                tUserProfile cust = (from d in db.tUserProfiles
+                                     where d.fUserId == data.fUserId
+                                     select d).FirstOrDefault();
 
-            //進入登入頁
-            return View();
+                if (cust != null )
+                {
+                    if (cust.fPassword==data.fPassword)
+                    {
+                        if (data.fVeriCode.Equals(Session[UserDictionary.S_AUTHENTICATED_CODE].ToString()) && Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
+                        {
+                            //使用下面Session的值判斷是否使用者已登入
+                            Session[UserDictionary.S_CURRENT_LOGINED_USER] = cust.fUserId;//存fUserId
+                            Session[UserDictionary.S_CURRENT_LOGINED_USERFID] = cust.fId;//存fid
+                            Session[CDictionary.UserLoginInfo] = new UserLoginInfo() { user_fid = cust.fId, user_name = cust.fName, user_userid = cust.fUserId };//討論區有用到，可參考其用法
+                            Session[UserDictionary.S_AUTHENTICATED_CODE] = null;//清掉當前驗證碼
+                            return RedirectToAction("MemberCenter");//等首頁命名完成再修改導至首頁
+                        }return Content("驗證碼有誤");//ViewBag
+                    }return Content("使用者密碼有誤");
+                }return View();//TODO:會再修改，目前尚不影響流程
+            }return View();
         }
 
-
+        //判斷帳號是否已存在，目前此段為測試用，將刪除(不會影響其他頁面)
         public ActionResult LoginAjax(string fUserId, string fPassword, string fVeriCode)
         {
             var loginUser = db.tUserProfiles.FirstOrDefault(u => u.fUserId == fUserId);
@@ -156,7 +156,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             return View();
         }
         //給會員中心使用的數個PartialView
-
+        //會員個人資料
         public ActionResult MemberDetail()
         {
             if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
@@ -169,6 +169,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 return PartialView(detail);
             }
         }
+        //會員個人密碼修改
         public ActionResult MemberPasswordEdit()
         {
             if (Session[UserDictionary.S_CURRENT_LOGINED_USER] == null)
@@ -194,153 +195,28 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             }
             return View();
         }
-
+        //會員個人歷史訂單
         public ActionResult MyOrderList()
         {
-            var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERfid]);
+            var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
             //var id = db.tOrders.FirstOrDefault(p => p.fId == q);
             var prod = db.tOrders.Where(p => p.fId == q).Select(p => p);
             var detail = db.tOrderDetails.Select(p => p);
             var list = new OrderView() { Order = prod, OrderDetail = detail };
             return PartialView(list);
         }
+        //會員個人商品追蹤/收藏清單
 
+        //會員個人收藏文章
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //自動產生
-        // GET: tUserProfiles/Details/5
-        public async Task<ActionResult> Details(int? id)
+        //會員個人積分
+        public ActionResult MyScore()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tUserProfile tUserProfile = await db.tUserProfiles.FindAsync(id);
-            if (tUserProfile == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tUserProfile);
-        }
-
-        // GET: tUserProfiles/Create
-        public ActionResult Create()
-        {
-            ViewBag.fId = new SelectList(db.tForumAuths, "fId", "fAuthBlackList");
-            ViewBag.fId = new SelectList(db.tScores, "fId", "fId");
-            ViewBag.fId = new SelectList(db.tUserLogs, "fId", "fUserIP");
-            return View();
-        }
-
-        // POST: tUserProfiles/Create
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "fId,fUserId,fPassword,fPasswordSalt,fName,fGender,fBirthday,fTel,fPhone,fCity,fAddress,fPhoto,fCreateDate,fScore,fAuth,fAuthPost,fAuthReply")] tUserProfile tUserProfile)
-        {
-            if (ModelState.IsValid)
-            {
-                db.tUserProfiles.Add(tUserProfile);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-
-            ViewBag.fId = new SelectList(db.tForumAuths, "fId", "fAuthBlackList", tUserProfile.fId);
-            ViewBag.fId = new SelectList(db.tScores, "fId", "fId", tUserProfile.fId);
-            ViewBag.fId = new SelectList(db.tUserLogs, "fId", "fUserIP", tUserProfile.fId);
-            return View(tUserProfile);
-        }
-
-        // GET: tUserProfiles/Edit/5
-        public async Task<ActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tUserProfile tUserProfile = await db.tUserProfiles.FindAsync(id);
-            if (tUserProfile == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.fId = new SelectList(db.tForumAuths, "fId", "fAuthBlackList", tUserProfile.fId);
-            ViewBag.fId = new SelectList(db.tScores, "fId", "fId", tUserProfile.fId);
-            ViewBag.fId = new SelectList(db.tUserLogs, "fId", "fUserIP", tUserProfile.fId);
-            return View(tUserProfile);
-        }
-
-        // POST: tUserProfiles/Edit/5
-        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
-        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "fId,fUserId,fPassword,fPasswordSalt,fName,fGender,fBirthday,fTel,fPhone,fCity,fAddress,fPhoto,fCreateDate,fScore,fAuth,fAuthPost,fAuthReply")] tUserProfile tUserProfile)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(tUserProfile).State = EntityState.Modified;
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.fId = new SelectList(db.tForumAuths, "fId", "fAuthBlackList", tUserProfile.fId);
-            ViewBag.fId = new SelectList(db.tScores, "fId", "fId", tUserProfile.fId);
-            ViewBag.fId = new SelectList(db.tUserLogs, "fId", "fUserIP", tUserProfile.fId);
-            return View(tUserProfile);
-        }
-
-        // GET: tUserProfiles/Delete/5
-        public async Task<ActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tUserProfile tUserProfile = await db.tUserProfiles.FindAsync(id);
-            if (tUserProfile == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tUserProfile);
-        }
-
-        // POST: tUserProfiles/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
-        {
-            tUserProfile tUserProfile = await db.tUserProfiles.FindAsync(id);
-            db.tUserProfiles.Remove(tUserProfile);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
+            var score = (from i in db.tScores
+                         where i.fId == 1      //TODO
+                         select i).FirstOrDefault();
+            return PartialView(score);
         }
     }
 }

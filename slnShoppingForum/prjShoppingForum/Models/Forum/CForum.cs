@@ -31,6 +31,66 @@ namespace tw.com.essentialoil.Forum.Models
             db.SaveChanges();
         }
 
+        //更新文章啟用/停用狀態
+        public void updatePostByStatus(int postid, string actionName)
+        {
+            tForum targetRecord = db.tForums.Where(p => p.fPostId == postid).FirstOrDefault();
+            if (targetRecord != null)
+            {
+                switch (actionName)
+                {
+                    case "false":
+                        targetRecord.fEnableFlag = false;
+                        break;
+                    case "ture":
+                        targetRecord.fEnableFlag = true;
+                        break;
+                }
+
+                db.SaveChanges();
+            }
+        }
+
+        //重設文章的置頂狀態
+        //第一個固定0；最後一個固定""
+        public void resetTopList(string[] postIdList)
+        {
+            //先把所有置頂清除
+            List<tForum> oldTopList = db.tForums.Where(p => p.fTopSeq < 999).ToList();
+
+            //seqnum
+            int seqNum = 0;
+
+            foreach (tForum item in oldTopList)
+            {
+                item.fTopSeq = 999;
+            }
+
+            foreach (string item in postIdList)
+            {
+
+                switch (item)
+                {
+                    case "":
+                    case "0":
+                        break;
+
+                    default:
+                        int postid = Convert.ToInt16(item);
+                        tForum targetRow =  db.tForums.Where(p => p.fPostId == postid).FirstOrDefault();
+
+                        if (targetRow != null)
+                        {
+                            targetRow.fTopSeq = seqNum;
+                        }
+                        break;
+                }
+                seqNum++;
+            }
+
+            db.SaveChanges();
+        }
+
         //Select All Posts Contain disabled ones
         public IEnumerable<tForum> queryAllPostContainDisable()
         {
@@ -38,7 +98,7 @@ namespace tw.com.essentialoil.Forum.Models
             return qAll;
         }
 
-        //Select All enabled Post
+        //Select All enabled Post by UserId
         public List<CForumList> queryAllPost(int id)
         {
             //確認是否有收藏/隱藏的文章，如果有則不顯示(by user)
@@ -71,6 +131,19 @@ namespace tw.com.essentialoil.Forum.Models
             return result;
         }
 
+        //選取所有文章，不包含置頂和無效
+        public List<CForumList> queryAllEnableNoTopPost()
+        {
+            List<CForumList> result = (from i in db.tForums
+                                       where i.fEnableFlag == true       //刪除的不要被select出來
+                                       && i.fTopSeq >= 999               //置頂文章不要呈現
+                                       orderby i.fPostId ascending
+                                       select new CForumList() { postId = i.fPostId, postTitle = i.fPostTitle, userFid = i.tUserProfile.fId, likeOrHate = null }).ToList();
+
+            return result;
+        }
+
+        //選取所有置頂文章
         public List<tForum> queryTopPost()
         {
             List<tForum> topLists = (from f in db.tForums
@@ -150,6 +223,7 @@ namespace tw.com.essentialoil.Forum.Models
 
         }
 
+        //收藏/隱藏文章 By Id
         public object querySelfPost(int id)
         {
             //確認是否有收藏/隱藏的文章，全部顯示(by user)
@@ -180,6 +254,7 @@ namespace tw.com.essentialoil.Forum.Models
             return results;
         }
 
+        //新增收藏文章
         public void addFavirotePost(int userId, int postId)
         {
             //檢查是否有把該文章加到隱藏，或是已經加入收藏的紀錄
@@ -201,6 +276,7 @@ namespace tw.com.essentialoil.Forum.Models
             }
         }
 
+        //新增隱藏文章
         public void addHidePost(int userId, int postId)
         {
             //檢查是否有把該文章加到收藏，或是已經加入隱藏的紀錄
@@ -222,6 +298,7 @@ namespace tw.com.essentialoil.Forum.Models
             }
         }
 
+        //移除收藏/隱藏清單的文章
         public void removePost(int userId, int postId)
         {
             tUserFavorite checkRecord = db.tUserFavorites.Where(uf => uf.fId == userId && uf.fPostId == postId).FirstOrDefault();
@@ -234,6 +311,7 @@ namespace tw.com.essentialoil.Forum.Models
             
         }
 
+        //搜尋文章
         public List<tForum> searchString(string searchText)
         {
             List<tForum> results = db.tForums.Where(f => f.fPostTitle.Contains(searchText)).ToList();
@@ -241,6 +319,7 @@ namespace tw.com.essentialoil.Forum.Models
             return results;
         }
 
+        //新增文章 喜歡/討厭 紀錄
         public void addLikeOrHateCount(int userId, int postId, bool result)
         {
             //檢查是否已經有討厭或是喜歡的紀錄

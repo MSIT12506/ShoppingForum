@@ -1306,6 +1306,8 @@
     <Content Include="Views\AdminLTE\Dashboard.cshtml" />
     <Content Include="Views\Shared\_Layout_AdminLTE.cshtml" />
     <Content Include="Views\AdminLTE\PostListAll.cshtml" />
+    <Content Include="Views\AdminLTE\SetForumPostTop.cshtml" />
+    <Content Include="Views\AdminLTE\ShowForumTopList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,163 @@
+﻿@model List<tw.com.essentialoil.Forum.ViewModels.CForumList>
+
+@{
+    ViewBag.Title = "SetForumPostTop";
+}
+
+<h2>置頂文章設定</h2>
+
+@Html.Action("ShowForumTopList","AdminLTE")
+
+<hr />
+
+<h2>文章列表</h2>
+<table class="table table-dark" style="width:100%">
+    <thead>
+        <tr>
+            <th>
+                文章序號
+            </th>
+            <th>
+                文章標題
+            </th>
+            <th>
+                加入置頂
+            </th>
+        </tr>
+    </thead>
+    <tbody id="tableDown">
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td data-postId="@item.postId">
+                        @item.postId
+                    </td>
+                    <td>
+                        @item.postTitle
+                    </td>
+                    <td>
+                        <button class="btn btn-primary btn-addToTop">
+                            加入置頂
+                        </button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts{
+    <script>
+        let tableTopListBody = $("#tableTop");
+        let targetRow;
+        let topRows;
+
+        //加入置頂
+        $(document).on('click', '.btn-addToTop', function () {
+
+            targetRow = $(this).parent().parent();
+
+            //新增td
+            let newTd = $('<td></td>');
+            let cancelBtn = $('<button></button>');
+            $(cancelBtn).text('取消置頂').addClass('btn').addClass('btn-primary').addClass('btn-cancelSetTopList');
+            $(newTd).append(cancelBtn);
+            $(targetRow).append(newTd);
+            $('#tableTop').append(targetRow);
+
+            //re-sort num of seq
+            topRows = $('#tableTop tr');
+            $(topRows).each(function (idx, val) {
+                let sqenum = 0;
+                if (idx == 0) {
+                    $(val).find('td').eq(2).text("1")
+                } else {
+                    sqenum = parseInt($(val).prev().find('td').eq(2).text()) + 1;
+                    $(val).find('td').eq(2).text(sqenum);
+                }
+            }
+            )
+        })
+
+        //取消置頂
+        $(document).on('click', '.btn-cancelSetTopList', function () {
+
+            targetRow = $(this).parent().parent();
+
+            //移除td
+            targetRow.find('td').eq(3).remove();
+            targetRow.find('td').eq(2).remove();
+
+            //新增td
+            let newTd = $('<td></td>');
+            let cancelBtn = $('<button></button>');
+            $(cancelBtn).text('加入置頂').addClass('btn').addClass('btn-primary').addClass('btn-addToTop');
+            $(newTd).append(cancelBtn);
+            $(targetRow).append(newTd);
+            $('#tableDown').append(targetRow);
+
+            //sort
+            let switchFlag = true;
+            let x, y, tr_x, tr_y;
+
+            while (switchFlag) {
+
+                //要再迴圈裏面判斷，部堧抓不到最新異動後資料排序
+                let trs = $('#tableDown').find('tr');
+                switchFlag = false;
+
+                for (i = 0; i < trs.length - 1; i++) {
+                    tr_x = trs.eq(i);
+                    tr_y = trs.eq(i + 1);
+                    x = parseInt($(tr_x).find('td').eq(0).text());
+                    y = parseInt($(tr_y).find('td').eq(0).text());
+
+                    //一次判斷一對，把大的放下去，就重跑一次
+                    if (x > y) {
+                        $(tr_y).insertBefore(tr_x)
+                        switchFlag = true;
+                        break;
+                    }
+                }
+            }
+
+        })
+
+        //確認置頂
+        $('.btn-confirmSetTopList').click(function () {
+
+            //取得所有的置頂文章序號
+            let numString = '0|';
+            let topTrs;
+
+            topTrs = $('#tableTop').find('tr');
+
+            if (topTrs.length==0) {
+                topTrs = '0|';
+            }
+            else {
+                $(topTrs).each(function (idx, val) {
+                    numString += $(val).find('td').eq(0).attr('data-postId') + '|';
+                })
+            }
+
+            console.log(topTrs);
+
+            $.post('@Url.Action("ResetTopList","AdminLTE")',
+                {
+                    postList: numString
+                },
+                function (response) {
+                    alert("更新置頂文章完畢");
+                }
+            )
+
+        })
+    </script>
+
+
+
+
+
+}

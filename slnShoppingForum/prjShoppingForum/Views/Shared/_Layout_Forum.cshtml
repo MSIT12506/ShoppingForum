@@ -14,7 +14,12 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="~/Content/template/css/core-style.css">
     <link rel="stylesheet" href="~/Content/style.css">
-
+    <style>
+        .forum-mid {
+           width:80vw; 
+           margin:auto;
+        }
+    </style>
     @RenderSection("Styles", false)
 
 
@@ -48,9 +53,6 @@
                                 </li>
                                 <li>
                                     <a href="~/Forum/SelfList">收藏 / 隱藏列表</a>
-                                </li>
-                                <li>
-                                    <a href="#">會員中心</a>
                                 </li>
                                 <li>
                                     <button type="button" class="btn" data-toggle="modal" data-target="#ModalScrollableForPost">

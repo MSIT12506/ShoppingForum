@@ -1,4 +1,4 @@
-﻿<h2>Edit</h2>
+﻿
 
 @model prjShoppingForum.Models.Entity.tForum
 
@@ -8,14 +8,34 @@
     string jsonContent = Model.fPostContent;
 }
 
-<div class="PostContent" style="width:600px; height:auto; margin:auto;">
-    <div style="width: 600px; margin:20px auto;">
+@section Styles{
+    <style>
+        .PostContent {
+            width: 600px;
+            height: auto;
+            margin: auto;
+        }
+
+        .PostContentInner {
+            width: 600px;
+            margin: 20px auto;
+        }
+
+        #editorForEdit {
+            min-height: 500px;
+        }
+    </style>
+}
+
+<div class="PostContent">
+    <h2>編輯文章</h2>
+    <div class="PostContentInner">
         標題：<br />
-        <input type="text" name="postTitle" value="@Model.fPostTitle" id="postTitleForEdit"/>
+        <input type="text" name="postTitle" value="@Model.fPostTitle" id="postTitleForEdit" />
         <br />
         <br />
         內文：<br />
-        <div id="editorForEdit" style="min-height:500px">
+        <div id="editorForEdit">
         </div>
         <button type="button" class="btn btn-primary" id="confirmEdit">修改完畢</button>
     </div>

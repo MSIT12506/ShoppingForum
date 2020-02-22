@@ -9,7 +9,6 @@
     };
 
 }
-
 <div style="margin:20px auto">
     <div>
         @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
@@ -54,7 +53,7 @@
     </div>
 </div>
 
-@Html.Action("TopList")
+@Html.Action("TopList", "Forum")
 
 <h2>文章列表</h2>
 <table class="table table-striped table-mainlist">
@@ -102,7 +101,7 @@
 </table>
 
 @section Scripts{
-<script>
+    <script>
         //注意!! EventHandle.Edit 有修改，這邊也要做確認，避免兩邊IDmapping錯誤
 
         //建立Quill文章編輯器
@@ -223,7 +222,7 @@
         };
 
                         window.setInterval(refreshPostList, 1000);
-</script>
+    </script>
 
     @* 收藏文章 / 隱藏文章 *@
     <script>

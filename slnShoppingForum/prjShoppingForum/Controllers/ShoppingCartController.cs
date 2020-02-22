@@ -42,6 +42,12 @@ namespace tw.com.essentialoil.Controllers
             return View(cart);
         }
 
+        [HttpPost]
+        public ActionResult viewCart(string url)
+        {
+            return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = url });
+        }
+
         public ActionResult addCart(int productId)
         {
             tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
@@ -139,30 +145,6 @@ namespace tw.com.essentialoil.Controllers
 
 
             return Content(totalQuantity.ToString());
-        }
-
-
-        public ActionResult addFavorite(int productId)
-        {
-            tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
-            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
-            userId = userLoginInfo.user_fid;
-
-            if (product != null)
-            {
-                tUserProductFavorite favorite = new tUserProductFavorite();
-                favorite.fId = userId;
-                favorite.fProductId = product.fProductID;
-                favorite.fAddTime = DateTime.Now;
-                db.tUserProductFavorites.Add(favorite);
-                db.SaveChanges();
-            }
-            return RedirectToAction("viewCart");
-        }
-
-        public ActionResult orderSend(string totalBasketId)
-        {
-            return RedirectToAction("OrderCreate", "tOrders", totalBasketId);
         }
 
     }

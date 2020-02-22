@@ -1073,6 +1073,7 @@
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\Order\tOrdersController.cs" />
     <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\ProductFavoriteController.cs" />
     <Compile Include="Controllers\ProductFrontController.cs" />
     <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\QuizController.cs" />
@@ -1229,6 +1230,7 @@
     <Compile Include="ViewModels\Forum\CNewReplyCreate.cs" />
     <Compile Include="ViewModels\Forum\CPostView.cs" />
     <Compile Include="ViewModels\HomePage.cs" />
+    <Compile Include="ViewModels\ProductFavorite\CProductFavorite.cs" />
     <Compile Include="ViewModels\Product\ProductMenu.cs" />
     <Compile Include="ViewModels\ShoppingCart\CShoppingCart.cs" />
   </ItemGroup>
@@ -1308,6 +1310,7 @@
     <Content Include="Views\AdminLTE\PostListAll.cshtml" />
     <Content Include="Views\AdminLTE\SetForumPostTop.cshtml" />
     <Content Include="Views\AdminLTE\ShowForumTopList.cshtml" />
+    <Content Include="Views\ProductFavorite\List.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

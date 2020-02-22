@@ -1,0 +1,79 @@
+﻿@model tw.com.essentialoil.ProductFavorite.ViewModels.CProductFavorite
+
+<script>
+    //Ajax:加入購物車
+    function addToCart(productId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("addCart", "ShoppingCart")',
+            data: { productId: productId}
+        })
+    }
+
+    //刪除追蹤商品(確認後執行)
+    function doubleCheck(fFavoriteId) {
+        let c = confirm('確定要刪除嗎?');
+        if (c == true) {
+            location.href = `/ProductFavorite/Delete?fFavoriteId=${fFavoriteId}`;
+        }
+    }
+</script>
+
+<div >
+    <h2 style="margin:auto;text-align:center;">    收藏清單    </h2>
+</div>
+
+<div style="width:70%;margin:auto;text-align:center">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>
+                    照片
+                </th>
+                <th>
+                    商品名稱
+                </th>
+                <th>
+                    單價
+                </th>
+                <th>
+                    庫存數量
+                </th>
+                <th>
+                    加入時間
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody style="height:100px;line-height:100px;">
+            @foreach (var item in Model.ProductFavorite)
+            {
+                var imageScr = $"/Images/Product/{item.tProduct.fProductID}.jpg";
+
+                <tr>
+                    <td>
+                        <img src="@imageScr" style="height:100px;width:100px" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tProduct.fProductChName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.tProduct.fUnitsInStock)
+                    </td>
+                    <td>
+                        @item.fAddTime.ToShortDateString()
+                    </td>
+                    <td>
+                        <a class="btn btn-danger" onclick="doubleCheck(@item.fFavoriteId)">刪除</a>
+                        <a class="btn btn-info" onclick="addToCart(@item.tProduct.fProductID)">加入購物車</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

@@ -43,9 +43,9 @@ namespace tw.com.essentialoil.Controllers
         }
 
         [HttpPost]
-        public ActionResult viewCart(string url)
+        public ActionResult viewCart(string totalBasketId)
         {
-            return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = url });
+            return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = totalBasketId });
         }
 
         public ActionResult addCart(int productId)

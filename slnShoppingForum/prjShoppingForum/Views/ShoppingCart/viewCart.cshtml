@@ -63,9 +63,11 @@
     ViewBag.Title = "viewCart";
     double totalPrice = 0;
 }
-<h2 style="margin:auto;text-align:center;">購物車>付款方式>結帳(圖)</h2>
+<div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
+    <img src="~/Images/ShoppingCart/bulletin.png" style="height:150px;width:700px"/>
+</div>
 <div style="width:85%;text-align:right">
-    <a class="btn btn-warning" style="color:white;margin-bottom:10px;" onclick="doubleCheckAll()">清空購物車</a>
+    <a class="btn btn-primary" style="color:black;margin-bottom:10px;" onclick="doubleCheckAll()">清空購物車</a>
 </div>
 <div style="width:70%;text-align:center;margin:auto;padding-top:5px;">
     @using (Html.BeginForm())
@@ -100,13 +102,14 @@
                 @foreach (var item in Model.ShoppingCart)
                 {
                     var imageScr = $"/Images/Product/{item.fProductID}.jpg";
+                    var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductID}";
 
                     <tr data-id="@item.fBasketId">
                         <td>
                             <input type="checkbox" />
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.tProduct.fProductChName)
+                            <a href="@producthref" style="color:royalblue">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
                         </td>
                         <td>
                             <img src="@imageScr" style="height:100px;width:100px" />
@@ -117,7 +120,7 @@
                         <td>
                             <input type="button" class="btn btn-secondary numberMinus" value="-" />
                             <input type="hidden" class="txtStock" value="@item.tProduct.fUnitsInStock" />
-                            <input type="number" class="txtNum" value="@item.fQuantity" max="@item.tProduct.fUnitsInStock" min="1" style="text-align: center;width:60px;height:40px;" />
+                            <input type="number" class="txtNum" value="@item.fQuantity" max="@item.tProduct.fUnitsInStock" min="1" pattern=".{1,}"  style="text-align: center;width:60px;height:40px;" />
                             <input type="button" class="btn btn-secondary numberPlus" value="+" />
 
                         </td>
@@ -145,7 +148,7 @@
         <div style="text-align:right;border-top:1px dashed black;padding:15px;">
             @Html.ActionLink("<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info", style = "font-size:36px;" })
             <input type="hidden" id="orderUrl" name="url" />
-            <input type="submit" value="確認購買>" class="btn btn-danger" style="font-size:36px" />
+            <input type="submit" id="toOrder" value="確認購買>" class="btn btn-danger" style="font-size:36px"/>
         </div>
     }
 </div>
@@ -170,6 +173,7 @@
         $(document).ready(function () {
             tatalResult();
             saveToDB();
+            $("#toOrder").prop("disabled", true);
         })
 
 
@@ -241,7 +245,8 @@
                 $("#checkAll").prop("checked", false)
             }
             tatalResult();
-            totalProductId()
+            totalProductId();
+            totalChecked();
         })
         //勾選所有商品
         $("#checkAll").click(function () {
@@ -254,6 +259,7 @@
             }
             tatalResult();
             totalProductId();
+            totalChecked();
         })
 
         //計算總價 & 總數量 (將有打勾的小計全部加總)
@@ -272,7 +278,7 @@
             $(".cartSumPrice").text(totalSumPrice)
             $(".cartSumCount").text(totalSumCount)
         }
-
+        //勾選商品後將勾選的數量存進購物車&將勾選的購物車的Id存入隱藏input
         function totalProductId() {
             let totalBasketId = "";
             $("tbody :checkbox").each(function () {
@@ -282,10 +288,39 @@
                     totalBasketId = totalBasketId + basketId + "_";
                 }
             })
-            $("#orderUrl").val(`/ShoppingCart/orderSend?totalBasketId=${totalBasketId}`);
+            $("#orderUrl").val(totalBasketId);
             saveToDB();
         }
+        //檢查是否有商品被勾選(如果有就解鎖送出訂單)
+        function totalChecked() {
+            let count = 0;  //計算被勾選數量
+            let isNull = false;  //計算被勾選的數量是否為null
+            $("tbody :checkbox").each(function () {
+                let checked = $(this).prop("checked");
+                if (checked) {
+                    count++;
 
+                    if ($(this).parent().next().next().next().next().find(".txtNum").val().toString() == "") {
+                        isNull = true;
+                    }
+                    $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", true)
+                }
+                else
+                {
+                    $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", false)
+                }
+            })
+            if (count != 0 && isNull == false)
+            {
+                $("#toOrder").prop("disabled", false);
+                saveToDB();
+            }
+            else
+            {
+                $("#toOrder").prop("disabled", true);
+            }
+        }
+        //Ajax:儲存到資料庫
         function saveToDB() {
             $("tbody :checkbox").each(function () {
                 let basketId = $(this).parent().parent().attr("data-id");

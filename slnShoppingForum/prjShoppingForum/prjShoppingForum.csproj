@@ -336,6 +336,8 @@
     <Content Include="Images\Product\7.jpg" />
     <Content Include="Images\Product\8.jpg" />
     <Content Include="Images\Product\9.jpg" />
+    <Content Include="Images\ShoppingCart\bulletin.png" />
+    <Content Include="Images\ShoppingCart\carticon.png" />
     <Content Include="Images\係精a油＿003_128X128.png" />
     <Content Include="Models\Entity\dbShoppingForum.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1214,6 +1216,7 @@
     <Compile Include="Models\tQuestionPartial.cs" />
     <Compile Include="Models\tScorePartial.cs" />
     <Compile Include="Models\tTestPartial.cs" />
+    <Compile Include="Models\User\CAdminData.cs" />
     <Compile Include="Models\User\CLoginData.cs" />
     <Compile Include="Models\User\tUserProfilePartial.cs" />
     <Compile Include="Models\User\UserDictionary.cs" />
@@ -1311,6 +1314,7 @@
     <Content Include="Views\AdminLTE\SetForumPostTop.cshtml" />
     <Content Include="Views\AdminLTE\ShowForumTopList.cshtml" />
     <Content Include="Views\ProductFavorite\List.cshtml" />
+    <Content Include="Views\AdminLTE\AdminManagerLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

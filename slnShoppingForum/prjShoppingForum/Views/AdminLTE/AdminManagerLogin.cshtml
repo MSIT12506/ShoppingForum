@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "ManagerLogin";
+}
+
+<h2>Manager Login</h2>
+
+<div class="w3-container">
+    <div class="shadow p-3 mb-5 bg-gradient-gray rounded" style="width:50%" >
+        <div class="w3-container w3-center" style="position:center">
+            <form action="/AdminLTE/AdminManagerLogin" method="post" name="data">
+                <fieldset style="border: 1px solid white; margin: 15px; border-radius: 15px ">
+                    <div style="width: 450px; border-bottom: 2px hidden #F0F0F0; margin:25px; padding-left:165px; padding-bottom:10px;">
+                        @*<h3>Login</h3>*@
+
+                        <div class="inputuserinfo">
+                            <p>帳號：</p>
+                            <input type="text" name="ManagerId" placeholder="請輸入Email" id="inputUserId" /><div id="div1"></div><br />
+                            <p>密碼：</p>
+                            <input type="password" name="ManagerPassword" id="inputPassword" placeholder="請輸入密碼" />
+                            <br />
+                        </div>
+                    </div>
+                    <div style=" margin:20px; text-align:center;">
+                        <input type="submit" value="登入" id="buttonLogin" class="btn btn-warning" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <input type="button" value="取消" id="buttonCancelLogin" class="btn btn-warning" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+     </div>
+</div>
+
+

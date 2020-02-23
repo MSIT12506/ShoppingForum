@@ -1,4 +1,6 @@
-﻿using System;
+﻿using prjShoppingForum.Models.Entity;
+using prjShoppingForum.Models.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,11 +11,44 @@ namespace tw.com.essentialoil.Controllers
 {
     public class AdminLTEController : Controller
     {
+        private dbShoppingForumEntities db = new dbShoppingForumEntities();
         //後台首頁 - 儀表板
         public ActionResult Dashboard()
         {
             return View();
         }
+        //後台Admin登入
+        public ActionResult AdminManagerLogin(CAdminData data)
+        {
+
+            if (data != null)
+            {
+                tAdminManager cust = (from d in db.tAdminManagers
+                                     where d.ManagerId == data.ManagerId
+                                      select d).FirstOrDefault();
+
+                if (cust != null)
+                {
+                    var backpwd = data.ManagerPassword /*+ cust.ManagerPasswordSalt*/;
+                    //SHA256 sha256 = new SHA256CryptoServiceProvider();
+                    //byte[] source = Encoding.Default.GetBytes(backpwd);
+                    //byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+                    //string result = Convert.ToBase64String(crypto);
+                    if (cust.ManagerPassword == backpwd)
+                    {
+                            //使用下面Session的值判斷是否使用者已登入
+                            Session[CAdminData.S_CURRENT_LOGINED_ADMIN] = cust.ManagerId;//存fUserId
+                            return RedirectToAction("Dashboard");//登入成功進到儀表板頁面
+                    }
+                    return View();
+                }
+                return View();//TODO:會再修改，目前尚不影響流程
+            }
+            return View();
+        }
+
+
+
 
         //後台討論區 - 文章停權/恢復權限列表
         public ActionResult PostListAll()

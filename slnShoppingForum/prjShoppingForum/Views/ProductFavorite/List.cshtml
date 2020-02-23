@@ -8,6 +8,7 @@
             url:'@Url.Action("addCart", "ShoppingCart")',
             data: { productId: productId}
         })
+        cartCount();
     }
 
     //刪除追蹤商品(確認後執行)
@@ -19,7 +20,7 @@
     }
 </script>
 
-<div >
+<div>
     <h2 style="margin:auto;text-align:center;">    收藏清單    </h2>
 </div>
 
@@ -49,13 +50,14 @@
             @foreach (var item in Model.ProductFavorite)
             {
                 var imageScr = $"/Images/Product/{item.tProduct.fProductID}.jpg";
+                var producthref = $"/ProductFront/ProductSinglePage?productId={item.tProduct.fProductID}";
 
                 <tr>
                     <td>
                         <img src="@imageScr" style="height:100px;width:100px" />
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.tProduct.fProductChName)
+                        <a href="@producthref" style="color:royalblue">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
@@ -68,7 +70,7 @@
                     </td>
                     <td>
                         <a class="btn btn-danger" onclick="doubleCheck(@item.fFavoriteId)">刪除</a>
-                        <a class="btn btn-info" onclick="addToCart(@item.tProduct.fProductID)">加入購物車</a>
+                        <a class="btn btn-warning addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
                     </td>
                 </tr>
             }
@@ -76,4 +78,32 @@
     </table>
 </div>
 
+@section scripts{
+    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
 
+    <script>
+
+        $(".addCart").click(function (event) {
+            var addcar = $(this);
+            var img = addcar.find('img').attr('src');
+            var flyer = $('<img class="u-flyer" src="' + img + '">');
+
+            flyer.fly({
+                start: {
+                    left: event.pageX,
+                    top: event.pageY - $(window).scrollTop()
+                }, 
+                end: {
+                    left: 1500, //結束位置（必填） 
+                    top: 20, //結束位置（必填） 
+                    width: 0, //結束時寬度 
+                    height: 0 //結束時高度 
+                }, 
+                onEnd: function () { //結束回撥 
+                    addcar.css("cursor", "default");
+                    this.destory(); //移除dom 
+                } 
+            }); 
+        })
+    </script>
+}

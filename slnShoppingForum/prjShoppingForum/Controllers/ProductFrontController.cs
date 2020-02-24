@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using PagedList;
 using tw.com.essentialoil.Product.Models;
+using tw.com.essentialoil.Product.ViewModels;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -18,30 +19,31 @@ namespace tw.com.essentialoil.Controllers
         DropDownList DropDownList = new DropDownList();
         ProductMenuRepository productMenuRepository = new ProductMenuRepository();
         ProductRepository productRepository = new ProductRepository();
-
         int pagesize = 10;
 
-        // 檢視全部商品&商品分類檢視
-        public ActionResult ProductFrontPage(string searchprod,int page = 1, int? categoryId = null, int? efficacyId = null
-                                           , int? noteId = null, int? partId = null, int? featureId = null)
+
+        // 檢視全部商品&分類、查詢、進階查詢檢視
+        public ActionResult ProductFrontPage(SearchModel searchModel, int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
+            ViewBag.SearchModel = searchModel == null ? new SearchModel() : searchModel;
 
             IQueryable<tProduct> products
-            = productRepository.SearchProducts(searchprod, categoryId, efficacyId, noteId, partId, featureId);
+            = productRepository.SearchProducts(searchModel.searchprod, searchModel.categoryId,
+            searchModel.efficacyId, searchModel.noteId, searchModel.partId, searchModel.featureId,searchModel.fDiscontinued);
 
             ViewBag.productMenu = productMenuRepository.GetProductMenu();
 
             var pageResult = products.ToList().ToPagedList(currentPage, pagesize);
 
-            if(Request.IsAjaxRequest())
+            if (Request.IsAjaxRequest())
             {
-                return PartialView("_List_Product", pageResult);
+                return PartialView("ProductFrontPage", pageResult);
             }
 
             return View(pageResult);
         }
-       
+
         //檢視商品個別頁面
         public ActionResult ProductSinglePage(int productId)
         {
@@ -49,8 +51,19 @@ namespace tw.com.essentialoil.Controllers
             var ProductSingle = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
             return View(ProductSingle);
         }
+        //商品進階查詢
+        public ActionResult AdvanceQueryPage()
+        {
+            SearchModel searchModel = new SearchModel();
+            ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
+            ViewBag.NoteDropList = DropDownList.GetNoteDropList();
+            ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
+            ViewBag.efficacyDropList = DropDownList.GetEfficacyDropList();
 
-      
+            return View(searchModel);
+        }
 
 
     }

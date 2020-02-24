@@ -32,7 +32,7 @@
     @foreach (var category in Model.CategoryList)
     {
         <ul class="list-group list-group-horizontal-lg">
-            <li class="list-group-item">@Html.ActionLink(category.fCategoryName, "ProductFrontPage", new { categoryId = category.fCategoryID })</li>
+            <li class="list-group-item">@Html.ActionLink(category.fCategoryName, "ProductFrontPage", new {  categoryId = category.fCategoryID } )</li>
         </ul>
 
         @*商品分類--單方精油依萃取部位分*@

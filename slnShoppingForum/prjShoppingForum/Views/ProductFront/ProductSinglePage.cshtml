@@ -77,7 +77,15 @@
         <dd>
             @Html.DisplayFor(model => model.tProductUnilateral.fOrigin)
         </dd>
+
+     
+        <dd>購買數量
+            <input type="text" />
+        </dd>
+        <a class="btn btn-info">加入最愛</a>
+        
         <a class="btn btn-info" onclick="addToCart(@Model.fProductID)">加入購物車</a>
+
     </dl>
 </div>
 

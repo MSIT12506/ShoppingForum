@@ -1,10 +1,11 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-
+@using tw.com.essentialoil.Product.ViewModels;
 @model IPagedList<prjShoppingForum.Models.Entity.tProduct>
 
 @{
     ViewBag.Title = "ProductFrontPage";
+    var searchModel = ViewBag.SearchModel as SearchModel;
 }
 
 @*商品搜尋--依據商品名稱*@
@@ -21,27 +22,35 @@
 <div class="row" id="productListShow">
     @Html.Partial("_List_Product", Model)
 </div>
+@Html.ActionLink("進階搜尋", "AdvanceQueryPage")
 
 @*頁數選擇*@
-@Html.PagedListPager(Model, page => Url.Action("ProductFrontPage", new { page }))
+@Html.PagedListPager(Model, page => Url.Action("ProductFrontPage", new { page,
+    categoryId = searchModel.categoryId ,
+    efficacyId = searchModel.efficacyId,
+    noteId = searchModel.noteId,
+    partId = searchModel.partId,
+    featureId = searchModel.featureId,
+    searchprod = searchModel.searchprod
+}))
 
 
-    @*<script>
-            function searchProd()
-            {
-                window.open("/ProductFront/ProductFrontPage?searchprod=" + $("#searchprod").val(),"_self");
-                // 這個是AJAX 作法 但是雨樊等級不夠不能使用 GG
-                // 2020/02/13 QQ
-                //$.get('/ProductFront/ProductFrontPage', {
-                //    searchprod: $("#searchprod").val()
-                //}, function (data) {
-                //    $("#productListShow").html(data);
-                //    alert($("#searchprod").val());
-                //}
-                //)
-            }
+@*<script>
+        function searchProd()
+        {
+            window.open("/ProductFront/ProductFrontPage?searchprod=" + $("#searchprod").val(),"_self");
+            // 這個是AJAX 作法 但是雨樊等級不夠不能使用 GG
+            // 2020/02/13 QQ
+            //$.get('/ProductFront/ProductFrontPage', {
+            //    searchprod: $("#searchprod").val()
+            //}, function (data) {
+            //    $("#productListShow").html(data);
+            //    alert($("#searchprod").val());
+            //}
+            //)
+        }
 
-        </script>*@
+    </script>*@
 
 
 

@@ -1235,6 +1235,7 @@
     <Compile Include="ViewModels\HomePage.cs" />
     <Compile Include="ViewModels\ProductFavorite\CProductFavorite.cs" />
     <Compile Include="ViewModels\Product\ProductMenu.cs" />
+    <Compile Include="ViewModels\Product\SearchModel.cs" />
     <Compile Include="ViewModels\ShoppingCart\CShoppingCart.cs" />
   </ItemGroup>
   <ItemGroup>

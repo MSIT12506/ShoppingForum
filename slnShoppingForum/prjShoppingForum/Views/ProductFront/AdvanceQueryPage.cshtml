@@ -1,0 +1,76 @@
+﻿@model tw.com.essentialoil.Product.ViewModels.SearchModel
+
+@{
+    ViewBag.Title = "AdvanceQueryPage";
+}
+
+
+
+@using (Html.BeginForm("ProductFrontPage", "ProductFront")) 
+{
+    @Html.AntiForgeryToken()
+    
+<div class="form-horizontal">
+    <h4>進階查詢</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.Label("商品關鍵字", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.searchprod, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.searchprod, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("種類", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.categoryId, (IEnumerable<SelectListItem>)ViewBag.CategoryDropList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.categoryId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("功效", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("efficacyId", (IEnumerable<SelectListItem>)ViewBag.efficacyDropList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.efficacyId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("香調", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.noteId, (IEnumerable<SelectListItem>)ViewBag.NoteDropList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.noteId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("萃取部位", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.partId, (IEnumerable<SelectListItem>)ViewBag.PartDropDownList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.partId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("特性", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.featureId, (IEnumerable<SelectListItem>)ViewBag.featureDropList, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.featureId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="查詢" class="btn btn-info" />
+        </div>
+    </div>
+</div>
+}
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

@@ -11,54 +11,114 @@ namespace prjShoppingForum.Models.Entity
         dbShoppingForumEntities db = new dbShoppingForumEntities();
 
         //下拉選單--商品分類
-        public IQueryable<SelectListItem> GetCategoryDropList()
+        public IEnumerable<SelectListItem> GetCategoryDropList()
         {
-            return db.tCategories.Select(p => new SelectListItem
+            var list= db.tCategories.Select(p => new SelectListItem
             {
                 Text = p.fCategoryName,
                 Value = p.fCategoryID.ToString()
+            }).ToList();
+
+            list.Add(new SelectListItem() {
+                Text = "無",
+                Value = null
             });
+
+            return list;
         }
 
         //下拉選單--單方精油萃取部位
-        public IQueryable<SelectListItem> GetPartDropDownList()
+        public IEnumerable<SelectListItem> GetPartDropDownList()
         {
-            return db.tParts.Select(p => new SelectListItem
+            var list= db.tParts.Select(p => new SelectListItem
             {
                 Value = p.fPartID.ToString(),
                 Text = p.fPartName
+            }).ToList();
+
+            list.Add(new SelectListItem()
+            {
+                Text = "無",
+                Value = null
             });
+
+            return list;
         }
 
         //下拉選單--單方精油香調
-        public IQueryable<SelectListItem> GetNoteDropList()
+        public IEnumerable<SelectListItem> GetNoteDropList()
         {
-            return db.tNotes.Select(p => new SelectListItem
+            var list = db.tNotes.Select(p => new SelectListItem
             {
                 Value = p.fNoteID.ToString(),
                 Text = p.fNoteName,
+            }).ToList();
+
+            list.Add(new SelectListItem()
+            {
+                Text = "無",
+                Value = null
             });
+
+            return list;
         }
 
         //下拉選單--單方&副方精油功效
-        public IQueryable<SelectListItem> GetEfficacyDropLise()
+        public IEnumerable<SelectListItem> GetEfficacyDropLise()
         {
-            return db.tEfficacies.Select(p => new SelectListItem
+            var list= db.tEfficacies.Select(p => new SelectListItem
             {
                 Value = p.fEfficacyID.ToString(),
                 Text=p.fEfficacyName
+            }).ToList();
+
+            list.Add(new SelectListItem()
+            {
+                Text = "無",
+                Value = null
             });
+
+            return list;
+
         }
 
         //下拉選單--純露/植物油特性
-        public IQueryable<SelectListItem> GetfeatureDropList()
+        public IEnumerable<SelectListItem> GetfeatureDropList()
         {
-            return db.tfeatures.Select(p => new SelectListItem
+            var list = db.tfeatures.Select(p => new SelectListItem
             {
                 Value = p.ffeatureID.ToString(),
                 Text = p.ffeatureName
+            }).ToList();
+
+            list.Add(new SelectListItem()
+            {
+                Text = "無",
+                Value = null
             });
+
+            return list;
         }
+
+        //下拉選單--商品功效
+        public IEnumerable<SelectListItem> GetEfficacyDropList()
+        {
+            var list = db.tEfficacies.Select(p => new SelectListItem
+            {
+                Value = p.fEfficacyID.ToString(),
+                Text = p.fEfficacyName
+            }).ToList();
+
+            list.Add(new SelectListItem()
+            {
+                Text = "無",
+                Value = null
+            });
+
+            return list;
+        }
+
+
 
     }
 }

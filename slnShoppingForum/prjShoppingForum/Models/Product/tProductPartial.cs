@@ -16,29 +16,29 @@ namespace prjShoppingForum.Models.Entity
             public int fProductID { get; set; }
 
             [DisplayName("品名")]
-            [Required]
+            [Required(ErrorMessage ="必填")]
             public string fProductChName { get; set; }
 
             [DisplayName("介紹")]
-            [Required]
+            [Required(ErrorMessage = "必填")]
             public string fProductDesc { get; set; }
 
             [DisplayName("單價")]
-            [Required]
+            [Required(ErrorMessage = "必填")]
             public Nullable<int> fUnitPrice { get; set; }
 
             [DisplayName("容量(ml)")]
-            [Required]
+            [Required(ErrorMessage = "必填")]
             public string fQuantityPerUnit { get; set; }
 
             [DisplayName("庫存")]
             public Nullable<int> fUnitsInStock { get; set; }
 
-            [DisplayName("缺貨中")]
+            [DisplayName("下架中")]
             public Nullable<bool> fDiscontinued { get; set; }
 
             [DisplayName("商品分類")]
-            [Required]
+            [Required(ErrorMessage = "必填")]
             public int fCategoryID { get; set; }
 
         }

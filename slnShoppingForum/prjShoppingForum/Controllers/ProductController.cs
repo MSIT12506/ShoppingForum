@@ -10,23 +10,22 @@ using System.Web.Mvc;
 
 //安裝PagedList.Mvc 4.5.0 && PagedList 1.17.0
 using PagedList;
+using System.IO;
+using tw.com.essentialoil.Product.Models;
+
 
 namespace tw.com.essentialoil.Controllers
 {
     public class ProductController : Controller
     {
         dbShoppingForumEntities db = new dbShoppingForumEntities();
+        ProductRepository productRepository = new ProductRepository();
         DropDownList DropDownList = new DropDownList();
-        object lockObject = new object();
-        int pagesize = 10;
 
         // 檢視全部商品
         public ActionResult ProductPage(int page = 1)
         {
-            int currentPage = page < 1 ? 1 : page;
-
-            var products = db.tProducts.ToList();
-            var pageresult = products.ToPagedList(currentPage, pagesize);
+            IPagedList<tProduct> pageresult =productRepository.ProdPageList(page);
             return View(pageresult);
         }
 
@@ -42,53 +41,28 @@ namespace tw.com.essentialoil.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult ProductCreate(tProduct prod)
+        public ActionResult ProductCreate(tProduct prod, HttpPostedFileBase prodImg)
         {
-
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
             ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
             ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
             ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
-            ViewBag.State = "success";
+            productRepository.InsertProduct(prod, prodImg, Server);
 
-            //限定同時只有一位操作者能增加ProdcutID
-            lock (lockObject)
-            {
-                int prodId = GetProductId(0);
-                prod.fProductID = prodId;
-
-                db.tProducts.Add(prod);
-                db.SaveChanges();
-            }
             return RedirectToAction("ProductPage");
-        }
-        //ProductID重複解法
-        private int GetProductId(int prodId)
-        {
-            prodId = prodId == 0 ?
-                db.tProducts.Max(p => p.fProductID) + 1 : prodId + 1;
-
-            if (db.tProducts.Any(p => p.fProductID == prodId))
-            {
-                GetProductId(prodId);
-            }
-
-            return prodId;
         }
 
         //刪除商品
-        public ActionResult ProductDelete(int prodID)
+        public ActionResult ProductDelete(int prodId)
         {
-            var prod = db.tProducts.Where(m => m.fProductID == prodID).FirstOrDefault();
-            db.tProducts.Remove(prod);
-            db.SaveChanges();
+            productRepository.deleteProd(prodId);
             return RedirectToAction("ProductPage");
         }
 
         //修改商品
-        public ActionResult ProductEdit(int prodID)
+        public ActionResult ProductEdit(int prodId)
         {
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
@@ -96,19 +70,14 @@ namespace tw.com.essentialoil.Controllers
             ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
             ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
-            var prod = db.tProducts.Where(m => m.fProductID == prodID).FirstOrDefault();
+            var prod = db.tProducts.Where(m => m.fProductID == prodId).FirstOrDefault();
             return View(prod);
         }
         [HttpPost]
-        public ActionResult ProductEdit(tProduct prod)
+        public ActionResult ProductEdit(tProduct prod, HttpPostedFileBase prodImg)
         {
-            ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
-            ViewBag.NoteDropList = DropDownList.GetNoteDropList();
-            ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
-            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
-            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
-
-            db.SaveChanges();
+            productRepository.UpdateProduct(prod, prodImg, Server);
+            tProductImage productImage = new tProductImage();
             return RedirectToAction("ProductPage");
         }
     }

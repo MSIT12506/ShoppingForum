@@ -7,15 +7,21 @@
 <h2>新增商品頁</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm(
+    "ProductCreate", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    <p> 商品圖片 <input type="file" name="prodImg" id="prodImg" /></p>
+    @*<p><input type="submit" value="上傳" /></p>*@
     @Html.AntiForgeryToken()
+
 
     <div class="form-horizontal">
 
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
         <hr />
-
-
         <div class="form-group">
             @Html.LabelFor(model => model.fProductChName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -94,23 +100,24 @@
             </div>
         </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.fUnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.fUnitsInStock, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.fUnitsInStock, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+        <div class="form-group">
+            @Html.LabelFor(model => model.fUnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fUnitsInStock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fUnitsInStock, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.fDiscontinued, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.fDiscontinued, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.fDiscontinued, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
-
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.fDiscontinued, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="fDiscontinued" id="fDiscontinued">
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.fDiscontinued, "", new { @class = "text-danger" })
+            </div>
+        </div>
 
 
         <div class="form-group">
@@ -125,6 +132,3 @@
     @Html.ActionLink("返回商品列表", "ProductPage")
 </div>
 
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script src="~/Scripts/jquery.validate.min.js"></script>
-<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

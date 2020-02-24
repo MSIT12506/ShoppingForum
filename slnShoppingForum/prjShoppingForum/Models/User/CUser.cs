@@ -20,9 +20,9 @@ namespace tw.com.essentialoil.User.Models
             return cust;
         }
 
-        public void lineBotGetBase64String(tUserProfile cust)
+        public bool lineBotGetBase64String(tUserProfile cust, ref string nonce)
         {
-            string result = "";
+            bool result;
 
             //產生GUID並且轉換BASE64作為綁定字串
             byte[] bytesEncode = Encoding.UTF8.GetBytes(Guid.NewGuid().ToString());
@@ -38,8 +38,19 @@ namespace tw.com.essentialoil.User.Models
                 tLineBotAccountLink newUser = new tLineBotAccountLink();
                 newUser.fId = cust.fId;
                 newUser.lineNonce = resultEncode;
-                result = 
+                nonce = resultEncode;
+
+                db.tLineBotAccountLinks.Add(newUser);
+                db.SaveChanges();
+
+                result = true;
             }
+            else
+            {
+                result = false;
+            }
+
+            return result;
         }
     }
 }

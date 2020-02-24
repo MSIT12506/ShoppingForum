@@ -19,19 +19,28 @@ namespace prjShoppingForum.Controllers.LineBot
             return PartialView();
         }
 
-        public ActionResult checkLogin(string account, string password)
+        public ActionResult checkLogin(string account, string password, string linkToken)
         {
+            //TODO - 錯誤處理
+
             CUser user = new CUser();
             tUserProfile cust = user.checkLogin(account, password);
+            string lineNonce = "";
+            object result = null;
 
             if (cust != null)
             {
-                user.lineBotGetBase64String(cust);
+                if (user.lineBotGetBase64String(cust, ref lineNonce))
+                {
+                    result = new { result = "True", linkToken = linkToken, lineNonce = lineNonce };
+                }
+                else
+                {
+                    result = new { result = "False", linkToken = linkToken, lineNonce = lineNonce };
+                }
             }
 
-
-
-            return PartialView();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         

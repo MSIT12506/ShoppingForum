@@ -22,9 +22,18 @@
             '@Url.Action("checkLogin", "LineBot")',
             {
                 account: account,
-                password: password
+                password: password,
+                linkToken: linkToken
             }, function (res) {
+                console.log(res)
 
+                //let resultOjb = JSON.parse(res);
+                let url = 'https://access.line.me/dialog/bot/accountLink?linkToken=' + res.linkToken + '&nonce=' + res.lineNonce;
+
+                if (res.result == 'True') {
+                    console.log(url);
+                    document.location.href = url;
+                }
 
             }
         )

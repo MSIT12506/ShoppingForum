@@ -69,8 +69,8 @@
                         @item.fAddTime.ToShortDateString()
                     </td>
                     <td>
-                        <a class="btn btn-danger" onclick="doubleCheck(@item.fFavoriteId)">刪除</a>
                         <a class="btn btn-warning addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
+                        <a class="btn btn-danger" onclick="doubleCheck(@item.fFavoriteId)">刪除</a>
                     </td>
                 </tr>
             }
@@ -87,21 +87,21 @@
             var addcar = $(this);
             var img = addcar.find('img').attr('src');
             var flyer = $('<img class="u-flyer" src="' + img + '">');
-
+            console.log($("#essenceCartBtn").offset().left);
+            console.log($("#essenceCartBtn").offset().top);
             flyer.fly({
                 start: {
                     left: event.pageX,
                     top: event.pageY - $(window).scrollTop()
                 }, 
                 end: {
-                    left: 1500, //結束位置（必填） 
-                    top: 20, //結束位置（必填） 
+                    left: $("#essenceCartBtn").offset().left, //結束位置（必填） 
+                    top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填） 
                     width: 0, //結束時寬度 
                     height: 0 //結束時高度 
                 }, 
                 onEnd: function () { //結束回撥 
                     addcar.css("cursor", "default");
-                    this.destory(); //移除dom 
                 } 
             }); 
         })

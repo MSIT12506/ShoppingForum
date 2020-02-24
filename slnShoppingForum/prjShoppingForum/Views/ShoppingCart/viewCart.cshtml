@@ -1,32 +1,5 @@
 ﻿@model tw.com.essentialoil.ShoppingCart.ViewModels.CShoppingCart
 
-<script>
-
-    //Ajax : 加入收藏清單
-    function addToFavorite(productId) {
-        $.ajax({
-            type: 'POST',
-            url:'@Url.Action("Creat", "ProductFavorite")',
-            data: { productId : productId}
-        })
-    }
-    //清空購物車(確認後執行)
-    function doubleCheckAll() {
-        let c = confirm('確定要清空購物車嗎?');
-        if (c == true) {
-            location.href = `@Url.Action("deleteAll", "ShoppingCart")`;
-        }
-    }
-    //刪除購物車(確認後執行)
-    function doubleCheck(fBasketId) {
-        let c = confirm('確定要刪除嗎?');
-        if (c == true) {
-            location.href = `/ShoppingCart/delete?basket=${fBasketId}`;
-        }
-    }
-
-</script>
-
 <style>
     .container {
         margin-top: 20px;
@@ -64,7 +37,7 @@
     double totalPrice = 0;
 }
 <div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
-    <img src="~/Images/ShoppingCart/bulletin.png" style="height:150px;width:700px"/>
+    <img src="~/Images/ShoppingCart/bulletin.png" style="height:180px;width:700px" />
 </div>
 <div style="width:85%;text-align:right">
     <a class="btn btn-primary" style="color:black;margin-bottom:10px;" onclick="doubleCheckAll()">清空購物車</a>
@@ -120,7 +93,7 @@
                         <td>
                             <input type="button" class="btn btn-secondary numberMinus" value="-" />
                             <input type="hidden" class="txtStock" value="@item.tProduct.fUnitsInStock" />
-                            <input type="number" class="txtNum" value="@item.fQuantity" max="@item.tProduct.fUnitsInStock" min="1" pattern=".{1,}"  style="text-align: center;width:60px;height:40px;" />
+                            <input type="number" class="txtNum" value="@item.fQuantity" max="@item.tProduct.fUnitsInStock" min="1" pattern=".{1,}" style="text-align: center;width:60px;height:40px;" />
                             <input type="button" class="btn btn-secondary numberPlus" value="+" />
 
                         </td>
@@ -139,7 +112,7 @@
         </table>
         <div style="text-align:right;font-size:32px;border-top:1px dashed black;padding:15px">
             總共
-            <span class="cartSumCount" style="color:red"></span>
+            <span class="cartSumCount" style="color:red">0</span>
             項商品，總金額為
             <span class="cartSumPrice" style="color:red">
                 @totalPrice
@@ -148,7 +121,7 @@
         <div style="text-align:right;border-top:1px dashed black;padding:15px;">
             @Html.ActionLink("<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info", style = "font-size:36px;" })
             <input type="hidden" id="orderUrl" name="url" />
-            <input type="submit" id="toOrder" value="確認購買>" class="btn btn-danger" style="font-size:36px"/>
+            <input type="submit" id="toOrder" value="確認購買>" class="btn btn-danger" style="font-size:36px" />
         </div>
     }
 </div>
@@ -168,170 +141,208 @@
 @section scripts{
     <script>
 
-        var totalBasketId = "";
+    $(document).ready(function () {
+        $("#toOrder").prop("disabled", true);               //關掉送出訂單按鈕
+    })
 
-        $(document).ready(function () {
-            tatalResult();
-            saveToDB();
-            $("#toOrder").prop("disabled", true);
-        })
+    //商品數量減少
+    $(".numberMinus").click(function () {
+        let num = $(this).siblings(".txtNum").val();        //目前商品數量
+        let numStock = $(this).siblings(".txtStock").val(); //目前商品存貨數量
+        let productPrice = $(this).parent().prev().text();  //目前商品價格
 
-
-
-        //商品數量減少
-        $(".numberMinus").click(function () {
-            let num = $(this).siblings(".txtNum").val();
-            let numStock = $(this).siblings(".txtStock").val();
-            let productPrice = $(this).parent().prev().text();
-
-            if (num <= 1) {
-                $(this).prop("disabled", true);
-            }
-            else {
-                num--;
-                $(this).siblings(".txtNum").val(num);
-                $(this).prop("disabled", false);
-                $(this).parent().next().text(num * parseInt(productPrice));
-                $(this).parent().next().addClass("productSum")
-                tatalResult();
-                saveToDB();
-            }
+        if (num <= 1) {
+            $(this).prop("disabled", true);                 //關掉減少按鈕
+        }
+        else {
+            num--;
+            $(this).siblings(".txtNum").val(num);                           //減少的值傳給數量欄位
+            $(this).parent().next().text(num * parseInt(productPrice));     //小計更新
+            $(this).parent().next().addClass("productSum")                  //小計的顏色變成紅色(上面更新會蓋過格式)
 
             if (num < parseInt(numStock)) {
-                $(this).siblings(".numberPlus").prop("disabled", false);
+                $(this).siblings(".numberPlus").prop("disabled", false);    //打開增加按鈕
             }
-        })
-        //商品數量增加
-        $(".numberPlus").click(function () {
-            let num = $(this).siblings(".txtNum").val();
-            let numStock = $(this).siblings(".txtStock").val();
-            let productPrice = $(this).parent().prev().text();
 
-            if (num < parseInt(numStock)) {
-                num++;
-                $(this).siblings(".txtNum").val(num);
-                $(this).parent().next().text(num * parseInt(productPrice));
-                $(this).parent().next().addClass("productSum")
-                tatalResult();
-                saveToDB();
-            }
-            else {
-                $(this).prop("disabled", true);
-            }
-            if (num > 0) {
-                $(this).siblings(".numberMinus").prop("disabled", false);
-            }
-        })
-        //勾選單項商品
-        let rowConut = $("tbody tr").length;                //全部商品項數
-        $("tbody :checkbox").click(function () {
-            let checked = $(this).prop("checked")
-            let checkedRow = $("tbody :checked").length;    //目前選擇項數
-            let sum = $(".cartSumPrice").text()             //總價
-            let price = $(this).parent().next().next().next().next().next().text();      //小記
-
-            if (checked) {
-                $(this).parent().parent().addClass("active")
-                sum = parseInt(sum) + parseInt(price);
-                $(".cartSumPrice").text(sum)
-            } else {
-                $(this).parent().parent().removeClass("active")
-                sum = parseInt(sum) - parseInt(price);
-                $(".cartSumPrice").text(sum)
-            }
-            if (rowConut == checkedRow) {
-                $("#checkAll").prop("checked", true)
-            } else {
-                $("#checkAll").prop("checked", false)
-            }
             tatalResult();
-            totalProductId();
-            totalChecked();
-        })
-        //勾選所有商品
-        $("#checkAll").click(function () {
-            let checked = $(this).prop("checked")
-            $("tbody :checkbox").prop("checked", checked)
-            if (checked) {
-                $("tbody tr").addClass("active")
-            } else {
-                $("tbody tr").removeClass("active")
-            }
-            tatalResult();
-            totalProductId();
-            totalChecked();
-        })
-
-        //計算總價 & 總數量 (將有打勾的小計全部加總)
-        function tatalResult() {
-            let totalSumPrice = 0;
-            let totalSumCount = 0;
-            $("tbody :checkbox").each(function () {
-                let checked = $(this).prop("checked")
-                if (checked) {
-                    let productSum = parseInt($(this).parent().parent().find(".productSum").text())
-                    totalSumPrice += productSum;
-                    let quantity = parseInt($(this).parent().next().next().next().next().find(".txtNum").val())
-                    totalSumCount += quantity;
-                }
-            })
-            $(".cartSumPrice").text(totalSumPrice)
-            $(".cartSumCount").text(totalSumCount)
-        }
-        //勾選商品後將勾選的數量存進購物車&將勾選的購物車的Id存入隱藏input
-        function totalProductId() {
-            let totalBasketId = "";
-            $("tbody :checkbox").each(function () {
-                let checked = $(this).prop("checked");
-                if (checked) {
-                    let basketId = $(this).parent().parent().attr("data-id");
-                    totalBasketId = totalBasketId + basketId + "_";
-                }
-            })
-            $("#orderUrl").val(totalBasketId);
             saveToDB();
         }
-        //檢查是否有商品被勾選(如果有就解鎖送出訂單)
-        function totalChecked() {
-            let count = 0;  //計算被勾選數量
-            let isNull = false;  //計算被勾選的數量是否為null
-            $("tbody :checkbox").each(function () {
-                let checked = $(this).prop("checked");
-                if (checked) {
-                    count++;
+    })
+    //商品數量增加
+    $(".numberPlus").click(function () {
+        let num = $(this).siblings(".txtNum").val();        //目前商品數量
+        let numStock = $(this).siblings(".txtStock").val(); //目前商品存貨數量
+        let productPrice = $(this).parent().prev().text();  //目前商品價格
 
-                    if ($(this).parent().next().next().next().next().find(".txtNum").val().toString() == "") {
-                        isNull = true;
-                    }
-                    $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", true)
-                }
-                else
-                {
-                    $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", false)
-                }
-            })
-            if (count != 0 && isNull == false)
+        if (num < parseInt(numStock)) {
+            num++;
+            $(this).siblings(".txtNum").val(num);                           //增加的值傳給數量欄位
+            $(this).parent().next().text(num * parseInt(productPrice));     //小計更新
+            $(this).parent().next().addClass("productSum")                  //小計的顏色變成紅色(上面更新會蓋過格式)
+
+            if (num > 0)
             {
-                $("#toOrder").prop("disabled", false);
-                saveToDB();
+                $(this).siblings(".numberMinus").prop("disabled", false);   //打開減少按鈕
+            }
+
+            tatalResult();
+            saveToDB();
+        }
+        else {
+            $(this).prop("disabled", true);                                 //關掉增加按鈕
+        }
+    })
+    //勾選單項商品(執行替換背景顏色、計算商品總數量與價格、將購物車Id存入input、檢查是否有選項被勾選)
+    let rowConut = $("tbody tr").length;                        //全部商品項數
+    $("tbody :checkbox").click(function () {
+        let checked = $(this).prop("checked")                   //勾選狀態
+        let checkedRow = $("tbody :checked").length;            //目前選擇項數
+        let sum = $(".cartSumPrice").text()                     //總價
+
+        if (checked) {                                          //如果是勾選
+            $(this).parent().parent().addClass("active")        //勾選的背景顏色替換
+        }
+        else {                                                  //如果是取消勾選
+            $(this).parent().parent().removeClass("active")     //沒勾選的回到原本背景
+        }
+
+        if (rowConut == checkedRow) {
+            $("#checkAll").prop("checked", true)                //如果目前選擇項數等於全部商品項數，將全部勾選的選項打勾
+        } else {
+            $("#checkAll").prop("checked", false)               //如果目前選擇項數沒有等於全部商品項數，將全部勾選的選項取消打勾
+        }
+        tatalResult();
+        totalProductId();
+        totalChecked();
+    })
+    //勾選所有商品
+    $("#checkAll").click(function () {
+        let checked = $(this).prop("checked")                   //確認全部勾選的選項狀態
+        $("tbody :checkbox").prop("checked", checked)           //將所有商品狀態換成跟全部勾選的選項狀態一樣
+
+        if (checked) {
+            $("tbody tr").addClass("active")                    //將所有商品背景顏色替換
+        } else {
+            $("tbody tr").removeClass("active")                 //移除所有商品背景顏色替換
+        }
+        tatalResult();
+        totalProductId();
+        totalChecked();
+    })
+    //當數量欄位被鍵盤修改時
+    $(".txtNum").change(function () {
+        if (parseInt($(this).val()) > 0 && parseInt($(this).val()) < parseInt($(this).siblings(".txtStock").val())) {
+            $(this).val()
+        }
+        else
+        {
+            $(this).val(1)                                                                  //如果值不屬於範圍區間，則返回1
+        }
+
+        let productPrice = $(this).parent().prev().text();                                  //目前商品價格
+        $(this).parent().next().text($(this).val() * parseInt(productPrice));               //小計修改
+        $(this).parent().next().addClass("productSum");
+    })
+    //計算總價 & 總數量 (將有打勾的商品全部加總)
+    function tatalResult() {
+        let totalSumPrice = 0;
+        let totalSumCount = 0;
+        $("tbody :checkbox").each(function () {
+            let checked = $(this).prop("checked")                                                  //每個checkbox狀態
+            if (checked) {
+                let productCount = $(this).parent().parent().find(".txtNum").val();                //商品數量
+                let productUnitPrice = parseInt($(this).parent().next().next().next().text());     //商品單價
+                totalSumCount += parseInt(productCount);                                           //數量加到總數量
+                totalSumPrice += productCount * productUnitPrice;                                  //價錢加到總價
+            }
+        })
+        $(".cartSumCount").text(totalSumCount);                                                    //更新總數量
+        $(".cartSumPrice").text(totalSumPrice);                                                    //更新總價
+    }
+    //勾選商品後將勾選的數量存進購物車&將勾選的購物車的Id存入隱藏input
+    function totalProductId() {
+        let totalBasketId = "";
+        $("tbody :checkbox").each(function () {
+            let checked = $(this).prop("checked");
+            if (checked) {
+                let basketId = $(this).parent().parent().attr("data-id");   //讀取購物車Id
+                totalBasketId = totalBasketId + basketId + "_";             //將讀取到的Id加入到totalBasketId
+            }
+        })
+        $("#orderUrl").val(totalBasketId);                                  //將購物車的Id存入隱藏input內(要被submit傳遞)
+    }
+    //檢查是否有商品被勾選(如果有就解鎖送出訂單)
+    function totalChecked() {
+        let count = 0;                                                      //計算被勾選數量
+        $("tbody :checkbox").each(function () {
+            let checked = $(this).prop("checked");
+            if (checked) {
+                count++;
+                $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", true)
             }
             else
             {
-                $("#toOrder").prop("disabled", true);
+                $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", false)
             }
+        })
+        if (count != 0)
+        {
+            $("#toOrder").prop("disabled", false);
+            saveToDB();
         }
-        //Ajax:儲存到資料庫
-        function saveToDB() {
-            $("tbody :checkbox").each(function () {
-                let basketId = $(this).parent().parent().attr("data-id");
-                let quantity = parseInt($(this).parent().next().next().next().next().find(".txtNum").val());
+        else
+        {
+            $("#toOrder").prop("disabled", true);
+        }
+    }
+    //Ajax:儲存到資料庫
+    function saveToDB() {
+        $("tbody :checkbox").each(function () {
+            let basketId = $(this).parent().parent().attr("data-id");                                           //購物車Id
+            let quantity = parseInt($(this).parent().next().next().next().next().find(".txtNum").val());        //數量
 
-                $.ajax({
-                    type: 'POST',
-                    url:'@Url.Action("editCart", "ShoppingCart")',
-                    data: { basketId: basketId, quantity: quantity}
-                })
+            $.ajax({
+                type: 'POST',
+                url:'@Url.Action("editCart", "ShoppingCart")',
+                data: { basketId: basketId, quantity: quantity}
             })
+        })
+    }
+    //送出submit後儲存DB(No Ajax)
+    $("form").submit(function () {
+            $("tbody :checkbox").each(function () {
+            let basketId = $(this).parent().parent().attr("data-id");                                           //購物車Id
+            let quantity = parseInt($(this).parent().next().next().next().next().find(".txtNum").val());        //數量
+
+            $.ajax({
+                type: 'POST',
+                url:'@Url.Action("editCart", "ShoppingCart")',
+                data: { basketId: basketId, quantity: quantity },
+                async: false                                                                                    //取消同步
+            })
+        })
+    })
+    //Ajax : 加入收藏清單
+    function addToFavorite(productId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("Creat", "ProductFavorite")',
+            data: { productId : productId}
+        })
+    }
+    //清空購物車(確認後執行)
+    function doubleCheckAll() {
+        let c = confirm('確定要清空購物車嗎?');
+        if (c == true) {
+            location.href = `@Url.Action("deleteAll", "ShoppingCart")`;
         }
+    }
+    //刪除購物車(確認後執行)
+    function doubleCheck(fBasketId) {
+        let c = confirm('確定要刪除嗎?');
+        if (c == true) {
+            location.href = `/ShoppingCart/delete?basket=${fBasketId}`;
+        }
+    }
     </script>
 }

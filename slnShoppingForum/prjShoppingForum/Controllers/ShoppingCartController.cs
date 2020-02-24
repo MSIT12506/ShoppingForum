@@ -62,7 +62,7 @@ namespace tw.com.essentialoil.Controllers
 
                 if (cart != null)
                 {
-                    if (cart.fQuantity <= (product.fUnitsInStock - 1))
+                    if (cart.fQuantity < product.fUnitsInStock)
                         cart.fQuantity += 1;
                     else
                         return JavaScript("alert('購物車內該商品數量已超過庫存');");
@@ -72,13 +72,53 @@ namespace tw.com.essentialoil.Controllers
                     tShoppingCart cartNew = new tShoppingCart();
                     cartNew.fId = userId;
                     cartNew.fProductID = product.fProductID;
-                    cartNew.fQuantity = 1;     //TODO  數量也要由商品來
+                    cartNew.fQuantity = 1;
                     cartNew.fAddTime = DateTime.Now;
                     db.tShoppingCarts.Add(cartNew);
                 }
                 db.SaveChanges();
             }
             return View();
+        }
+
+        public ActionResult addToCartfromProduct(int productId, int selectQuantity)
+        {
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session, "ShoppingCart", "viewCart"))
+            {
+                return JavaScript("location.href = `/FrontUserProfile/Login`");
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                userId = userLoginInfo.user_fid;
+            }
+
+            tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
+            if (product != null)
+            {
+                tShoppingCart cart = db.tShoppingCarts.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductID == productId);
+                if (cart != null)
+                {
+                    if ( (cart.fQuantity + (short)selectQuantity) <= product.fUnitsInStock)
+                        cart.fQuantity += (short)selectQuantity;
+                    else
+                        return JavaScript("alert('購物車內該商品數量已超過庫存');");
+                }
+                else
+                {
+                    tShoppingCart cartNew = new tShoppingCart();
+                    cartNew.fId = userId;
+                    cartNew.fProductID = product.fProductID;
+                    cartNew.fQuantity = (short)selectQuantity;
+                    cartNew.fAddTime = DateTime.Now;
+                    db.tShoppingCarts.Add(cartNew);
+                }
+                db.SaveChanges();
+            }
+
+            return View();
+
         }
 
         public ActionResult editCart(int basketId, int quantity)

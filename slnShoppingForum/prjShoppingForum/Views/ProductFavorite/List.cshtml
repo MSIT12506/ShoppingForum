@@ -87,8 +87,6 @@
             var addcar = $(this);
             var img = addcar.find('img').attr('src');
             var flyer = $('<img class="u-flyer" src="' + img + '">');
-            console.log($("#essenceCartBtn").offset().left);
-            console.log($("#essenceCartBtn").offset().top);
             flyer.fly({
                 start: {
                     left: event.pageX,

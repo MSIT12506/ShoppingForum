@@ -1316,6 +1316,7 @@
     <Content Include="Views\AdminLTE\ShowForumTopList.cshtml" />
     <Content Include="Views\ProductFavorite\List.cshtml" />
     <Content Include="Views\AdminLTE\AdminManagerLogin.cshtml" />
+    <Content Include="Views\ProductFront\AdvanceQueryPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -46,9 +46,18 @@ namespace tw.com.essentialoil.Controllers
         // 加入到收藏清單
         public ActionResult Creat(int productId)
         {
-            tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session, "ProductFavorite", "List"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                userId = userLoginInfo.user_fid;
+            }
 
-            userId = (Session[CDictionary.UserLoginInfo] as UserLoginInfo).user_fid;
+            tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
 
             if (product != null)
             {
@@ -66,12 +75,53 @@ namespace tw.com.essentialoil.Controllers
                     favoriteNew.fAddTime = DateTime.Now;
                     db.tUserProductFavorites.Add(favoriteNew);
                     db.SaveChanges();
+                    return JavaScript("alert('加入成功')");
                 }
-                return RedirectToAction("viewCart", "ShoppingCart");
             }
             else
             {
                 return JavaScript("alert('沒有該項商品');");
+            }
+        }
+
+        // 從商品加入到收藏清單
+        public ActionResult CreatFromProduct(int productId)
+        {
+            //沒有登入過不能進來
+            if (!CStaticMethod.isLogin(Session, "ProductFavorite", "List"))
+            {
+                return JavaScript("location.href = `/FrontUserProfile/Login`");
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                userId = userLoginInfo.user_fid;
+            }
+
+            tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
+
+            if (product != null)
+            {
+                tUserProductFavorite favorite = db.tUserProductFavorites.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductId == productId);
+
+                if (favorite != null)
+                {
+                    return JavaScript("alert('該商品已經加入到收藏清單內')");
+                }
+                else
+                {
+                    tUserProductFavorite favoriteNew = new tUserProductFavorite();
+                    favoriteNew.fId = userId;
+                    favoriteNew.fProductId = product.fProductID;
+                    favoriteNew.fAddTime = DateTime.Now;
+                    db.tUserProductFavorites.Add(favoriteNew);
+                    db.SaveChanges();
+                    return JavaScript("alert('加入成功')");
+                }
+            }
+            else
+            {
+                return Content("<script >alert('沒有該項商品');</script >", "text/html");
             }
         }
 

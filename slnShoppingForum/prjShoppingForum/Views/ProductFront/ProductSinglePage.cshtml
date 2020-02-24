@@ -1,15 +1,5 @@
 ﻿@model prjShoppingForum.Models.Entity.tProduct
 
-<script>
-        function addToCart(productId) {
-            $.ajax({
-                type: 'POST',
-                url:'@Url.Action("addCart", "ShoppingCart")',
-                data: { productId: productId}
-            })
-        }
-</script>
-
 @{
     ViewBag.Title = "ProductSinglePage";
 }
@@ -55,12 +45,12 @@
         </dd>
 
         @*<dt>
-            @Html.DisplayNameFor(model => model.fDiscontinued)
-        </dt>
+                @Html.DisplayNameFor(model => model.fDiscontinued)
+            </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fDiscontinued)
-        </dd>*@
+            <dd>
+                @Html.DisplayFor(model => model.fDiscontinued)
+            </dd>*@
 
         <dt>
             @Html.DisplayNameFor(model => model.tCategory.fCategoryName)
@@ -78,14 +68,71 @@
             @Html.DisplayFor(model => model.tProductUnilateral.fOrigin)
         </dd>
 
-     
-        <dd>購買數量
-            <input type="text" />
+
+        <dd>
+            購買數量
+            <input type="number" id="buyQuantity" max="@Model.fUnitsInStock" min="1" value="1" />
+            <input type="hidden" class="txtStock" value="@Model.fUnitsInStock" />
         </dd>
-        <a class="btn btn-info">加入最愛</a>
-        
-        <a class="btn btn-info" onclick="addToCart(@Model.fProductID)">加入購物車</a>
+        <a class="btn btn-info" onclick="addToFavorite(@Model.fProductID)" >收藏</a>
+        <a class="btn btn-warning addCart" onclick="addToCartFromProduct(@Model.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
 
     </dl>
 </div>
 
+@section scripts{
+    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
+    <script>
+
+    //當數量欄位被鍵盤修改時
+    $("#buyQuantity").change(function () {
+        if (parseInt($(this).val()) > 0 && parseInt($(this).val()) <= parseInt($(this).siblings(".txtStock").val())) {
+            $(this).val()
+        }
+        else {
+            $(this).val(1)                                                                  //如果值不屬於範圍區間，則返回1
+        }
+    })
+    //Ajax : 加入收藏清單
+    function addToFavorite(productId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("CreatFromProduct", "ProductFavorite")',
+            data: { productId : productId}
+        })
+    }
+    //Ajax:加入購物車
+    function addToCartFromProduct(productId) {
+        let selectQuantity = parseInt($("#buyQuantity").val());
+
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("addToCartfromProduct", "ShoppingCart")',
+            data: { productId: productId, selectQuantity: selectQuantity },
+            async: false
+        })
+    }
+
+    //加入購物車動畫
+    $(".addCart").click(function (event) {
+        var addcar = $(this);
+        var img = addcar.find('img').attr('src');
+        var flyer = $('<img class="u-flyer" src="' + img + '">');
+        flyer.fly({
+            start: {
+                left: event.pageX,
+                top: event.pageY - $(window).scrollTop()
+            },
+            end: {
+                left: $("#essenceCartBtn").offset().left, //結束位置（必填）
+                top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填）
+                width: 0, //結束時寬度
+                height: 0 //結束時高度
+            },
+            onEnd: function () { //結束回撥
+                addcar.css("cursor", "default");
+            }
+        });
+    })
+    </script>
+}

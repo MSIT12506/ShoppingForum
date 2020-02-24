@@ -1158,6 +1158,9 @@
     <Compile Include="Models\Entity\tForumReplyAnalysi.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\tLineBotAccountLink.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tNew.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
@@ -1240,6 +1243,7 @@
     <Compile Include="Models\tScorePartial.cs" />
     <Compile Include="Models\tTestPartial.cs" />
     <Compile Include="Models\User\CLoginData.cs" />
+    <Compile Include="Models\User\CUser.cs" />
     <Compile Include="Models\User\tUserProfilePartial.cs" />
     <Compile Include="Models\User\UserDictionary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

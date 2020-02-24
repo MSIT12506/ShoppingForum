@@ -70,6 +70,8 @@
         <AssociationConnector Association="dbShoppingForumModel.FK_tUserLog_tUserProfile" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tUserProductFavorite_tUserProductFavorite" />
         <AssociationConnector Association="dbShoppingForumModel.tProdEfficacyRelation" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tLineBotAccountLink" Width="1.5" PointX="3" PointY="28.25" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

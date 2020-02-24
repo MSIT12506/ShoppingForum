@@ -55,5 +55,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tUserLog> tUserLogs { get; set; }
         public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
+        public virtual DbSet<tLineBotAccountLink> tLineBotAccountLinks { get; set; }
     }
 }

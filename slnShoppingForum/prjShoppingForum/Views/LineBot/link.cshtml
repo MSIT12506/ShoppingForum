@@ -1,1 +1,32 @@
 ﻿
+<div id="token" data-token="@ViewBag.linkToken">
+    帳號：<input type="text" name="account" id="account" />
+    <br />
+    密碼：<input type="password" name="password" id="password" />
+    <br />
+    <button id="submit">確認送出</button>
+</div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('#submit').click(function () {
+        let account = $('#account').val();
+        let password = $('#password').val();
+        let linkToken = $('#token').attr('data-token');
+
+        console.log(account);
+        console.log(password);
+        console.log(linkToken);
+
+        $.post(
+            '@Url.Action("checkLogin", "LineBot")',
+            {
+                account: account,
+                password: password
+            }, function (res) {
+
+
+            }
+        )
+    })
+</script>

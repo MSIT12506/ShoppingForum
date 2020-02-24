@@ -1,25 +1,39 @@
-﻿using System;
+﻿using prjShoppingForum.Models.Entity;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using tw.com.essentialoil.User.Models;
 
 namespace prjShoppingForum.Controllers.LineBot
 {
     public class LineBotController : Controller
     {
-        // GET: LineBot
+        //由LineBot導引進入的葉面
         public ActionResult link(string linkToken)
         {
-            var stream = linkToken;
-            var handler = new JwtSecurityTokenHandler();
-            var jsonToken = handler.ReadToken(stream);
-            var tokenS = handler.ReadToken(stream) as JwtSecurityToken;
-
-
-
-            return View();
+            ViewBag.linkToken = linkToken;
+            return PartialView();
         }
+
+        public ActionResult checkLogin(string account, string password)
+        {
+            CUser user = new CUser();
+            tUserProfile cust = user.checkLogin(account, password);
+
+            if (cust != null)
+            {
+                user.lineBotGetBase64String(cust);
+            }
+
+
+
+            return PartialView();
+        }
+
+        
     }
 }

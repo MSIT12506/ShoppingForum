@@ -23,36 +23,16 @@
                 <input type="button" value="修改密碼" id="edit" class="btn btn-info  btn-lg" />
                 <input type="button" value="修改個人資料" id="editinfo" class="btn btn-info  btn-lg" />
                 <input type="button" value="歷史訂單" id="orderlist" class="btn btn-info  btn-lg" />
-                <input type="button" value="商品追蹤清單" id="button4" class="btn btn-info  btn-lg" />
+                @*<input type="button" value="商品追蹤清單" id="button4" class="btn btn-info  btn-lg" />*@
                 <input type="button" value="積分/優惠券" id="myscore" class="btn btn-info  btn-lg" />
                 <input type="button" value="文章收藏" id="button6" class="btn btn-info  btn-lg" />
             </div>
         </div>
     </div>
-    <div class="col-md-8" id="divbox1">
-        @*@{Html.RenderAction("MemberDetail", "FrontUserProfile");}*@
-        @*@{Html.RenderPartial("MemberDetail")}*@
-
-
-        @*<div class="col-md-6">
-                 <table id="products" class="table">
-                     <thead>
-                         <tr>
-                             <th>Id</th>
-                             <th>Name</th>
-                             <th>Detail</th>
-                             <th>UnitsInStock</th>
-                         </tr>
-                     </thead>
-                     <tbody class="productList"></tbody>
-                 </table>
-
-
-            </div>*@
-
-
-    </div>
+   <div class="col-md-8" id="divbox1"></div>
 </div>
+
+
 @section scripts{
     <script>
         var detail = document.querySelector('#detail');

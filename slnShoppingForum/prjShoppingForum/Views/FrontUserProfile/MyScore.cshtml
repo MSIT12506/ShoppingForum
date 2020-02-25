@@ -3,7 +3,7 @@
 <h1>我的積分</h1>
 @*TODO:會再修改*@
 
-<table class="table table-bordered">
+<table class="table">
     <thead>
         <tr>
             <th>姓名</th>
@@ -12,9 +12,11 @@
     </thead>
     <tbody>
         <tr>
-            <td>@Model.fId</td>
-            <td>@Model.fScore</td>
-           
+            @if (Model!= null)
+            {
+                <td>@Model.fId</td>
+                <td>@Model.fScore</td>
+            }
         </tr>
     </tbody>
 </table>

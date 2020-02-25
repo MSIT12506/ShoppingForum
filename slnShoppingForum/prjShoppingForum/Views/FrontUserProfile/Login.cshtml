@@ -9,17 +9,19 @@
 <h2>Login</h2>
 <hr />
 
+<div class="w3-container" style="position:center;width:auto" >
+    <div class="w3-card-4" style="width:30%">
+        <img src="~/Images/Member/loginpicture.jpg" alt="loginpicture" style="width:100% ">
+        <form @*action="/FrontUserProfile/Login" method="post"*@ name="LoginForm" class="w3-container w3-center">
+            @*<fieldset style="width: 500px; border: 1px solid lightseagreen; margin: 15px; border-radius: 15px">
+                <div style="width: 450px; border-bottom: 2px solid #F0F0F0; margin:25px; padding-left:85px; padding-bottom:10px;">*@
 
-<form @*action="/FrontUserProfile/Login" method="post"*@ name="LoginForm">
-    <fieldset style="width: 500px; border: 1px solid lightseagreen; margin: 15px; border-radius: 15px">
-        <div style="width: 450px; border-bottom: 2px solid #F0F0F0; margin:25px; padding-left:85px; padding-bottom:10px;">
-
-            <p>帳號：</p>
+            <p style="font-size:x-large">帳號：</p>
             <input type="text" name="fUserId" placeholder="請輸入Email" id="inputUserId" /><div id="div1"></div><br />
-            <p>密碼：</p>
+            <p style="font-size:x-large">密碼：</p>
             <input type="password" name="fPassword" id="inputPassword" placeholder="請輸入密碼" />
-           <br /><br />
-            <p>輸入驗證碼：</p>
+            <br /><br />
+            <p style="font-size:x-large">輸入驗證碼：</p>
             <input type="text" name="fVeriCode" />
             @*@using (Html.BeginForm())*@
             <p>
@@ -42,42 +44,45 @@
                 <p style="color:lightcoral">@Session["UserInfo"]</p>
             }
 
-        </div>
-        <div style=" width:450px; margin:20px; text-align:center;">
+
+        <div style=" margin:20px; text-align:center;">
             <input type="submit" value="登入" id="buttonLogin" class="btn btn-warning" />
             <input type="button" value="取消" id="buttonCancelLogin" class="btn btn-warning" />
+            <label style="color:blue"><a href="@Url.Action("ForgetPassword", "FrontUserProfile")">忘記密碼</a></label>
         </div>
-    </fieldset>
-</form>
-<br />
+            @*</fieldset>*@
+        </form>
+    </div>
+</div>
+    <br />
 
+    <link rel="stylesheet" href="~/Content/w3cards.css">
 
+    @section scripts{
+        <script>
+            //apply ajax:此為現階段測試用，之後會刪除
+            var buttonLogin = document.querySelector('#buttonLogin');
+            var UserIdInput = document.querySelector('#inputUserId');
+            var buttonCancelLogin = document.querySelector('#buttonCancelLogin');
+            var myDiv = document.querySelector('#div1');
 
-@section scripts{
-    <script>
-        //apply ajax:此為現階段測試用，之後會刪除
-        var buttonLogin = document.querySelector('#buttonLogin');
-        var UserIdInput = document.querySelector('#inputUserId');
-        var buttonCancelLogin = document.querySelector('#buttonCancelLogin');
-        var myDiv = document.querySelector('#div1');
+            var xhr = null;
+            UserIdInput.addEventListener("blur", function () {
+                xhr = new XMLHttpRequest();
+                var formData = new FormData(document.LoginForm);
+                xhr.open('POST', '/FrontUserProfile/LoginAjax');
+                xhr.send(formData);
 
-        var xhr = null;
-        UserIdInput.addEventListener("blur", function () {
-            xhr = new XMLHttpRequest();
-            var formData = new FormData(document.LoginForm);
-            xhr.open('POST', '/FrontUserProfile/LoginAjax');
-            xhr.send(formData);
+                xhr.addEventListener('load', function () {
+                    var data = xhr.responseText;
+                    myDiv.innerHTML = `<h4 style="font-family: 微軟正黑體">` + data + "</h4>";
+                })
+            });
+                    //buttonLogin.addEventListener("click", function () {
+                    //    FormData(document.LoginForm).submit();
+                    //});
+        </script>
 
-            xhr.addEventListener('load', function () {
-                var data = xhr.responseText;
-                myDiv.innerHTML = `<h4 style="font-family: 微軟正黑體">` + data + "</h4>";
-            })
-        });
-        //buttonLogin.addEventListener("click", function () {
-        //    FormData(document.LoginForm).submit();
-        //});  
-    </script>
-    
-}
+    }
 
 

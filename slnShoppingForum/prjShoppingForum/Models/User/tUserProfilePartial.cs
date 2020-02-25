@@ -13,52 +13,57 @@ namespace prjShoppingForum.Models.Entity
     {
         public class tUserProfileMetaData
         {
+        [DisplayName("會員編號")]
         public int fId { get; set; }
+
+        [DisplayName("信箱")]
+        [Required(ErrorMessage ="必填")]
         public string fUserId { get; set; }
+
+        [DisplayName("密碼")]
+        [Required(ErrorMessage = "必填")]
         public string fPassword { get; set; }
+
+        [DisplayName("密碼加鹽")]
         public string fPasswordSalt { get; set; }
-        [DisplayName("帳號")]
+
+        [DisplayName("姓名")]
+        [Required(ErrorMessage = "必填")]
         public string fName { get; set; }
+
+        [DisplayName("性別")]
+        [Required(ErrorMessage = "必填")]
         public string fGender { get; set; }
+
+        [DisplayName("生日")]
+        [Required(ErrorMessage = "必填")]
         public System.DateTime fBirthday { get; set; }
+
+        [DisplayName("電話")]
         public string fTel { get; set; }
+
+        [DisplayName("手機")]
+        [Required(ErrorMessage = "必填")]
         public string fPhone { get; set; }
+        [DisplayName("城市")]
+        [Required(ErrorMessage = "必填")]
         public string fCity { get; set; }
+
+        [DisplayName("地址")]
+        [Required(ErrorMessage = "必填")]
         public string fAddress { get; set; }
+        [DisplayName("相片")]
         public string fPhoto { get; set; }
+        [DisplayName("註冊時間")]
         public System.DateTime fCreateDate { get; set; }
+        [DisplayName("積分")]
         public Nullable<int> fScore { get; set; }
+        [DisplayName("會員權限")]
         public string fAuth { get; set; }
+        [DisplayName("發文權限")]
         public bool fAuthPost { get; set; }
+        [DisplayName("留言權限")]
         public bool fAuthReply { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForum> tForums { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForum> tForums1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForumAnalysi> tForumAnalysis { get; set; }
-        public virtual tForumAuth tForumAuth { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForumReply> tForumReplies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForumReply> tForumReplies1 { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tOrder> tOrders { get; set; }
-        public virtual tScore tScore { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserBrowseHistory> tUserBrowseHistories { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserDiscountList> tUserDiscountLists { get; set; }
-        public virtual tUserLog tUserLog { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserProductFavorite> tUserProductFavorites { get; set; }
         }
-
-        
     }
 }

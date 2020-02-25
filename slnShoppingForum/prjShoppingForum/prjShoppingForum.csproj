@@ -1082,7 +1082,6 @@
     <Compile Include="Controllers\ScoreController.cs" />
     <Compile Include="Controllers\ShoppingCartController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\USer\BackUser\BackUserProfileController.cs" />
     <Compile Include="Controllers\USer\FrontUser\FrontUserProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1216,6 +1215,7 @@
     <Compile Include="Models\tQuestionPartial.cs" />
     <Compile Include="Models\tScorePartial.cs" />
     <Compile Include="Models\tTestPartial.cs" />
+    <Compile Include="Models\User\BackendUserModel.cs" />
     <Compile Include="Models\User\CAdminData.cs" />
     <Compile Include="Models\User\CLoginData.cs" />
     <Compile Include="Models\User\tUserProfilePartial.cs" />
@@ -1256,8 +1256,6 @@
     <Content Include="Views\Discount\List.cshtml" />
     <Content Include="Views\tOrders\OrderCreate.cshtml" />
     <Content Include="Views\tOrders\OrderList.cshtml" />
-    <Content Include="Views\BackUserProfile\Edit.cshtml" />
-    <Content Include="Views\BackUserProfile\Index.cshtml" />
     <Content Include="Views\FrontUserProfile\Home.cshtml" />
     <Content Include="Views\FrontUserProfile\Login.cshtml" />
     <Content Include="Views\FrontUserProfile\New.cshtml" />
@@ -1317,6 +1315,14 @@
     <Content Include="Views\ProductFavorite\List.cshtml" />
     <Content Include="Views\AdminLTE\AdminManagerLogin.cshtml" />
     <Content Include="Views\ProductFront\AdvanceQueryPage.cshtml" />
+    <Content Include="Views\FrontUserProfile\ForgetPassword.cshtml" />
+    <Content Include="Views\FrontUserProfile\LogOut.cshtml" />
+    <Content Include="Views\FrontUserProfile\MemberCenter.cshtml" />
+    <Content Include="Views\FrontUserProfile\MemberDetail.cshtml" />
+    <Content Include="Views\FrontUserProfile\MemberPasswordEdit.cshtml" />
+    <Content Include="Views\FrontUserProfile\MyOrderList.cshtml" />
+    <Content Include="Views\FrontUserProfile\MyScore.cshtml" />
+    <Content Include="Views\FrontUserProfile\UserEditold.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

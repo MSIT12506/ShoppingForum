@@ -1,4 +1,5 @@
-﻿using prjShoppingForum.Models.Entity;
+﻿using PagedList;
+using prjShoppingForum.Models.Entity;
 using prjShoppingForum.Models.User;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace tw.com.essentialoil.Controllers
         {
             return View();
         }
-        //後台Admin登入
+        //後台Admin登入，缺加密
         public ActionResult AdminManagerLogin(CAdminData data)
         {
 
@@ -29,11 +30,7 @@ namespace tw.com.essentialoil.Controllers
 
                 if (cust != null)
                 {
-                    var backpwd = data.ManagerPassword /*+ cust.ManagerPasswordSalt*/;
-                    //SHA256 sha256 = new SHA256CryptoServiceProvider();
-                    //byte[] source = Encoding.Default.GetBytes(backpwd);
-                    //byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
-                    //string result = Convert.ToBase64String(crypto);
+                    var backpwd = data.ManagerPassword;
                     if (cust.ManagerPassword == backpwd)
                     {
                             //使用下面Session的值判斷是否使用者已登入
@@ -42,11 +39,40 @@ namespace tw.com.essentialoil.Controllers
                     }
                     return View();
                 }
-                return View();//TODO:會再修改，目前尚不影響流程
+                return View();
             }
             return View();
         }
+        
+        public ActionResult AdminManagerLogOut()
+        {
+            Session.RemoveAll();
+            return RedirectToAction("AdminManagerLogin");
+        }
 
+        //會員管理、會員編輯、停權、會員查詢ajax
+
+        int pagesize = 10;
+        public ActionResult MemberList(int page = 1)
+        {
+            int currentPage = page < 1 ? 1 : page;
+
+            var users = db.tUserProfiles.ToList();
+            var pageresult = users.ToPagedList(currentPage, pagesize);
+            return View(pageresult);
+        }
+
+        public ActionResult MemberEdit(int id)
+        {
+            var prod = db.tUserProfiles.Where(m => m.fId == id).FirstOrDefault();
+            return View(prod);
+        }
+        [HttpPost]
+        public ActionResult MemberEdit(tUserProfile prod)
+        {
+            db.SaveChanges();
+            return RedirectToAction("MemberList");
+        }
 
 
 

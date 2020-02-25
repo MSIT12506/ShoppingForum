@@ -37,7 +37,7 @@ namespace tw.com.essentialoil.User.Models
             {
                 tLineBotAccountLink newUser = new tLineBotAccountLink();
                 newUser.fId = cust.fId;
-                newUser.lineNonce = resultEncode;
+                newUser.fLineNonce = resultEncode;
                 nonce = resultEncode;
 
                 db.tLineBotAccountLinks.Add(newUser);

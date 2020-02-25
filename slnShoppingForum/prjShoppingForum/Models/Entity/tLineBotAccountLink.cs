@@ -15,7 +15,8 @@ namespace prjShoppingForum.Models.Entity
     public partial class tLineBotAccountLink
     {
         public int fId { get; set; }
-        public string lineNonce { get; set; }
+        public string fLineNonce { get; set; }
+        public string fLineUserId { get; set; }
     
         public virtual tUserProfile tUserProfile { get; set; }
     }

@@ -122,7 +122,8 @@
             <PropertyRef Name="fId" />
           </Key>
           <Property Name="fId" Type="int" Nullable="false" />
-          <Property Name="lineNonce" Type="nvarchar" MaxLength="50" />
+          <Property Name="fLineNonce" Type="nvarchar" MaxLength="50" />
+          <Property Name="fLineUserId" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="tNews">
           <Key>
@@ -1004,6 +1005,7 @@
           <EntitySet Name="tForumAuths" EntityType="dbShoppingForumModel.tForumAuth" />
           <EntitySet Name="tForumReplies" EntityType="dbShoppingForumModel.tForumReply" />
           <EntitySet Name="tForumReplyAnalysis" EntityType="dbShoppingForumModel.tForumReplyAnalysi" />
+          <EntitySet Name="tLineBotAccountLinks" EntityType="dbShoppingForumModel.tLineBotAccountLink" />
           <EntitySet Name="tNews" EntityType="dbShoppingForumModel.tNew" />
           <EntitySet Name="tNewsMessages" EntityType="dbShoppingForumModel.tNewsMessage" />
           <EntitySet Name="tNotes" EntityType="dbShoppingForumModel.tNote" />
@@ -1079,6 +1081,10 @@
           <AssociationSet Name="FK_tForumReplyAnalysis_tUserProfile" Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile">
             <End Role="tUserProfile" EntitySet="tUserProfiles" />
             <End Role="tForumReplyAnalysi" EntitySet="tForumReplyAnalysis" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tLineBotAccountLink_tUserProfile" Association="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile">
+            <End Role="tUserProfile" EntitySet="tUserProfiles" />
+            <End Role="tLineBotAccountLink" EntitySet="tLineBotAccountLinks" />
           </AssociationSet>
           <AssociationSet Name="FK_tNewsMessage_tNews" Association="dbShoppingForumModel.FK_tNewsMessage_tNews">
             <End Role="tNew" EntitySet="tNews" />
@@ -1163,11 +1169,6 @@
           <AssociationSet Name="tProdEfficacyRelation" Association="dbShoppingForumModel.tProdEfficacyRelation">
             <End Role="tEfficacy" EntitySet="tEfficacies" />
             <End Role="tProduct" EntitySet="tProducts" />
-          </AssociationSet>
-          <EntitySet Name="tLineBotAccountLinks" EntityType="dbShoppingForumModel.tLineBotAccountLink" />
-          <AssociationSet Name="FK_tLineBotAccountLink_tUserProfile" Association="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile">
-            <End Role="tUserProfile" EntitySet="tUserProfiles" />
-            <End Role="tLineBotAccountLink" EntitySet="tLineBotAccountLinks" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="tAdminManager">
@@ -1299,6 +1300,15 @@
           <Property Name="fLikeHate" Type="Boolean" />
           <NavigationProperty Name="tForumReply" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" FromRole="tForumReplyAnalysi" ToRole="tForumReply" />
           <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" FromRole="tForumReplyAnalysi" ToRole="tUserProfile" />
+        </EntityType>
+        <EntityType Name="tLineBotAccountLink">
+          <Key>
+            <PropertyRef Name="fId" />
+          </Key>
+          <Property Name="fId" Type="Int32" Nullable="false" />
+          <Property Name="fLineNonce" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fLineUserId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" FromRole="tLineBotAccountLink" ToRole="tUserProfile" />
         </EntityType>
         <EntityType Name="tNew">
           <Key>
@@ -1573,6 +1583,7 @@
           <NavigationProperty Name="tForumReplies" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile" FromRole="tUserProfile" ToRole="tForumReply" />
           <NavigationProperty Name="tForumReplies1" Relationship="dbShoppingForumModel.FK_tForumReply_tUserProfile1" FromRole="tUserProfile" ToRole="tForumReply" />
           <NavigationProperty Name="tForumReplyAnalysis" Relationship="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" FromRole="tUserProfile" ToRole="tForumReplyAnalysi" />
+          <NavigationProperty Name="tLineBotAccountLink" Relationship="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" FromRole="tUserProfile" ToRole="tLineBotAccountLink" />
           <NavigationProperty Name="tOrders" Relationship="dbShoppingForumModel.FK_tOrder_tUser" FromRole="tUserProfile" ToRole="tOrder" />
           <NavigationProperty Name="tScore" Relationship="dbShoppingForumModel.FK_tScore_tUserProfile" FromRole="tUserProfile" ToRole="tScore" />
           <NavigationProperty Name="tShoppingCarts" Relationship="dbShoppingForumModel.FK_tShoppingCart_tUserProfile" FromRole="tUserProfile" ToRole="tShoppingCart" />
@@ -1580,7 +1591,6 @@
           <NavigationProperty Name="tUserDiscountLists" Relationship="dbShoppingForumModel.FK_tUserDiscountList_tUserProfile" FromRole="tUserProfile" ToRole="tUserDiscountList" />
           <NavigationProperty Name="tUserLog" Relationship="dbShoppingForumModel.FK_tUserLog_tUserProfile" FromRole="tUserProfile" ToRole="tUserLog" />
           <NavigationProperty Name="tUserProductFavorites" Relationship="dbShoppingForumModel.FK_tUserProductFavorite_tUserProductFavorite" FromRole="tUserProfile" ToRole="tUserProductFavorite" />
-          <NavigationProperty Name="tLineBotAccountLink" Relationship="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" FromRole="tUserProfile" ToRole="tLineBotAccountLink" />
         </EntityType>
         <Association Name="FK_tProduct_tCategory">
           <End Type="dbShoppingForumModel.tCategory" Role="tCategory" Multiplicity="1" />
@@ -1748,6 +1758,18 @@
               <PropertyRef Name="fId" />
             </Principal>
             <Dependent Role="tForumReplyAnalysi">
+              <PropertyRef Name="fId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tLineBotAccountLink_tUserProfile">
+          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
+          <End Type="dbShoppingForumModel.tLineBotAccountLink" Role="tLineBotAccountLink" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tUserProfile">
+              <PropertyRef Name="fId" />
+            </Principal>
+            <Dependent Role="tLineBotAccountLink">
               <PropertyRef Name="fId" />
             </Dependent>
           </ReferentialConstraint>
@@ -1996,26 +2018,6 @@
           <End Type="dbShoppingForumModel.tEfficacy" Role="tEfficacy" Multiplicity="*" />
           <End Type="dbShoppingForumModel.tProduct" Role="tProduct" Multiplicity="*" />
         </Association>
-        <EntityType Name="tLineBotAccountLink">
-          <Key>
-            <PropertyRef Name="fId" />
-          </Key>
-          <Property Name="fId" Type="Int32" Nullable="false" />
-          <Property Name="lineNonce" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tUserProfile" Relationship="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" FromRole="tLineBotAccountLink" ToRole="tUserProfile" />
-        </EntityType>
-        <Association Name="FK_tLineBotAccountLink_tUserProfile">
-          <End Type="dbShoppingForumModel.tUserProfile" Role="tUserProfile" Multiplicity="1" />
-          <End Type="dbShoppingForumModel.tLineBotAccountLink" Role="tLineBotAccountLink" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tUserProfile">
-              <PropertyRef Name="fId" />
-            </Principal>
-            <Dependent Role="tLineBotAccountLink">
-              <PropertyRef Name="fId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2137,6 +2139,15 @@
                 <ScalarProperty Name="fId" ColumnName="fId" />
                 <ScalarProperty Name="fReplyId" ColumnName="fReplyId" />
                 <ScalarProperty Name="fPostId" ColumnName="fPostId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tLineBotAccountLinks">
+            <EntityTypeMapping TypeName="dbShoppingForumModel.tLineBotAccountLink">
+              <MappingFragment StoreEntitySet="tLineBotAccountLink">
+                <ScalarProperty Name="fLineUserId" ColumnName="fLineUserId" />
+                <ScalarProperty Name="fLineNonce" ColumnName="fLineNonce" />
+                <ScalarProperty Name="fId" ColumnName="fId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -2393,14 +2404,6 @@
               <ScalarProperty Name="fEfficacyID" ColumnName="fEfficacyID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="tLineBotAccountLinks">
-            <EntityTypeMapping TypeName="dbShoppingForumModel.tLineBotAccountLink">
-              <MappingFragment StoreEntitySet="tLineBotAccountLink">
-                <ScalarProperty Name="lineNonce" ColumnName="lineNonce" />
-                <ScalarProperty Name="fId" ColumnName="fId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

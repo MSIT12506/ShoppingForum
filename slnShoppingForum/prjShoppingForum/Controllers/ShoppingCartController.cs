@@ -38,14 +38,18 @@ namespace tw.com.essentialoil.Controllers
                             select c;
             var tableProduct = from p in db.tProducts
                                select p;
-            CShoppingCart cart = new CShoppingCart() { ShoppingCart = tableCart, Product = tableProduct };
+            var tableBrowseHistory = from b in db.tUserBrowseHistories
+                                     where b.fId == userId
+                                     select b;
+            CShoppingCart cart = new CShoppingCart() { ShoppingCart = tableCart, Product = tableProduct, BrowseHistory = tableBrowseHistory };
             return View(cart);
         }
 
         [HttpPost]
-        public ActionResult viewCart(string totalBasketId)
+        public ActionResult viewCart(string url)
         {
-            return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = totalBasketId });
+            Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] = url;
+            return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = url });
         }
 
         public ActionResult addCart(int productId)

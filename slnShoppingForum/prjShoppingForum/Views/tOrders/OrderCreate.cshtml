@@ -5,31 +5,71 @@
 
 <h2>OrderCreate</h2>
 <form action="~/tOrders/OrderCreate" method="post" class="form-text" name="OrderForm">
-    <p>收貨者姓名<input type="text" name="ConsigneeName" id="name"/></p>
-    <p>收貨者手機號碼<input type="text" name="ConsigneeCellPhone" id="phone"/></p>
-    <p>收貨者地址<input type="text" name="ConsigneeAddress" id="address"/></p>
+    <p>收貨者姓名<input type="text" name="ConsigneeName" id="name" onchange="str1(this.id)"/></p>
+    <p>收貨者手機號碼<input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)"/></p>
+    <p>收貨者地址<input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)"/></p>
     <p>發票公司抬頭<input type="text" name="OrderCompanyTitle" /></p>
     <p>統一編號<input type="text" name="OrderTaxIdDNumber" /></p>
     <p>訂單備註<input type="text" name="OrderPostScript" /></p>
-    <p>支付方式<input type="text" name="Payment" /></p>
-    <input type="checkbox" name="OrderCheck" id="check" /><p>確認您所輸入的資料正確，以利出貨正常配送。</p>
+    <p>支付方式<input type="text" name="Payment" id="payment" onchange="str4(this.id)"/></p>
+    <p>希望送達日<input type="text" id="datepicker" name="RequirtDate" /><br /><span>(可選填，如無特別需求將會於購買日三天後到貨)</span></p>
+    <input type="checkbox" disabled name="OrderCheck" id="check" /><p>確認您所輸入的資料正確，以利出貨正常配送。</p>
     <input type="button" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
 </form>
 
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
 @section Scripts{
+    
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/zh-tw.js"></script>
     <script>
         //$('#name').addEventListener('blur', function () {
+
         //    console.log($('#name').val());
         //});
+ 
 
-        //if ($('#name').val().Length != 0 && $('#phone').val().Length != 0 && $('#address').val().Length != 0) {
-        //    check.disabled = false;
-        //};
-        
         var check = document.querySelector('#check');
+        var ConsigneeName = document.querySelector('#ConsigneeName');
+        var ConsigneeCellPhone = document.querySelector('#ConsigneeCellPhone');
+        var ConsigneeAddress = document.querySelector('#ConsigneeAddress');
+        var Payment = document.querySelector('#payment');
+        var name;
+        var phone;
+        var address;
+        var payment;
+        function str1(x) {
+            name = document.getElementById(x).value;
+        }
+
+        function str2(x) {
+            phone = document.getElementById(x).value;
+        }
+
+        function str3(x) {
+            address = document.getElementById(x).value;
+        }
+
+        function str4(x) {
+            payment = document.getElementById(x).value;
+        }
+
+        Payment.addEventListener('blur', function () {
+            if (name != "" && phone != "" && address != "" && payment != "") {
+                check.disabled = false;
+            }
+        });
+
 
         var btnCreateOrder = document.querySelector('#CreateOrder');
         var xhr = null;
+
+        function checkbox() {
+            if (name != null && phone != null && address != null && payment != null) {
+                //check.disabled = false;
+                check.prop("disabled", false);
+        }};
 
         check.addEventListener('click', function () {
             if (check.checked)
@@ -41,5 +81,15 @@
         btnCreateOrder.addEventListener("click", function () {
             document.OrderForm.submit();
         });
+
+        $(function () {
+            $("#datepicker").datepicker({
+                minDate: +1,
+                maxDate: +15,
+                dateFormat: $("yy-mm-dd").val(),
+            });
+        });
     </script>
+
+
 }

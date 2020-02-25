@@ -36,6 +36,9 @@
     ViewBag.Title = "viewCart";
     double totalPrice = 0;
 }
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
+
 <div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
     <img src="~/Images/ShoppingCart/bulletin.png" style="height:180px;width:700px" />
 </div>
@@ -48,8 +51,8 @@
         <table class="table">
             <thead class="thead-light">
                 <tr>
-                    <th style="width:5%">
-                        <input type="checkbox" id="checkAll" />
+                    <th style="width:5%" class="">
+                        <input type="checkbox" id="checkAll" class="checkbox" />
                     </th>
                     <th style="width:15%">
                         商品名稱
@@ -133,8 +136,25 @@
 <br />
 <br />
 <br />
-<div style="border:5px solid black;height:200px;width:70%;margin:auto">
-    瀏覽紀錄
+<h2 style="text-align:center">瀏覽紀錄</h2>
+<div style="height:240px;width:70%;margin:auto;display:flex;margin-bottom:50px;background-color:aliceblue">
+    @foreach (var item in Model.BrowseHistory.OrderByDescending(t=>t.fBrowseTime).Take(7))
+    {
+        var imageScr = $"/Images/Product/{item.fProductId}.jpg";
+        var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
+
+        <a href="@producthref" style="border:2px solid;">
+            <div style="display:block;margin:20px;text-align:center;">
+                <img src="@imageScr" style="height:150px;width:150px;" />
+                <div style="text-align:center;margin:4px;font-size:20px;">
+                    @item.tProduct.fProductChName
+                </div>
+                <div style="text-align:center;margin:4px;font-size:16px;">
+                    $ @item.tProduct.fUnitPrice
+                </div>
+            </div>
+        </a>
+    }
 </div>
 
 

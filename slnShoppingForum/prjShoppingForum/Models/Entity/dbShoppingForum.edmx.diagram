@@ -15,7 +15,6 @@
         <EntityTypeShape EntityType="dbShoppingForumModel.tForumAuth" Width="1.5" PointX="3" PointY="37.25" />
         <EntityTypeShape EntityType="dbShoppingForumModel.tForumReply" Width="1.5" PointX="8.25" PointY="30.625" />
         <EntityTypeShape EntityType="dbShoppingForumModel.tForumReplyAnalysi" Width="1.5" PointX="10.5" PointY="25.75" />
-        <EntityTypeShape EntityType="dbShoppingForumModel.tLineBotAccountLink" Width="1.5" PointX="3" PointY="34.75" />
         <EntityTypeShape EntityType="dbShoppingForumModel.tNew" Width="1.5" PointX="8.75" PointY="2.375" />
         <EntityTypeShape EntityType="dbShoppingForumModel.tNewsMessage" Width="1.5" PointX="11" PointY="3.125" />
         <EntityTypeShape EntityType="dbShoppingForumModel.tNote" Width="1.5" PointX="3.75" PointY="51.625" />
@@ -50,7 +49,6 @@
         <AssociationConnector Association="dbShoppingForumModel.FK_tForumReply_tUserProfile1" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tForumReply" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tForumReplyAnalysis_tUserProfile" />
-        <AssociationConnector Association="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tNewsMessage_tNews" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tProductUnilateral_tNote" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tOrder_tUser" />
@@ -72,6 +70,8 @@
         <AssociationConnector Association="dbShoppingForumModel.FK_tUserLog_tUserProfile" />
         <AssociationConnector Association="dbShoppingForumModel.FK_tUserProductFavorite_tUserProductFavorite" />
         <AssociationConnector Association="dbShoppingForumModel.tProdEfficacyRelation" />
+        <EntityTypeShape EntityType="dbShoppingForumModel.tLineBotAccountLink" Width="1.5" PointX="3" PointY="32.125" />
+        <AssociationConnector Association="dbShoppingForumModel.FK_tLineBotAccountLink_tUserProfile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

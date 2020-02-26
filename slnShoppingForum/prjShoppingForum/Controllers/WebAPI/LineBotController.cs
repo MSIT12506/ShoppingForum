@@ -7,8 +7,15 @@ using System.Web.Http;
 
 namespace prjShoppingForum.Controllers.WebAPI
 {
-    public class ValuesController : ApiController
+    public class LineBotController : ApiController
     {
+        public class Test
+        {
+            public string p1 { get; set; }
+            public string p2 { get; set; }
+            public string p3 { get; set; }
+        }
+
         // GET api/<controller>
         public IEnumerable<string> Get()
         {
@@ -18,14 +25,13 @@ namespace prjShoppingForum.Controllers.WebAPI
         // GET api/<controller>/5
         public string Get(int id)
         {
-            return id.ToString();
+            return "value";
         }
 
-        // POST api/<controller>
         [HttpPost]
-        public string Post(string value)
+        public object Post(Test t)
         {
-            return value;
+            return new { t.p1, t.p2, t.p3 };
         }
 
         // PUT api/<controller>/5

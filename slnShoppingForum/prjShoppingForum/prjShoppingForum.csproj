@@ -1106,6 +1106,7 @@
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\USer\BackUser\BackUserProfileController.cs" />
     <Compile Include="Controllers\USer\FrontUser\FrontUserProfileController.cs" />
+    <Compile Include="Controllers\WebAPI\LineBotController.cs" />
     <Compile Include="Controllers\WebAPI\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

@@ -61,7 +61,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual ICollection<tForumReply> tForumReplies1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
-        public virtual tLineBotAccountLink tLineBotAccountLink { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrder> tOrders { get; set; }
         public virtual tScore tScore { get; set; }
@@ -74,5 +73,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual tUserLog tUserLog { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUserProductFavorite> tUserProductFavorites { get; set; }
+        public virtual tLineBotAccountLink tLineBotAccountLink { get; set; }
     }
 }

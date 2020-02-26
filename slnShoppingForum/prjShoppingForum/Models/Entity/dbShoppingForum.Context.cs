@@ -35,7 +35,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tForumAuth> tForumAuths { get; set; }
         public virtual DbSet<tForumReply> tForumReplies { get; set; }
         public virtual DbSet<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
-        public virtual DbSet<tLineBotAccountLink> tLineBotAccountLinks { get; set; }
         public virtual DbSet<tNew> tNews { get; set; }
         public virtual DbSet<tNewsMessage> tNewsMessages { get; set; }
         public virtual DbSet<tNote> tNotes { get; set; }
@@ -56,5 +55,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tUserLog> tUserLogs { get; set; }
         public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
+        public virtual DbSet<tLineBotAccountLink> tLineBotAccountLinks { get; set; }
     }
 }

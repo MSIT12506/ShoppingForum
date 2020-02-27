@@ -53,8 +53,8 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tUserBrowseHistory> tUserBrowseHistories { get; set; }
         public virtual DbSet<tUserDiscountList> tUserDiscountLists { get; set; }
         public virtual DbSet<tUserFavorite> tUserFavorites { get; set; }
+        public virtual DbSet<tUserLog> tUserLogs { get; set; }
         public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
-        public virtual DbSet<tUserLog> tUserLogs { get; set; }
     }
 }

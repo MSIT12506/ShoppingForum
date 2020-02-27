@@ -33,6 +33,7 @@ namespace prjShoppingForum.Models.Entity
         public string fChangUser { get; set; }
         public string fDeleteUser { get; set; }
         public string fApproved { get; set; }
+        public Nullable<bool> fNewsDiscontinue { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tNewsMessage> tNewsMessages { get; set; }

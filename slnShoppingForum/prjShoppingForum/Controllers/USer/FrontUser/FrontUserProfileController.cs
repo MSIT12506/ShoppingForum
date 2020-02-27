@@ -107,7 +107,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         //使用者登入
         public async Task<ActionResult> Index()
         {
-            var tUserProfile = db.tUserProfiles.Include(t => t.tForumAuth).Include(t => t.tScore);
+            var tUserProfile = db.tUserProfiles.Include(t => t.tForumAuth).Include(t => t.tScore).Include(t => t.tUserLogs);
             return View(await tUserProfile.ToListAsync());
         }
 
@@ -387,8 +387,8 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 var logs = db.tUserLogs.Where(p => p.fId == q).OrderByDescending(p=>p.fLoginTime).FirstOrDefault();
                 if (logs.fLogoutTime == null)
                 {
-                    logs.fLogoutTime = DateTime.Now;
-                    db.SaveChanges();
+                    //logs.fLogoutTime = DateTime.Now;
+                    //db.SaveChanges();
                     Session.RemoveAll();
                 }return RedirectToAction("Index", "Home");
             }

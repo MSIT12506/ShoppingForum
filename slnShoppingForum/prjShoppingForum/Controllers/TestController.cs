@@ -64,12 +64,12 @@ namespace tw.com.essentialoil.Controllers
                 prod.fTestId = p.fTestId;
                 prod.fQuestionId = p.fQuestionId;
                 prod.fId = p.fId;
-                prod.fQuestionCount = p.fQuestionCount;
-                prod.fCorrectCount = p.fCorrectCount;
+                //prod.fQuestionCount = p.fQuestionCount;
+                //prod.fCorrectCount = p.fCorrectCount;
                 prod.fQuestionScore = p.fQuestionScore;
                 prod.fScoreDate = p.fScoreDate;
-                prod.fTestStar = p.fTestStar;
-                prod.fTestEnd = p.fTestEnd;
+                //prod.fTestStar = p.fTestStar;
+                //prod.fTestEnd = p.fTestEnd;
 
                 db.SaveChanges();
             }

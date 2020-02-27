@@ -27,8 +27,8 @@ namespace prjShoppingForum.Models.Entity
             this.tShoppingCarts = new HashSet<tShoppingCart>();
             this.tUserBrowseHistories = new HashSet<tUserBrowseHistory>();
             this.tUserDiscountLists = new HashSet<tUserDiscountList>();
-            this.tUserProductFavorites = new HashSet<tUserProductFavorite>();
             this.tUserLogs = new HashSet<tUserLog>();
+            this.tUserProductFavorites = new HashSet<tUserProductFavorite>();
         }
     
         public int fId { get; set; }
@@ -73,8 +73,8 @@ namespace prjShoppingForum.Models.Entity
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUserDiscountList> tUserDiscountLists { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tUserProductFavorite> tUserProductFavorites { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUserLog> tUserLogs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tUserProductFavorite> tUserProductFavorites { get; set; }
     }
 }

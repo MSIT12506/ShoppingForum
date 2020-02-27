@@ -11,7 +11,7 @@ namespace tw.com.essentialoil.User.Models
     {
         dbShoppingForumEntities db = new dbShoppingForumEntities();
 
-        public tUserProfile checkLogin(string account, string password)
+        public tUserProfile checkLineLogin(string account, string password)
         {
             tUserProfile cust = (from u in db.tUserProfiles
                                  where u.fUserId == account && u.fPassword == password
@@ -37,17 +37,18 @@ namespace tw.com.essentialoil.User.Models
             {
                 tLineBotAccountLink newUser = new tLineBotAccountLink();
                 newUser.fId = cust.fId;
-                //newUser.fLineNonce = resultEncode;
+                newUser.fLineNonce = resultEncode;
+                newUser.fAccountLinkDatetime = DateTime.Now;
                 nonce = resultEncode;
 
                 db.tLineBotAccountLinks.Add(newUser);
                 db.SaveChanges();
 
-                result = true;
+                result = true;   //第一次綁定
             }
             else
             {
-                result = false;
+                result = false;  //已經綁定過
             }
 
             return result;

@@ -29,6 +29,7 @@ namespace prjShoppingForum.Models.Entity
         public System.DateTime fStartdate { get; set; }
         public System.DateTime fEndDate { get; set; }
         public bool fEnable { get; set; }
+        public int fCount { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUserDiscountList> tUserDiscountLists { get; set; }

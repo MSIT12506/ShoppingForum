@@ -15,10 +15,12 @@ namespace prjShoppingForum.Models.Entity
     public partial class tUserLog
     {
         public int fId { get; set; }
-        public Nullable<System.DateTime> fLoginTime { get; set; }
+        public System.DateTime fLoginTime { get; set; }
         public Nullable<System.DateTime> fLogoutTime { get; set; }
         public Nullable<int> fErrorPasswordCount { get; set; }
         public string fUserIP { get; set; }
+        public Nullable<System.DateTime> fpw_reset_action_date { get; set; }
+        public string fpw_reset_authcode { get; set; }
     
         public virtual tUserProfile tUserProfile { get; set; }
     }

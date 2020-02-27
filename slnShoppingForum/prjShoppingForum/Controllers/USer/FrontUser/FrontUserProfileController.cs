@@ -107,7 +107,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         //使用者登入
         public async Task<ActionResult> Index()
         {
-            var tUserProfile = db.tUserProfiles.Include(t => t.tForumAuth).Include(t => t.tScore).Include(t => t.tUserLog);
+            var tUserProfile = db.tUserProfiles.Include(t => t.tForumAuth).Include(t => t.tScore);
             return View(await tUserProfile.ToListAsync());
         }
 

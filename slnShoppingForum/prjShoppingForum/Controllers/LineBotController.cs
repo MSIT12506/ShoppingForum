@@ -1,20 +1,19 @@
 ﻿using prjShoppingForum.Models.Entity;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using tw.com.essentialoil.User.Models;
 
-namespace prjShoppingForum.Controllers.LineBot
+namespace tw.com.essentialoil.Controllers.LineBot
 {
     public class LineBotController : Controller
     {
         //由LineBot導引進入的葉面
         public ActionResult link(string linkToken)
-        {
+        {      
             ViewBag.linkToken = linkToken;
             return PartialView();
         }
@@ -24,7 +23,7 @@ namespace prjShoppingForum.Controllers.LineBot
             //TODO - 錯誤處理
 
             CUser user = new CUser();
-            tUserProfile cust = user.checkLogin(account, password);
+            tUserProfile cust = user.checkLineLogin(account, password);
             string lineNonce = "";
             object result = null;
 

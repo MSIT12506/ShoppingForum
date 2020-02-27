@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace prjShoppingForum.App_Start
+namespace prjShoppingForum
 {
     public static class WebApiConfig
     {

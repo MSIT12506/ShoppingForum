@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace prjShoppingForum.Controllers.WebAPI
+namespace tw.com.essentialoil.Controllers.WebAPI
 {
     public class LineBotController : ApiController
     {

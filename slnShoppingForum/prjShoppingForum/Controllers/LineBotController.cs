@@ -11,7 +11,8 @@ namespace tw.com.essentialoil.Controllers.LineBot
 {
     public class LineBotController : Controller
     {
-        //由LineBot導引進入的葉面
+        //由LineBot導引進入的頁面
+        //把token傳到前台，並透過ajax傳送到checkLogin，token有做雙向驗證，所以不會有安全性問題
         public ActionResult link(string linkToken)
         {      
             ViewBag.linkToken = linkToken;
@@ -20,8 +21,6 @@ namespace tw.com.essentialoil.Controllers.LineBot
 
         public ActionResult checkLogin(string account, string password, string linkToken)
         {
-            //TODO - 錯誤處理
-
             CUser user = new CUser();
             tUserProfile cust = user.checkLineLogin(account, password);
             string lineNonce = "";
@@ -41,7 +40,6 @@ namespace tw.com.essentialoil.Controllers.LineBot
 
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
         
     }
 }

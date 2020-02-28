@@ -1,0 +1,42 @@
+﻿@model prjShoppingForum.Models.Entity.tQuestion
+
+@{
+    ViewBag.Title = "Content";
+}
+
+<span style="font-size:30px;">每日一問&emsp;&emsp;</span><span>@ViewBag.DateTime</span>
+
+<div>
+    <hr />
+    @using (Html.BeginForm())
+    {
+        <div>
+            <span>題目  :</span>
+            @Html.DisplayFor(model => model.fQuestionName)
+        </div>
+        <br />
+        <div>
+            <span>請問   :</span>
+            @Html.DisplayFor(model => model.fQuestion)
+        </div>
+        <br />
+        <div>
+            @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
+            @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
+            @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
+            @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
+            @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
+        </div>
+        <br />
+        <div>
+            <input type="submit" value="送出" class="btn btn-dark" />
+        </div>
+    }
+    @section Scripts{
+        <script>
+
+
+        </script>
+    }
+
+</div>

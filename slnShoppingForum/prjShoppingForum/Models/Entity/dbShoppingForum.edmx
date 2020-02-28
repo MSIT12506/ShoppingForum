@@ -138,8 +138,8 @@
           <Property Name="fNewsTitle" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fNewsDesc" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="fNewsArticle" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="fNewsTag" Type="int" />
-          <Property Name="fGet_No" Type="int" />
+          <Property Name="fNewsTag" Type="int" Nullable="false" />
+          <Property Name="fGet_No" Type="int" Nullable="false" />
           <Property Name="fAddUser" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fChangUser" Type="nvarchar" MaxLength="50" />
           <Property Name="fDeleteUser" Type="nvarchar" MaxLength="50" />
@@ -1325,8 +1325,8 @@
           <Property Name="fNewsTitle" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fNewsDesc" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="fNewsArticle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="fNewsTag" Type="Int32" />
-          <Property Name="fGet_No" Type="Int32" />
+          <Property Name="fNewsTag" Type="Int32" Nullable="false" />
+          <Property Name="fGet_No" Type="Int32" Nullable="false" />
           <Property Name="fAddUser" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fChangUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fDeleteUser" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />

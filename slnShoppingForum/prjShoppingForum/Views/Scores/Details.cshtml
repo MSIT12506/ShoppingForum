@@ -1,0 +1,67 @@
+﻿@model prjShoppingForum.Models.Entity.tScore
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Details";
+}
+
+<h2>明細</h2>
+
+<div>
+    <h4>分數</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fActiveScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fActiveScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fQuestionScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fQuestionScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fScoreDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fScoreDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fScoreDiscontinue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fScoreDiscontinue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tUserProfile.fUserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯'", "Edit", new { id = Model.fId }) |
+    @Html.ActionLink("返回", "Index")
+</p>

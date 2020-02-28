@@ -1,0 +1,131 @@
+﻿@model prjShoppingForum.Models.Entity.tNew
+
+@{
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
+
+    ViewBag.Title = "Delete";
+}
+@* 後臺按下不顯示消息 *@
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>tNew</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsStart)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsStart)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsEnd)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fClass)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fClass)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsDesc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsDesc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsArticle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsArticle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsTag)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsTag)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fGet_No)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fGet_No)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fAddUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fAddUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fChangUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fChangUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fDeleteUser)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fDeleteUser)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fApproved)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fApproved)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsDiscontinue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fNewsDiscontinue)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

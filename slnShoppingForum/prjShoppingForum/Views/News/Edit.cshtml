@@ -1,36 +1,22 @@
 ﻿@model prjShoppingForum.Models.Entity.tNew
 
 @{
-    ViewBag.Title = "編輯文章內容";
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
+    ViewBag.Title = "Edit";
 }
-
+@* 後臺編輯消息 *@
+<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
 <h2>編輯</h2>
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
-        <h4>tNews</h4>
+        <h4>tNew</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.fNewsId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fNewsTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fNewsTime, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fNewsTime, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.fClass, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fClass, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fClass, "", new { @class = "text-danger" })
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.fNewsTitle, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -39,7 +25,13 @@
                 @Html.ValidationMessageFor(model => model.fNewsTitle, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.fClass, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fClass, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fClass, "", new { @class = "text-danger" })
+            </div>
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.fNewsDesc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -47,12 +39,17 @@
                 @Html.ValidationMessageFor(model => model.fNewsDesc, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fNewsArticle, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.fNewsArticle, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fNewsArticle, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(model => model.fNewsArticle, new { @ValidateRequestMode = "Enabled", @id = "editor", @style = "weigh:300px,height:350px" })
+                <script>
+                    ClassicEditor
+                        .create(document.querySelector('#editor'))
+                        .catch(error => {
+                            console.error(error);
+                        });
+                </script>
             </div>
         </div>
 
@@ -97,21 +94,43 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.fApproved, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.fApproved, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.fApproved, "", new { @class = "text-danger" })
+            @Html.LabelFor(model => model.fApproved, htmlAttributes: new { name = "fapproved", @class = "control-label col-md-2" })
+            <input id="Radio" type="radio" name="fapproved" value="Y" /><label for="Radio">&ensp;Y&ensp;</label>
+            <input id="Radio" type="radio" name="fapproved" value="N" /><label for="Radio">&ensp;N&ensp;</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.fNewsDiscontinue, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="checkbox">
+                @Html.EditorFor(model => model.fNewsDiscontinue)
+                @Html.ValidationMessageFor(model => model.fNewsDiscontinue, "", new { @class = "text-danger" })
             </div>
         </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.fNewsStart, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.fNewsStart, new { htmlAttributes = new {  @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.fNewsStart, "", new { @class = "text-danger" })
+        </div>
+    </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.fNewsEnd, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.fNewsEnd, new { htmlAttributes = new {  @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.fNewsEnd, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
 }
 
-    <div>
-        @Html.ActionLink("返回題目選單", "List")
-    </div>
+<div>
+    @Html.ActionLink("返回", "Index")
+</div>

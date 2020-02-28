@@ -1,0 +1,72 @@
+﻿@model prjShoppingForum.Models.Entity.tQuestion
+
+@{
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
+    ViewBag.Title = "Details";
+}
+
+<h2>明細</h2>
+
+<div>
+    <h4>tQuestion</h4>
+    <hr />
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fQuestionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fQuestion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fAnswer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fItemA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fItemB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fItemC)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fItemD)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fItemE)
+            </th>
+        </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.fQuestionName)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fQuestion)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fAnswer)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fItemA)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fItemB)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fItemC)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fItemD)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.fItemE)
+            </td>
+        </tr>
+    </table>
+
+</div>
+<p>
+    @Html.ActionLink("編輯", "Edit", new { id = Model.fQuestionId }) |
+    @Html.ActionLink("返回題目", "Index")
+</p>

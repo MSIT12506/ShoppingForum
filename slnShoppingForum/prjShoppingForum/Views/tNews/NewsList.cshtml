@@ -1,0 +1,70 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tNew>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "NewsList";
+}
+<h2>最新消息區</h2>
+@* 前台消息清單 *@
+
+@using (Html.BeginForm())
+{
+    <span>
+        搜尋:
+    </span>
+    @Html.TextBox("SearchKey", "");
+    <input type="submit" value="搜尋" />
+}
+<h5>@ViewBag.Message</h5>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fClass)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewsTitle)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewsDesc)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fGet_No)
+        <th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewsStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewsEnd)
+        </th>
+
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fClass)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fNewsTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fNewsDesc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fGet_No)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fNewsStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fNewsEnd)
+            </td>
+
+            <td>
+                @Html.ActionLink("文章內容", "Content", new { Id = item.fNewsId }) |
+            </td>
+        </tr>
+    }
+
+</table>

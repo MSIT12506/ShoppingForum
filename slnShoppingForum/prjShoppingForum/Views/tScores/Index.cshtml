@@ -1,0 +1,64 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tScore>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<h2>分數異動表</h2>
+
+<p>
+    @Html.ActionLink("新增???", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fActiveScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fQuestionScore)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fScoreDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fAuthTestFlag)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.fScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fActiveScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fQuestionScore)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fScoreDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.fAuthTestFlag)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
+        </td>
+        <td>
+            @Html.ActionLink("編輯", "Edit", new { id=item.fId }) |
+            @Html.ActionLink("明細", "Details", new { id=item.fId }) |
+            @Html.ActionLink("刪除", "Delete", new { id=item.fId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,54 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tQuestion>
+
+@{
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<h2>每日一答列表</h2>
+
+<p>
+    @Html.ActionLink("新增題目", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fQuestionName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fQuestion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fAnswer)
+        </th>
+        
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.fQuestionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fQuestion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fAnswer)
+            </td>
+            <td>
+                @Html.ActionLink("編輯", "Edit", new { id = item.fQuestionId }) |
+                @Html.ActionLink("明細", "Details", new { id = item.fQuestionId }) |
+                @Html.ActionLink("刪除", "Delete", new { id = item.fQuestionId })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div>
+
+    <p>@Html.ActionLink("系統目錄", "Index", "Common")</p>
+
+</div>

@@ -1,0 +1,187 @@
+﻿@model prjShoppingForum.Models.Entity.tNew
+
+@* 前台消息內文 *@
+<style>
+    .box {
+        margin: auto;
+        padding: 15px;
+    }
+
+    .s {
+        -webkit-filter: grayscale(1);
+        /*沒有任何色彩的黑白影像*/
+    }
+
+    .n {
+        -webkit-filter: grayscale(0);
+        /*顏色不變*/
+    }
+
+    .star {
+        margin: auto;
+        border: 2px solid #820041;
+        border-radius: 20px;
+        width: 800px;
+    }
+</style>
+
+<div class="box">
+    <h4>消息列表</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fClass)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fClass)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsTitle)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fNewsTitle)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsArticle)
+        </dt>
+        <dd>
+            <div>
+                @Html.Raw(Model.fNewsArticle)
+            </div>
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fNewsTag)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fNewsTag)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fGet_No)
+        </dt>
+
+        <dd>
+            <span id="starsp">@Html.DisplayFor(model => model.fGet_No)</span><br /> 
+
+            <span id="starnum"></span> <br />
+        </dd>
+        <dd class="star">
+            <a><img id="img1" class="s" src="~/Images/star2.png"></a>
+            <a><img id="img2" class="s" src="~/Images/star2.png"></a>
+            <a><img id="img3" class="s" src="~/Images/star2.png"></a>
+            <a><img id="img4" class="s" src="~/Images/star2.png"></a>
+            <a><img id="img5" class="s" src="~/Images/star2.png"></a>
+        </dd>
+        <dt class="btn">
+            <button type="button" class="btn btn-primary" id="Button1"> 重新評點</button>
+        </dt>
+    </dl>
+</div>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewsStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.fNewsEnd)
+        </th>
+    </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.fNewsStart)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.fNewsEnd)
+        </td>
+    </tr>
+</table>
+
+
+
+@section Scripts{
+
+    <script>
+        var Imgs = document.querySelectorAll("img.s");
+        var sp = document.getElementById("starnum");
+        var bbtn = document.getElementById("Button1");
+        //var resstar = document.getElementById("starsp");
+        let resstar = $('#starsp');
+
+        var flag = false;
+
+
+        for (var i = 0; i < Imgs.length; i++) {
+            Imgs[i].addEventListener("mouseover", mOver);
+            Imgs[i].addEventListener("mouseout", mOut);
+            Imgs[i].addEventListener("click", Click);
+
+            //Imgs[i].onmouseover = mOver;
+            //Imgs[i].onmouseout = mOut;
+            //Imgs[i].onclick = Click;
+        }
+
+        function mOver() {
+            var snum = this.id.charAt(3);
+            if (flag == false) {
+                for (var i = 0; i < snum; i++) {
+                    Imgs[i].className = "n";
+                    //console.log("mouseover="+ i);
+                }
+                sp.innerHTML = ("這是第" + snum + "顆厭世小星");
+            }
+        }
+
+        function mOut() {
+            var snum = this.id.charAt(3);
+            if (flag == false) {
+                for (var i = 0; i < snum; i++) {
+                    Imgs[i].className = "s";
+                    //console.log("mouseout="+i);
+                }
+                sp.innerHTML = "";
+            }
+        }
+
+        function Click() {
+            var snum = this.id.charAt(3);
+            sp.innerHTML = ("恭喜獲得" + snum + "顆厭世小夥伴");
+            sp.style.color = "#FF0080";
+            flag = true;
+            for (var i = 0; i < snum; i++) {
+                Imgs[i].removeEventListener("mouseout", mOut);
+                Imgs[i].removeEventListener("mouseover", mOver);
+                Imgs[i].removeEventListener("click", Click);
+            }
+
+            //用Ajax
+            $.post(
+                '@Url.Action("Star","tNews")',//將request發到設定的Action/controller
+                {
+                    fNewsId:@Model.fNewsId,
+                    starnum: snum
+                },//要傳送的資料
+                function (response) {
+                    resstar.text(response);
+                }//處理response
+            )
+
+
+
+
+
+
+        }
+        bbtn.addEventListener("click", re);
+        function re() {
+            flag = false;
+            for (var i = 0; i < Imgs.length; i++) {
+                Imgs[i].addEventListener("mouseover", mOver);
+                Imgs[i].addEventListener("mouseout", mOut);
+                Imgs[i].addEventListener("click", Click);
+            }
+        }
+    </script>
+}
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -27,8 +27,8 @@ namespace prjShoppingForum.Models.Entity
         public string fNewsTitle { get; set; }
         public string fNewsDesc { get; set; }
         public string fNewsArticle { get; set; }
-        public Nullable<int> fNewsTag { get; set; }
-        public Nullable<int> fGet_No { get; set; }
+        public int fNewsTag { get; set; }
+        public int fGet_No { get; set; }
         public string fAddUser { get; set; }
         public string fChangUser { get; set; }
         public string fDeleteUser { get; set; }

@@ -17,11 +17,11 @@ namespace prjShoppingForum.Models.Entity
         public int fTestId { get; set; }
         public int fId { get; set; }
         public int fQuestionId { get; set; }
-        public Nullable<System.DateTime> fScoreDate { get; set; }
+        public System.DateTime fScoreDate { get; set; }
         public Nullable<int> fQuestionScore { get; set; }
         public Nullable<bool> fTestDiscontinue { get; set; }
     
         public virtual tQuestion tQuestion { get; set; }
-        public virtual tScore tScore { get; set; }
+        public virtual tUserProfile tUserProfile { get; set; }
     }
 }

@@ -14,21 +14,15 @@ namespace prjShoppingForum.Models.Entity
     
     public partial class tScore
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tScore()
-        {
-            this.tTests = new HashSet<tTest>();
-        }
-    
+
+        public int fScoreId { get; set; }
         public int fId { get; set; }
-        public Nullable<int> fScore { get; set; }
-        public Nullable<int> fActiveScore { get; set; }
-        public Nullable<int> fQuestionScore { get; set; }
-        public Nullable<System.DateTime> fScoreDate { get; set; }
-        public Nullable<bool> fAuthTestFlag { get; set; }
+        public int fScore { get; set; }
+        public int fActiveScore { get; set; }
+        public int fQuestionScore { get; set; }
+        public System.DateTime fScoreDate { get; set; }
+        public bool fScoreDiscontinue { get; set; }
     
         public virtual tUserProfile tUserProfile { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tTest> tTests { get; set; }
     }
 }

@@ -36,7 +36,6 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tForumReply> tForumReplies { get; set; }
         public virtual DbSet<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
         public virtual DbSet<tLineBotAccountLink> tLineBotAccountLinks { get; set; }
-        public virtual DbSet<tNew> tNews { get; set; }
         public virtual DbSet<tNewsMessage> tNewsMessages { get; set; }
         public virtual DbSet<tNote> tNotes { get; set; }
         public virtual DbSet<tOrder> tOrders { get; set; }
@@ -46,15 +45,17 @@ namespace prjShoppingForum.Models.Entity
         public virtual DbSet<tProductImage> tProductImages { get; set; }
         public virtual DbSet<tProductUnilateral> tProductUnilaterals { get; set; }
         public virtual DbSet<tProductVegetableoil> tProductVegetableoils { get; set; }
-        public virtual DbSet<tQuestion> tQuestions { get; set; }
-        public virtual DbSet<tScore> tScores { get; set; }
         public virtual DbSet<tShoppingCart> tShoppingCarts { get; set; }
-        public virtual DbSet<tTest> tTests { get; set; }
         public virtual DbSet<tUserBrowseHistory> tUserBrowseHistories { get; set; }
         public virtual DbSet<tUserDiscountList> tUserDiscountLists { get; set; }
         public virtual DbSet<tUserFavorite> tUserFavorites { get; set; }
         public virtual DbSet<tUserLog> tUserLogs { get; set; }
         public virtual DbSet<tUserProductFavorite> tUserProductFavorites { get; set; }
+        public virtual DbSet<tNew> tNews { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<tUserProfile> tUserProfiles { get; set; }
+        public virtual DbSet<tQuestion> tQuestions { get; set; }
+        public virtual DbSet<tTest> tTests { get; set; }
+        public virtual DbSet<tScore> tScores { get; set; }
     }
 }

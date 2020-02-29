@@ -12,23 +12,22 @@ namespace prjShoppingForum.Models.Entity
         {
             public class tScoreMetaData
             {
-
+            [DisplayName("分數異動編號")]
+            public int fScoreId { get; set; }
             [DisplayName("帳號")]
             public int fId { get; set; }
             [DisplayName("會員總積分")]
-            public Nullable<int> fScore { get; set; }
+            public int fScore { get; set; }
             [DisplayName("活動積分")]
-            public Nullable<int> fActiveScore { get; set; }
+            public int fActiveScore { get; set; }
             [DisplayName("任務積分")]
-            public Nullable<int> fQuestionScore { get; set; }
+            public int fQuestionScore { get; set; }
             [DisplayName("積分變化時間")]
-            public Nullable<System.DateTime> fScoreDate { get; set; }
+            public System.DateTime fScoreDate { get; set; }
             [DisplayName("積分不顯示")]
-            public Nullable<bool> fAuthTestFlag { get; set; }
+            public bool fScoreDiscontinue { get; set; }
 
             public virtual tUserProfile tUserProfile { get; set; }
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-            public virtual ICollection<tTest> tTests { get; set; }
 
         }
     }

@@ -19,7 +19,7 @@ namespace prjShoppingForum.Models.Entity
             [DisplayName("題目編號")]
             public int fQuestionId { get; set; }
             [DisplayName("積分日期")]
-            public Nullable<System.DateTime> fScoreDate { get; set; }
+            public System.DateTime fScoreDate { get; set; }
             [DisplayName("測驗積分")]
             public Nullable<int> fQuestionScore { get; set; }
             [DisplayName("測驗不顯示")]
@@ -28,7 +28,7 @@ namespace prjShoppingForum.Models.Entity
             [DisplayName("題目表")]
             public virtual tQuestion tQuestion { get; set; }
             [DisplayName("帳戶積分表")]
-            public virtual tScore tScore { get; set; }
+            public virtual tUserProfile tUserProfile { get; set; }
 
         }
     }

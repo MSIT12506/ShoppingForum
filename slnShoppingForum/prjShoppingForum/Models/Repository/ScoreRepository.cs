@@ -61,13 +61,13 @@ namespace tw.com.essentialoil.Score.Models
         public void EditScoreToAuth(int fId)
         {
             var score = GetScore(fId);
-            score.fAuthTestFlag = true;
+            score.fScoreDiscontinue = true;
             db.SaveChanges();
         }
 
         public void InsertScore(tScore tScore)
         {
-            tScore.fAuthTestFlag = false;
+            tScore.fScoreDiscontinue = false;
             db.tScores.Add(tScore);
             db.SaveChanges();
         }

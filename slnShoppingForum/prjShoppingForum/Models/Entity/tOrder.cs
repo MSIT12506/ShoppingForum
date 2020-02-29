@@ -36,8 +36,8 @@ namespace prjShoppingForum.Models.Entity
         public string fDiscountCode { get; set; }
         public string fPayment { get; set; }
     
-        public virtual tUserProfile tUserProfile { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrderDetail> tOrderDetails { get; set; }
+        public virtual tUserProfile tUserProfile { get; set; }
     }
 }

@@ -31,9 +31,9 @@ namespace prjShoppingForum.Models.Entity
         public string fContent { get; set; }
     
         public virtual tForum tForum { get; set; }
-        public virtual tUserProfile tUserProfile { get; set; }
-        public virtual tUserProfile tUserProfile1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tForumReplyAnalysi> tForumReplyAnalysis { get; set; }
+        public virtual tUserProfile tUserProfile { get; set; }
+        public virtual tUserProfile tUserProfile1 { get; set; }
     }
 }

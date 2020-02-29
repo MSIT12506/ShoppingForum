@@ -17,7 +17,7 @@ namespace tw.com.essentialoil.Controllers
         // 後台_測驗
         public ActionResult Index()
         {
-            var tTests = db.tTests.Include(t => t.tQuestion).Include(t => t.tScore);
+            var tTests = db.tTests.Include(t => t.tQuestion).Include(t => t.tUserProfile);
             return View(tTests.ToList());
         }
 

@@ -11,43 +11,6 @@
 }
 <div style="margin:20px auto">
     <div>
-        @*<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable">
-                發表文章
-            </button>*@
-
-        @* From Bootstrap Example *@
-        @* -------------------------------------------------------------------------------------------------- *@
-        @* -------------------------------------------------------------------------------------------------- *@
-        <div class="modal fade" id="ModalScrollableForPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalScrollableTitle">編輯文章</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    @* 標題區塊 *@
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">標題</span>
-                        </div>
-                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="請輸入標題" id="postTitle">
-                    </div>
-
-                    @* 編輯文章區塊 *@
-                    <div class="modal-body" id="editor">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="confirmPost">確認發佈</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         @* 紀錄上一筆的ajax時間，用來計算每次ajax的差異，不用每次全抓資料 *@
         <div id="prevGetTime" style="display:none;">@ViewBag.DateTime</div>
     </div>
@@ -91,7 +54,7 @@
                     @{
                         if (item.userFid == ViewBag.sessionId)
                         {
-                            <button class="btn btn-danger">@Html.ActionLink("編輯", "Edit", new { fPostId = item.postId })</button>
+                            <a href="~/Forum/Edit/@item.postId"><button class="btn btn-danger">編輯</button></a>
                         }
                     }
                 </td>
@@ -101,7 +64,7 @@
 </table>
 
 @section Scripts{
-    <script>
+<script>
         //注意!! EventHandle.Edit 有修改，這邊也要做確認，避免兩邊IDmapping錯誤
 
         //建立Quill文章編輯器
@@ -120,44 +83,11 @@
             ['clean']                                         // remove formatting button
         ];
 
-        //ID選擇器：#editor <- 注意!
-        let quill = new Quill('#editor', {
-            modules: {
-                toolbar: toolbarOptions
-            },
-            placeholder: '請輸入文章內容',
-            theme: 'snow'
-        });
-
-        //確認發佈的click事件，註冊ajax事件
-        $('#confirmPost').on('click', function () {
-            //1. 取得文章的json內容
-            let content = JSON.stringify(quill.getContents());
-            let title = $("#postTitle").val();
-
-            $.post(
-                '@Url.Action("Create","Forum")',
-                {
-                    title: title,
-                    content: content
-                },
-                function (response) {
-                    console.log(response);
-
-                    //清空資料
-                    $("#postTitle").val('');
-                    quill.setContents([
-                        { insert: '' }
-                    ]);
-                }
-            )
-        })
-
         //設定定時觸發的ajax，獲得最新文章的資料()
         function refreshPostList() {
-                            //取得前一次的畫面內容時間，用來判斷那些文章有被異動過
-                            let prevDateTime = $("#prevGetTime").text();
-                            let lastPostId = @lastPostId;
+            //取得前一次的畫面內容時間，用來判斷那些文章有被異動過
+            let prevDateTime = $("#prevGetTime").text();
+            let lastPostId = @lastPostId;
 
             $.get(
                 '@Url.Action("RefreshList","Forum")',
@@ -176,53 +106,51 @@
 
                     //2.處理新增
                     $.each(responseDatas.newForums, function (idx, value) {
-                                    let btnLike    = $('<button></button>').addClass('btn btn-primary').text('喜歡');    //喜歡
-                                    let btnHate    = $('<button></button>').addClass('btn btn-primary').text('討厭');    //討厭
-                                    let btnFav     = $('<button></button>').addClass('btn btn-primary btn-favorite').text('收藏');    //收藏
-                                    let btnHide    = $('<button></button>').addClass('btn btn-primary btn-hide').text('隱藏');    //隱藏
-                                    let btnEdit    = $('<button></button>').addClass('btn btn-danger');    //編輯
+                        let btnLike = $('<button></button>').addClass('btn btn-primary btn-like').text('喜歡');    //喜歡
+                        let btnHate = $('<button></button>').addClass('btn btn-primary btn-hate').text('討厭');    //討厭
+                        let btnFav  = $('<button></button>').addClass('btn btn-primary btn-favorite').text('收藏');    //收藏
+                        let btnHide = $('<button></button>').addClass('btn btn-primary btn-hide').text('隱藏');    //隱藏
+                        let btnEdit = $('<button></button>').addClass('btn btn-danger');    //編輯
 
 
-                                    let br = $('<br />');
+                        let br = $('<br />');
 
-                                    let postid = value.postId;
-                                    let editable = value.editable;
-                                    let url = '@Url.Action("PostView","Forum")?fPostId=' + postid;
-                                    let urlEdit = '@Url.Action("Edit","Forum")?fPostId=' + postid;
-                                    let link = $('<a></a>');
-                                    let linkEdit = $('<a></a>');
-                                    let td = $('<td></td>');
-                                    td.attr('data-postid', postid);
-                                    let tr = $('<tr></tr>');
-                                    link.text(value.title).attr('href', url);
-                                    linkEdit.text('編輯').attr('href', urlEdit);
+                        let postid = value.postId;
+                        let editable = value.editable;
+                        let url = '@Url.Action("PostView","Forum")?fPostId=' + postid;
+                        let urlEdit = '@Url.Action("Edit","Forum")?fPostId=' + postid;
+                        let link = $('<a></a>');
+                        let linkEdit = $('<a></a>');
+                        let td = $('<td></td>');
+                        td.attr('data-postid', postid);
+                        let tr = $('<tr></tr>');
+                        link.text(value.title).attr('href', url);
+                        linkEdit.text('編輯').attr('href', urlEdit);
 
-                                    console.log(editable);
+                        console.log(editable);
 
-                                    if (editable == 'True') {
-                                        td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide).append(btnEdit.append(linkEdit));
-                                    } else {
-                                        td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide);
-                                    }
+                        if (editable == 'True') {
+                            td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide).append(btnEdit.append(linkEdit));
+                        } else {
+                            td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide);
+                        }
 
-
-
-                                    tr.append(td);
+                        tr.append(td);
 
                         $('.table-mainlist tbody').prepend(tr);
 
-                                })
+                    })
 
                     //3.處理更新
                     //--------------------------
 
                     console.log("test");
-                            }
+                }
             )
         };
 
-                        window.setInterval(refreshPostList, 1000);
-    </script>
+        window.setInterval(refreshPostList, 1000);
+</script>
 
     @* 收藏文章 / 隱藏文章 *@
     <script>

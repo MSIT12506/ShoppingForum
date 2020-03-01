@@ -120,7 +120,7 @@ namespace tw.com.essentialoil.Forum.Models
             //判斷是否有喜歡或是討厭的紀錄
             foreach (var item in result)
             {
-                bool? isLikeHate = db.tForumAnalysis.Where(p => p.fPostId == item.postId && p.fId == item.userFid).Select(p => p.fLikeHate).FirstOrDefault();
+                bool? isLikeHate = db.tForumAnalysis.Where(p => p.fPostId == item.postId && p.fId == id).Select(p => p.fLikeHate).FirstOrDefault();
 
                 if (isLikeHate != null)
                 {

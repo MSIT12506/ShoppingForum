@@ -6,18 +6,24 @@
     <title>@ViewBag.Title</title>
     @*<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />*@
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    @*<link rel="stylesheet" type="text/css" href="~/Styles/main.css" />*@
     <link href="~/Styles/quill.snow.css" rel="stylesheet">
     <!-- Favicon  -->
     <link rel="icon" href="~/Content/template/img/core-img/favicon.ico">
+
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC&display=swap" rel="stylesheet">
 
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="~/Content/template/css/core-style.css">
     <link rel="stylesheet" href="~/Content/style.css">
     <style>
+        * {
+            font-family: 'Noto Sans TC' !important;
+        }
+
         .forum-mid {
-           width:80vw; 
-           margin:auto;
+            width: 80vw;
+            min-height:60vh;
+            margin: auto;
         }
     </style>
     @RenderSection("Styles", false)
@@ -138,7 +144,35 @@
             </div>
         </footer>
         <!-- ##### Footer Area End ##### -->
+        <div class="modal fade" id="ModalScrollableForPost" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">編輯文章</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
 
+                    @* 標題區塊 *@
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-default">標題</span>
+                        </div>
+                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" placeholder="請輸入標題" id="postTitle">
+                    </div>
+
+                    @* 編輯文章區塊 *@
+                    <div class="modal-body" id="editorPost">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="crmPost">確認發佈</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -156,6 +190,55 @@
             if (event.keyCode == 13) {
                 window.open("SearchPost?searchText=" + $('#searchPost').val());
             }
+        })
+
+        //建立Quill文章編輯器
+        let toolbarForPost = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+            [{ 'list': 'bullet' }, { 'list': 'ordered' }],
+            [{ 'script': 'super' }, { 'script': 'sub' }],      // superscript/subscript
+            [{ 'direction': 'rtl' }],                         // text direction
+            [{ 'indent': '+1' }, { 'indent': '-1' }],          // outdent/indent
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            ['image', 'video'],
+            ['clean']                                         // remove formatting button
+        ];
+
+        //ID選擇器：#editorPost <- 注意!
+        let quill = new Quill('#editorPost', {
+            modules: {
+                toolbar: toolbarForPost
+            },
+            placeholder: '請輸入文章內容',
+            theme: 'snow'
+        });
+
+        //確認發佈的click事件，註冊ajax事件
+        $('#crmPost').on('click', function () {
+            //1. 取得文章的json內容
+            let content = JSON.stringify(quill.getContents());
+            let title = $("#postTitle").val();
+
+            $.post(
+                '@Url.Action("Create","Forum")',
+                {
+                    title: title,
+                    content: content
+                },
+                function (response) {
+                    console.log(response);
+
+                    //清空資料
+                    $("#postTitle").val('');
+                    quill.setContents([
+                        { insert: '' }
+                    ]);
+                }
+            )
         })
     </script>
     @RenderSection("Scripts", false)

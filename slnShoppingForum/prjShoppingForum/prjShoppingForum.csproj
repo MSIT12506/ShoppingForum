@@ -331,6 +331,8 @@
     <Content Include="Images\Member\signup.png" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\PostList.png" />
+    <Content Include="Images\Product\0-1.jpg" />
+    <Content Include="Images\Product\0.jpg" />
     <Content Include="Images\Product\1.jpg" />
     <Content Include="Images\Product\10.jpg" />
     <Content Include="Images\Product\11.jpg" />

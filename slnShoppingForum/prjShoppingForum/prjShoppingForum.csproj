@@ -328,6 +328,9 @@
     <Content Include="Images\Member\9.png" />
     <Content Include="Images\Member\loginpicture.jpg" />
     <Content Include="Images\Member\logout.jpg" />
+    <Content Include="Images\Member\signin-image.jpg" />
+    <Content Include="Images\Member\signup-image.jpg" />
+    <Content Include="Images\Member\signup.jpg" />
     <Content Include="Images\Member\signup.png" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\PostList.png" />

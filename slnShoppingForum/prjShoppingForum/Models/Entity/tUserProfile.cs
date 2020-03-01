@@ -24,7 +24,9 @@ namespace prjShoppingForum.Models.Entity
             this.tForumReplies1 = new HashSet<tForumReply>();
             this.tForumReplyAnalysis = new HashSet<tForumReplyAnalysi>();
             this.tOrders = new HashSet<tOrder>();
+            this.tScores = new HashSet<tScore>();
             this.tShoppingCarts = new HashSet<tShoppingCart>();
+            this.tTests = new HashSet<tTest>();
             this.tUserBrowseHistories = new HashSet<tUserBrowseHistory>();
             this.tUserDiscountLists = new HashSet<tUserDiscountList>();
             this.tUserLogs = new HashSet<tUserLog>();
@@ -65,9 +67,12 @@ namespace prjShoppingForum.Models.Entity
         public virtual tLineBotAccountLink tLineBotAccountLink { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tOrder> tOrders { get; set; }
-        public virtual tScore tScore { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tScore> tScores { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tShoppingCart> tShoppingCarts { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tTest> tTests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tUserBrowseHistory> tUserBrowseHistories { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

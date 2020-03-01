@@ -1160,9 +1160,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbShoppingForum.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\Entity\sysdiagram.cs">
-      <DependentUpon>dbShoppingForum.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Entity\tAdminManager.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>

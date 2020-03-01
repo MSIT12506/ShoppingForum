@@ -353,17 +353,19 @@
           <Property Name="fPasswordSalt" Type="nvarchar(max)" />
           <Property Name="fName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="fGender" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="fBirthday" Type="datetime" Nullable="false" />
+          <Property Name="fBirthday" Type="datetime" />
           <Property Name="fTel" Type="nvarchar" MaxLength="50" />
           <Property Name="fPhone" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="fCity" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="fAddress" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="fCity" Type="nvarchar" MaxLength="50" />
+          <Property Name="fAddress" Type="nvarchar(max)" />
           <Property Name="fPhoto" Type="nvarchar(max)" />
           <Property Name="fCreateDate" Type="datetime" Nullable="false" />
           <Property Name="fScore" Type="int" />
-          <Property Name="fAuth" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fAuth" Type="nvarchar" MaxLength="50" />
           <Property Name="fAuthPost" Type="bit" Nullable="false" />
           <Property Name="fAuthReply" Type="bit" Nullable="false" />
+          <Property Name="fAuthCode" Type="nvarchar" MaxLength="150" />
+          <Property Name="fpw_reset_AuthCode" Type="nvarchar" MaxLength="150" />
         </EntityType>
         <Association Name="FK_tForum_tUserProfile">
           <End Role="tUserProfile" Type="Self.tUserProfile" Multiplicity="1" />
@@ -1570,17 +1572,19 @@
           <Property Name="fPasswordSalt" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fGender" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="fBirthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fBirthday" Type="DateTime" Precision="3" />
           <Property Name="fTel" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fPhone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fCity" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="fAddress" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fCity" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fAddress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fPhoto" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="fCreateDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="fScore" Type="Int32" />
-          <Property Name="fAuth" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="fAuth" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="fAuthPost" Type="Boolean" Nullable="false" />
           <Property Name="fAuthReply" Type="Boolean" Nullable="false" />
+          <Property Name="fAuthCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="fpw_reset_AuthCode" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tForums" Relationship="dbShoppingForumModel.FK_tForum_tUserProfile" FromRole="tUserProfile" ToRole="tForum" />
           <NavigationProperty Name="tForums1" Relationship="dbShoppingForumModel.FK_tForum_tUserProfile1" FromRole="tUserProfile" ToRole="tForum" />
           <NavigationProperty Name="tForumAnalysis" Relationship="dbShoppingForumModel.FK_tForumAnalysis_tUserProfile" FromRole="tUserProfile" ToRole="tForumAnalysi" />
@@ -2384,6 +2388,8 @@
           <EntitySetMapping Name="tUserProfiles">
             <EntityTypeMapping TypeName="dbShoppingForumModel.tUserProfile">
               <MappingFragment StoreEntitySet="tUserProfile">
+                <ScalarProperty Name="fpw_reset_AuthCode" ColumnName="fpw_reset_AuthCode" />
+                <ScalarProperty Name="fAuthCode" ColumnName="fAuthCode" />
                 <ScalarProperty Name="fAuthReply" ColumnName="fAuthReply" />
                 <ScalarProperty Name="fAuthPost" ColumnName="fAuthPost" />
                 <ScalarProperty Name="fAuth" ColumnName="fAuth" />

@@ -180,7 +180,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\material-design-iconic-font.min.css" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\SignUpstyle.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\template\css\animate.css" />
@@ -214,6 +216,7 @@
     <Content Include="Content\template\img\bg-img\rp2.jpg" />
     <Content Include="Content\template\img\bg-img\rp3.jpg" />
     <Content Include="Content\template\img\bg-img\rp4.jpg" />
+    <Content Include="Content\template\img\core-img\add.png" />
     <Content Include="Content\template\img\core-img\arrow-down.svg" />
     <Content Include="Content\template\img\core-img\arrow-left.svg" />
     <Content Include="Content\template\img\core-img\arrow-right.svg" />
@@ -229,8 +232,10 @@
     <Content Include="Content\template\img\core-img\favicon.ico" />
     <Content Include="Content\template\img\core-img\heart-fill.svg" />
     <Content Include="Content\template\img\core-img\heart.svg" />
+    <Content Include="Content\template\img\core-img\logined.png" />
     <Content Include="Content\template\img\core-img\logo.png" />
     <Content Include="Content\template\img\core-img\logo2.png" />
+    <Content Include="Content\template\img\core-img\logout.png" />
     <Content Include="Content\template\img\core-img\long-arrow-left.svg" />
     <Content Include="Content\template\img\core-img\long-arrow-right.svg" />
     <Content Include="Content\template\img\core-img\pin.png" />
@@ -305,6 +310,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Content\w3cards.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Images\disappear.png" />
@@ -320,6 +326,9 @@
     <Content Include="Images\Member\7.png" />
     <Content Include="Images\Member\8.png" />
     <Content Include="Images\Member\9.png" />
+    <Content Include="Images\Member\loginpicture.jpg" />
+    <Content Include="Images\Member\logout.jpg" />
+    <Content Include="Images\Member\signup.png" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\PostList.png" />
     <Content Include="Images\Product\1.jpg" />
@@ -1036,6 +1045,8 @@
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.js" />
     <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
@@ -1284,9 +1295,12 @@
     <Compile Include="Models\User\CAdminData.cs" />
     <Compile Include="Models\User\CLoginData.cs" />
     <Compile Include="Models\User\CUser.cs" />
+    <Compile Include="Models\User\CUserDataMethod.cs" />
     <Compile Include="Models\User\tUserProfilePartial.cs" />
     <Compile Include="Models\User\UserDictionary.cs" />
     <Compile Include="Models\WebAPI\CLineBot.cs" />
+    <Compile Include="Services\CUserMailService.cs" />
+    <Compile Include="Services\CUsersDBService.cs" />
     <Compile Include="ViewModels\COrderView.cs" />
     <Compile Include="ViewModels\Discount\CDiscountCreate.cs" />
     <Compile Include="ViewModels\LineChatBot\CLineBotModel.cs" />

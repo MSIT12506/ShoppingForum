@@ -39,7 +39,7 @@ namespace prjShoppingForum.Models.Entity
         public string fPasswordSalt { get; set; }
         public string fName { get; set; }
         public string fGender { get; set; }
-        public System.DateTime fBirthday { get; set; }
+        public Nullable<System.DateTime> fBirthday { get; set; }
         public string fTel { get; set; }
         public string fPhone { get; set; }
         public string fCity { get; set; }
@@ -50,6 +50,8 @@ namespace prjShoppingForum.Models.Entity
         public string fAuth { get; set; }
         public bool fAuthPost { get; set; }
         public bool fAuthReply { get; set; }
+        public string fAuthCode { get; set; }
+        public string fpw_reset_AuthCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tForum> tForums { get; set; }

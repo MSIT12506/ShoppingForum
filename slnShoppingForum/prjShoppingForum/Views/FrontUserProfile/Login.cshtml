@@ -1,4 +1,5 @@
-﻿@using tw.com.essentialoil.User.Models;
+﻿@model prjShoppingForum.Models.Entity.tUserProfile
+@using tw.com.essentialoil.User.Models;
 
 @{
     ViewBag.Title = "Login";
@@ -6,59 +7,70 @@
 
 }
 
-<h2>Login</h2>
-<hr />
+<div class="containers">
+    <div class="signup-content">
+        <div class="signup-form">
+            <h2 class="form-title">Login</h2>
+            <form method="POST" class="register-form" id="register-form">
 
-<div class="w3-container" style="position:center;width:auto" >
-    <div class="w3-card-4" style="width:30%">
-        <img src="~/Images/Member/loginpicture.jpg" alt="loginpicture" style="width:100% ">
-        <form @*action="/FrontUserProfile/Login" method="post"*@ name="LoginForm" class="w3-container w3-center">
-            @*<fieldset style="width: 500px; border: 1px solid lightseagreen; margin: 15px; border-radius: 15px">
-                <div style="width: 450px; border-bottom: 2px solid #F0F0F0; margin:25px; padding-left:85px; padding-bottom:10px;">*@
+                <div class="form-group">
+                    <label for="email"></label>
+                    <input type="email" name="fUserId" id="email" placeholder="Your Email as Account" />
+                    @Html.ValidationMessageFor(model => model.fUserId, "", new { @class = "text-danger" })
 
-            <p style="font-size:x-large">帳號：</p>
-            <input type="text" name="fUserId" placeholder="請輸入Email" id="inputUserId" /><div id="div1"></div><br />
-            <p style="font-size:x-large">密碼：</p>
-            <input type="password" name="fPassword" id="inputPassword" placeholder="請輸入密碼" />
-            <br /><br />
-            <p style="font-size:x-large">輸入驗證碼：</p>
-            <input type="text" name="fVeriCode" />
-            @*@using (Html.BeginForm())*@
-            <p>
+                </div>
 
-                @if (Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
-                {
-                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(0, 1) + ".png";
-                    @:<img src="/Images/Member/@pic" width="30" />
-                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(1, 1) + ".png";
-                    @:<img src="/Images/Member/@pic" width="30" />
-                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(2, 1) + ".png";
-                    @:<img src="/Images/Member/@pic" width="30" />
-                    pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(3, 1) + ".png";
-                    @:<img src="/Images/Member/@pic" width="30" />
-                }
-            </p>
-            @if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
-            {
-                <p style="color:lightcoral">@Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString()</p>
-                <p style="color:lightcoral">@Session["UserInfo"]</p>
-            }
+                <div class="form-group">
+                    <label for="pass"></label>
+                    <input type="password" name="fPassword" id="pass" placeholder="Password" />
+                    @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })
+
+                </div>
+
+                <div class="form-group">
+                    @* <p>Please Enter AuthCode:</p>*@
+                    <input type="text" name="fVeriCode" placeholder="Please Enter AuthCode" />
+                    <p>
+
+                        @if (Session[UserDictionary.S_AUTHENTICATED_CODE] != null)
+                        {
+                            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(0, 1) + ".png";
+                            @:<img src="/Images/Member/@pic" width="30" />
+                            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(1, 1) + ".png";
+                            @:<img src="/Images/Member/@pic" width="30" />
+                            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(2, 1) + ".png";
+                            @:<img src="/Images/Member/@pic" width="30" />
+                            pic = Session[UserDictionary.S_AUTHENTICATED_CODE].ToString().Substring(3, 1) + ".png";
+                            @:<img src="/Images/Member/@pic" width="30" />
+                        }
+                    </p>
+                    @if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
+                    {
+                        <p style="color:lightcoral">@Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString()</p>
+                        <p style="color:lightcoral">@Session["UserInfo"]</p>
+                    }
+                </div>
 
 
-        <div style=" margin:20px; text-align:center;">
-            <input type="submit" value="登入" id="buttonLogin" class="btn btn-warning" />
-            <input type="button" value="取消" id="buttonCancelLogin" class="btn btn-warning" />
-            <label style="color:blue"><a href="@Url.Action("ForgetPassword", "FrontUserProfile")">忘記密碼</a></label>
+                <div class="form-group form-button">
+                    <input type="submit" name="login" id="login" class="form-submit" value="登入" />
+                    <input type="reset" name="signup" id="signup" class="form-submit" value="取消" />
+                    
+                </div>
+                <div ><label style="color:blue"><a href="@Url.Action("ForgetPassword", "FrontUserProfile")">忘記密碼</a></label></div>
+            </form>
         </div>
-            @*</fieldset>*@
-        </form>
+        <div class="signup-image">
+            <figure><img src="~/Images/Member/signin-image.jpg" alt="sing up image"></figure>
+            @*<a href="#" class="signup-image-link">I am already member</a>*@
+        </div>
     </div>
 </div>
-    <br />
 
-    <link rel="stylesheet" href="~/Content/w3cards.css">
+<link rel="stylesheet" href="~/Content/material-design-iconic-font.min.css">
+<link rel="stylesheet" href="~/Content/SignUpstyle.css">
 
-    @section scripts{
+@*@section scripts{
         <script>
             //apply ajax:此為現階段測試用，之後會刪除
             var buttonLogin = document.querySelector('#buttonLogin');
@@ -83,6 +95,6 @@
                     //});
         </script>
 
-    }
+    }*@
 
 

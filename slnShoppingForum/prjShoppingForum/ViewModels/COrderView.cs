@@ -6,11 +6,9 @@ using System.Web;
 
 namespace tw.com.essentialoil.ViewModels
 {
-    public class COrderViews
+    public class COrderView
     {
+        public tUserProfile tUserProfiles { get; set; }
         public IQueryable<tOrder> Order { get; set; }
-        public IQueryable<tOrderDetail> OrderDetail { get; set; }
-        public IQueryable<tProduct> Product { get; set; }
-        public IQueryable<tUserProfile> UserProfile { get; set; }
     }
 }

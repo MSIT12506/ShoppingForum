@@ -1,75 +1,97 @@
-﻿
-@{
-    ViewBag.Title = "OrderCreate";
-}
+﻿@model tw.com.essentialoil.ViewModels.COrderView
 
-<h2>OrderCreate</h2>
-<form action="~/tOrders/OrderCreate" method="post" class="form-text" name="OrderForm">
-    <p>收貨者姓名<input type="text" name="ConsigneeName" id="name" onchange="str1(this.id)"/></p>
-    <p>收貨者手機號碼<input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)"/></p>
-    <p>收貨者地址<input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)"/></p>
-    <p>發票公司抬頭<input type="text" name="OrderCompanyTitle" /></p>
-    <p>統一編號<input type="text" name="OrderTaxIdDNumber" /></p>
-    <p>訂單備註<input type="text" name="OrderPostScript" /></p>
-    <p>支付方式<input type="text" name="Payment" id="payment" onchange="str4(this.id)"/></p>
-    <p>希望送達日<input type="text" id="datepicker" name="RequirtDate" /><br /><span>(可選填，如無特別需求將會於購買日三天後到貨)</span></p>
-    <input type="checkbox" disabled name="OrderCheck" id="check" /><p>確認您所輸入的資料正確，以利出貨正常配送。</p>
-    <input type="button" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
-</form>
-
+<div class="container">
+    <h2>填寫資料</h2>
+    <form action="~/tOrders/OrderCreate" method="post" class="row justify-content-center" name="OrderForm">
+        <div class="col-4">
+            <p>購買者姓名@{@Html.TextBoxFor(model => model.tUserProfiles.fName, new { id = "buyname" });}</p>
+            <p>購買者手機@{@Html.TextBoxFor(model => model.tUserProfiles.fPhone, new { id = "buyphone" });}</p>
+            <p>購買者地址@{@Html.TextBoxFor(model => model.tUserProfiles.fAddress, new { id = "buyaddress" });}</p><br />
+            <p>@Html.CheckBox("CheckBox1", new { id = "checkbox"})收貨人同購買者</p>
+        </div>
+        <div class="col-4">
+            <p>收貨者姓名<input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" /></p>
+            <p>收貨者手機<input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" /></p>
+            <p>收貨者地址<input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" /></p>
+            <p>支付方式<input type="text" name="Payment" id="payment" onchange="str4(this.id)" /></p>
+        </div>
+        <div class="col-4">
+            <p>公司抬頭<input type="text" name="OrderCompanyTitle" />(可選填)</p>
+            <p>統一編號<input type="text" name="OrderTaxIdDNumber" />(可選填)</p>
+            <p>訂單備註<input type="text" name="OrderPostScript" />(可選填)</p>
+            <p>希望送達日<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" /><br /><span>(可選填，如無特別需求將會於購買日三天後到貨)</span></p>
+       </div>
+        <p><input type="checkbox" disabled name="OrderCheck" id="check" />確認您所輸入的資料正確，以利出貨正常配送。</p>
+        <input type="button" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
+    </form>
+</div>
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
 @section Scripts{
-    
+
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/zh-tw.js"></script>
     <script>
-        //$('#name').addEventListener('blur', function () {
 
-        //    console.log($('#name').val());
-        //});
- 
-
+        var checkname = document.querySelector('#checkbox');
         var check = document.querySelector('#check');
-        var ConsigneeName = document.querySelector('#ConsigneeName');
-        var ConsigneeCellPhone = document.querySelector('#ConsigneeCellPhone');
-        var ConsigneeAddress = document.querySelector('#ConsigneeAddress');
+        var ConsigneeName = document.querySelector('#name');
+        var ConsigneeCellPhone = document.querySelector('#phone');
+        var ConsigneeAddress = document.querySelector('#address');
         var Payment = document.querySelector('#payment');
-        var name;
-        var phone;
-        var address;
-        var payment;
+        var name ="";
+        var phone ="";
+        var address ="";
+        var payment ="";
         function str1(x) {
             name = document.getElementById(x).value;
+            console.log(name);
         }
 
         function str2(x) {
             phone = document.getElementById(x).value;
+            console.log(phone);
         }
 
         function str3(x) {
             address = document.getElementById(x).value;
+            console.log(address);
         }
 
         function str4(x) {
             payment = document.getElementById(x).value;
+            console.log(payment);
         }
-
-        Payment.addEventListener('blur', function () {
-            if (name != "" && phone != "" && address != "" && payment != "") {
-                check.disabled = false;
-            }
-        });
-
 
         var btnCreateOrder = document.querySelector('#CreateOrder');
         var xhr = null;
 
-        function checkbox() {
-            if (name != null && phone != null && address != null && payment != null) {
-                //check.disabled = false;
-                check.prop("disabled", false);
-        }};
+        checkname.addEventListener('click', function () {
+            if (checkname.checked) {
+                $('#name').val($('#buyname').val());
+                $('#phone').val($('#buyphone').val());
+                $('#address').val($('#buyaddress').val());
+                name=$('#name').val();
+                phone=$('#phone').val();
+                address=$('#address').val();
+            }
+            else {
+                $('#name').val(null);
+                $('#phone').val(null);
+                $('#address').val(null);
+                name = "";
+                phone = "";
+                address = "";
+            }
+        })
+                
+        Payment.addEventListener('blur', function () {
+            if (name != "" && phone != "" && address != "" && payment != "") {
+                check.disabled = false;
+            }
+            else
+                check.disabled = true;
+        });
 
         check.addEventListener('click', function () {
             if (check.checked)

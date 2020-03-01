@@ -54,7 +54,7 @@
                     @{
                         if (item.userFid == ViewBag.sessionId)
                         {
-                            <a href="~/Forum/Edit/@item.postId"><button class="btn btn-danger">編輯</button></a>
+                            <a href="~/Forum/Edit?fPostId=@item.postId"><button class="btn btn-danger">編輯</button></a>
                         }
                     }
                 </td>

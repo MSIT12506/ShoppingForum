@@ -1131,6 +1131,7 @@
     <Compile Include="Controllers\NewList\QuestionsController.cs" />
     <Compile Include="Controllers\NewList\ScoresController.cs" />
     <Compile Include="Controllers\NewList\TestsController.cs" />
+    <Compile Include="Controllers\Order\BacktOrdersController.cs" />
     <Compile Include="Controllers\Order\tOrdersController.cs" />
     <Compile Include="Controllers\Product\ProductBrowseHistoryController.cs" />
     <Compile Include="Controllers\Product\ProductController.cs" />
@@ -1286,6 +1287,7 @@
     <Compile Include="Models\User\tUserProfilePartial.cs" />
     <Compile Include="Models\User\UserDictionary.cs" />
     <Compile Include="Models\WebAPI\CLineBot.cs" />
+    <Compile Include="ViewModels\COrderView.cs" />
     <Compile Include="ViewModels\Discount\CDiscountCreate.cs" />
     <Compile Include="ViewModels\LineChatBot\CLineBotModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -1392,6 +1394,9 @@
     <Content Include="Views\Questions\Content.cshtml" />
     <Content Include="Views\AdminLTE\DiscountList.cshtml" />
     <Content Include="Views\AdminLTE\DiscountCreate.cshtml" />
+    <Content Include="Views\BacktOrders\Details.cshtml" />
+    <Content Include="Views\BacktOrders\Edit.cshtml" />
+    <Content Include="Views\BacktOrders\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

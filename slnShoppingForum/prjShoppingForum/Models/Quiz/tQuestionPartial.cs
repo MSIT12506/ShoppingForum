@@ -12,6 +12,7 @@ namespace prjShoppingForum.Models.Entity
     {
         public class tQuestionMetaData
         {
+
             [DisplayName("編號")]
             public int fQuestionId { get; set; }
             [DisplayName("題目")]
@@ -30,6 +31,10 @@ namespace prjShoppingForum.Models.Entity
             public string fItemD { get; set; }
             [DisplayName("E選項")]
             public string fItemE { get; set; }
+
+
+            public virtual ICollection<tTest> tTests { get; set; }
+
 
         }
     }

@@ -389,6 +389,7 @@
     <Content Include="Images\Product\9.jpg" />
     <Content Include="Images\ShoppingCart\bulletin.png" />
     <Content Include="Images\ShoppingCart\carticon.png" />
+    <Content Include="Images\star2.png" />
     <Content Include="Images\係精a油＿003_128X128.png" />
     <Content Include="Models\Entity\dbShoppingForum.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -1159,6 +1160,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>dbShoppingForum.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Entity\sysdiagram.cs">
+      <DependentUpon>dbShoppingForum.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Entity\tAdminManager.cs">
       <DependentUpon>dbShoppingForum.tt</DependentUpon>
     </Compile>
@@ -1299,6 +1303,7 @@
     <Compile Include="ViewModels\ProductFavorite\CProductFavorite.cs" />
     <Compile Include="ViewModels\Product\ProductMenu.cs" />
     <Compile Include="ViewModels\Product\SearchModel.cs" />
+    <Compile Include="ViewModels\Quiz\CQuiz.cs" />
     <Compile Include="ViewModels\ShoppingCart\CShoppingCart.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1341,13 +1346,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Common\Index.cshtml" />
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\Questions\Delete.cshtml" />
     <Content Include="Views\Questions\Edit.cshtml" />
-    <Content Include="Views\Quiz\Q1.cshtml" />
-    <Content Include="Views\Quiz\Q2.cshtml" />
-    <Content Include="Views\Quiz\Result.cshtml" />
     <Content Include="Views\Scores\Delete.cshtml" />
     <Content Include="Views\Scores\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Html.cshtml" />
@@ -1355,7 +1356,6 @@
     <Content Include="Views\Tests\Edit.cshtml" />
     <Content Include="Views\Forum\SelfList.cshtml" />
     <Content Include="Views\Forum\SearchPost.cshtml" />
-    <Content Include="Views\Quiz\Index.cshtml" />
     <Content Include="Views\Forum\TopList.cshtml" />
     <Content Include="Views\AdminLTE\Dashboard.cshtml" />
     <Content Include="Views\Shared\_Layout_AdminLTE.cshtml" />
@@ -1382,7 +1382,6 @@
     <Content Include="Views\News\Details.cshtml" />
     <Content Include="Views\News\Index.cshtml" />
     <Content Include="Views\News\NewsList.cshtml" />
-    <Content Include="Views\Questions\Content.cshtml" />
     <Content Include="Views\Questions\Create.cshtml" />
     <Content Include="Views\Questions\Details.cshtml" />
     <Content Include="Views\Questions\Index.cshtml" />
@@ -1393,6 +1392,7 @@
     <Content Include="Views\Tests\Create.cshtml" />
     <Content Include="Views\Tests\Details.cshtml" />
     <Content Include="Views\Tests\Index.cshtml" />
+    <Content Include="Views\Questions\Content.cshtml" />
     <Content Include="Views\AdminLTE\DiscountList.cshtml" />
     <Content Include="Views\AdminLTE\DiscountCreate.cshtml" />
     <None Include="Web.Debug.config">

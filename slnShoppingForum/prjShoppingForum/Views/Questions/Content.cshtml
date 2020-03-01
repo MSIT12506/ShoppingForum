@@ -21,15 +21,21 @@
         </div>
         <br />
         <div>
-            @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
-            @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
-            @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
-            @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
-            @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
+            @Html.RadioButton("RadioButton1", "A", false) <span> A選項: @Model.fItemA</span> <br />
+            @Html.RadioButton("RadioButton1", "B", false) <span> B選項: @Model.fItemB</span> <br />
+            @Html.RadioButton("RadioButton1", "C", false) <span> C選項: @Model.fItemC</span> <br />
+            @Html.RadioButton("RadioButton1", "D", false) <span> D選項: @Model.fItemD</span> <br />
+            @Html.RadioButton("RadioButton1", "E", false) <span> E選項: @Model.fItemE</span> <br />
         </div>
         <br />
         <div>
             <input type="submit" value="送出" class="btn btn-dark" />
+        </div>
+        <div>
+            @Html.HiddenFor(model => model.fQuestionId)
+        </div>
+        <div>
+            @Html.HiddenFor(model => model.fAnswer)
         </div>
     }
     @section Scripts{

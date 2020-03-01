@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using tw.com.essentialoil.Discount.Models;
 using tw.com.essentialoil.Models;
 using tw.com.essentialoil.ShoppingCart.ViewModels;
 using tw.com.essentialoil.User.Models;
@@ -191,5 +192,22 @@ namespace tw.com.essentialoil.Controllers
             return Content(totalQuantity.ToString());
         }
 
+
+        [HttpPost]
+        //ajax - 取得優惠後的金額
+        public ActionResult getDiscountValue(string discountCode, int totalMoney)
+        {
+            decimal resultNum = 0;
+
+            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+            //userId = userLoginInfo.user_fid;
+            userId = 4;
+
+            CDiscount discount = new CDiscount();
+            string result = discount.calculatePriceByDiscountCode(userId, discountCode, totalMoney, ref resultNum);
+
+            return Json(new { message = result, returnNum = resultNum });
+
+        }
     }
 }

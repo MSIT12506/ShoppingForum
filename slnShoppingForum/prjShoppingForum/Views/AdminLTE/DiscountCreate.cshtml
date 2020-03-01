@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "DiscountCreate";
+}
+
+<h2>新增優惠券</h2>
+
+<table class="table table-dark" style="width:100%">
+    <thead>
+        <tr>
+            <th><button id="createDiscountData">+</button></th>
+            <th>優惠券名稱</th>
+            <th>優惠種類</th>
+            <th>最低金額</th>
+            <th>
+                優惠內容<br />
+                折扣% - 請輸入1~99的數字<br />
+                折扣金 - 請輸入折抵多少金額
+            </th>
+            <th>有效起日</th>
+            <th>有效迄日</th>
+            <th>發行數量</th>
+        </tr>
+    </thead>
+    <tbody id="discountBody">
+        @* --------------------這是隱藏起來的-------------------- *@
+        <tr class="createDiscount" style="display:none;">
+            <td><button class="delRecord">-</button></td>
+            <td><input type="text" data-field="fDiscountName" /></td>
+            <td>
+                <select data-field="fDiscountCategory">
+                    <option value="P">折扣%</option>
+                    <option value="C">折扣金</option>
+                </select>
+            </td>
+            <td><input type="number" data-field="fMoneyLimit" /></td>
+            <td><input type="number" data-field="discountContent" /></td>
+            <td><input type="date" data-field="fStartDate" /></td>
+            <td><input type="date" data-field="fEndDate" /></td>
+            <td><input type="number" data-field="fCount" /></td>
+        </tr>
+        @* --------------------這是隱藏起來的-------------------- *@
+
+        <tr class="createDiscount">
+            <td><button class="delRecord">-</button></td>
+            <td><input type="text" data-field="fDiscountName" /></td>
+            <td>
+                <select data-field="fDiscountCategory">
+                    <option value="P">折扣%</option>
+                    <option value="C">折扣金</option>
+                </select>
+            </td>
+            <td><input type="number" data-field="fMoneyLimit" /></td>
+            <td><input type="number" data-field="discountContent" /></td>
+            <td><input type="date" data-field="fStartDate" /></td>
+            <td><input type="date" data-field="fEndDate" /></td>
+            <td><input type="number" data-field="fCount" /></td>
+        </tr>
+
+    </tbody>
+</table>
+<button id="confirmCreate" class="btn btn-primary">確認新增</button>
+<button id="test9999" class="btn btn-primary">測試</button>
+
+
+@section Scripts{
+    <script>
+        $('#createDiscountData').click(function () {
+            let targetRow = $('.createDiscount').eq(0).clone();
+            $(targetRow).css("display", "");
+            $('tbody').append(targetRow);
+
+        })
+
+        $(document).on('click', '.delRecord', function () {
+            let delTarget = $(this).parent().parent();
+            $(delTarget).remove();
+        })
+
+    </script>
+
+
+    <script>
+        $('#test9999').click(function (enent) {
+
+            //get all row
+            let allRow = $('.createDiscount');
+            let allCount = $(allRow).length;
+
+            console.log(allCount);
+
+            let dataArray = [];
+
+            for (var i = 1; i < allCount; i++) {
+                let discountName     = allRow.eq(i).find('[data-field="fDiscountName"]').val();
+                let discountCategory = allRow.eq(i).find('[data-field="fDiscountCategory"]').val();
+                let moneyLimit       = allRow.eq(i).find('[data-field="fMoneyLimit"]').val();
+                let discountContent  = allRow.eq(i).find('[data-field="discountContent"]').val();
+                let startDate        = allRow.eq(i).find('[data-field="fStartDate"]').val();
+                let endDate          = allRow.eq(i).find('[data-field="fEndDate"]').val();
+                let count            = allRow.eq(i).find('[data-field="fCount"]').val();
+
+                //錯誤提示
+                if (discountName == "") {
+                    alert("名稱不可為空值");
+                    return;
+                }
+
+                if (startDate == "") {
+                    alert("請設定優惠起始日");
+                    return;
+                }
+
+                if (startDate == "") {
+                    alert("請設定優惠結束日");
+                    return;
+                }
+
+                if (count == "") {
+                    alert("請設定優惠券數量");
+                    return;
+                }
+
+                if (discountContent == "") {
+                    alert("請設定優惠內容");
+                    return;
+                }
+
+                if (discountContent < 1 ) {
+                    alert("請重新設定優惠內容");
+                    return;
+                }
+
+                if (discountContent >= 100 && discountCategory == "P") {
+                    alert("請重新設定優惠內容");
+                    return;
+                }
+
+
+
+                let data = {
+                    discountName: discountName,
+                    discountCategory: discountCategory,
+                    moneyLimit: moneyLimit,
+                    discountContent: discountContent,
+                    startDate: startDate,
+                    endDate: endDate,
+                    count: count
+                };
+                dataArray.push(data);
+            }
+
+            console.log(dataArray);
+
+            $.post(
+                '@Url.Action("DiscountCreatePost", "AdminLTE")',
+                {
+                    datas: dataArray
+                },
+                function (response) {
+                    alert("新增成功");
+                    let url = '@Url.Action("DiscountList", "AdminLTE")';
+                    document.location.href = url;
+                }
+            )
+        })
+
+    </script>
+}

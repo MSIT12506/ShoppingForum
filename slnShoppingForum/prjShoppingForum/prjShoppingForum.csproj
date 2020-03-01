@@ -1122,7 +1122,6 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminLTEController.cs" />
     <Compile Include="Controllers\AdminManager\tAdminManagersController.cs" />
-    <Compile Include="Controllers\DiscountController.cs" />
     <Compile Include="Controllers\ForumController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineBotController.cs" />
@@ -1286,6 +1285,7 @@
     <Compile Include="Models\User\tUserProfilePartial.cs" />
     <Compile Include="Models\User\UserDictionary.cs" />
     <Compile Include="Models\WebAPI\CLineBot.cs" />
+    <Compile Include="ViewModels\Discount\CDiscountCreate.cs" />
     <Compile Include="ViewModels\LineChatBot\CLineBotModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CNewsDBService.cs" />
@@ -1315,8 +1315,6 @@
     <Content Include="Views\Product\ProductEdit.cshtml" />
     <Content Include="Views\Product\ProductPage.cshtml" />
     <Content Include="Views\ShoppingCart\viewCart.cshtml" />
-    <Content Include="Views\Discount\Create.cshtml" />
-    <Content Include="Views\Discount\List.cshtml" />
     <Content Include="Views\tOrders\OrderCreate.cshtml" />
     <Content Include="Views\tOrders\OrderList.cshtml" />
     <Content Include="Views\FrontUserProfile\Home.cshtml" />
@@ -1395,6 +1393,8 @@
     <Content Include="Views\Tests\Create.cshtml" />
     <Content Include="Views\Tests\Details.cshtml" />
     <Content Include="Views\Tests\Index.cshtml" />
+    <Content Include="Views\AdminLTE\DiscountList.cshtml" />
+    <Content Include="Views\AdminLTE\DiscountCreate.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,4 +1,5 @@
-﻿using prjShoppingForum.Models.WebAPI;
+﻿using prjShoppingForum.Models.Entity;
+using prjShoppingForum.Models.WebAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,41 +55,74 @@ namespace tw.com.essentialoil.Controllers.WebAPI
             
         }
 
-        //[HttpPost]
-        //public object RandomProduct(CLineUserId t)
-        //{
-        //    CLineBot lineBot = new CLineBot;
-        //    lineBot.
-        //}
-
-
-
-
-
-
-
-
-
-
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [HttpPost]
+        //獲得優惠券
+        public object GetDiscountCode(CLineUserId t)
         {
-            return new string[] { "value1", "value2" };
+            CLineBot lineBot = new CLineBot();
+            bool? result = lineBot.getDiscountCode(t.lineUserId);
+
+            switch (result)
+            {
+                case null:
+                    return new { returnValue = "帳號尚未綁定，會員綁定後才可進行優惠券領取!" };
+                case true:
+                    return new { returnValue = "您已領取優惠券，請至會員中心查看" };
+                case false:
+                    return new { returnValue = "目前無可領取的優惠券喔" };
+                default:
+                    return new { returnValue = "發生異常!!! 發生異常!!!" };
+            }
+
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        [HttpGet]
+        //隨機推薦商品
+        public List<CRandomProduct> RandomProduct()
         {
-            return "value";
-        }
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
+            CLineBot lineBot = new CLineBot();
+            List<CRandomProduct> results =  lineBot.getRandomProduct();
+            return results;
         }
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        [HttpPost]
+        //加入購物車
+        public object ProductToShopCart(CLineProductAdd p)
         {
+            CLineBot lineBot = new CLineBot();
+            string result = lineBot.addProductToShopCart(p);
+
+            switch (result)
+            {
+                case "N":
+                    return new { returnValue = "帳號尚未綁定，會員綁定後才可進行每日報到!" };
+                case "Y":
+                    return new { returnValue = "您已將該商品加入購物車，請趕快至網站結帳付錢!!!!" };
+                case "D":
+                    return new { returnValue = "該商品目前已經在購物車內囉" };
+                default:
+                    return new { returnValue = "發生異常!!! 發生異常!!!" };
+            }
+        }
+
+        [HttpPost]
+        //加入收藏清單
+        public object ProductToFavorite(CLineProductAdd p)
+        {
+            CLineBot lineBot = new CLineBot();
+            string result = lineBot.addProductToFavorite(p);
+
+            switch (result)
+            {
+                case "N":
+                    return new { returnValue = "帳號尚未綁定，會員綁定後才可進行每日報到!" };
+                case "Y":
+                    return new { returnValue = "您已將該商品加入收藏清單!" };
+                case "D":
+                    return new { returnValue = "該商品目前已經在收藏清單內囉" };
+                default:
+                    return new { returnValue = "發生異常!!! 發生異常!!!" };
+            }
         }
     }
 }

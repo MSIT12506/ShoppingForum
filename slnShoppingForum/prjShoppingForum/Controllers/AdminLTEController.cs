@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using tw.com.essentialoil.Discount.Models;
+using tw.com.essentialoil.Discount.ViewModels;
 using tw.com.essentialoil.Forum.Models;
 
 namespace tw.com.essentialoil.Controllers
@@ -98,6 +100,41 @@ namespace tw.com.essentialoil.Controllers
             return PartialView(forum.queryTopPost());
         }
 
+        //後台優惠券清單
+        public ActionResult DiscountList()
+        {
+            CDiscount discount = new CDiscount();
+            return View(discount.queryAllDiscount().ToList());
+        }
+
+        //後台新增優惠券
+        public ActionResult DiscountCreate()
+        {
+            CDiscount discount = new CDiscount();
+            return View();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //--------------------Ajax--------------------
         //文章權限設定
         public ActionResult ActionToEnableOrNot(string pid, string actionName)
@@ -120,7 +157,14 @@ namespace tw.com.essentialoil.Controllers
             return Content("");
         }
 
+        //新增優惠券
+        public ActionResult DiscountCreatePost(CDiscountCreate[] datas)
+        {
+            CDiscount discount = new CDiscount();
+            discount.craeteDiscount(datas);
 
+            return Content("");
+        }
 
     }
 }

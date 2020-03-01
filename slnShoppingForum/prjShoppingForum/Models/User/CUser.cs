@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 
@@ -14,10 +15,26 @@ namespace tw.com.essentialoil.User.Models
         public tUserProfile checkLineLogin(string account, string password)
         {
             tUserProfile cust = (from u in db.tUserProfiles
-                                 where u.fUserId == account && u.fPassword == password
+                                 where u.fUserId == account
                                  select u).FirstOrDefault();
 
-            return cust;
+            if (cust != null)
+            {
+                //進行SHA256加密
+                string backpwd = password + cust.fPasswordSalt;
+                SHA256 sha256 = new SHA256CryptoServiceProvider();
+                byte[] source = Encoding.Default.GetBytes(backpwd);
+                byte[] crypto = sha256.ComputeHash(source);
+                string result = Convert.ToBase64String(crypto);
+
+                if (result==cust.fPassword)
+                {
+                    return cust;
+                }
+
+            }
+
+            return null;
         }
 
         public bool lineBotGetBase64String(tUserProfile cust, ref string nonce)

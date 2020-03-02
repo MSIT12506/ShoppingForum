@@ -1,11 +1,11 @@
 ﻿@model prjShoppingForum.Models.Entity.tTest
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>測驗明細</h2>
 
 <div>
     <h4>tTest</h4>
@@ -14,46 +14,43 @@
         <dt>
             @Html.DisplayNameFor(model => model.fScoreDate)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.fScoreDate)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.fQuestionScore)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.fQuestionScore)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.fTestDiscontinue)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.fTestDiscontinue)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.tQuestion.fQuestionName)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.tQuestion.fQuestionName)
         </dd>
-
         <dt>
-            @Html.DisplayNameFor(model => model.tScore.fId)
+            @Html.DisplayNameFor(model => model.tUserProfile.fId)
         </dt>
-
         <dd>
-            @Html.DisplayFor(model => model.tScore.fId)
+            @Html.DisplayFor(model => model.tUserProfile.fId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tUserProfile.fName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tUserProfile.fName)
         </dd>
 
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.fTestId }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("編輯", "Edit", new { id = Model.fTestId }) |
+    @Html.ActionLink("返回", "Index")
 </p>

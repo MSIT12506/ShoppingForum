@@ -8,20 +8,20 @@ using System.Web;
 using System.Web.Mvc;
 using prjShoppingForum.Models.Entity;
 
-namespace tw.com.essentialoil.Controllers
+namespace prjShoppingForum.Controllers.NewList
 {
     public class ScoresController : Controller
     {
         private dbShoppingForumEntities db = new dbShoppingForumEntities();
 
-        // 後台會員分數
+        // GET: Scores
         public ActionResult Index()
         {
             var tScores = db.tScores.Include(t => t.tUserProfile);
             return View(tScores.ToList());
         }
 
-        // 後台會員分數明細
+        // GET: Scores/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,17 +36,19 @@ namespace tw.com.essentialoil.Controllers
             return View(tScore);
         }
 
-        // 後台分數新增
+        // GET: Scores/Create
         public ActionResult Create()
         {
             ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId");
             return View();
         }
 
-        // 後台分數新增資料庫
+        // POST: Scores/Create
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "fId,fScore,fActiveScore,fQuestionScore,fScoreDate,fScoreDiscontinue")] tScore tScore)
+        public ActionResult Create([Bind(Include = "fScoreId,fId,fScore,fActiveScore,fQuestionScore,fScoreDate,fScoreDiscontinue")] tScore tScore)
         {
             if (ModelState.IsValid)
             {
@@ -59,7 +61,7 @@ namespace tw.com.essentialoil.Controllers
             return View(tScore);
         }
 
-        // 後台編輯分數
+        // GET: Scores/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -75,10 +77,12 @@ namespace tw.com.essentialoil.Controllers
             return View(tScore);
         }
 
-        // 後台編輯分數資料庫
+        // POST: Scores/Edit/5
+        // 若要免於過量張貼攻擊，請啟用想要繫結的特定屬性，如需
+        // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "fId,fScore,fActiveScore,fQuestionScore,fScoreDate,fScoreDiscontinue")] tScore tScore)
+        public ActionResult Edit([Bind(Include = "fScoreId,fId,fScore,fActiveScore,fQuestionScore,fScoreDate,fScoreDiscontinue")] tScore tScore)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +94,7 @@ namespace tw.com.essentialoil.Controllers
             return View(tScore);
         }
 
-        // 後台刪除分數
+        // GET: Scores/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -105,7 +109,7 @@ namespace tw.com.essentialoil.Controllers
             return View(tScore);
         }
 
-        // 後台刪除分數資料庫
+        // POST: Scores/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)

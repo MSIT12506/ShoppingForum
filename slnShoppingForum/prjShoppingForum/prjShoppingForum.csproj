@@ -1381,8 +1381,6 @@
     <Content Include="Views\News\Edit.cshtml" />
     <Content Include="Views\Questions\Delete.cshtml" />
     <Content Include="Views\Questions\Edit.cshtml" />
-    <Content Include="Views\Scores\Delete.cshtml" />
-    <Content Include="Views\Scores\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Html.cshtml" />
     <Content Include="Views\Tests\Delete.cshtml" />
     <Content Include="Views\Tests\Edit.cshtml" />
@@ -1418,9 +1416,6 @@
     <Content Include="Views\Questions\Details.cshtml" />
     <Content Include="Views\Questions\Index.cshtml" />
     <Content Include="Views\Questions\QuizList.cshtml" />
-    <Content Include="Views\Scores\Create.cshtml" />
-    <Content Include="Views\Scores\Details.cshtml" />
-    <Content Include="Views\Scores\Index.cshtml" />
     <Content Include="Views\Tests\Create.cshtml" />
     <Content Include="Views\Tests\Details.cshtml" />
     <Content Include="Views\Tests\Index.cshtml" />
@@ -1430,6 +1425,11 @@
     <Content Include="Views\BacktOrders\Details.cshtml" />
     <Content Include="Views\BacktOrders\Edit.cshtml" />
     <Content Include="Views\BacktOrders\Index.cshtml" />
+    <Content Include="Views\Scores\Create.cshtml" />
+    <Content Include="Views\Scores\Delete.cshtml" />
+    <Content Include="Views\Scores\Details.cshtml" />
+    <Content Include="Views\Scores\Edit.cshtml" />
+    <Content Include="Views\Scores\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

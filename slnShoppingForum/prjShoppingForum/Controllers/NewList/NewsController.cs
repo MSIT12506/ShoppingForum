@@ -7,7 +7,9 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using prjShoppingForum.Models.Entity;
+using prjShoppingForum.Models.User;
 using tw.com.essentialoil.News.Models;
+using tw.com.essentialoil.User.Models;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -62,7 +64,6 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult Details(int Id)
         {
             var News = db.tNews.FirstOrDefault(p => p.fNewsId == Id);
-
             return View(News);
         }
 
@@ -76,6 +77,7 @@ namespace tw.com.essentialoil.Controllers
         [HttpPost]
         public ActionResult Create(tNew tNew)
         {
+
             if (ModelState.IsValid)
             {
                 _NewsRepository.InsertNews(tNew);
@@ -96,14 +98,12 @@ namespace tw.com.essentialoil.Controllers
 
         //後臺點擊編輯
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "fNewsStart,fNewsEnd,fClass,fNewsTitle,fNewsDesc,fNewsArticle,fChangUser,fApproved,fNewsDiscontinue")] tNew tNew)
+        public ActionResult Edit(tNew tNew)
         {
             if (ModelState.IsValid)
             {
                 _NewsRepository.UpdateNews(tNew);
                 return RedirectToAction("Details", new { Id = tNew.fNewsId });
-
             }
             return View(tNew);
         }

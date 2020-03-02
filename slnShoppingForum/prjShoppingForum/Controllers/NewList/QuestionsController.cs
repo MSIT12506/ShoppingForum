@@ -40,6 +40,8 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("Content", "Questions");
         }
 
+       
+
         //    //var list = new List<T>();
         //    //fillList(list);
         //    //var randomizedList = new List<T>();
@@ -101,7 +103,7 @@ namespace tw.com.essentialoil.Controllers
                 TimeSpan span = dt2 - dt1;
                 double days = span.TotalDays;
                 int diff = Convert.ToInt32(days);
-                if (diff > 1)
+                if (diff >= 1)
                 {
                     //新增一筆到ttest
                     var tTest = new tTest();
@@ -134,6 +136,8 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+
         [HttpPost]
         //只接受頁面post
         [AcceptVerbs(HttpVerbs.Post)]
@@ -156,6 +160,7 @@ namespace tw.com.essentialoil.Controllers
                 try
                 {
                     db.SaveChanges();
+                    Session["Quizstatus"] = "done";
                 }
                 catch (Exception e)
                 {
@@ -174,6 +179,7 @@ namespace tw.com.essentialoil.Controllers
                 try
                 {
                     db.SaveChanges();
+                    Session["Quizstatus"] = "done";
                 }
                 catch (Exception ee)
                 {

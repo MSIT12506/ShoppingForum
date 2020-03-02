@@ -47,7 +47,7 @@
                         <div class="classynav">
                             <ul>
                                 <li>
-                                    <a href="#">最新消息</a>
+                                    <a href="@Url.Action("NewsList","News")">最新消息</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("MemberCenter", "FrontUserProfile")">會員中心</a>
@@ -58,6 +58,10 @@
                                 <li>
                                     <a href="@Url.Action("List", "Forum")">討論區</a>
                                 </li>
+                                <li>
+                                    <a id="Quiz" href="@Url.Action("QuizList","Questions")">每日一答</a>
+                                </li>
+
                             </ul>
                         </div>
                         <!-- Nav End -->
@@ -171,6 +175,19 @@
         })
     </script>
     @RenderSection("Scripts", false)
+
+    @{
+        if (Html.ViewContext.HttpContext.Session["Quizstatus"] != null)
+        {
+            <script>
+                $('#Quiz').attr('href','#');
+                $('#Quiz').click(function () {
+                    alert("今日已做過題目，不能再答題囉!!!!!!");
+                })
+            </script>
+        }
+    }
+
 </body>
 </html>
 <script>
@@ -187,5 +204,14 @@
             var count = xhr.responseText;
             $("#totalQuantity").text(count);
         })
+
     }
+
+    let Quiz = $('#Quiz');
+
+
+
 </script>
+
+
+        

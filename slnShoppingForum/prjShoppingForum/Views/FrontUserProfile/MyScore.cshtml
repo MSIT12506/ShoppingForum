@@ -1,4 +1,4 @@
-﻿@model prjShoppingForum.Models.Entity.tScore
+﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
 <h1>我的積分</h1>
 @*TODO:會再修改*@
@@ -14,7 +14,7 @@
         <tr>
             @if (Model!= null)
             {
-                <td>@Model.fId</td>
+                <td>@Model.fName</td>
                 <td>@Model.fScore</td>
             }
         </tr>

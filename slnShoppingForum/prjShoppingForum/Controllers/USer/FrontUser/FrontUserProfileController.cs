@@ -147,6 +147,17 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                             Session[UserDictionary.S_CURRENT_LOGINED_USERFID] = cust.fId;//存fid
                             Session[CDictionary.UserLoginInfo] = new UserLoginInfo() { user_fid = cust.fId, user_name = cust.fName, user_userid = cust.fUserId };//討論區有用到，可參考其用法
                             Session[UserDictionary.S_AUTHENTICATED_CODE] = null;//清掉當前驗證碼
+
+                            //確認今天是否有做過題目
+                            List<DateTime> targetQuizs = db.tTests.Where(t => t.fId == cust.fId).Select(t=>t.fScoreDate).ToList();
+                            DateTime maxTime = targetQuizs.Max();
+
+                            if (DateTime.Now.Year== maxTime.Year && DateTime.Now.Month==maxTime.Month && DateTime.Now.Day==maxTime.Day)
+                            {
+                                Session["Quizstatus"] = "done";
+                            }
+
+
                             tUserLog signin = new tUserLog();
                             signin.fId = cust.fId;
                             signin.fLoginTime = DateTime.Now;
@@ -327,7 +338,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
             {
                 var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
-                var tscore = db.tUserProfiles.FirstOrDefault(p => p.fId == q);
+                var tscore = db.tUserProfiles.Where(p => p.fId == q).FirstOrDefault(); ;
                 if (tscore != null)
                     {
                         return PartialView(tscore);

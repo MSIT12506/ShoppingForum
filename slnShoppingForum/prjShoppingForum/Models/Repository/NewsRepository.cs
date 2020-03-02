@@ -1,9 +1,11 @@
 ﻿using prjShoppingForum.Models.Entity;
+using prjShoppingForum.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using tw.com.essentialoil.User.Models;
 
 namespace tw.com.essentialoil.News.Models
 {
@@ -66,6 +68,7 @@ namespace tw.com.essentialoil.News.Models
 
         public void InsertNews(tNew tNew)
         {
+
             tNew.fNewsDiscontinue = false;
             tNew.fNewsTag = 0;
             tNew.fGet_No = 0;

@@ -1,11 +1,11 @@
 ﻿@model prjShoppingForum.Models.Entity.tTest
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>更改測驗</h2>
 
 @using (Html.BeginForm())
 {
@@ -68,5 +68,5 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("返回", "Index")
 </div>

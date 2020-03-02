@@ -110,7 +110,7 @@ namespace tw.com.essentialoil.Forum.Models
                                        where i.fEnableFlag == true       //刪除的不要被select出來
                                        && i.fTopSeq >= 999               //置頂文章不要呈現
                                        orderby i.fCreateTime descending  //新到舊作為預設排序(文章建立時間)
-                                       select new CForumList() { postId = i.fPostId, postTitle = i.fPostTitle, userFid = i.tUserProfile.fId, likeOrHate = null }).ToList();
+                                       select new CForumList() { postId = i.fPostId, postTitle = i.fPostTitle, userFid = i.tUserProfile.fId, likeOrHate = null, userName = i.tUserProfile.fName, createTime = i.fCreateTime }).ToList();
 
             foreach (int item in hates)
             {

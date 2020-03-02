@@ -11,5 +11,7 @@ namespace tw.com.essentialoil.Forum.ViewModels
         public int userFid { get; set; }
         public string postTitle { get; set; }
         public string likeOrHate { get; set; }
+        public string userName { get; set; }
+        public DateTime createTime { get; set; }
     }
 }

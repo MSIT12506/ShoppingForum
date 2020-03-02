@@ -7,6 +7,8 @@
 <h2>優惠券列表</h2>
 
 <br />
+
+<h3>優惠券</h3>
 <table class="table table-dark" style="width:100%">
     <thead>
         <tr>
@@ -46,10 +48,62 @@
                     <td>@item.fStartdate</td>
                     <td>@item.fEndDate</td>
                     <td>@item.fCount</td>
-                    <td><button class="discountEdit">編輯</button></td>
+                    <td>
+                        <button class="discountEdit">編輯</button>
+                        <button class="discountDisabled">下架</button>
+                    </td>
                     <td></td>
                 </tr>
             }
         }
     </tbody>
 </table>
+
+<br />
+<br />
+
+<h3>優惠券-已失效</h3>
+@Html.Action("DisableDiscount", "AdminLTE")
+
+
+@section Scripts{
+    <script>
+        $('.discountDisabled').click(function () {
+            let discountCode = $(this).parent().parent().attr('data-discountCode')
+
+            $.post(
+                '@Url.Action("DiscountToDisable","AdminLTE")',
+                {
+                    discountCode: discountCode
+                }, function (res) {
+                    if (res == 'True') {
+                        alert("下架優惠券成功")
+                    } else {
+                        alert("下架優惠券失敗")
+                    }
+                    document.location.href = window.location.href;
+                }
+            )
+        })
+    </script>
+
+    <script>
+        $('.discountEnable').click(function () {
+            let discountCode = $(this).parent().parent().attr('data-discountCode')
+
+            $.post(
+                '@Url.Action("DiscountToEnable", "AdminLTE")',
+                {
+                    discountCode: discountCode
+                }, function (res) {
+                    if (res == 'True') {
+                        alert("上架優惠券成功")
+                    } else {
+                        alert("上架優惠券失敗")
+                    }
+                    document.location.href = window.location.href;
+                }
+            )
+        })
+    </script>
+}

@@ -60,6 +60,7 @@ namespace prjShoppingForum.Models.WebAPI
                 tScore newScore = new tScore();
                 newScore.fId = record.fId;
                 newScore.fScore = 10;             //獲得10點積分
+                newScore.fScoreDate = DateTime.Now;
                 score = 10;
                 db.tScores.Add(newScore);
                 record.fAccountLinkDatetime = DateTime.Now;    //更新時間

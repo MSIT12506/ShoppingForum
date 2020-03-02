@@ -11,10 +11,21 @@ namespace tw.com.essentialoil.Discount.Models
     {
         dbShoppingForumEntities db = new dbShoppingForumEntities();
 
-        //取得所有優惠代碼
+        //取得所有優惠代碼(有效的)
         public List<tDiscount> queryAllDiscount()
         {
             var all = from d in db.tDiscounts
+                      where d.fEnable == true && d.fEndDate >= DateTime.Now
+                      select d;
+
+            return all.ToList();
+        }
+
+        //取得所有優惠代碼(無效的)
+        public List<tDiscount> queryDisableDiscount()
+        {
+            var all = from d in db.tDiscounts
+                      where d.fEnable == false || d.fEndDate < DateTime.Now
                       select d;
 
             return all.ToList();
@@ -91,5 +102,32 @@ namespace tw.com.essentialoil.Discount.Models
 
         }
 
+        public bool disableCode(string discountCode)
+        {
+            tDiscount result =  db.tDiscounts.Where(d => d.fDiscountCode == discountCode).FirstOrDefault();
+
+            if (result!=null)
+            {
+                result.fEnable = false;
+                db.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool enableCode(string discountCode)
+        {
+            tDiscount result = db.tDiscounts.Where(d => d.fDiscountCode == discountCode).FirstOrDefault();
+
+            if (result != null)
+            {
+                result.fEnable = true;
+                db.SaveChanges();
+                return true;
+            }
+
+            return false;
+        }
     }
 }

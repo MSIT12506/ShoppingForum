@@ -77,7 +77,6 @@ namespace tw.com.essentialoil.Controllers
         }
 
 
-
         //後台討論區 - 文章停權/恢復權限列表
         public ActionResult PostListAll()
         {
@@ -107,32 +106,18 @@ namespace tw.com.essentialoil.Controllers
             return View(discount.queryAllDiscount().ToList());
         }
 
+        public ActionResult DisableDiscount()
+        {
+            CDiscount discount = new CDiscount();
+            return PartialView(discount.queryDisableDiscount().ToList());
+        }
+
         //後台新增優惠券
         public ActionResult DiscountCreate()
         {
             CDiscount discount = new CDiscount();
             return View();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //--------------------Ajax--------------------
@@ -166,5 +151,22 @@ namespace tw.com.essentialoil.Controllers
             return Content("");
         }
 
+        //優惠券下架
+        public ActionResult DiscountToDisable(string discountCode)
+        {
+            CDiscount discount = new CDiscount();
+            bool result = discount.disableCode(discountCode);
+
+            return Content(result.ToString());
+        }
+
+        //優惠券上架
+        public ActionResult DiscountToEnable(string discountCode)
+        {
+            CDiscount discount = new CDiscount();
+            bool result = discount.enableCode(discountCode);
+
+            return Content(result.ToString());
+        }
     }
 }

@@ -1429,6 +1429,7 @@
     <Content Include="Views\BacktOrders\Details.cshtml" />
     <Content Include="Views\BacktOrders\Edit.cshtml" />
     <Content Include="Views\BacktOrders\Index.cshtml" />
+    <Content Include="Views\AdminLTE\DisableDiscount.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

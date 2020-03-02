@@ -26,6 +26,21 @@ namespace prjShoppingForum.Models.WebAPI
             {
                 record.fLineUserId = lineUserId;
                 record.fAccountLinkDatetime = DateTime.Now;
+
+                //第一次綁定，同時新增積分分數
+                tUserProfile user = db.tUserProfiles.Where(p => p.fId == record.fId).FirstOrDefault();
+                int totalScore = (user.fScore == null) ? 0 : (int)user.fScore;
+                totalScore += 50;
+                user.fScore = totalScore;
+
+                tScore newScore = new tScore();
+                newScore.fId = record.fId;
+                newScore.fScore = totalScore;             //總共多少點積分
+                newScore.fActiveScore = 50;               //綁定積分取得50點
+                newScore.fScoreDate = DateTime.Now;
+                newScore.fScoreDiscontinue = false;
+                newScore.fQuestionScore = 0;
+
                 db.SaveChanges();
                 return true;
             }
@@ -52,31 +67,31 @@ namespace prjShoppingForum.Models.WebAPI
                 return "N";   //帳號尚未綁定
             }
 
-            tScore scoreRecord = db.tScores.Where(p => p.fId == record.fId).FirstOrDefault();
+            tUserProfile user = db.tUserProfiles.Where(p => p.fId == record.fId).FirstOrDefault();
 
-            //沒有記錄直接新增並且獲得積分
-            if (scoreRecord==null)
-            {
-                tScore newScore = new tScore();
-                newScore.fId = record.fId;
-                newScore.fScore = 10;             //獲得10點積分
-                newScore.fScoreDate = DateTime.Now;
-                score = 10;
-                db.tScores.Add(newScore);
-                record.fAccountLinkDatetime = DateTime.Now;    //更新時間
-                db.SaveChanges();
-                return "Y";
-            }
+            int totalScore = (user.fScore == null) ? 0 : (int)user.fScore;
 
             //超過一天
             //月份不一樣，或是日期不一樣，就是相差一天以上
             if (record.fAccountLinkDatetime.Value.Month != DateTime.Now.Month || record.fAccountLinkDatetime.Value.Day != DateTime.Now.Day)
             {
-                scoreRecord.fScore += 10;
-                score = (Int16)scoreRecord.fScore;
+                //更新 userprofile 裡面的fScore；更新tLineBotAccountLink裡面的時間
+                totalScore += 10;
+                user.fScore = totalScore;
                 record.fAccountLinkDatetime = DateTime.Now;
-                db.SaveChanges();
 
+                tScore newScore = new tScore();
+                newScore.fId = record.fId;
+                newScore.fScore = totalScore;             //總共多少點積分
+                newScore.fActiveScore = 10;               //活動積分取得10點
+                newScore.fScoreDate = DateTime.Now;
+                newScore.fScoreDiscontinue = false;
+                newScore.fQuestionScore = 0;
+
+                score = totalScore;
+
+                db.tScores.Add(newScore);
+                db.SaveChanges();
                 return "Y";
             }
 

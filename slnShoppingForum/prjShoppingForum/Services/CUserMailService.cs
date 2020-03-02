@@ -82,9 +82,9 @@ namespace tw.com.essentialoil.Services
         //寄忘記密碼的方法(新加入，目前尚未成功，測試修改中)
         public void SendNewMail(string UserName, string newrdn)
         {
-            var senderEmail = new MailAddress("", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
+            var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
             var receiverEmail = new MailAddress(UserName.ToString(), "Receiver");
-            var password = "";//管理員寄email所用的信箱密碼，測試時請自行填入
+            var password = "Cai3M!Ef6Z";//管理員寄email所用的信箱密碼，測試時請自行填入
             var sub = "更換密碼通知";
             var body = "您好，已收到您的忘記密碼請求，請用下面的新密碼重新登入:" + newrdn + " " + "!";    
 

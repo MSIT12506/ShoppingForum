@@ -1,28 +1,49 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tProduct>
 
-@foreach (var item in Model)
-{
-    var imageScr = $"../../images/Product/{item.fProductID}.jpg";
+<div class="row">
+    <!-- Single Product -->
 
-    <div class="col-lg-4">
-        <div class="thumbnail" style="width:150px;">
-            @*商品圖片*@
-            <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
-                <img src="@imageScr" style="width:80%" />
-            </a>
-            <div class="caption"></div>
-            @*商品名稱*@
-            <span>
-                @Html.DisplayNameFor(m => m.FirstOrDefault().fProductChName)
-                <a href="../../ProductFront/ProductSinglePage?productId=@item.fProductID">
-                    @item.fProductChName
-                </a>
-            </span>
-            @*商品價錢*@
-            <span>@Html.DisplayNameFor(m => m.FirstOrDefault().fUnitPrice) @item.fUnitPrice</span>
+
+    @foreach (var item in Model)
+    {
+        var imageScr = $"../../images/Product/{item.fProductID}.jpg";
+        <div class="col-12 col-sm-6 col-lg-4">
+
+            <div class="single-product-wrapper">
+                <!-- Product Image -->
+                <div class="product-img">
+                    <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
+                        <img src="@imageScr" style="width:80%" />
+                    </a>
+                    <!-- Hover Thumb -->
+                    <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
+                        <img class="hover-img" src="../../images/Product/0-1.jpg" alt="" style="width:80%">
+                    </a>
+
+                    <!-- Favourite -->
+                    @*<div class="product-favourite">
+                            <a href="#" class="favme fa fa-heart"></a>
+                        </div>*@
+                </div>
+
+                <!-- Product Description -->
+                <div class="product-description">
+
+                    <a href="../../ProductFront/ProductSinglePage?productId=@item.fProductID">
+                        <h6>@item.fProductChName</h6>
+                    </a>
+
+                    <p class="product-price">NT$ @item.fUnitPrice</p>
+                    <div class="add-to-cart-btn">
+                        <a href="#" class="btn btn-outline-info">加入購物車</a>
+                    </div>
+
+                </div>
+            </div>
         </div>
-    </div>
-    @*頁數選擇*@
-}
+    }
+</div>
+
+
 
 

@@ -29,8 +29,9 @@ namespace tw.com.essentialoil.Controllers
             ViewBag.SearchModel = searchModel == null ? new SearchModel() : searchModel;
 
             IQueryable<tProduct> products
-            = productRepository.SearchProducts(searchModel.searchprod, searchModel.categoryId,
-            searchModel.efficacyId, searchModel.noteId, searchModel.partId, searchModel.featureId,searchModel.fDiscontinued);
+            = productRepository.SearchProducts(searchModel.searchprod, searchModel.categoryId
+            ,searchModel.efficacyId, searchModel.noteId, searchModel.partId, searchModel.featureId
+            ,searchModel.fDiscontinued);
 
             ViewBag.productMenu = productMenuRepository.GetProductMenu();
 
@@ -48,6 +49,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult ProductSinglePage(int productId)
         {
             ViewBag.CategoryList = db.tCategories.ToList();
+            ViewBag.productMenu = productMenuRepository.GetProductMenu();
             var ProductSingle = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
             return View(ProductSingle);
         }

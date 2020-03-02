@@ -8,33 +8,46 @@
     var searchModel = ViewBag.SearchModel as SearchModel;
 }
 
-@*商品搜尋--依據商品名稱*@
-@*@Html.Label("搜尋名稱")
-    @Html.TextBox("searchprod", "", new { @class = "form-control" })
-    <input class="btn btn-primary" value="Search" type="button" onclick="searchProd()" />*@
-
-@*導入商品分類目錄*@
-@Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
-@*導入商品列表*@
-<h2>商品列表</h2>
-<div class="row" id="productListShow">
-    @Html.Partial("_List_Product", Model)
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-4 col-lg-3" >
+            <div class="shop_sidebar_area" >
+                <div class="widget catagory mb-50">
+
+                    @*導入商品分類目錄*@
+                    @Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
+
+                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage")
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-8 col-lg-9">
+            @*導入商品列表*@
+            <h6>商品列表</h6>
+            <div class="shop_grid_product_area">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="productListShow" class="product-topbar d-flex align-items-center justify-content-between">
+                            @Html.Partial("_List_Product", Model)
+                        </div>
+                    </div>
+                </div>
+                @*頁數選擇*@
+                @Html.PagedListPager(Model, page => Url.Action("ProductFrontPage", new { page,
+                    categoryId = searchModel.categoryId ,
+                    efficacyId = searchModel.efficacyId,
+                    noteId = searchModel.noteId,
+                    partId = searchModel.partId,
+                    featureId = searchModel.featureId,
+                    searchprod = searchModel.searchprod
+                }))
+            </div>
+        </div>
+    </div>
 </div>
-@Html.ActionLink("進階搜尋", "AdvanceQueryPage")
-
-@*頁數選擇*@
-@Html.PagedListPager(Model, page => Url.Action("ProductFrontPage", new { page,
-    categoryId = searchModel.categoryId ,
-    efficacyId = searchModel.efficacyId,
-    noteId = searchModel.noteId,
-    partId = searchModel.partId,
-    featureId = searchModel.featureId,
-    searchprod = searchModel.searchprod
-}))
-
-
 @*<script>
         function searchProd()
         {

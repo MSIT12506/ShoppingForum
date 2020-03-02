@@ -95,7 +95,7 @@ namespace tw.com.essentialoil.Controllers.WebAPI
             switch (result)
             {
                 case "N":
-                    return new { returnValue = "帳號尚未綁定，會員綁定後才可進行每日報到!" };
+                    return new { returnValue = "帳號尚未綁定，會員綁定後才可將商品加入購物車!" };
                 case "Y":
                     return new { returnValue = "您已將該商品加入購物車，請趕快至網站結帳付錢!!!!" };
                 case "D":
@@ -115,7 +115,7 @@ namespace tw.com.essentialoil.Controllers.WebAPI
             switch (result)
             {
                 case "N":
-                    return new { returnValue = "帳號尚未綁定，會員綁定後才可進行每日報到!" };
+                    return new { returnValue = "帳號尚未綁定，會員綁定後才可將商品加入收藏!" };
                 case "Y":
                     return new { returnValue = "您已將該商品加入收藏清單!" };
                 case "D":

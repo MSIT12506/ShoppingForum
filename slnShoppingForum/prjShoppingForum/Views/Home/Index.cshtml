@@ -1,19 +1,23 @@
-﻿
-<link rel="stylesheet" type="text/css" href="~/Styles/Home/home.css" />
-
+﻿<link rel="stylesheet" type="text/css" href="~/Styles/Home/home.css" />
 <!-- ##### Welcome Area Start ##### -->
-<section class="welcome_area bg-img background-overlay" style="background-image: url(/Content/template/img/bg-img/bg-1.jpg);">
-    <div class="container h-100">
-        <div class="row h-100 align-items-center">
-            <div class="col-12">
-                <div class="hero-content">
-                    <h6>asoss</h6>
-                    <h2>New Collection</h2>
-                    <a href="#" class="btn essence-btn">view collection</a>
-                </div>
-            </div>
-        </div>
+<section class="welcome_area bg-img background-overlay" style="background-image: url(/Images/Index/bg-1.png); max-height:400px " />
+@*<div class="container h-100">
+    <div class="row h-100 align-items-center">*@
+
+@*<style>
+    .single_catagory_area:after {
+        background-color: rgba(255, 255, 255, 0.6)
+    }
+</style>*@
+<div class="col-12">
+    <div class="hero-content">
+        <h6></h6>
+        <h2></h2>
+        <a href="#"></a>
     </div>
+</div>
+@*</div>
+    </div>*@
 </section>
 <!-- ##### Welcome Area End ##### -->
 <!-- ##### Menu Start ##### -->
@@ -22,59 +26,62 @@
         <div class="row justify-content-center">
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Content/template/img/bg-img/bg-2.jpg);">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                     style="background-image: url(/Images/Index/member_into.png); background-color:rgba(255, 255, 255, 0.1) ">
                     <div class="catagory-content">
-                        <a href="#">會員中心</a>
+                        <a href="@Url.Action("MemberCenter", "FrontUserProfile")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Member Center</a><br />
+                        <a href="@Url.Action("MemberCenter", "FrontUserProfile")" style="font-family:UD Digi Kyokasho NP-B;">會員中心</a>
                     </div>
                 </div>
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Content/template/img/bg-img/bg-3.jpg);">
-                    <div class="catagory-content">
-                        <a href="#">商品介紹</a>
-                    </div>
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Images/Index/product_into.jpg);">
+                <div class="catagory-content">
+                        <a href="@Url.Action("ProductFrontPage", "ProductFront")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Products</a><br />
+                        <a href="@Url.Action("ProductFrontPage", "ProductFront")" style="font-family:UD Digi Kyokasho NP-B;">商品專區</a>
+                </div>
                 </div>
             </div>
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Content/template/img/bg-img/bg-4.jpg);">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                     style="background-image: url(/Images/Index//fourm_into.jpg)">
                     <div class="catagory-content">
-                        <a href="#">討論區</a>
+                        <a href="@Url.Action("List", "Forum")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Forum</a><br />
+                        <a href="@Url.Action("List", "Forum")" style="font-family:UD Digi Kyokasho NP-B;">討論區</a>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 <!-- ##### Menu End ##### -->
-
 <!-- ##### New Arrivals Area End ##### -->
 <!-- ##### Brands Area Start ##### -->
-<h2 style="text-align:center">推薦網站</h2>
-<div class="brands-area d-flex align-items-center justify-content-between">
+<h4 style="text-align:center; margin-bottom:0px;font-family:UD Digi Kyokasho NP-B">推薦網站</h4>
+<div class="brands-area d-flex align-items-center justify-content-between"
+     style="height:180px; background-color:#ebe9e1; padding:20px">
     <!-- Brand Logo -->
-    <div class="single-brands-logo">
-        <img src="~/Content/template/img/core-img/brand1.png" alt="">
+    <div @*class="single-brands-logo"*@ >
+        <img src="~/Images/Index/sekatsunoki.jpg" alt=""  style="height:60px;width:220px">
     </div>
     <!-- Brand Logo -->
-    <div class="single-brands-logo">
-        <img src="~/Content/template/img/core-img/brand2.png" alt="">
+    <div @*class="single-brands-logo"*@>
+        <img src="~/Images/Index/frorihana.jpg" alt=""  style="height:60px;width:220px">
     </div>
     <!-- Brand Logo -->
-    <div class="single-brands-logo">
-        <img src="~/Content/template/img/core-img/brand3.png" alt="">
+    <div @*class="single-brands-logo"*@>
+        <img src="~/Images/Index/anius.jpg" alt=""  style="height:60px;width:220px">
     </div>
     <!-- Brand Logo -->
-    <div class="single-brands-logo">
-        <img src="~/Content/template/img/core-img/brand4.png" alt="">
+    <div @*class="single-brands-logo"*@>
+        <img src="~/Images/Index/charlotte.jpg" alt=""  style="height:60px;width:220px">
     </div>
+
     <!-- Brand Logo -->
-    <div class="single-brands-logo">
-        <img src="~/Content/template/img/core-img/brand5.png" alt="">
-    </div>
-    <!-- Brand Logo -->
-    <div class="single-brands-logo">
-        <img src="~/Content/template/img/core-img/brand6.png" alt="">
+    <div @*class="single-brands-logo"*@ >
+        <img src="~/Images/Index/github.jpg" alt="" style="height:60px;width:220px">
     </div>
 </div>

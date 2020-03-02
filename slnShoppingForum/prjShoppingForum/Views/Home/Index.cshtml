@@ -1,24 +1,105 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/Styles/Home/home.css" />
 <!-- ##### Welcome Area Start ##### -->
-<section class="welcome_area bg-img background-overlay" style="background-image: url(/Images/Index/bg-1.png); max-height:400px " />
-@*<div class="container h-100">
-    <div class="row h-100 align-items-center">*@
 
-@*<style>
-    .single_catagory_area:after {
-        background-color: rgba(255, 255, 255, 0.6)
-    }
-</style>*@
-<div class="col-12">
-    <div class="hero-content">
-        <h6></h6>
-        <h2></h2>
-        <a href="#"></a>
-    </div>
+@section Styles{
+    <style>
+        .mywrapper {
+            position: relative;
+            width: 100vw;
+            height: 600px;
+            overflow: hidden;
+            margin: 0 auto;
+            background: #000;
+        }
+
+        .ulAll {
+            margin: 0;
+            padding: 0;
+            position: absolute;
+        }
+
+        .liAll {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        ul.slides {
+            left: 0;
+            transition: all .5s;
+        }
+
+       ul.slides li {
+            width: 100vw;
+            height: 600px;
+            overflow: hidden;
+            float: left;
+        }
+
+        ul.slides li img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .page {
+            bottom: 10px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .page li {
+            border: 1px solid #fff;
+            border-radius: 50%;
+            margin: 0 5px;
+            width: 20px;
+            height: 20px;
+        }
+
+        .page li:hover, .page li.active {
+            background: #fff;
+        }
+
+        .wrapper .dir_wrap {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dir_left {
+            left: 0;
+        }
+
+        .dir_right {
+            right: 0;
+        }
+
+        .oi {
+            opacity: .5;
+            color: #000;
+        }
+
+        .dir_wrap:hover .oi {
+            opacity: 1;
+        }
+    </style>
+}
+
+<div class="mywrapper">
+    <ul class="ulAll slides">
+    </ul>
+    <ul class="ulAll page">
+    </ul>
+    <div class="dir_wrap dir_left" id="dir_left"><span class="oi" data-glyph="caret-left" title="" aria-hidden="true"></span></div>
+    <div class="dir_wrap dir_right" id="dir_right"><span class="oi" data-glyph="caret-right" title="" aria-hidden="true"></span></div>
 </div>
-@*</div>
-    </div>*@
-</section>
+
 <!-- ##### Welcome Area End ##### -->
 <!-- ##### Menu Start ##### -->
 <div class="top_catagory_area section-padding-80 clearfix">
@@ -37,10 +118,10 @@
             <!-- Single Catagory -->
             <div class="col-12 col-sm-6 col-md-4">
                 <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Images/Index/product_into.jpg);">
-                <div class="catagory-content">
+                    <div class="catagory-content">
                         <a href="@Url.Action("ProductFrontPage", "ProductFront")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Products</a><br />
                         <a href="@Url.Action("ProductFrontPage", "ProductFront")" style="font-family:UD Digi Kyokasho NP-B;">商品專區</a>
-                </div>
+                    </div>
                 </div>
             </div>
             <!-- Single Catagory -->
@@ -64,24 +145,87 @@
 <div class="brands-area d-flex align-items-center justify-content-between"
      style="height:180px; background-color:#ebe9e1; padding:20px">
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@ >
-        <img src="~/Images/Index/sekatsunoki.jpg" alt=""  style="height:60px;width:220px">
+    <div @*class="single-brands-logo"*@>
+        <img src="~/Images/Index/sekatsunoki.jpg" alt="" style="height:60px;width:220px">
     </div>
     <!-- Brand Logo -->
     <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/frorihana.jpg" alt=""  style="height:60px;width:220px">
+        <img src="~/Images/Index/frorihana.jpg" alt="" style="height:60px;width:220px">
     </div>
     <!-- Brand Logo -->
     <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/anius.jpg" alt=""  style="height:60px;width:220px">
+        <img src="~/Images/Index/anius.jpg" alt="" style="height:60px;width:220px">
     </div>
     <!-- Brand Logo -->
     <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/charlotte.jpg" alt=""  style="height:60px;width:220px">
+        <img src="~/Images/Index/charlotte.jpg" alt="" style="height:60px;width:220px">
     </div>
 
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@ >
+    <div @*class="single-brands-logo"*@>
         <img src="~/Images/Index/github.jpg" alt="" style="height:60px;width:220px">
     </div>
 </div>
+
+@section Scripts{
+    <script>
+        var num = 0;
+        var slideWidth = $('.mywrapper').css('width').replace('px','');
+        var sliders = ["bg-1.png", "bg-2.jpg", "bg-3.jpg"];
+        var slideCount = sliders.length;
+
+        for (i = 0; i < slideCount; i++) {
+            let li_tmp_slides = $('<li></li>').addClass('liAll')
+            let img = $('<img />').attr('src', `/Images/Index/${sliders[i]}`);
+            let li = li_tmp_slides.append(img)
+
+            let li_tmp = $('<li></li>').addClass('liAll')
+
+            $(".slides ").append(li);
+            $(".page").append(li_tmp);
+        }
+
+        $(".page li").eq(0).addClass('active');
+        setWidth();
+        $(".page").on("mouseenter", "li", function () {
+            num = $(this).index();
+            goSlide(num);
+
+        });
+
+        $("#dir_left").click(function () {
+            if (num > 0) {
+                num = num - 1;
+            }
+            goSlide(num);
+        });
+        $("#dir_right").click(function () {
+            if (num < (slideCount - 1)) {
+                num = num + 1;
+            }
+            goSlide(num);
+        });
+
+        $(window).resize(function () {
+            setWidth();
+        });
+
+        function setWidth() {
+            var width = $(window).width();
+            if (width <= slideWidth) {
+                slideWidth = width;
+            } else {
+                slideWidth = slideWidth;
+            }
+            $(".slides").width(slideWidth * slideCount);
+            $(".slides li, .mywrapper").width(slideWidth);
+            goSlide(num);
+        }
+        function goSlide(num) {
+            $(".page li").eq(num).addClass("active")
+                .siblings().removeClass("active");
+            $(".slides").css("left", 0 - slideWidth * num + "px");
+        }
+
+    </script>
+}

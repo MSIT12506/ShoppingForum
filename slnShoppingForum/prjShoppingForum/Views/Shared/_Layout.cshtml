@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="~/Content/essence/jquery-ui.min.css" />
     <link rel="stylesheet" href="~/Content/essence/magnific-popup.css" />
     @*<link rel="stylesheet" href="~/Content/essence/nice-select.css" />*@
+
+    @RenderSection("Styles", false)
 </head>
 <body>
     <div class="wrapper">
@@ -47,7 +49,7 @@
                         <div class="classynav">
                             <ul>
                                 <li>
-                                    <a href="#">最新消息</a>
+                                    <a href="@Url.Action("NewsList","News")">最新消息</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("MemberCenter", "FrontUserProfile")">會員中心</a>
@@ -57,6 +59,9 @@
                                 </li>
                                 <li>
                                     <a href="@Url.Action("List", "Forum")">討論區</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("QuizList", "Questions")">每日一答</a>
                                 </li>
                             </ul>
                         </div>

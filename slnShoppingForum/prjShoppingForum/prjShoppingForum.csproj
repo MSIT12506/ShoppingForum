@@ -318,8 +318,7 @@
     <Content Include="Images\Index\anius.jpg" />
     <Content Include="Images\Index\bg-1.png" />
     <Content Include="Images\Index\bg-2.jpg" />
-    <Content Include="Images\Index\bg-3.png" />
-    <Content Include="Images\Index\bg-4.jpg" />
+    <Content Include="Images\Index\bg-3.jpg" />
     <Content Include="Images\Index\charlotte.jpg" />
     <Content Include="Images\Index\fourm_into.jpg" />
     <Content Include="Images\Index\frorihana.jpg" />

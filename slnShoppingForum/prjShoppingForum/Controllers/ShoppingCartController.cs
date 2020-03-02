@@ -42,12 +42,18 @@ namespace tw.com.essentialoil.Controllers
             var tableBrowseHistory = from b in db.tUserBrowseHistories
                                      where b.fId == userId
                                      select b;
-            CShoppingCart cart = new CShoppingCart() { ShoppingCart = tableCart, Product = tableProduct, BrowseHistory = tableBrowseHistory };
+            var tableUser = from s in db.tUserProfiles
+                             where s.fId == userId
+                             select s;
+            var tableDiscount = from d in db.tUserDiscountLists
+                                where d.fId == userId
+                                select d;
+            CShoppingCart cart = new CShoppingCart() { ShoppingCart = tableCart, Product = tableProduct, BrowseHistory = tableBrowseHistory, UserProfiles = tableUser, UserDiscountLists= tableDiscount };
             return View(cart);
         }
 
         [HttpPost]
-        public ActionResult viewCart(string url)
+        public ActionResult viewCart(string url, int score, string coupon)
         {
             Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] = url;
             return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = url });
@@ -192,16 +198,12 @@ namespace tw.com.essentialoil.Controllers
             return Content(totalQuantity.ToString());
         }
 
-
-        [HttpPost]
-        //ajax - 取得優惠後的金額
         public ActionResult getDiscountValue(string discountCode, int totalMoney)
         {
-            decimal resultNum = 0;
+            decimal resultNum = (decimal)totalMoney;
 
             UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
-            //userId = userLoginInfo.user_fid;
-            userId = 4;
+            userId = userLoginInfo.user_fid;
 
             CDiscount discount = new CDiscount();
             string result = discount.calculatePriceByDiscountCode(userId, discountCode, totalMoney, ref resultNum);

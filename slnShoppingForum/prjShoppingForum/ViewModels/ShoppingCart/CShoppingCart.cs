@@ -11,5 +11,7 @@ namespace tw.com.essentialoil.ShoppingCart.ViewModels
         public IQueryable<tShoppingCart> ShoppingCart { get; set; }
         public IQueryable<tProduct> Product { get; set; }
         public IQueryable<tUserBrowseHistory> BrowseHistory { get; set; }
+        public IQueryable<tUserProfile> UserProfiles { get; set; }
+        public IQueryable<tUserDiscountList> UserDiscountLists { get; set; }
     }
 }

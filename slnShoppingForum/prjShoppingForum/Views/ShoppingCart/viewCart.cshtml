@@ -1,6 +1,10 @@
 ﻿@model tw.com.essentialoil.ShoppingCart.ViewModels.CShoppingCart
 
 <style>
+    .hide{
+        display:none;
+    }
+
     .container {
         margin-top: 20px;
     }
@@ -37,8 +41,6 @@
     double totalPrice = 0;
 }
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css" />
-
 <div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
     <img src="~/Images/ShoppingCart/bulletin.png" style="height:180px;width:700px" />
 </div>
@@ -55,10 +57,10 @@
                         <input type="checkbox" id="checkAll" class="checkbox" />
                     </th>
                     <th style="width:15%">
-                        商品名稱
+                        圖片
                     </th>
                     <th style="width:15%">
-                        圖片
+                        商品名稱
                     </th>
                     <th style="width:10%">
                         單價
@@ -85,10 +87,10 @@
                             <input type="checkbox" />
                         </td>
                         <td>
-                            <a href="@producthref" style="color:royalblue">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
+                            <img src="@imageScr" style="height:100px;width:100px" />
                         </td>
                         <td>
-                            <img src="@imageScr" style="height:100px;width:100px" />
+                            <a href="@producthref" style="color:royalblue">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
@@ -113,28 +115,52 @@
                 }
             </tbody>
         </table>
+        <div style="text-align:right;font-size:24px;border-top:1px dashed black;padding:15px">
+            折扣方式 :
+            <select style="text-align:center;" id="discount">
+                <option>無</option>
+                <option>積分</option>
+                <option>優惠券</option>
+            </select>
+            <span id="score">
+                <input type="number" name="score" value="0" min="0" style="text-align:center"/>
+                @foreach (var item in Model.UserProfiles)
+                 {
+                    <input type="hidden" value="@item.fScore" name="memberScore"/>
+                 }
+                </span>
+            <span id="coupon">
+                <select name="selectcoupon">
+                    <option>無</option>
+                    @foreach (var item in Model.UserDiscountLists)
+                    {
+                        <option value="@item.fDiscountCode">@item.tDiscount.fDiscountName</option>
+                    }
+                </select>
+                <input type="hidden" name="coupon" value="無"/>
+            </span>
+        </div>
         <div style="text-align:right;font-size:32px;border-top:1px dashed black;padding:15px">
             總共
             <span class="cartSumCount" style="color:red">0</span>
-            項商品，總金額為
+            項商品，商品總計
             <span class="cartSumPrice" style="color:red">
                 @totalPrice
             </span>
+            <span>
+                ，折扣後商品金額為
+            </span>
+            <span class="totalSumPrice" style="color:red">
+
+            </span>
         </div>
-        <div style="text-align:right;border-top:1px dashed black;padding:15px;">
-            @Html.ActionLink("<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info", style = "font-size:36px;" })
+        <div style="text-align:right;border-top:1px dashed black;padding:15px;text-align:center">
+            @Html.ActionLink("<<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info", style = "font-size:36px;" })
             <input type="hidden" id="orderUrl" name="url" />
-            <input type="submit" id="toOrder" value="確認購買>" class="btn btn-danger" style="font-size:36px" />
+            <input type="submit" id="toOrder" value="確認購買>>" class="btn btn-danger" style="font-size:36px" />
         </div>
     }
 </div>
-<br />
-<br />
-<div style="border:5px solid black;height:200px;width:70%;margin:auto">
-    推薦清單
-</div>
-<br />
-<br />
 <br />
 <h2 style="text-align:center">瀏覽紀錄</h2>
 <div style="height:240px;width:70%;margin:auto;display:flex;margin-bottom:50px;background-color:aliceblue">
@@ -159,10 +185,13 @@
 
 
 @section scripts{
-    <script>
+<script>
 
     $(document).ready(function () {
         $("#toOrder").prop("disabled", true);               //關掉送出訂單按鈕
+        $("#discount").prop("disabled", true);             //鎖住選擇優惠欄位
+        $("#score").hide();                                 //隱藏積分欄位
+        $("#coupon").hide();                                //隱藏優惠券欄位
     })
 
     //商品數量減少
@@ -185,6 +214,7 @@
             }
 
             tatalResult();
+            scoreMax();
             saveToDB();
         }
     })
@@ -206,6 +236,7 @@
             }
 
             tatalResult();
+            scoreMax();
             saveToDB();
         }
         else {
@@ -278,6 +309,7 @@
         })
         $(".cartSumCount").text(totalSumCount);                                                    //更新總數量
         $(".cartSumPrice").text(totalSumPrice);                                                    //更新總價
+        $(".totalSumPrice").text(totalSumPrice);     
     }
     //勾選商品後將勾選的數量存進購物車&將勾選的購物車的Id存入隱藏input
     function totalProductId() {
@@ -308,11 +340,18 @@
         if (count != 0)
         {
             $("#toOrder").prop("disabled", false);
+            $("#discount").prop("disabled", false);
             saveToDB();
         }
         else
         {
             $("#toOrder").prop("disabled", true);
+            $("#discount").prop("disabled", true);
+            $("#score").hide();
+            $("#coupon").hide();
+            $("#discount")[0].selectedIndex = 0;
+            $("input[name=score]").val(0);
+            $("input[name=coupon]").val("無");
         }
     }
     //Ajax:儲存到資料庫
@@ -364,5 +403,66 @@
             location.href = `/ShoppingCart/delete?basket=${fBasketId}`;
         }
     }
-    </script>
+    //選擇優惠方式
+    $("#discount").change(function () {
+        if ($(this).val() == "無") {
+            $("#score").hide();
+            $("#coupon").hide();
+            $("input[name='score']").val(0);
+            $("input[name=coupon]").val("無");
+        }
+        else if ($(this).val() == "積分") {
+            $("#score").show();
+            $("#coupon").hide();
+            scoreMax();
+        }
+        else if ($(this).val() == "優惠券"){
+            $("#score").hide();
+            $("#coupon").show();
+            $("input[name='score']").val(0);
+        }
+    })
+    function scoreMax() {
+        let sum = parseInt($(".cartSumPrice").text());
+        $("input[name='score']").attr("max", sum * 0.1);
+    }
+    $("input[name='score']").change(function () {
+        let score = parseInt( $("input[name='score']").val());
+        let memberScore = parseInt($("input[name='memberScore']").val());
+        let totalMoney = parseInt($(".cartSumPrice").text());
+
+        if (score > memberScore) {
+            alert("會員積分不夠");
+            $("input[name='score']").val(0)
+        }
+        else {
+            $(".totalSumPrice").text(totalMoney - score);
+            $("input[name='coupon']").val("無");
+        }
+    })
+    $("select[name='selectcoupon']").change(function () {
+        let discountCode = $(this).val();
+        let totalMoney = parseInt($(".cartSumPrice").text());
+
+        if (discountCode != "無") {
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getDiscountValue", "ShoppingCart")',
+                async: false,
+                data: { discountCode: discountCode, totalMoney: totalMoney }
+            }).done(function (data) {
+                alert(data.message);
+                if (data.message == "已成功使用優惠券") {
+                    $(this)[0].selectedIndex = 0;
+                }
+                $(".totalSumPrice").text(data.returnNum);
+                $("input[name='coupon']").val(discountCode);
+            })
+        }
+        else {
+            $(".totalSumPrice").text(totalMoney);
+            $("input[name='coupon']").val("無");
+        }
+    })
+</script>
 }

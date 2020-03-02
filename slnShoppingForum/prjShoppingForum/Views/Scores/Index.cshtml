@@ -1,17 +1,33 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tScore>
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
     ViewBag.Title = "Index";
 }
 
-<h2>分數異動表</h2>
+<h2>積分異動查詢區</h2>
+@using (Html.BeginForm())
+{
+    <span>
+        搜尋:
+    </span>
+    @Html.TextBox("SearchKey", "");
+    <input type="submit" value="搜尋" />
+}
+<h5>@ViewBag.Message</h5>
+
 
 <p>
-    @Html.ActionLink("新增???", "Create")
+    @Html.ActionLink("新增積分", "Create")
 </p>
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tUserProfile.fName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.fScore)
         </th>
@@ -27,14 +43,18 @@
         <th>
             @Html.DisplayNameFor(model => model.fScoreDiscontinue)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
-        </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.fScore)
         </td>
@@ -51,14 +71,11 @@
             @Html.DisplayFor(modelItem => item.fScoreDiscontinue)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
-        </td>
-        <td>
-            @Html.ActionLink("編輯", "Edit", new { id=item.fId }) |
-            @Html.ActionLink("明細", "Details", new { id=item.fId }) |
-            @Html.ActionLink("刪除", "Delete", new { id=item.fId })
+            @Html.ActionLink("編輯", "Edit", new { id = item.fScoreId }) |
+            @Html.ActionLink("明細", "Details", new { id = item.fScoreId }) |
+            @Html.ActionLink("刪除", "Delete", new { id = item.fScoreId })
         </td>
     </tr>
-}
+    }
 
 </table>

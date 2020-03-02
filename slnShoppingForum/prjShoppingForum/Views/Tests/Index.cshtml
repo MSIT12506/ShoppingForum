@@ -1,17 +1,33 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tTest>
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout_AdminLTE.cshtml";
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>測驗歷史紀錄</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@using (Html.BeginForm())
+{
+    <span>
+        搜尋:
+    </span>
+    @Html.TextBox("SearchKey", "");
+    <input type="submit" value="搜尋" />
+}
+<h5>@ViewBag.Message</h5>
+
 <table class="table">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tUserProfile.fId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tUserProfile.fName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tQuestion.fQuestionName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.fScoreDate)
         </th>
@@ -21,17 +37,22 @@
         <th>
             @Html.DisplayNameFor(model => model.fTestDiscontinue)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tQuestion.fQuestionName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tScore.fId)
-        </th>
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
     <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tUserProfile.fId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tQuestion.fQuestionName)
+        </td>
         <td>
             @Html.DisplayFor(modelItem => item.fScoreDate)
         </td>
@@ -42,17 +63,11 @@
             @Html.DisplayFor(modelItem => item.fTestDiscontinue)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.tQuestion.fQuestionName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tScore.fId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.fTestId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.fTestId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.fTestId })
+            @Html.ActionLink("編輯", "Edit", new { id = item.fTestId }) |
+            @Html.ActionLink("明細", "Details", new { id = item.fTestId }) |
+            @Html.ActionLink("不顯示", "Delete", new { id = item.fTestId })
         </td>
     </tr>
-}
+    }
 
 </table>

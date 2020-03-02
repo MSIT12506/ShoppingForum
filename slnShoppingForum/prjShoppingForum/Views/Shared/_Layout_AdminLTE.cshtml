@@ -143,15 +143,21 @@
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    最新消息
+                                    最新消息管理
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">
+                                    <a href="@Url.Action("Index","News")" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>發布</p>
+                                        <p>查詢消息</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Create","News")" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>發布新消息</p>
                                     </a>
                                 </li>
                             </ul>
@@ -160,15 +166,55 @@
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    每日問答區
+                                    天天問答區
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">
+                                    <a href="@Url.Action("Index","Questions")" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>發布</p>
+                                        <p>查詢天天題目</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Create","Questions")" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>發布天天題目</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    測驗查詢區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index","Tests")" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>查詢</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    積分查詢區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="@Url.Action("Index","Scores")" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>查詢</p>
                                     </a>
                                 </li>
                             </ul>
@@ -187,17 +233,15 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <div class="content-header">
-                
+
             </div>
             <!-- /.content-header -->
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
-                    
-
-                        @RenderBody()
 
 
+                    @RenderBody()
 
 
 
@@ -207,7 +251,9 @@
 
 
 
-                    
+
+
+
                     <!-- /.row -->
                 </div><!-- /.container-fluid -->
             </div>
@@ -236,16 +282,16 @@
 
     <!--中間區塊-->
     @*<div id="content" style="min-height:800px; margin-top:150px">
-        @RenderBody()
-    </div>*@
-  
+            @RenderBody()
+        </div>*@
+
 
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     @*<script src="~/Content/AdminLTE/plugins/jquery/jquery.min.js"></script>*@
     <script src="~/Scripts/bootstrap.min.js"></script>
     @*<script src="~/Content/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>*@
     <script src="~/Content/AdminLTE/dist/js/adminlte.js"></script>
-    
+
     @RenderSection("Scripts", false)
 </body>
 </html>

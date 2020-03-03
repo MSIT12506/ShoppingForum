@@ -3,31 +3,48 @@
 @{
     ViewBag.Title = "ProductSinglePage";
 }
-
+<style>
+    .dd {
+        padding-bottom:5px;
+    }
+</style>
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-4 col-lg-3">
+
+        @*menu*@
+        <div class="col-12 col-md-3 col-lg-3">
             <div class="shop_sidebar_area">
                 <div class="widget catagory mb-50">
 
                     @*導入商品分類目錄*@
                     @Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
 
-                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage")
+                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage",null, new { @class = "myfont myfont18" })
                 </div>
             </div>
         </div>
 
-
-
-        <div class="col-12 col-md-8 col-lg-9">
+        @*商品圖片*@
+        <div class="col-12 col-md-5 col-lg-5">
             <div>
                 <dl class="dl-horizontal">
 
                     @{
                         var imageScr = $"../../images/Product/{Model.fProductID}.jpg";
+                        var imageScrUra = $"../../images/Product/ura/{Model.fProductID}.jpg";
                     }
-                    <img src="@imageScr" style="width:30%" />
+                    <img src="@imageScrUra" style="width:100%; position:absolute;margin-top:80px" />
+                    <img src="@imageScr" style="width:40%;border-radius:120px;position:absolute;margin-top:60px" />
+                    
+ 
+                </dl>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-4 col-lg-4">
+            <div>
+                <dl class="dl-horizontal" style="margin-top:60px;margin-left:50px;font-size:18px">
+
                     <dt>
                         @Html.DisplayNameFor(model => model.fProductChName)
                     </dt>
@@ -49,7 +66,7 @@
                     </dt>
 
                     <dd>
-                        @Html.DisplayFor(model => model.fUnitPrice)
+                        NT$ @Html.DisplayFor(model => model.fUnitPrice)
                     </dd>
 
                     <dt>
@@ -84,21 +101,25 @@
                         @Html.DisplayFor(model => model.tProductUnilateral.fOrigin)
                     </dd>
 
-
-                    <dd>
+                    <dt style="font-family:UD Digi Kyokasho NK-R">
                         購買數量
                         <input type="number" id="buyQuantity" max="@Model.fUnitsInStock" min="1" value="1" />
                         <input type="hidden" class="txtStock" value="@Model.fUnitsInStock" />
-                    </dd>
-                    <a class="btn btn-info" onclick="addToFavorite(@Model.fProductID)">收藏</a>
-                    <a class="btn btn-warning addCart" onclick="addToCartFromProduct(@Model.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
+                    </dt>
+                    
+                    <div style="margin-top:20px">
+                        <a class="btn btn-info btn-block" onclick="addToFavorite(@Model.fProductID)">收藏</a>
+                        <a class="btn btn-warning btn-block" onclick="addToCartFromProduct(@Model.fProductID)">
+                            <img src="~/Images/ShoppingCart/carticon.png" />
+                        </a>
+                    </div>
 
                 </dl>
-            </div>
 
-            @section scripts{
-                <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
-                <script>
+
+                @section scripts{
+                    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
+                    <script>
 
     //當數量欄位被鍵盤修改時
     $("#buyQuantity").change(function () {
@@ -150,9 +171,9 @@
             }
         });
     })
-                </script>
-            }
+                    </script>
+                }
+            </div>
         </div>
     </div>
 </div>
-          

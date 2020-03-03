@@ -25,10 +25,11 @@
     <link rel="stylesheet" href="~/Content/essence/magnific-popup.css" />
     @*<link rel="stylesheet" href="~/Content/essence/nice-select.css" />*@
 </head>
-<body>
+<body class="myfont">
+
     <div class="wrapper">
         <header class="header_area" style="height:120px">
-            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between" @*style="background-color:#645447;*@ height:100px">
+            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between" style="background-color:#ebe9e1; height:100px">
                 <!-- Classy Menu -->
                 <nav class="classy-navbar" id="essenceNav">
                     <!-- Logo -->
@@ -47,7 +48,7 @@
                         <div class="classynav">
                             <ul>
                                 <li>
-                                    <a href="#">最新消息</a>
+                                    <a href="@Url.Action("NewsList","News")">最新消息</a>
                                 </li>
                                 <li>
                                     <a href="@Url.Action("MemberCenter", "FrontUserProfile")">會員中心</a>
@@ -57,6 +58,9 @@
                                 </li>
                                 <li>
                                     <a href="@Url.Action("List", "Forum")">討論區</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("QuizList", "Questions")">問答賺積分</a>
                                 </li>
                             </ul>
                         </div>
@@ -105,7 +109,7 @@
     </div>
 
     <!-- ##### Footer Area Start ##### -->
-    <footer class="footer_area clearfix" style="background-color:#645447">
+    <footer class="footer_area clearfix" style="background-color:#858e88; padding:40px 0 20px">
         <div class="container">
             <div class="row">
                 <!-- Single Widget Area -->

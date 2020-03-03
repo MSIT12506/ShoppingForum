@@ -1,5 +1,7 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tProduct>
-
+<style>
+  
+</style>
 <div class="row">
     <!-- Single Product -->
 
@@ -7,17 +9,20 @@
     @foreach (var item in Model)
     {
         var imageScr = $"../../images/Product/{item.fProductID}.jpg";
+        var imageScrUra = $"../../images/Product/ura/{item.fProductID}.jpg";
         <div class="col-12 col-sm-6 col-lg-4">
 
             <div class="single-product-wrapper">
                 <!-- Product Image -->
-                <div class="product-img">
+                <div class="product-img" style="text-align:center">
                     <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
-                        <img src="@imageScr" style="width:80%" />
+                        <img src="@imageScrUra" alt="" 
+                             style="width:90%;border-radius:120px;border:solid 5px #85DBD5" />
                     </a>
                     <!-- Hover Thumb -->
                     <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
-                        <img class="hover-img" src="../../images/Product/0-1.jpg" alt="" style="width:80%">
+                        <img class="hover-img" src="@imageScr" alt="" 
+                             style="width:90%;border-radius:120px;border:solid 5px #D85277;margin-left:11px" >
                     </a>
 
                     <!-- Favourite -->
@@ -27,10 +32,10 @@
                 </div>
 
                 <!-- Product Description -->
-                <div class="product-description">
+                <div class="product-description" style="text-align: center; padding-top:15px">
 
                     <a href="../../ProductFront/ProductSinglePage?productId=@item.fProductID">
-                        <h6>@item.fProductChName</h6>
+                        <h6 style="font-family:UD Digi Kyokasho NK-R;">@item.fProductChName</h6>
                     </a>
 
                     <p class="product-price">NT$ @item.fUnitPrice</p>

@@ -5,13 +5,13 @@
 }
 
 
-<fieldset style="width:50%; border:2px solid #729BB0; border-radius:20px; margin:auto;">
+<fieldset style="width:50%; border:2px solid #729BB0; border-radius:20px; margin:auto;margin-top:200px">
     @using (Html.BeginForm("ProductFrontPage", "ProductFront"))
     {
         @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h6 style="padding:10px">進階查詢</h6>
+        <div class="form-horizontal" style="margin-left:20px; margin-top:20px;">
+            <h6 style="padding:10px;font-size:18px;font-family:UD Digi Kyokasho NK-R">進階搜尋</h6>
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -66,7 +66,7 @@
 
             <div class="form-group">
                 <div class="col-offset-2 col-10">
-                    <input type="submit" value="查詢" class="btn btn-info" style="margin:10px" />
+                    <input type="submit" value="送出搜尋" class="btn btn-info" style="margin:10px" />
                 </div>
             </div>
         </div>

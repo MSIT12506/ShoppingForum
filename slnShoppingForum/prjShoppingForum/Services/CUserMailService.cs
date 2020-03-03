@@ -49,37 +49,37 @@ namespace tw.com.essentialoil.Services
         }
 
         //寄驗證信的方法(待測試修正)
-        //public void SendSignUpMail(string UserName, string newrdn)
-        //{
-        //    string fName = membersService.GetUserProfile(UserName).fName.ToString();
-        //    var senderEmail = new MailAddress("", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
-        //    var receiverEmail = new MailAddress(UserName, fName);
-        //    var password = "";//管理員寄email所用的信箱密碼，測試時請自行填入
-        //    var sub = "會員驗證碼";
-        //    var body = "恭喜您註冊為本店會員，請用下面的驗證碼進行登入:" + newrdn + " " + "!";
-        //    //mail.IsBodyHtml = true;
+        public void SendSignUpMail(string UserName, string newrdn)
+        {
+            string fName = membersService.GetUserProfile(UserName).fName.ToString();
+            var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
+            var receiverEmail = new MailAddress(UserName, fName);
+            var password = "Cai3M!Ef6Z";//管理員寄email所用的信箱密碼，測試時請自行填入
+            var sub = "會員驗證碼";
+            var body = "恭喜您註冊為本店會員，請用下面的驗證碼進行登入:" + newrdn + " " + "!";
+            //mail.IsBodyHtml = true;
 
-        //    var smtp = new SmtpClient
-        //    {
-        //        Host = "smtp.gmail.com",
-        //        Port = 587,
-        //        EnableSsl = true,
-        //        DeliveryMethod = SmtpDeliveryMethod.Network,
-        //        UseDefaultCredentials = false,
-        //        Credentials = new NetworkCredential(senderEmail.Address, password)
-        //    };
-        //    using (var mess = new MailMessage(senderEmail, receiverEmail)
-        //    {
-        //        Subject = sub,
-        //        Body = body
-        //    })
-        //    {
-        //        mess.IsBodyHtml = true;
-        //        smtp.Send(mess);
-        //    }
-        //}
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(senderEmail.Address, password)
+            };
+            using (var mess = new MailMessage(senderEmail, receiverEmail)
+            {
+                Subject = sub,
+                Body = body
+            })
+            {
+                mess.IsBodyHtml = true;
+                smtp.Send(mess);
+            }
+        }
 
-        //寄忘記密碼的方法(新加入，目前尚未成功，測試修改中)
+        //寄忘記密碼的方法: OK
         public void SendNewMail(string UserName, string newrdn)
         {
             var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email

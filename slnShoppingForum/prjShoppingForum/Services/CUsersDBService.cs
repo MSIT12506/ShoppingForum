@@ -27,6 +27,7 @@ namespace tw.com.essentialoil.Services
             c.fPassword = HashPassword(c.fPassword, salt.ToString());
             c.fPasswordSalt = salt.ToString();
             c.fCreateDate = DateTime.UtcNow.AddHours(8);
+            c.fScore = 0;
             c.fAuth = "1";
             c.fAuthPost = true;
             c.fAuthReply = true;

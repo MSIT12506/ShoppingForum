@@ -10,24 +10,24 @@
     <div class="signup-content" >
         <div class="signup-form">
             <h2 class="form-title">Register</h2>
-            <form action="/FrontUserProfile/New" method="post" name="LoginForm" class="register-form" id="register-form">
+            <form action="/FrontUserProfile/New" method="post" name="LoginForm" class="register-form" id="register-form" onsubmit="return oncheck()">
 
                 <div class="form-group">
                     <label for="email"></label>
-                    <input type="email" name="fUserId" id="email" placeholder="Your Email" required/>
+                    <input type="email" name="fUserId" id="inputUserId" placeholder="Your Email as Account" required/><span style="font-family: 微軟正黑體" id="useridsp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fUserId, "", new { @class = "text-danger" })
 
                 <div class="form-group">
                     <label for="name"></label>
-                    <input type="text" name="fName" id="name" placeholder="Your Name" required/>
+                    <input type="text" name="fName" id="name" placeholder="Your Name" required/><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="namesp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fName, "", new { @class = "text-danger" })
 
 
                 <div class="form-group">
                     <label for="pass"></label>
-                    <input type="password" name="fPassword" id="pass" placeholder="Password" @*data-minlength="6"*@ pattern="^[a-zA-Z0-9]{6,12}" @*maxlength="12"*@ required/>
+                    <input type="password" name="fPassword" id="inputPassword" placeholder="Password(6~8字元以內，包含英文大小寫與數字的組合)" @*data-minlength="6"*@ pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required/><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="pwdsp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })
 
@@ -39,13 +39,13 @@
 
                 <div class="form-group">
                     <label for="re-pass"></label>
-                    <input type="text" name="fPhone" id="Phone" placeholder="Phone" required/>
+                    <input type="text" name="fPhone" id="Phone" placeholder="Phone" maxlength="10" pattern="[0-9]*" required/><span style="font-family: 微軟正黑體; color:lightcoral; font-weight:bold" id="phonesp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fPhone, "", new { @class = "text-danger" })
 
 
                 <div class="form-group form-button">
-                    <input type="button" name="userSignUp" id="signup" class="form-submit" value="註冊" />
+                    <input type="button" name="userSignUp" id="signup" class="form-submit" value="註冊" @*onclick="return check()"*@/>
                     <input type="reset"  class="form-submit" value="取消" />
                 </div>
             </form>
@@ -66,9 +66,53 @@
     <script src="~/Scripts/jquery.min.js"></script>
     <script src="~/Scripts/main.js"></script>
     <script>
+
+     
+        //$(document).ready(){
+        //    check()
+        //}
+
+        function check() {
+            if (document.LoginForm.fUserId.value == '') {
+                alert("帳號未填");
+                document.LoginForm.fUserId.focus();
+                return false;
+                //break;
+            }
+            if (document.LoginForm.fName.value == '') {
+                alert("姓名未填");
+                document.LoginForm.fName.focus();
+                return false;
+                //break;
+            }
+            if (document.LoginForm.fPassword.value == '') {
+                alert("密碼未填");
+                document.LoginForm.fPassword.focus();
+                return false;
+                //break;
+            }
+            if (document.LoginForm.fGender.value == '') {
+                alert("性別未填");
+                document.LoginForm.fGender.focus();
+                return false;
+                //break;
+            }
+            if (document.LoginForm.fPhone.value == '') {
+                alert("手機未填");
+                document.LoginForm.fPhone.focus();
+                
+                return false;
+                //break;
+
+            }
+            return true;
+        }
+
+
         var btnCreateUser = document.querySelector('input[name="userSignUp"]');
         var xhr = null;
         btnCreateUser.addEventListener("click", function () {
+            //check();
             document.LoginForm.submit();
         })
 
@@ -85,10 +129,10 @@
 
             xhr.addEventListener('load', function () {
                 var data = xhr.responseText;
-                myDiv.innerHTML = `<h4 style="font-family: 微軟正黑體">` + data + "</h4>";
+                myDiv.innerHTML = `<h6 style="font-family: 微軟正黑體; color:lightcoral">` + data + "</h6>";
             })
         });
-
+        
 
         //2.密碼驗證:密碼強度
         document.querySelector("#inputPassword").onblur = checkPwd;

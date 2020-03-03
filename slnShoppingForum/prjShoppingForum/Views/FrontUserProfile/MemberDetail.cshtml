@@ -1,31 +1,80 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
-<h1>會員基本資料</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>姓名</th>
-            <th>電子信箱</th>
-            <th>性別</th>
-            <th>生日</th>
-            <th>電話</th>
-            <th>手機</th>
-            <th>城市</th>
-            <th>地址</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>@Model.fName</td>
-            <td>@Model.fUserId</td>
-            <td>@Model.fGender</td>
-            <td>@Model.fBirthday</td>
-            <td>@Model.fTel</td>
-            <td>@Model.fPhone</td>
-            <td>@Model.fCity</td>
-            <td>@Model.fAddress</td>
-        </tr>
-    </tbody>
-</table>
+<div class="body">
+    <div class="wrappers">
+        <h3>會員基本資料</h3>
+        <div class="form-row">
+            <div class="form-holder">
+                帳號: @Model.fUserId
+            </div>
+            <div class="form-holder">
+                姓名: @Model.fName
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-holder">
+                性別: @Model.fGender
+            </div>
+            <div class="form-holder">
+                生日: @Model.fBirthday
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-holder">
+                電話: @Model.fTel
+            </div>
+            <div class="form-holder">
+                手機: @Model.fPhone
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-holder">
+                城市: @Model.fCity
+            </div>
+            <div class="form-holder">
+                地址: @Model.fAddress
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/Content/styles.css">
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/mains.js"></script>
+}
+
+
+
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>電子信箱</th>
+                <th>性別</th>
+                <th>生日</th>
+                <th>電話</th>
+                <th>手機</th>
+                <th>城市</th>
+                <th>地址</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Model.fName</td>
+                <td>@Model.fUserId</td>
+                <td>@Model.fGender</td>
+                <td>@Model.fBirthday</td>
+                <td>@Model.fTel</td>
+                <td>@Model.fPhone</td>
+                <td>@Model.fCity</td>
+                <td>@Model.fAddress</td>
+            </tr>
+        </tbody>
+    </table>*@
 

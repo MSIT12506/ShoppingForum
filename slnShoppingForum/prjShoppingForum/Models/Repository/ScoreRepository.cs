@@ -68,7 +68,7 @@ namespace tw.com.essentialoil.Score.Models
         public void InsertScore(tScore tScore)
         {
             tScore.fScoreDiscontinue = false;
-            tScore.fScoreDate = DateTime.Now;
+            tScore.fScoreDate = DateTime.UtcNow.AddHours(8);
             db.tScores.Add(tScore);
             db.SaveChanges();
         }

@@ -15,15 +15,15 @@
 
                 <div class="form-group">
                     <label for="email"></label>
-                    <input type="email" name="fUserId" id="email" placeholder="Your Email as Account" />
-                    @Html.ValidationMessageFor(model => model.fUserId, "", new { @class = "text-danger" })
+                    <input type="email" name="fUserId" id="email" placeholder="Your Email as Account" required/>
+                    @*@Html.ValidationMessageFor(model => model.fUserId, "", new { @class = "text-danger" })*@
 
                 </div>
 
                 <div class="form-group">
                     <label for="pass"></label>
-                    <input type="password" name="fPassword" id="pass" placeholder="Password" />
-                    @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })
+                    <input type="password" name="fPassword" id="pass" placeholder="Password" required/>
+                   @* @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })*@
 
                 </div>
 
@@ -44,20 +44,15 @@
                             @:<img src="/Images/Member/@pic" width="30" />
                         }
                     </p>
-                    @if (Session[UserDictionary.S_CURRENT_LOGINED_USER] != null)
-                    {
-                        <p style="color:lightcoral">@Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString()</p>
-                        <p style="color:lightcoral">@Session["UserInfo"]</p>
-                    }
+  
                 </div>
 
 
                 <div class="form-group form-button">
                     <input type="submit" name="login" id="login" class="form-submit" value="登入" />
                     <input type="reset" name="signup" id="signup" class="form-submit" value="取消" />
-                    
+                    <input type="button" id="forget" class="form-submit" value="忘記密碼" />
                 </div>
-                <div ><label style="color:blue"><a href="@Url.Action("ForgetPassword", "FrontUserProfile")">忘記密碼</a></label></div>
             </form>
         </div>
         <div class="signup-image">
@@ -70,31 +65,14 @@
 <link rel="stylesheet" href="~/Content/material-design-iconic-font.min.css">
 <link rel="stylesheet" href="~/Content/SignUpstyle.css">
 
-@*@section scripts{
+@section scripts{
         <script>
-            //apply ajax:此為現階段測試用，之後會刪除
-            var buttonLogin = document.querySelector('#buttonLogin');
-            var UserIdInput = document.querySelector('#inputUserId');
-            var buttonCancelLogin = document.querySelector('#buttonCancelLogin');
-            var myDiv = document.querySelector('#div1');
-
-            var xhr = null;
-            UserIdInput.addEventListener("blur", function () {
-                xhr = new XMLHttpRequest();
-                var formData = new FormData(document.LoginForm);
-                xhr.open('POST', '/FrontUserProfile/LoginAjax');
-                xhr.send(formData);
-
-                xhr.addEventListener('load', function () {
-                    var data = xhr.responseText;
-                    myDiv.innerHTML = `<h4 style="font-family: 微軟正黑體">` + data + "</h4>";
-                })
+            var forget = document.querySelector("#forget")
+            forget.addEventListener("click", function () {
+                location.href = "/FrontUserProfile/ForgetPassword";
             });
-                    //buttonLogin.addEventListener("click", function () {
-                    //    FormData(document.LoginForm).submit();
-                    //});
-        </script>
 
-    }*@
+        </script>
+    }
 
 

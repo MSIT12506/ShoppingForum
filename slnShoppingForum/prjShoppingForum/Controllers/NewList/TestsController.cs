@@ -62,7 +62,7 @@ namespace tw.com.essentialoil.Controllers
         {
             if (ModelState.IsValid)
             {
-                tTest.fScoreDate = DateTime.Now;
+                tTest.fScoreDate = DateTime.UtcNow.AddHours(8);
                 tTest.fTestDiscontinue = false;
                 db.tTests.Add(tTest);
                 db.SaveChanges();

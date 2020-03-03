@@ -3,26 +3,48 @@
     ViewBag.Title = "UserEdit";
 }
 
-<h2>編輯會員資料</h2>
+<div class="body">
+    <div class="wrappers">
+        <h3>編輯會員資料</h3>
+        <form action="/FrontUserProfile/UserEdit" method="post" name="editform">
+            <div class="form-row">
+                <div class="form-holder">
 
-<form action="/FrontUserProfile/UserEdit" method="post" name="editform">
-    <p>
-        姓名<br /><input type="text" name="fName" value="@Model.fName" />
-    </p>
-    <p>
-        電話<br /><input type="text" name="fTel" value="@Model.fTel" />
-    </p>
-    <p>
-        手機<br /><input type="text" name="fPhone" value="@Model.fPhone" />
-    </p>
-    <p>
-        城市<br /><input type="text" name="fCity" value="@Model.fCity" />
-    </p>
-    <p>
-        地址<br /><input type="text" name="fAddress" value="@Model.fAddress" />
-    </p>
-    <p>
-        <input type="submit" value="送出" name="editbutton" />
-    </p>
+                    姓名<br /><input type="text" name="fName" value="@Model.fName" />
+                </div>
+                <div class="form-holder">
+                    電話<br /><input type="text" name="fTel" value="@Model.fTel" />
 
-</form>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    手機<br /><input type="text" name="fPhone" value="@Model.fPhone" />
+
+                </div>
+                <div class="form-holder">
+                    城市<br /><input type="text" name="fCity" value="@Model.fCity" />
+
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    地址<br /><input type="text" name="fAddress" value="@Model.fAddress" />
+
+                </div>
+                <div class="form-holder">
+
+                </div>
+            </div>
+           
+            
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="~/Content/styles.css">
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/mains.js"></script>
+}

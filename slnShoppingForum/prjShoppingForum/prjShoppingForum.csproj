@@ -348,12 +348,14 @@
     <Content Include="Images\Member\7.png" />
     <Content Include="Images\Member\8.png" />
     <Content Include="Images\Member\9.png" />
+    <Content Include="Images\Member\bg1.jpg" />
+    <Content Include="Images\Member\bg_3.jpg" />
+    <Content Include="Images\Member\correct.png" />
+    <Content Include="Images\Member\error.png" />
     <Content Include="Images\Member\loginpicture.jpg" />
-    <Content Include="Images\Member\logout.jpg" />
     <Content Include="Images\Member\signin-image.jpg" />
     <Content Include="Images\Member\signup-image.jpg" />
     <Content Include="Images\Member\signup.jpg" />
-    <Content Include="Images\Member\signup.png" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\PostList.png" />
     <Content Include="Images\Product\0-1.jpg" />
@@ -1479,7 +1481,6 @@
     <Content Include="Views\FrontUserProfile\MemberPasswordEdit.cshtml" />
     <Content Include="Views\FrontUserProfile\MyOrderList.cshtml" />
     <Content Include="Views\FrontUserProfile\MyScore.cshtml" />
-    <Content Include="Views\FrontUserProfile\UserEditold.cshtml" />
     <Content Include="Views\AdminLTE\MemberEdit.cshtml" />
     <Content Include="Views\AdminLTE\MemberList.cshtml" />
     <Content Include="Views\LineBot\link.cshtml" />
@@ -1509,6 +1510,7 @@
     <Content Include="Views\Scores\Index.cshtml" />
     <Content Include="Views\AdminLTE\DisableDiscount.cshtml" />
     <Content Include="Views\FrontUserProfile\userDiscountCode.cshtml" />
+    <Content Include="Views\FrontUserProfile\AfterLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

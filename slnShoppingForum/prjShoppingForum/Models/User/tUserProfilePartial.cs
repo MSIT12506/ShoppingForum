@@ -21,7 +21,7 @@ namespace prjShoppingForum.Models.Entity
             [Required(ErrorMessage = "請輸入Email作為後續您登入的帳號")]
             [StringLength(200, ErrorMessage = "Email長度最多200字元")]
             [EmailAddress(ErrorMessage = "這不是Email格式")]
-            [Remote("NewUserAjax", "FrontUserProfile", ErrorMessage = "此帳號已被註冊過")]
+            //[Remote("NewUserAjax", "FrontUserProfile", ErrorMessage = "此帳號已被註冊過")]
             public string fUserId { get; set; }
 
             [DisplayName("密碼")]

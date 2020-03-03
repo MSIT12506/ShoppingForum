@@ -1,103 +1,102 @@
-﻿@model tw.com.essentialoil.Order.Models.OrderView
+﻿
+@model tw.com.essentialoil.ViewModels.COrderViews
 @{
-    ViewBag.Title = "OrderList";
+    int oount = 0;
 }
 
-<h2>OrderList</h2>
+<div class="body">
+    <div class="wrappers">
+        <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
+            <h3>歷史訂單</h3>
+            @foreach (var list in Model.Order)
+            {
+                oount++;
+                int total = 0;
+                var orderid = list.fOrderDate.ToString("yyyyMMdd") + list.fOrderId;
+                foreach (var q in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
+                {
+                    var littletotal = Convert.ToInt32(q.fUnitPrice * q.fOrderQuantity);
+                    total += littletotal;
+                }
+                <div class="form-row">
+                    <div class="form-holder card" id="card-362120" style="border:hidden">
+                        訂單編號<a class="card-link collapsed" style="color:blue" data-toggle="collapse" data-parent="#card-362120" href="#@oount">@orderid</a>
+                    </div>
+                    <div class="form-holder">
+                        訂單時間: @list.fOrderDate
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        收貨人姓名: @list.fConsigneeName
+                    </div>
+                    <div class="form-holder">
+                        發票公司抬頭: @list.fOrderCompanyTitle
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        收貨人電話: @list.fConsigneeCellPhone
+                    </div>
+                    <div class="form-holder">
+                        統一編號: @list.fOrderTaxIdDNumber
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        收貨人地址: @list.fConsigneeAddress
+                    </div>
+                    <div class="form-holder">
+                        訂單備註: @list.fOrderPostScript
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        支付方式: @list.fPayment
+                    </div>
+                    <div class="form-holder">
+                        總金額: @total
+                    </div>
+                </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                訂單編號
-            </th>
-            <th>
-                商品名稱
-            </th>
-            <th>
-                商品價格
-            </th>
-            <th>
-                商品數量
-            </th>
-            <th>
-                訂單日期
-            </th>
-            <th>
-                收貨人姓名
-            </th>
-            <th>
-                收貨人電話
-            </th>
-            <th>
-                收貨人地址
-            </th>
-            <th>
-                發票公司抬頭
-            </th>
-            <th>
-                統一編號
-            </th>
-            <th>
-                訂單備註
-            </th>
-            <th>
-                支付方式
-            </th>
-        </tr>
 
-    </thead>
-    <tbody>
-        @foreach (var list in Model.Order)
-        {
-            <tr>
-                <td>
-                    @list.fOrderId
-                </td>
-                <td>
-                    @foreach (var prod in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
-                    {
-                        @prod.fProductId<br />
-                    }
-                </td>
-                <td>
-                    @foreach (var prod in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
-                    {
-                        @prod.fUnitPrice<br />
-                    }
-                </td>
-                <td>
-                    @foreach (var prod in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
-                    {
-                        @prod.fOrderQuantity<br />
-                    }
-                </td>
-                <td>
-                    @list.fOrderDate
-                </td>
-                <td>
-                    @list.fConsigneeName
-                </td>
-                <td>
-                    @list.fConsigneeCellPhone
-                </td>
-                <td>
-                    @list.fConsigneeAddress
-                </td>
-                <td>
-                    @list.fOrderCompanyTitle
-                </td>
-                <td>
-                    @list.fOrderTaxIdDNumber
-                </td>
-                <td>
-                    @list.fOrderPostScript
-                </td>
-                <td>
-                    @list.fPayment
-                </td>
-            </tr>
+                foreach (var list1 in Model.Order)
+                {
+                    <div id="@oount" class="table table-info collapse">
+                       @foreach (var orderdetial in Model.OrderDetail.Where(p => p.fOrderId == list1.fOrderId))
+                        {
+                            var imageScr = $"/Images/Product/{orderdetial.fProductId}.jpg";
+                            var productname = Model.Product.Where(p => p.fProductID == orderdetial.fProductId).FirstOrDefault();
+                            <div class="form-row">
+                                <div class="form-holder">
+                                    商品: <img src="@imageScr" style="height:50px;width:50px" /><br />
+                                </div>
+                                <div class="form-holder">
+                                    商品名稱: @productname.fProductChName
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-holder">
+                                    商品價格: @orderdetial.fUnitPrice
+                                </div>
+                                <div class="form-holder">
+                                    商品數量: @orderdetial.fOrderQuantity
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </form>
+    </div>
+</div>
 
-        }
-    </tbody>
-</table>
+<link rel="stylesheet" href="~/Content/styles.css">
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/mains.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/zh-tw.js"></script>
+}

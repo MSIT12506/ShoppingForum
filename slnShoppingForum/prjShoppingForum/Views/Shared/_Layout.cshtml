@@ -85,20 +85,13 @@
                     <div class="favourite-area">
                         <a href="@Url.Action("List", "ProductFavorite")"><img src="~/Content/template/img/core-img/heart.svg" alt=""></a>
                     </div>
-                    <!-- User Login Info -->
-                    <div class="user-login-info">
-                        <a href="@Url.Action("MemberCenter", "FrontUserProfile")"><img src="~/Content/template/img/core-img/user.svg" alt=""></a>
-                    </div>
                     <!-- Cart Area -->
                     <div class="cart-area">
                         <a href="@Url.Action("viewCart", "ShoppingCart")" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span id="totalQuantity"></span></a>
                     </div>
-                    <div class="user-signup">
-                        <a href="@Url.Action("New", "FrontUserProfile")"><img src="~/Images/Member/signup.png" height="35" width="35" style="margin:5px;" alt=""></a>
-                    </div>
-                    <div class="user-logout">
-                        <a href="@Url.Action("LogOut", "FrontUserProfile")"><img src="~/Images/Member/logout.jpg" height="40" width="40" style="margin:5px;" alt=""></a>
-                    </div>
+                    @Html.Action("AfterLogin", "FrontUserProfile");
+
+                
                 </div>
 
             </div>

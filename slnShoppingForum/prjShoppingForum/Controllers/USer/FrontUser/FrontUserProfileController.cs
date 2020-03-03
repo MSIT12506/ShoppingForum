@@ -5,12 +5,20 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using tw.com.essentialoil.User.Models;
 using tw.com.essentialoil.Models;
 using tw.com.essentialoil.Order.Models;
+using System.Text;
+using System.Net.Mail;
+using System.Security.Cryptography;
 using prjShoppingForum.Models.User;
+using System.Web.Security;
+using System.Web.Configuration;
 using tw.com.essentialoil.Services;
+using tw.com.essentialoil.ViewModels;
 using tw.com.essentialoil.Discount.Models;
 
 namespace tw.com.essentialoil.Controllers.FrontUser
@@ -26,7 +34,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         //新增使用者
         public ActionResult New()
         {
-            //if (User.Identity.IsAuthenticated)
+            //if (User.Identity.IsAuthenticated) 
             //    return RedirectToAction("Index", "Item");
             return View();
         }
@@ -81,7 +89,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         public ActionResult UserEdit(string fName, string fTel, string fPhone, string fCity, string fAddress)
         {
             var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
-            tUserProfile cust = membersService.GetByUserId(g);
+            tUserProfile cust = db.tUserProfiles.FirstOrDefault(u => u.fUserId == g);
             if (cust != null)
             {
                 cust.fName = fName;
@@ -175,8 +183,9 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                             //    });
                             //}
 
-                            string RoleData = membersService.GetRole(cust.fUserId);
-                            string userData = "";
+                            //Cookie使用
+                            //string RoleData = membersService.GetRole(cust.fUserId);
+                            //string userData = "";
 
                             //Cookie ticket
                             //var ticket = new FormsAuthenticationTicket(
@@ -227,10 +236,10 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             return View();
         }
         [HttpPost]//寄信成功 未更改密碼 待修正
-        public ActionResult ForgetPassword(string UserName)
+        public ActionResult ForgetPassword(string UserId)
         {
             //找出資料庫有此使用者，將他的密碼更換，然後寄密碼給他
-            var userforgot = userinfo.GetUserProfile(UserName);
+            var userforgot = db.tUserProfiles.FirstOrDefault(u => u.fUserId == UserId);
             if (userforgot != null)
             {    
                 try
@@ -246,13 +255,13 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             
                     if (ModelState.IsValid)
                     {
-                        mailService.SendNewMail(UserName, newpwd);                       
+                        mailService.SendNewMail(UserId, newpwd);                       
                         return RedirectToAction("Login");
                     }
                 }
                 catch (Exception)
                 {
-                    ViewBag.Error = "Some Error";
+                    ViewBag.Error = "Error";
                 }
                 return RedirectToAction("Login");
             }return RedirectToAction("Login");
@@ -321,7 +330,8 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
                 var prod = db.tOrders.Where(p => p.fId == q).Select(p => p);
                 var detail = db.tOrderDetails.Select(p => p);
-                var list = new OrderView() { Order = prod, OrderDetail = detail };
+                var product = db.tProducts;
+                var list = new COrderViews() { Order = prod, OrderDetail = detail, Product = product };
                 return PartialView(list);
             }
             return RedirectToAction("Login");
@@ -335,7 +345,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
             {
                 var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
-                var tscore = db.tUserProfiles.Where(p => p.fId == q).FirstOrDefault(); ;
+                var tscore = db.tUserProfiles.Where(p => p.fId == q).FirstOrDefault();
                 if (tscore != null)
                     {
                         return PartialView(tscore);
@@ -344,6 +354,13 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             }
             return RedirectToAction("Login");
         }
+
+        //登入後layout右上角圖示切換:登入,註冊/會員中心,登出
+        public ActionResult AfterLogin()
+        {
+            return PartialView();
+        }
+
 
         //使用者登出
         //[Authorize]

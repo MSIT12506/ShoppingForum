@@ -16,66 +16,71 @@
 }
 <h5>@ViewBag.Message</h5>
 
-
+<hr />
 <p>
     @Html.ActionLink("新增積分", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.tUserProfile.fName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fScore)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fActiveScore)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fQuestionScore)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fScoreDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fScoreDiscontinue)
-        </th>
-        <th></th>
-    </tr>
+    <thead class="table table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tUserProfile.fName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fActiveScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fQuestionScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fScoreDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fScoreDiscontinue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.tUserProfile.fName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fScore)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fActiveScore)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fQuestionScore)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fScoreDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.fScoreDiscontinue)
-        </td>
-        <td>
-            @Html.ActionLink("編輯", "Edit", new { id = item.fScoreId }) |
-            @Html.ActionLink("明細", "Details", new { id = item.fScoreId }) |
-            @Html.ActionLink("刪除", "Delete", new { id = item.fScoreId })
-        </td>
-    </tr>
+        <tbody class="table table-active accent-pink">
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fActiveScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fQuestionScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fScoreDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fScoreDiscontinue)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.fScoreId }) |
+                    @Html.ActionLink("明細", "Details", new { id = item.fScoreId }) |
+                    @Html.ActionLink("刪除", "Delete", new { id = item.fScoreId })
+                </td>
+            </tr>
+        </tbody>
     }
 
 </table>

@@ -1,34 +1,124 @@
 ﻿@model tw.com.essentialoil.ViewModels.COrderView
 
-<div class="container">
-    <h2>填寫資料</h2>
-    <form action="~/tOrders/OrderCreate" method="post" class="row justify-content-center" name="OrderForm">
-        <div class="col-4">
-            <p>購買者姓名@{@Html.TextBoxFor(model => model.tUserProfiles.fName, new { id = "buyname" });}</p>
-            <p>購買者手機@{@Html.TextBoxFor(model => model.tUserProfiles.fPhone, new { id = "buyphone" });}</p>
-            <p>購買者地址@{@Html.TextBoxFor(model => model.tUserProfiles.fAddress, new { id = "buyaddress" });}</p><br />
-            <p>@Html.CheckBox("CheckBox1", new { id = "checkbox"})收貨人同購買者</p>
-        </div>
-        <div class="col-4">
-            <p>收貨者姓名<input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" /></p>
-            <p>收貨者手機<input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" /></p>
-            <p>收貨者地址<input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" /></p>
-            <p>支付方式<input type="text" name="Payment" id="payment" onchange="str4(this.id)" /></p>
-        </div>
-        <div class="col-4">
-            <p>公司抬頭<input type="text" name="OrderCompanyTitle" />(可選填)</p>
-            <p>統一編號<input type="text" name="OrderTaxIdDNumber" />(可選填)</p>
-            <p>訂單備註<input type="text" name="OrderPostScript" />(可選填)</p>
-            <p>希望送達日<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" /><br /><span>(可選填，如無特別需求將會於購買日三天後到貨)</span></p>
-       </div>
-        <p><input type="checkbox" disabled name="OrderCheck" id="check" />確認您所輸入的資料正確，以利出貨正常配送。</p>
-        <input type="button" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
-    </form>
+@*<div class="container">
+        <h2>填寫資料</h2>
+        <form action="~/tOrders/OrderCreate" method="post" class="row justify-content-center" name="OrderForm">
+            <div class="col-4">
+                <p>購買者姓名@{@Html.TextBoxFor(model => model.tUserProfiles.fName, new { id = "buyname" });}</p>
+                <p>購買者手機@{@Html.TextBoxFor(model => model.tUserProfiles.fPhone, new { id = "buyphone" });}</p>
+                <p>購買者地址@{@Html.TextBoxFor(model => model.tUserProfiles.fAddress, new { id = "buyaddress" });}</p><br />
+                <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
+            </div>
+            <div class="col-4">
+                <p>收貨者姓名<input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" /></p>
+                <p>收貨者手機<input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" /></p>
+                <p>收貨者地址<input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" /></p>
+                <p>支付方式<input type="text" name="Payment" id="payment" onchange="str4(this.id)" /></p>
+            </div>
+            <div class="col-4">
+                <p>公司抬頭<input type="text" name="OrderCompanyTitle" />(可選填)</p>
+                <p>統一編號<input type="text" name="OrderTaxIdDNumber" />(可選填)</p>
+                <p>訂單備註<input type="text" name="OrderPostScript" />(可選填)</p>
+                <p>希望送達日<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" /><br /><span>(可選填，如無特別需求將會於購買日三天後到貨)</span></p>
+            </div>
+            <p><input type="checkbox" disabled name="OrderCheck" id="check" />確認您所輸入的資料正確，以利出貨正常配送。</p>
+            <input type="button" class="btn btn-primary" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
+
+
+        </form>
+    </div>*@
+<div class="body">
+    <div class="wrappers">
+        <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
+            <h3>資料填寫</h3>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p>購買者姓名@{@Html.TextBoxFor(model => model.tUserProfiles.fName, new { id = "buyname", @class = "form-control", placeholder = "Member Name" });}</p>
+                    @*<input type="text" class="form-control" placeholder="First Name">*@
+                </div>
+                <div class="form-holder">
+                    <p>收貨者姓名(必填)<input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" class="form-control" placeholder="Full Name" /></p>
+                    @*<input type="text" class="form-control" placeholder="Last Name">*@
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p>購買者手機@{@Html.TextBoxFor(model => model.tUserProfiles.fPhone, new { id = "buyphone", @class = "form-control", placeholder = "Member Cell Phone" });}</p>
+                    @*<p>購買者城市@{@Html.TextBoxFor(model => model.tUserProfiles.fCity, new { id = "buycity", @class = "form-control", placeholder = "City" });}</p>*@
+                    @*<input type="text" class="form-control" placeholder="Email ID">*@
+                </div>
+                <div class="form-holder">
+                    <p>收貨者手機(必填)<input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" class="form-control" placeholder="CellPhone" /></p>
+                    @*<input type="text" class="form-control" placeholder="Your User ID">*@
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p>購買者地址@{@Html.TextBoxFor(model => model.tUserProfiles.fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
+                    @*<input type="text" class="form-control" placeholder="Country">*@
+                </div>
+                <div class="form-holder">
+                    <p>收貨者地址(必填)<input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" class="form-control" placeholder="Address" /></p>
+                </div>
+                @*<div class="form-group">
+                <div class="form-holder">
+                    <input type="text" class="form-control" placeholder="State">
+                </div>
+                <div class="form-holder">
+                    <input type="text" class="form-control" placeholder="City">
+                </div>
+            </div>*@
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
+                    @*<input type="text" class="form-control" placeholder="Phone Number">*@
+                </div>
+                <div class="form-holder">
+                    <p>公司抬頭(可選填)<input type="text" name="OrderCompanyTitle" class="form-control" placeholder="CompanyTitle" /></p>
+                    @*<input type="password" class="form-control" placeholder="Reference Coder">*@
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p>支付方式(必填)<input type="text" name="Payment" id="payment" onchange="str4(this.id)" class="form-control" placeholder="Payment" /></p>
+                    @*<input type="text" class="form-control" placeholder="Phone Number">*@
+                </div>
+                <div class="form-holder">
+                    <p>統一編號(可選填)<input type="text" name="OrderTaxIdDNumber" class="form-control" placeholder="TaxIdDNumber" /></p>
+                    @*<input type="password" class="form-control" placeholder="Reference Coder">*@
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p>希望送達日(可選填，如無選填將會於三天後到貨)<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" class="form-control" @*placeholder="HopeDate"*@ /></p>
+                    @* <input type="text" class="form-control" placeholder="Phone Number">*@
+                </div>
+                <div class="form-holder">
+                    <p>訂單備註(可選填)<input type="text" name="OrderPostScript" class="form-control" placeholder="PostScript" /></p>
+                    @*<input type="password" class="form-control" placeholder="Reference Coder">*@
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-holder">
+                    <p><input type="checkbox" disabled name="OrderCheck" id="check" />確認您所輸入的資料正確，以利出貨正常配送。</p>
+                    @* <input type="text" class="form-control" placeholder="Phone Number">*@
+                </div>
+                <div class="form-holder">
+                    <input type="button" class="btn btn-outline-success" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
+                    @*<input type="password" class="form-control" placeholder="Reference Coder">*@
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+<link rel="stylesheet" href="~/Content/styles.css">
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
 @section Scripts{
-
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/mains.js"></script>
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/zh-tw.js"></script>
     <script>
@@ -39,10 +129,10 @@
         var ConsigneeCellPhone = document.querySelector('#phone');
         var ConsigneeAddress = document.querySelector('#address');
         var Payment = document.querySelector('#payment');
-        var name ="";
-        var phone ="";
-        var address ="";
-        var payment ="";
+        var name = "";
+        var phone = "";
+        var address = "";
+        var payment = "";
         function str1(x) {
             name = document.getElementById(x).value;
             console.log(name);
@@ -71,9 +161,9 @@
                 $('#name').val($('#buyname').val());
                 $('#phone').val($('#buyphone').val());
                 $('#address').val($('#buyaddress').val());
-                name=$('#name').val();
-                phone=$('#phone').val();
-                address=$('#address').val();
+                name = $('#name').val();
+                phone = $('#phone').val();
+                address = $('#address').val();
             }
             else {
                 $('#name').val(null);
@@ -84,7 +174,7 @@
                 address = "";
             }
         })
-                
+
         Payment.addEventListener('blur', function () {
             if (name != "" && phone != "" && address != "" && payment != "") {
                 check.disabled = false;

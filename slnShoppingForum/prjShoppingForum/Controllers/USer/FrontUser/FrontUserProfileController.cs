@@ -150,13 +150,16 @@ namespace tw.com.essentialoil.Controllers.FrontUser
 
                             //確認今天是否有做過題目
                             List<DateTime> targetQuizs = db.tTests.Where(t => t.fId == cust.fId).Select(t=>t.fScoreDate).ToList();
-                            DateTime maxTime = targetQuizs.Max();
 
-                            if (DateTime.Now.Year== maxTime.Year && DateTime.Now.Month==maxTime.Month && DateTime.Now.Day==maxTime.Day)
+                            if (targetQuizs.Count > 0)
                             {
-                                Session["Quizstatus"] = "done";
-                            }
+                                DateTime maxTime = targetQuizs.Max();
 
+                                if (DateTime.Now.Year == maxTime.Year && DateTime.Now.Month == maxTime.Month && DateTime.Now.Day == maxTime.Day)
+                                {
+                                    Session["Quizstatus"] = "done";
+                                }
+                            } 
 
                             tUserLog signin = new tUserLog();
                             signin.fId = cust.fId;

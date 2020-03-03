@@ -19,6 +19,17 @@
         .postTitle:hover{
             font-size: 20px;
         }
+
+        .btnimage {
+            width:15px; 
+            height:auto; 
+            border:none;
+        }
+
+        .btn{
+            border:none;
+        }
+
     </style>
 }
 
@@ -51,28 +62,28 @@
                         switch (item.likeOrHate)
                         {
                             case null:
-                                <button class="btn btn-primary btn-like">喜歡</button>
-                                <button class="btn btn-primary btn-hate">討厭</button>
+                                <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png"/></button>
+                                <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" /></button>
                                 break;
 
                             case "True":
-                                <button class="btn btn-primary btn-like" disabled="disabled">喜歡</button>
-                                <button class="btn btn-primary btn-hate">討厭</button>
+                                <button class="btn btn-like" disabled="disabled"><img class="btnimage" src="~/Images/Forum/like.png" /></button>
+                                <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" /></button>
                                 break;
 
                             case "False":
-                                <button class="btn btn-primary btn-like">喜歡</button>
-                                <button class="btn btn-primary btn-hate" disabled="disabled">討厭</button>
+                                <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" /></button>
+                                <button class="btn btn-hate" disabled="disabled"><img class="btnimage" src="~/Images/Forum/hate.png" /></button>
                                 break;
                         }
 
                     }
-                    <button class="btn btn-primary btn-favorite">收藏</button>
-                    <button class="btn btn-primary btn-hide">隱藏</button>
+                    <button class="btn btn-favorite"><img class="btnimage" src="~/Images/Forum/fav.png" /></button>
+                    <button class="btn btn-hide"><img class="btnimage" src="~/Images/Forum/hide.png" /></button>
                     @{
                         if (item.userFid == ViewBag.sessionId)
                         {
-                            <a href="~/Forum/Edit?fPostId=@item.postId"><button class="btn btn-danger">編輯</button></a>
+                            <a href="~/Forum/Edit?fPostId=@item.postId"><button class="btn"><img class="btnimage" src="~/Images/Forum/edit.png" /></button></a>
                         }
                     }
                 </td>
@@ -80,7 +91,8 @@
                     @item.userName
                 </td>
                 <td>
-                    @item.createTime
+                    @item.createTime.ToLongDateString() -
+                    @item.createTime.ToLongTimeString()
                 </td>
             </tr>
         }
@@ -130,11 +142,17 @@
 
                     //2.處理新增
                     $.each(responseDatas.newForums, function (idx, value) {
-                        let btnLike = $('<button></button>').addClass('btn btn-primary btn-like').text('喜歡');    //喜歡
-                        let btnHate = $('<button></button>').addClass('btn btn-primary btn-hate').text('討厭');    //討厭
-                        let btnFav  = $('<button></button>').addClass('btn btn-primary btn-favorite').text('收藏');    //收藏
-                        let btnHide = $('<button></button>').addClass('btn btn-primary btn-hide').text('隱藏');    //隱藏
-                        let btnEdit = $('<button></button>').addClass('btn btn-danger');    //編輯
+                        let imgLike = $('<img />').addClass('btnimage').attr('src', '/Images/Forum/like.png');
+                        let imgHate = $('<img />').addClass('btnimage').attr('src','/Images/Forum/hate.png');
+                        let imgFav  = $('<img />').addClass('btnimage').attr('src','/Images/Forum/fav.png');
+                        let imgHide = $('<img />').addClass('btnimage').attr('src','/Images/Forum/hide.png');
+                        let imgEdit = $('<img />').addClass('btnimage').attr('src','/Images/Forum/edit.png');
+
+                        let btnLike = $('<button></button>').addClass('btn btn-like').append(imgLike);    //喜歡
+                        let btnHate = $('<button></button>').addClass('btn btn-hate').append(imgHate);    //討厭
+                        let btnFav  = $('<button></button>').addClass('btn btn-favorite').append(imgFav); //收藏
+                        let btnHide = $('<button></button>').addClass('btn btn-hide').append(imgHide);    //隱藏
+                        let btnEdit = $('<button></button>').addClass('btn').append(imgEdit);             //編輯
 
 
                         let br = $('<br />');
@@ -145,21 +163,29 @@
                         let urlEdit = '@Url.Action("Edit","Forum")?fPostId=' + postid;
                         let link = $('<a></a>');
                         let linkEdit = $('<a></a>');
-                        let td = $('<td></td>');
-                        td.attr('data-postid', postid);
+
+                        let tdTitle = $('<td></td>');
+                        tdTitle.attr('data-postid', postid);
+
+                        let tdAuthor = $('<td></td>');
+                        tdAuthor.text(value.author);
+
+                        let tdTime = $('<td></td>');
+                        tdTime.text(value.createTime);
+
                         let tr = $('<tr></tr>');
                         link.text(value.title).attr('href', url).addClass('postTitle');
-                        linkEdit.text('編輯').attr('href', urlEdit);
+                        linkEdit.attr('href', urlEdit);
 
                         console.log(editable);
 
                         if (editable == 'True') {
-                            td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide).append(btnEdit.append(linkEdit));
+                            tdTitle.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide).append(btnEdit.append(linkEdit));
                         } else {
-                            td.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide);
+                            tdTitle.append(link).append(br).append(btnLike).append(btnHate).append(btnFav).append(btnHide);
                         }
 
-                        tr.append(td);
+                        tr.append(tdTitle).append(tdAuthor).append(tdTime);
 
                         $('.table-mainlist tbody').prepend(tr);
 

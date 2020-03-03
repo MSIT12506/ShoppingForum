@@ -314,6 +314,13 @@
     <Content Include="Global.asax" />
     <Content Include="Images\disappear.png" />
     <Content Include="Images\favorite.png" />
+    <Content Include="Images\Forum\1.png" />
+    <Content Include="Images\Forum\hide.png" />
+    <Content Include="Images\Forum\fav.png" />
+    <Content Include="Images\Forum\hate.png" />
+    <Content Include="Images\Forum\like.png" />
+    <Content Include="Images\Forum\6.png" />
+    <Content Include="Images\Forum\edit.png" />
     <Content Include="Images\Index\logo_anius.jpg" />
     <Content Include="Images\Index\bg-1.png" />
     <Content Include="Images\Index\bg-2.jpg" />
@@ -416,7 +423,6 @@
     <Content Include="Images\Product\7.jpg" />
     <Content Include="Images\Product\8.jpg" />
     <Content Include="Images\Product\9.jpg" />
-    <Content Include="Images\Product\productBackglound.JPG" />
     <Content Include="Images\Product\ura\1.jpg" />
     <Content Include="Images\Product\ura\10.jpg" />
     <Content Include="Images\Product\ura\11.jpg" />
@@ -1124,6 +1130,7 @@
     <Content Include="Content\AdminLTE\dist\js\adminlte.min.js.map" />
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.min.map" />
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.slim.min.map" />
+    <Content Include="fonts\UDDigiKyokashoN-R.ttc" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\oilshoppingforum - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
@@ -1214,7 +1221,9 @@
     <Content Include="Styles\Home\home.css" />
     <Content Include="Styles\quill.snow.css" />
     <Content Include="Styles\Site.css" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />

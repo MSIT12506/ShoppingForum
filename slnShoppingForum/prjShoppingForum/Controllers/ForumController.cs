@@ -210,7 +210,9 @@ namespace tw.com.essentialoil.Controllers
                     {
                         title = post.fPostTitle,      //文章標題
                         postId = post.fPostId,         //文章編號
-                        editable = (post.tUserProfile.fId == userLoginInfo.user_fid).ToString()
+                        editable = (post.tUserProfile.fId == userLoginInfo.user_fid).ToString(),
+                        author = post.tUserProfile.fName,
+                        createTime = post.fCreateTime.ToLongDateString() + "-" + post.fCreateTime.ToLongTimeString()
                     };
 
                     newForums.Add(newPost);

@@ -128,8 +128,8 @@ namespace tw.com.EssentialOil.Controllers.Order
                     tOrder order = new tOrder()
                     {
                         fId = loginuser,
-                        fOrderDate = DateTime.Now,
-                        fShippedDate = DateTime.Now.AddDays(1),
+                        fOrderDate = DateTime.UtcNow.AddHours(8),
+                        fShippedDate = DateTime.UtcNow.AddHours(8).AddDays(1),
                         fConsigneeName = ConsigneeName,
                         fConsigneeCellPhone = ConsigneeCellPhone,
                         fConsigneeAddress = ConsigneeAddress,
@@ -146,7 +146,7 @@ namespace tw.com.EssentialOil.Controllers.Order
                     tOrder order = new tOrder()
                     {
                         fId = loginuser,
-                        fOrderDate = DateTime.Now,
+                        fOrderDate = DateTime.UtcNow.AddHours(8),
                         fShippedDate = RequirtDate,
                         fRequiredDate = RequirtDate,
                         fConsigneeName = ConsigneeName,

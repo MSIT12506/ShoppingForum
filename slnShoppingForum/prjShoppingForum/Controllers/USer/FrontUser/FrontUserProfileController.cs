@@ -18,6 +18,7 @@ using prjShoppingForum.Models.User;
 using System.Web.Security;
 using System.Web.Configuration;
 using tw.com.essentialoil.Services;
+using tw.com.essentialoil.Discount.Models;
 
 namespace tw.com.essentialoil.Controllers.FrontUser
 {
@@ -155,7 +156,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                             {
                                 DateTime maxTime = targetQuizs.Max();
 
-                                if (DateTime.Now.Year == maxTime.Year && DateTime.Now.Month == maxTime.Month && DateTime.Now.Day == maxTime.Day)
+                                if (DateTime.UtcNow.AddHours(8).Year == maxTime.Year && DateTime.UtcNow.AddHours(8).Month == maxTime.Month && DateTime.UtcNow.AddHours(8).Day == maxTime.Day)
                                 {
                                     Session["Quizstatus"] = "done";
                                 }
@@ -163,7 +164,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
 
                             tUserLog signin = new tUserLog();
                             signin.fId = cust.fId;
-                            signin.fLoginTime = DateTime.Now;
+                            signin.fLoginTime = DateTime.UtcNow.AddHours(8);
                             db.tUserLogs.Add(signin);
                             db.SaveChanges();
 
@@ -361,12 +362,35 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 var logs = db.tUserLogs.Where(p => p.fId == q).OrderByDescending(p=>p.fLoginTime).FirstOrDefault();
                 if (logs.fLogoutTime == null)
                 {
-                    //logs.fLogoutTime = DateTime.Now;
+                    //logs.fLogoutTime = DateTime.UtcNow.AddHours(8);
                     //db.SaveChanges();
                     Session.RemoveAll();
                 }return RedirectToAction("Index", "Home");
             }
             return RedirectToAction("Index", "Home");
+        }
+
+
+        //優惠券view
+        public ActionResult userDiscountCode()
+        {
+            // 沒有登入過不能進來
+            int user_id = 0;
+
+            if (!CStaticMethod.isLogin(Session, "Home", "Index"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                user_id = userLoginInfo.user_fid;
+            }
+
+            CDiscount discount = new CDiscount();
+            List<tUserDiscountList> userDiscountCodes = discount.querySelfDiscountCode(user_id);
+
+            return PartialView(userDiscountCodes);
         }
     }
 }

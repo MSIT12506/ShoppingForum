@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using tw.com.essentialoil.Discount.ViewModels;
+using tw.com.essentialoil.Models;
 
 namespace tw.com.essentialoil.Discount.Models
 {
@@ -14,8 +15,8 @@ namespace tw.com.essentialoil.Discount.Models
         //取得所有優惠代碼(有效的)
         public List<tDiscount> queryAllDiscount()
         {
-            var all = from d in db.tDiscounts
-                      where d.fEnable == true && d.fEndDate >= DateTime.Now
+            var all = from d in db.tDiscounts.AsEnumerable()
+                      where d.fEnable == true && d.fEndDate >= DateTime.UtcNow.AddHours(8)
                       select d;
 
             return all.ToList();
@@ -24,8 +25,8 @@ namespace tw.com.essentialoil.Discount.Models
         //取得所有優惠代碼(無效的)
         public List<tDiscount> queryDisableDiscount()
         {
-            var all = from d in db.tDiscounts
-                      where d.fEnable == false || d.fEndDate < DateTime.Now
+            var all = from d in db.tDiscounts.AsEnumerable()
+                      where d.fEnable == false || d.fEndDate < DateTime.UtcNow.AddHours(8)
                       select d;
 
             return all.ToList();
@@ -62,7 +63,7 @@ namespace tw.com.essentialoil.Discount.Models
             //檢查是否有這個優惠券代碼
             //檢查這個discode有生效 
             //檢查這個今天有在discode的起訖日範圍內 -> 假設檢查成功(fStartdate, fEndDate)
-            tDiscount targetDiscount = db.tDiscounts.Where(d => d.fDiscountCode == discountCode && d.fEnable == true && d.fStartdate <= DateTime.Now && d.fEndDate >= DateTime.Now).FirstOrDefault();
+            tDiscount targetDiscount = db.tDiscounts.AsEnumerable().Where(d => d.fDiscountCode == discountCode && d.fEnable == true && d.fStartdate <= DateTime.UtcNow.AddHours(8) && d.fEndDate >= DateTime.UtcNow.AddHours(8)).FirstOrDefault();
 
             if (targetDiscount==null)
             {
@@ -128,6 +129,11 @@ namespace tw.com.essentialoil.Discount.Models
             }
 
             return false;
+        }
+
+        public List<tUserDiscountList> querySelfDiscountCode(int user_id)
+        {
+            return db.tUserDiscountLists.Where(d => d.fId == user_id).ToList();
         }
     }
 }

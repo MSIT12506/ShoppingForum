@@ -19,7 +19,7 @@ namespace tw.com.essentialoil.Forum.Models
             reply.fReplyTargetId = replyInfo.targetId;
             reply.fReplySeqNo = 0;
             reply.fId = userId;
-            reply.fReplyTime = DateTime.Now;
+            reply.fReplyTime = DateTime.UtcNow.AddHours(8);
             reply.fEnableFlag = true;
             reply.fContent = replyInfo.content;
 
@@ -42,7 +42,7 @@ namespace tw.com.essentialoil.Forum.Models
                 reply.fReplyTargetId = replyInfo.targetId;
                 reply.fReplySeqNo = targetReply.fReplySeqNo + 1;
                 reply.fId = userId;
-                reply.fReplyTime = DateTime.Now;
+                reply.fReplyTime = DateTime.UtcNow.AddHours(8);
                 reply.fEnableFlag = true;
                 reply.fContent = replyInfo.content;
 

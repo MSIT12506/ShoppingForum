@@ -84,7 +84,7 @@ namespace tw.com.essentialoil.Controllers
                     cartNew.fId = userId;
                     cartNew.fProductID = product.fProductID;
                     cartNew.fQuantity = 1;
-                    cartNew.fAddTime = DateTime.Now;
+                    cartNew.fAddTime = DateTime.UtcNow.AddHours(8);
                     db.tShoppingCarts.Add(cartNew);
                 }
                 db.SaveChanges();
@@ -122,7 +122,7 @@ namespace tw.com.essentialoil.Controllers
                     cartNew.fId = userId;
                     cartNew.fProductID = product.fProductID;
                     cartNew.fQuantity = (short)selectQuantity;
-                    cartNew.fAddTime = DateTime.Now;
+                    cartNew.fAddTime = DateTime.UtcNow.AddHours(8);
                     db.tShoppingCarts.Add(cartNew);
                 }
                 db.SaveChanges();

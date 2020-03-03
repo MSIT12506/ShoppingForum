@@ -1508,6 +1508,7 @@
     <Content Include="Views\Scores\Edit.cshtml" />
     <Content Include="Views\Scores\Index.cshtml" />
     <Content Include="Views\AdminLTE\DisableDiscount.cshtml" />
+    <Content Include="Views\FrontUserProfile\userDiscountCode.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

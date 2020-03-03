@@ -65,7 +65,7 @@ namespace tw.com.essentialoil.Controllers
             var rnd = new Random();
             //qq=題目Id
             int qq = rnd.Next(0, quiznum - 1);
-            var dd = DateTime.Now;
+            var dd = DateTime.UtcNow.AddHours(8);
             string userDateString = dd.ToString("yyyy-MM-dd");
 
             var userId = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
@@ -146,7 +146,7 @@ namespace tw.com.essentialoil.Controllers
             var userId = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
             var QAns = fAnswer;
             var UserAns = RadioButton1;
-            var dd = DateTime.Now;
+            var dd = DateTime.UtcNow.AddHours(8);
             var userTest = db.tTests.Where(p => p.fQuestionId == fQuestionId && p.fId==userId && p.fQuestionScore == null).FirstOrDefault();
             var userdetail = db.tUserProfiles.Where(p => p.fId == userId).FirstOrDefault();
             int userTotalScore = Convert.ToInt32(userdetail.fScore);

@@ -33,7 +33,7 @@ namespace tw.com.essentialoil.Controllers
                         tUserBrowseHistory browseHistoryNew = new tUserBrowseHistory();
                         browseHistoryNew.fId = userId;
                         browseHistoryNew.fProductId = productId;
-                        browseHistoryNew.fBrowseTime = DateTime.Now;
+                        browseHistoryNew.fBrowseTime = DateTime.UtcNow.AddHours(8);
                         db.tUserBrowseHistories.Add(browseHistoryNew);
                         db.SaveChanges();
                     }

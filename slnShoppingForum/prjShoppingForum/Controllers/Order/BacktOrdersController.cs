@@ -68,7 +68,7 @@ namespace tw.com.EssentialOil.Controllers.Order
             var items = db.tOrderDetails.Where(p => p.fOrderId == id);
             var customer = db.tUserProfiles.Where(p => p.fId == query.FirstOrDefault().fId);
             COrderViews views = new COrderViews() { Order = query, OrderDetail = items, UserProfile = customer  };
-            string fileName = string.Format("Order-{0}.csv", DateTime.Now.ToString("yyyyMMdd"));
+            string fileName = string.Format("Order-{0}.csv", DateTime.UtcNow.AddHours(8).ToString("yyyyMMdd"));
             StringBuilder sb = new StringBuilder();
             sb.Append(";fOrderId,fOrderDate,fShippedDate,fRequiredDate,fConsigneeName,fConsigneeCellPhone,fConsigneeAddress," +
                 "fOrderCompanyTitle,fOrderTaxIdDNumber,fOrderPostScript");

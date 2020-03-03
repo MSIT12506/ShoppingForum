@@ -55,7 +55,7 @@ namespace tw.com.essentialoil.User.Models
                 tLineBotAccountLink newUser = new tLineBotAccountLink();
                 newUser.fId = cust.fId;
                 newUser.fLineNonce = resultEncode;
-                newUser.fAccountLinkDatetime = DateTime.Now;
+                newUser.fAccountLinkDatetime = DateTime.UtcNow.AddHours(8);
                 nonce = resultEncode;
 
                 db.tLineBotAccountLinks.Add(newUser);

@@ -19,8 +19,8 @@ namespace tw.com.essentialoil.Forum.Models
             newForumRecord.fPostTitle = title;
             newForumRecord.fPostContent = content;
             newForumRecord.fIsPost = true;
-            newForumRecord.fCreateTime = DateTime.Now;
-            newForumRecord.fUpdateTime = DateTime.Now;
+            newForumRecord.fCreateTime = DateTime.UtcNow.AddHours(8);
+            newForumRecord.fUpdateTime = DateTime.UtcNow.AddHours(8);
             newForumRecord.fEnableFlag = true;
             newForumRecord.fTopSeq = 999;
             newForumRecord.fTotalReplyCount = 0;
@@ -197,7 +197,7 @@ namespace tw.com.essentialoil.Forum.Models
             {
                 result.fPostTitle = title;
                 result.fPostContent = content;
-                result.fUpdateTime = DateTime.Now;
+                result.fUpdateTime = DateTime.UtcNow.AddHours(8);
 
                 db.SaveChanges();
             }
@@ -215,7 +215,7 @@ namespace tw.com.essentialoil.Forum.Models
             {
                 result.fEnableFlag = false;
                 result.fEnableUserId = 1;    //TODO - 要動態產生
-                result.fDisableTime = DateTime.Now;
+                result.fDisableTime = DateTime.UtcNow.AddHours(8);
 
                 db.SaveChanges();
                 

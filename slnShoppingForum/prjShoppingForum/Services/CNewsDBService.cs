@@ -82,7 +82,7 @@ namespace tw.com.essentialoil.Services
         //    if (result != null)
         //    {
 
-        //        result.fNewsStart = DateTime.Now;
+        //        result.fNewsStart = DateTime.UtcNow.AddHours(8);
 
         //        db.SaveChanges();
         //    }

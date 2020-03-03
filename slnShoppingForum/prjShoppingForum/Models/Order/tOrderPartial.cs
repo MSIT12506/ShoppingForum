@@ -17,7 +17,7 @@ namespace prjShoppingForum.Models.Entity
             [DisplayName("客戶編號")]
             public int fId { get; set; }
             [Display(Name = "訂單建立日期")]
-            //[Range(DateTime.Now.Day, 999.99)]
+            //[Range(DateTime.UtcNow.AddHours(8).Day, 999.99)]
             [DataType(DataType.Date, ErrorMessage = "請輸入正確的日期格式")]
             [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
             [Required(ErrorMessage = "請輸入正確的日期格式")]

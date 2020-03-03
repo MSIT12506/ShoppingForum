@@ -68,7 +68,7 @@ namespace tw.com.essentialoil.Tests.Models
 
         public void InsertTest(tTest tTest)
         {
-            tTest.fScoreDate = DateTime.Now;
+            tTest.fScoreDate = DateTime.UtcNow.AddHours(8);
             db.tTests.Add(tTest);
             db.SaveChanges();
         }

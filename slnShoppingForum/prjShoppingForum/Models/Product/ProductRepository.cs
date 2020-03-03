@@ -26,7 +26,7 @@ namespace tw.com.essentialoil.Product.Models
         }
 
         //搜尋商品方法
-        public IQueryable<tProduct> SearchProducts(string searchprod, int? categoryId, int? efficacyId, int? noteId, int? partId, int? featureId,bool? fDiscontinued)
+        public IQueryable<tProduct> SearchProducts(string searchprod, int? categoryId, int? efficacyId, int? noteId, int? partId, int? featureId, bool? fDiscontinued)
         {
             var products = db.tProducts.AsQueryable();
 
@@ -36,7 +36,7 @@ namespace tw.com.essentialoil.Product.Models
                 products = products.Where(p => p.fProductChName.Contains(searchprod));
             }
             //找全部商品類別方法
-            if (categoryId != null && categoryId!=0)
+            if (categoryId != null && categoryId != 0)
             {
                 products = products.Where(p => p.fCategoryID == categoryId);
             }
@@ -79,7 +79,7 @@ namespace tw.com.essentialoil.Product.Models
             var prodU = db.tProductUnilaterals.Where(m => m.fProductID == prodId).FirstOrDefault();
             var prodV = db.tProductVegetableoils.Where(m => m.fProductID == prodId).FirstOrDefault();
 
-            if(prodU !=null)
+            if (prodU != null)
             {
                 db.tProductUnilaterals.Remove(prodU);
             }
@@ -147,7 +147,7 @@ namespace tw.com.essentialoil.Product.Models
                     unil.fOrigin = prod.tProductUnilateral.fOrigin;
                     unil.fextraction = prod.tProductUnilateral.fextraction;
                 }
-                
+
                 db.SaveChanges();
             }
             catch (Exception ee)
@@ -160,15 +160,7 @@ namespace tw.com.essentialoil.Product.Models
         public void InsertProduct(tProduct prod, HttpPostedFileBase prodImg, HttpServerUtilityBase server)
         {
             string fileName = "";
-            if (prodImg != null)
-            {
-                if (prodImg.ContentLength > 0)
-                {
-                    fileName = prod.fProductID + Path.GetExtension(prodImg.FileName); //ID+取得副檔名
-                    var path = Path.Combine(server.MapPath("~/Images/Product"), fileName); //合成(取得存檔路徑+名稱)
-                    prodImg.SaveAs(path); //存檔上傳照片 至path
-                }
-            }
+            
 
             //限定同時只有一位操作者能增加ProdcutID
             lock (lockObject)
@@ -176,7 +168,17 @@ namespace tw.com.essentialoil.Product.Models
                 int prodId = SetProductId(0);
                 prod.fProductID = prodId;
 
-               var product = new tProduct()
+                if (prodImg != null)
+                {
+                    if (prodImg.ContentLength > 0)
+                    {
+                        fileName = prod.fProductID + Path.GetExtension(prodImg.FileName); //ID+取得副檔名
+                        var path = Path.Combine(server.MapPath("~\\Images\\Product"), fileName); //合成(取得存檔路徑+名稱)
+                        prodImg.SaveAs(path); //存檔上傳照片 至path
+                    }
+                }
+
+                var product = new tProduct()
                 {
                     fProductID = prod.fProductID,
                     fProductChName = prod.fProductChName,
@@ -194,7 +196,7 @@ namespace tw.com.essentialoil.Product.Models
                     fextraction = prod.tProductUnilateral.fextraction,
                     fNoteID = prod.tProductUnilateral.fNoteID,
                     fOrigin = prod.tProductUnilateral.fOrigin,
-                    fPartID=prod.tProductUnilateral.fNoteID
+                    fPartID = prod.tProductUnilateral.fNoteID
                 };
 
                 var productV = new tProductVegetableoil()
@@ -208,6 +210,7 @@ namespace tw.com.essentialoil.Product.Models
                 db.tProducts.Add(product);
                 db.SaveChanges();
             }
-        }
+
         }
     }
+}

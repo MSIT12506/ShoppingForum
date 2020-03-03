@@ -39,7 +39,7 @@ namespace tw.com.essentialoil.Controllers
             }
 
             //一進入Action就先取出當下時間
-            ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            ViewBag.DateTime = DateTime.UtcNow.AddHours(8).ToString("yyyyMMddHHmmssfff");
 
             //紀錄session-id
             ViewBag.sessionId = id;
@@ -65,7 +65,7 @@ namespace tw.com.essentialoil.Controllers
             }
 
             //一進入Action就先取出當下時間
-            ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            ViewBag.DateTime = DateTime.UtcNow.AddHours(8).ToString("yyyyMMddHHmmssfff");
 
             CForum forum = new CForum();
             tForum tForum = forum.queryPostById(fPostId);
@@ -132,7 +132,7 @@ namespace tw.com.essentialoil.Controllers
             }
 
             //一進入Action就先取出當下時間
-            ViewBag.DateTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            ViewBag.DateTime = DateTime.UtcNow.AddHours(8).ToString("yyyyMMddHHmmssfff");
 
             //紀錄session-id
             ViewBag.sessionId = id;
@@ -185,7 +185,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult RefreshList(int lastPostId, string prevDtaetime) {
 
             //一進入Action就先取出當下時間
-            string newTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            string newTime = DateTime.UtcNow.AddHours(8).ToString("yyyyMMddHHmmssfff");
 
             //撈出更新時間在prevDateTime之後的所有文章
             DateTime targetTime = DateTime.ParseExact(prevDtaetime, "yyyyMMddHHmmssfff", CultureInfo.CurrentCulture);
@@ -285,7 +285,7 @@ namespace tw.com.essentialoil.Controllers
         {
 
             //一進入Action就先取出當下時間
-            string newTime = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            string newTime = DateTime.UtcNow.AddHours(8).ToString("yyyyMMddHHmmssfff");
 
             //撈出更新時間在prevDateTime之後的所有留言
             DateTime targetTime = DateTime.ParseExact(prevDtaetime, "yyyyMMddHHmmssfff",CultureInfo.CurrentCulture);

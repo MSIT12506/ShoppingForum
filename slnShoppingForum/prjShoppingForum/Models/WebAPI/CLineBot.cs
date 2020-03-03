@@ -25,7 +25,7 @@ namespace prjShoppingForum.Models.WebAPI
             if (record != null)
             {
                 record.fLineUserId = lineUserId;
-                record.fAccountLinkDatetime = DateTime.Now;
+                record.fAccountLinkDatetime = DateTime.UtcNow.AddHours(8);
 
                 //第一次綁定，同時新增積分分數
                 tUserProfile user = db.tUserProfiles.Where(p => p.fId == record.fId).FirstOrDefault();
@@ -37,7 +37,7 @@ namespace prjShoppingForum.Models.WebAPI
                 newScore.fId = record.fId;
                 newScore.fScore = totalScore;             //總共多少點積分
                 newScore.fActiveScore = 50;               //綁定積分取得50點
-                newScore.fScoreDate = DateTime.Now;
+                newScore.fScoreDate = DateTime.UtcNow.AddHours(8);
                 newScore.fScoreDiscontinue = false;
                 newScore.fQuestionScore = 0;
 
@@ -73,18 +73,18 @@ namespace prjShoppingForum.Models.WebAPI
 
             //超過一天
             //月份不一樣，或是日期不一樣，就是相差一天以上
-            if (record.fAccountLinkDatetime.Value.Month != DateTime.Now.Month || record.fAccountLinkDatetime.Value.Day != DateTime.Now.Day)
+            if (record.fAccountLinkDatetime.Value.Month != DateTime.UtcNow.AddHours(8).Month || record.fAccountLinkDatetime.Value.Day != DateTime.UtcNow.AddHours(8).Day)
             {
                 //更新 userprofile 裡面的fScore；更新tLineBotAccountLink裡面的時間
                 totalScore += 10;
                 user.fScore = totalScore;
-                record.fAccountLinkDatetime = DateTime.Now;
+                record.fAccountLinkDatetime = DateTime.UtcNow.AddHours(8);
 
                 tScore newScore = new tScore();
                 newScore.fId = record.fId;
                 newScore.fScore = totalScore;             //總共多少點積分
                 newScore.fActiveScore = 10;               //活動積分取得10點
-                newScore.fScoreDate = DateTime.Now;
+                newScore.fScoreDate = DateTime.UtcNow.AddHours(8);
                 newScore.fScoreDiscontinue = false;
                 newScore.fQuestionScore = 0;
 
@@ -146,7 +146,7 @@ namespace prjShoppingForum.Models.WebAPI
                 tUserProductFavorite newFavRecord = new tUserProductFavorite();
                 newFavRecord.fId = user_fid;
                 newFavRecord.fProductId = productId;
-                newFavRecord.fAddTime = DateTime.Now;
+                newFavRecord.fAddTime = DateTime.UtcNow.AddHours(8);
 
                 db.tUserProductFavorites.Add(newFavRecord);
                 db.SaveChanges();
@@ -178,7 +178,7 @@ namespace prjShoppingForum.Models.WebAPI
                 newShopRecord.fId = user_fid;
                 newShopRecord.fProductID = productId;
                 newShopRecord.fQuantity = 1;
-                newShopRecord.fAddTime = DateTime.Now;
+                newShopRecord.fAddTime = DateTime.UtcNow.AddHours(8);
 
                 db.tShoppingCarts.Add(newShopRecord);
                 db.SaveChanges();
@@ -204,8 +204,8 @@ namespace prjShoppingForum.Models.WebAPI
             int user_fid = record.fId;
 
             //確認是否有領過
-            List<tDiscount> discountList = db.tDiscounts.
-                                           Where(d => d.fEnable == true && d.fStartdate <= DateTime.Now && d.fEndDate > DateTime.Now && d.fCount > 0).
+            List<tDiscount> discountList = db.tDiscounts.AsEnumerable().
+                                           Where(d => d.fEnable == true && d.fStartdate <= DateTime.UtcNow.AddHours(8) && d.fEndDate > DateTime.UtcNow.AddHours(8) && d.fCount > 0).
                                            ToList();
 
             //已經有的不能領取，只能領符合時間內，且未領取過的

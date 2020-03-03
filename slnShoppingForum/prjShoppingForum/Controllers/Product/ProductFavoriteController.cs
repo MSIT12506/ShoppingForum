@@ -72,7 +72,7 @@ namespace tw.com.essentialoil.Controllers
                     tUserProductFavorite favoriteNew = new tUserProductFavorite();
                     favoriteNew.fId = userId;
                     favoriteNew.fProductId = product.fProductID;
-                    favoriteNew.fAddTime = DateTime.Now;
+                    favoriteNew.fAddTime = DateTime.UtcNow.AddHours(8);
                     db.tUserProductFavorites.Add(favoriteNew);
                     db.SaveChanges();
                     return JavaScript("alert('加入成功')");
@@ -113,7 +113,7 @@ namespace tw.com.essentialoil.Controllers
                     tUserProductFavorite favoriteNew = new tUserProductFavorite();
                     favoriteNew.fId = userId;
                     favoriteNew.fProductId = product.fProductID;
-                    favoriteNew.fAddTime = DateTime.Now;
+                    favoriteNew.fAddTime = DateTime.UtcNow.AddHours(8);
                     db.tUserProductFavorites.Add(favoriteNew);
                     db.SaveChanges();
                     return JavaScript("alert('加入成功')");

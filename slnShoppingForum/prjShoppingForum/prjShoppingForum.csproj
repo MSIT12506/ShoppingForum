@@ -183,7 +183,6 @@
     <Content Include="Content\material-design-iconic-font.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\SignUpstyle.css" />
-    <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\template\css\animate.css" />
     <Content Include="Content\template\css\bootstrap.min.css" />
@@ -1056,6 +1055,7 @@
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.min.map" />
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.slim.min.map" />
     <None Include="packages.config" />
+    <None Include="Properties\PublishProfiles\oilshoppingforum - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -1066,7 +1066,6 @@
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />

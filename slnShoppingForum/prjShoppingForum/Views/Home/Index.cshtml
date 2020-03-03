@@ -1,5 +1,14 @@
 ﻿<link rel="stylesheet" type="text/css" href="~/Styles/Home/home.css" />
 <!-- ##### Welcome Area Start ##### -->
+<style>
+    .single_catagory_area:after {
+        background-color: rgba(255, 255, 255, 0);
+    }
+    .logoImage {
+        height: 60px;
+        width: 220px
+    }
+</style>
 
 @section Styles{
     <style>
@@ -105,66 +114,114 @@
 <div class="top_catagory_area section-padding-80 clearfix">
     <div class="container">
         <div class="row justify-content-center">
-            <!-- Single Catagory -->
+            <!-- Single Catagory 單方精油-->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
-                     style="background-image: url(/Images/Index/member_into.png); background-color:rgba(255, 255, 255, 0.1) ">
-                    <div class="catagory-content">
-                        <a href="@Url.Action("MemberCenter", "FrontUserProfile")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Member Center</a><br />
-                        <a href="@Url.Action("MemberCenter", "FrontUserProfile")" style="font-family:UD Digi Kyokasho NP-B;">會員中心</a>
+                <a href="@Url.Action("ProductFrontPage","ProductFront",new { categoryID=1})">
+                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                         style="background-image: url(/Images/Index/shop1.png);">
+                        <div class="catagory-content">
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <!-- Single Catagory -->
+            <!-- Single Catagory 複方精油-->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(/Images/Index/product_into.jpg);">
-                    <div class="catagory-content">
-                        <a href="@Url.Action("ProductFrontPage", "ProductFront")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Products</a><br />
-                        <a href="@Url.Action("ProductFrontPage", "ProductFront")" style="font-family:UD Digi Kyokasho NP-B;">商品專區</a>
+                <a href="@Url.Action("ProductFrontPage","ProductFront",new { categoryID=2})">
+                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                         style="background-image: url(/Images/Index/shop2.png);">
+                        <div class="catagory-content">
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
-            <!-- Single Catagory -->
+            <!-- Single Catagory 植物油-->
             <div class="col-12 col-sm-6 col-md-4">
-                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
-                     style="background-image: url(/Images/Index//fourm_into.jpg)">
-                    <div class="catagory-content">
-                        <a href="@Url.Action("List", "Forum")" style="font-family:AR CENA; font-size:20px; margin-bottom:0px">Forum</a><br />
-                        <a href="@Url.Action("List", "Forum")" style="font-family:UD Digi Kyokasho NP-B;">討論區</a>
+                <a href="@Url.Action("ProductFrontPage","ProductFront",new { categoryID=3})">
+                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                         style="background-image: url(/Images/Index/shop3.png)">
+                        <div class="catagory-content">
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
 
         </div>
     </div>
 </div>
+
+@*<div class="top_catagory_area section-padding-80 clearfix">*@
+<div class="container">
+    <div class="row justify-content-center">
+        <!-- Single Catagory 會員中心-->
+        <div class="col-12 col-sm-6 col-md-4">
+            <a href="@Url.Action("MemberCenter", "FrontUserProfile")">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                     style="background-image: url(/Images/Index/shop4.png);">
+                    <div class="catagory-content">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Single Catagory 討論區-->
+        <div class="col-12 col-sm-6 col-md-4">
+            <a href="@Url.Action("List", "Forum")">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                     style="background-image: url(/Images/Index/shop5.png);">
+                    <div class="catagory-content">
+                    </div>
+                </div>
+            </a>
+        </div>
+        <!-- Single Catagory 最新消息-->
+        <div class="col-12 col-sm-6 col-md-4">
+            <a href="@Url.Action("NewsList","News")">
+                <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img"
+                     style="background-image: url(/Images/Index/shop6.png)">
+                    <div class="catagory-content">
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+@*</div>*@
 <!-- ##### Menu End ##### -->
 <!-- ##### New Arrivals Area End ##### -->
 <!-- ##### Brands Area Start ##### -->
-<h4 style="text-align:center; margin-bottom:0px;font-family:UD Digi Kyokasho NP-B">推薦網站</h4>
+<h4 style="text-align:center;margin-top:150px; margin-bottom:0px;font-family:UD Digi Kyokasho NP-B">推薦網站</h4>
 <div class="brands-area d-flex align-items-center justify-content-between"
-     style="height:180px; background-color:#ebe9e1; padding:20px">
+     style="height:80px; background-color:#ffffff; padding:0px 20px">
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/sekatsunoki.jpg" alt="" style="height:60px;width:220px">
-    </div>
+    <a href="https://corp.treeoflife.co.jp/">
+        <div @*class="single-brands-logo"*@>
+            <img src="~/Images/Index/logo_sekatsunoki.jpg" alt="" class="logoImage">
+        </div>
+    </a>
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/frorihana.jpg" alt="" style="height:60px;width:220px">
-    </div>
+    <a href="https://www.aromahealer.net">
+        <div>
+            <img src="~/Images/Index/logo_frorihana.jpg" alt="" class="logoImage">
+        </div>
+    </a>
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/anius.jpg" alt="" style="height:60px;width:220px">
-    </div>
+    <a href="http://www.canjune.com.tw/">
+        <div>
+            <img src="~/Images/Index/logo_anius.jpg" alt="" class="logoImage">
+        </div>
+    </a>
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/charlotte.jpg" alt="" style="height:60px;width:220px">
-    </div>
+    <a href="https://www.shop2000.com.tw/Charoma">
+        <div>
+            <img src="~/Images/Index/logo_charlotte.jpg" alt="" class="logoImage">
+        </div>
+    </a>
 
     <!-- Brand Logo -->
-    <div @*class="single-brands-logo"*@>
-        <img src="~/Images/Index/github.jpg" alt="" style="height:60px;width:220px">
-    </div>
+    <a href="https://github.com/">
+        <div>
+            <img src="~/Images/Index/logo_github.jpg" alt=""class="logoImage">
+        </div>
+    </a>
 </div>
 
 @section Scripts{

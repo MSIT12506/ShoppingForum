@@ -3,6 +3,8 @@
 @using tw.com.essentialoil.Product.ViewModels;
 @model IPagedList<prjShoppingForum.Models.Entity.tProduct>
 
+<style>
+</style>
 @{
     ViewBag.Title = "ProductFrontPage";
     var searchModel = ViewBag.SearchModel as SearchModel;
@@ -12,22 +14,23 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-4 col-lg-3" >
-            <div class="shop_sidebar_area" >
+        <div class="col-12 col-md-4 col-lg-3">
+            <div class="shop_sidebar_area">
                 <div class="widget catagory mb-50">
 
                     @*導入商品分類目錄*@
                     @Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
 
-                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage")
+                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage", null, new { @class = "myfont myfont18" })
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-md-8 col-lg-9">
             @*導入商品列表*@
-            <h6>商品列表</h6>
-            <div class="shop_grid_product_area">
+            <h6 style="margin-top:50px; font-size:20px;font-family:UD Digi Kyokasho NK-R">商品列表</h6>
+            <hr />
+            <div class="shop_grid_product_area" style="margin-top:30px">
                 <div class="row">
                     <div class="col-12">
                         <div id="productListShow" class="product-topbar d-flex align-items-center justify-content-between">

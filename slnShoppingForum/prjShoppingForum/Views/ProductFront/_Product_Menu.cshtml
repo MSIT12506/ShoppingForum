@@ -7,13 +7,14 @@
         .list-group li:hover {
             background-color: deepskyblue;
         }
+
 </style>
-<h6 class="widget-title mb-30">商品分類</h6>
+<h6 class="widget-title mb-30" style="padding-top:60px; font-size:22px;font-family:UD Digi Kyokasho NK-R">商品分類</h6>
 <div class="catagories-menu">
     <ul id="menu-content2" class="menu-content collapse show">
         <!-- 全部商品 -->
-        <li  class="" aria-expanded="true">
-            @Html.ActionLink("全部商品", "ProductFrontPage")
+        <li class="" aria-expanded="true">
+            @Html.ActionLink("全部商品", "ProductFrontPage",null, new { @class = " myfont myfont18" }) 
         </li>
 
 
@@ -21,7 +22,7 @@
         {
             <!-- 商品分類--3-1.單方精油依萃取部位分 -->
             <li data-toggle="collapse" data-target="#CategoryID_@category.fCategoryID" class="collapsed">
-                <a href="#">@category.fCategoryName +</a>
+                <a href="#" style="font-size:18px;font-family:UD Digi Kyokasho NK-R">@category.fCategoryName +</a>
                 @if (category.fCategoryID == 1)
                 {
                     <ul class="sub-menu collapse" id="CategoryID_@category.fCategoryID">
@@ -38,7 +39,7 @@
                     <ul class="sub-menu collapse" id="CategoryID_@category.fCategoryID">
                         @foreach (var efficacy in Model.EfficacyList.Take(5))
                         {
-                            <li>@Html.ActionLink(efficacy.fEfficacyName, "ProductFrontPage", new { efficacyId = efficacy.fEfficacyID })</li>
+                            <li>@Html.ActionLink(efficacy.fEfficacyName, "ProductFrontPage", new { efficacyId = efficacy.fEfficacyID, categoryId=category.fCategoryID})</li>
                         }
                     </ul>
                 }
@@ -57,7 +58,7 @@
         }
         <!-- 商品分類--1.全部產品依功效分 -->
         <li data-toggle="collapse" data-target="#clothing" aria-expanded="true" class="">
-            <a href="#">依功效分 +</a>
+            <a href="#" style="font-size:18px;font-family:UD Digi Kyokasho NK-R">依功效分 +</a>
             <ul class="sub-menu collapse" id="clothing" style="">
                 @foreach (var efficacy in Model.EfficacyList)
                 {
@@ -68,7 +69,7 @@
 
         <!-- 商品分類--2.單方精油依香味調性分 -->
         <li data-toggle="collapse" data-target="#shoes" class="" aria-expanded="true">
-            <a href="#">依香味調性分 +</a>
+            <a href="#" style="font-size:18px;font-family:UD Digi Kyokasho NK-R">依香味調性分 +</a>
             <ul class="sub-menu collapse" id="shoes" style="">
                 @foreach (var note in Model.NoteList)
                 {

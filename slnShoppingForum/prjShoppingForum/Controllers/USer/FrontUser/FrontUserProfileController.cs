@@ -5,18 +5,11 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using tw.com.essentialoil.User.Models;
 using tw.com.essentialoil.Models;
 using tw.com.essentialoil.Order.Models;
-using System.Text;
-using System.Net.Mail;
-using System.Security.Cryptography;
 using prjShoppingForum.Models.User;
-using System.Web.Security;
-using System.Web.Configuration;
 using tw.com.essentialoil.Services;
 
 namespace tw.com.essentialoil.Controllers.FrontUser

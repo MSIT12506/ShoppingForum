@@ -7,40 +7,51 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using prjShoppingForum.Models.Entity;
+using tw.com.essentialoil.Tests.Models;
 
 namespace tw.com.essentialoil.Controllers
 {
     public class TestsController : Controller
     {
         private dbShoppingForumEntities db = new dbShoppingForumEntities();
+        private TestRepository _TestRepository;
+
+
+        public TestsController()
+        {
+            _TestRepository = new TestRepository();
+        }
+
 
         // 後台_測驗
         public ActionResult Index()
         {
-            var tTests = db.tTests.Include(t => t.tQuestion).Include(t => t.tUserProfile);
-            return View(tTests.ToList());
+            var t = _TestRepository.AllTest();
+            return View(t);
         }
 
-        // 後台_測驗明細
-        public ActionResult Details(int? id)
+        [HttpPost]
+        //後台搜尋功能
+        public ActionResult Index(string searchKey)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tTest tTest = db.tTests.Find(id);
-            if (tTest == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tTest);
+            ViewBag.Message = searchKey;
+            IEnumerable<tTest> TestList = _TestRepository.GetTestAccount(searchKey);
+            return View(TestList);
+        }
+
+
+        // 後台_測驗明細
+        public ActionResult Details(int Id)
+        {
+            var testList = _TestRepository.GetTest(Id);
+            return View(testList);
         }
 
         // 後台_新增測驗
         public ActionResult Create()
         {
             ViewBag.fQuestionId = new SelectList(db.tQuestions, "fQuestionId", "fQuestionName");
-            ViewBag.fId = new SelectList(db.tScores, "fId", "fId");
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fId");
             return View();
         }
 
@@ -51,6 +62,8 @@ namespace tw.com.essentialoil.Controllers
         {
             if (ModelState.IsValid)
             {
+                tTest.fScoreDate = DateTime.Now;
+                tTest.fTestDiscontinue = false;
                 db.tTests.Add(tTest);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -115,6 +128,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             tTest tTest = db.tTests.Find(id);
+            tTest.fTestDiscontinue = true;
             db.tTests.Remove(tTest);
             db.SaveChanges();
             return RedirectToAction("Index");

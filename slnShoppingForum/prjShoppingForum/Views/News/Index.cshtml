@@ -12,62 +12,66 @@
     @Html.ActionLink("新增消息", "Create")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.fClass)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsTitle)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsDesc)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsStart)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsEnd)
-        </th>
+    <thead class="table table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fClass)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fNewsTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fNewsDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fNewsStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fNewsEnd)
+            </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.fApproved)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsDiscontinue)
-        </th>
-        <th></th>
-    </tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fApproved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fNewsDiscontinue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.fClass)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fNewsTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fNewsDesc)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fNewsStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fNewsEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fApproved)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.fNewsDiscontinue)
-            </td>
+        <tbody class="table table-active accent-pink">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fClass)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fNewsTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fNewsDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fNewsStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fNewsEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fApproved)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fNewsDiscontinue)
+                </td>
 
-            <td>
-                @Html.ActionLink("編輯", "Edit", new { id = item.fNewsId }) |
-                @Html.ActionLink("明細", "Details", new { id = item.fNewsId }) |
-                @Html.ActionLink("不顯示", "Delete", new { id = item.fNewsId })
-            </td>
-        </tr>
+                <td>
+                    @Html.ActionLink("編輯", "Edit", new { id = item.fNewsId }) |
+                    @Html.ActionLink("明細", "Details", new { id = item.fNewsId }) |
+                    @Html.ActionLink("不顯示", "Delete", new { id = item.fNewsId })
+                </td>
+            </tr>
+        </tbody>
     }
 </table>

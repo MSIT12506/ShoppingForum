@@ -68,30 +68,12 @@ namespace tw.com.essentialoil.Score.Models
         public void InsertScore(tScore tScore)
         {
             tScore.fScoreDiscontinue = false;
+            tScore.fScoreDate = DateTime.Now;
             db.tScores.Add(tScore);
             db.SaveChanges();
         }
 
-        //點閱 tag
-        //public ActionResult Details(int productId)
-        //{
-        //    var product = _productRepository.GetProduct(productId);
-        //    //_productRepository.AddPrice(productId, 1, TODO);
 
-        //    return View(product);
-        //}
-        //public void AddPrice(int productId, int price, string account)
-        //{
-        //    var products = GetProduct(productId);
-
-        //    if (!_northWindEntities.ProductLog.Any(p => p.Account == account && p.ProductId == productId))
-        //    {
-        //        var productLog = new ProductLog() { Account = account, ProductId = productId };
-        //        products.UnitPrice = products.UnitPrice + price;
-        //        _northWindEntities.ProductLog.Add(productLog);
-        //        _northWindEntities.SaveChanges();
-        //    }
-        //}
 
 
     }

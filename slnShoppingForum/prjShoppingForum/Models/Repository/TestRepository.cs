@@ -17,6 +17,24 @@ namespace tw.com.essentialoil.Tests.Models
             db = new dbShoppingForumEntities();
         }
 
+        public List<tTest> AllTest()
+        {
+            var all = db.tTests.ToList();
+            return all;
+        }
+
+        public List<SelectListItem> userTest()
+        {
+            var Test = db.tTests.Select(p => new SelectListItem
+            {
+                Text = p.tUserProfile.fName,
+                Value = p.fId.ToString()
+            }).ToList();
+
+            return Test;
+        }
+
+
         public IEnumerable<tTest> GetTestAccount(string searchKey)
         {
             var TestList = db.tTests.Where(p => p.fId.ToString().Contains(searchKey));

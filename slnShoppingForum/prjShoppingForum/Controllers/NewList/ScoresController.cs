@@ -7,19 +7,36 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using prjShoppingForum.Models.Entity;
+using tw.com.essentialoil.Score.Models;
 
 namespace prjShoppingForum.Controllers.NewList
 {
     public class ScoresController : Controller
     {
         private dbShoppingForumEntities db = new dbShoppingForumEntities();
+        private ScoreRepository _ScoreRepository;
+        public ScoresController()
+        {
+            _ScoreRepository = new ScoreRepository();
+        }
 
         // GET: Scores
         public ActionResult Index()
         {
-            var tScores = db.tScores.Include(t => t.tUserProfile);
+            var tScores = db.tScores.Include(t => t.tUserProfile).Where(p=>p.fScoreDiscontinue !=true);
             return View(tScores.ToList());
         }
+
+        [HttpPost]
+        //後台搜尋功能
+        public ActionResult Index(string searchKey)
+        {
+            ViewBag.Message = searchKey;
+            IEnumerable<tScore> ScoreList = _ScoreRepository.GetScoreAccount(searchKey);
+            return View(ScoreList);
+        }
+
+
 
         // GET: Scores/Details/5
         public ActionResult Details(int? id)
@@ -36,7 +53,7 @@ namespace prjShoppingForum.Controllers.NewList
             return View(tScore);
         }
 
-        // GET: Scores/Create
+        // 新增積分
         public ActionResult Create()
         {
             ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId");
@@ -48,11 +65,11 @@ namespace prjShoppingForum.Controllers.NewList
         // 詳細資訊，請參閱 https://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "fScoreId,fId,fScore,fActiveScore,fQuestionScore,fScoreDate,fScoreDiscontinue")] tScore tScore)
+        public ActionResult Create(tScore tScore)
         {
             if (ModelState.IsValid)
             {
-                db.tScores.Add(tScore);
+                _ScoreRepository.InsertScore(tScore);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -94,39 +111,31 @@ namespace prjShoppingForum.Controllers.NewList
             return View(tScore);
         }
 
-        // GET: Scores/Delete/5
-        public ActionResult Delete(int? id)
+        // 不顯示
+        public ActionResult Delete(int Id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            tScore tScore = db.tScores.Find(id);
-            if (tScore == null)
-            {
-                return HttpNotFound();
-            }
-            return View(tScore);
-        }
-
-        // POST: Scores/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            tScore tScore = db.tScores.Find(id);
-            db.tScores.Remove(tScore);
-            db.SaveChanges();
+            _ScoreRepository.EditScoreToAuth(Id);
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //// POST: Scores/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    tScore tScore = db.tScores.Find(id);
+        //    db.tScores.Remove(tScore);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }

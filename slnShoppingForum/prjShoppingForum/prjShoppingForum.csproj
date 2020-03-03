@@ -1395,14 +1395,14 @@
     <Compile Include="Models\User\tUserProfilePartial.cs" />
     <Compile Include="Models\User\UserDictionary.cs" />
     <Compile Include="Models\WebAPI\CLineBot.cs" />
+    <Compile Include="Services\CNewsDBService.cs" />
     <Compile Include="Services\CUserMailService.cs" />
     <Compile Include="Services\CUsersDBService.cs" />
+    <Compile Include="Services\ForPaging.cs" />
     <Compile Include="ViewModels\COrderView.cs" />
     <Compile Include="ViewModels\Discount\CDiscountCreate.cs" />
     <Compile Include="ViewModels\LineChatBot\CLineBotModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CNewsDBService.cs" />
-    <Compile Include="Services\ForPaging.cs" />
     <Compile Include="ViewModels\COrderViews.cs" />
     <Compile Include="ViewModels\Forum\CForumCreate.cs" />
     <Compile Include="ViewModels\Forum\CForumList.cs" />

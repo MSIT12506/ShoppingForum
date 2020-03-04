@@ -54,10 +54,10 @@
                     @Html.DisplayFor(modelItem => item.fNewsDesc)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.fNewsStart)
+                    @item.fNewsStart.ToLongDateString()
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.fNewsEnd)
+                    @item.fNewsEnd.ToLongDateString()
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.fApproved)

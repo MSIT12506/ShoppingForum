@@ -70,7 +70,7 @@ namespace tw.com.essentialoil.Controllers
         // 後臺新增消息
         public ActionResult Create()
         {
-            ViewBag.fId = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
+            ViewBag.fAddUser = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
             return View();
         }
 
@@ -91,7 +91,7 @@ namespace tw.com.essentialoil.Controllers
         // 後臺編輯消息
         public ActionResult Edit(int Id)
         {
-            ViewBag.fId = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
+            ViewBag.fChangUser = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
             var News = _NewsRepository.GetNews(Id);
             return View(News);
 

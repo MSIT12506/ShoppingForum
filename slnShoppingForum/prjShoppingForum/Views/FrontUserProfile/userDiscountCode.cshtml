@@ -1,40 +1,53 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tUserDiscountList>
 
-<table>
-    <thead>
-        <tr>
-            <th>優惠券名稱</th>
-            <th>優惠券使用起日</th>
-            <th>優惠券使用迄日</th>
-            <th>優惠券數量</th>
-            <th>狀態</th>
-        </tr>
-    </thead>
-    <tbody>
-        @{ 
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.tDiscount.fDiscountName</td>
-                    <td>@item.tDiscount.fStartdate</td>
-                    <td>@item.tDiscount.fEndDate</td>
-                    <td>@item.fCount</td>
+<div class="wrappers">
+    <h3>優惠券</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>優惠券名稱</th>
+                <th>優惠券使用起日</th>
+                <th>優惠券使用迄日</th>
+                <th>優惠券數量</th>
+                <th>狀態</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.tDiscount.fDiscountName</td>
+                        <td>@item.tDiscount.fStartdate</td>
+                        <td>@item.tDiscount.fEndDate</td>
+                        <td>@item.fCount</td>
 
-                    @if (item.fCount==0 || item.tDiscount.fEndDate<DateTime.UtcNow.AddHours(8))
-                    {
-                        <td>已失效</td>
-                    }
-                    else if(item.tDiscount.fStartdate< DateTime.UtcNow.AddHours(8))
-                    {
-                        <td>優惠活動尚未開始</td>
-                    }
-                    else
-                    {
-                        <td>可使用</td>
-                    }
+                        @if (item.fCount == 0 || item.tDiscount.fEndDate < DateTime.UtcNow.AddHours(8))
+                        {
+                            <td>已失效</td>
+                        }
+                        else if (item.tDiscount.fStartdate < DateTime.UtcNow.AddHours(8))
+                        {
+                            <td>優惠活動尚未開始</td>
+                        }
+                        else
+                        {
+                            <td>可使用</td>
+                        }
 
-                </tr>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
+<link rel="stylesheet" href="~/Content/styles.css">
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/mains.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/zh-tw.js"></script>
+}

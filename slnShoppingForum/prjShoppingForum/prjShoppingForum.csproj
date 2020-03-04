@@ -178,6 +178,15 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\essence\animate.css" />
+    <Content Include="Content\essence\bootstrap.min.css" />
+    <Content Include="Content\essence\classy-nav.min.css" />
+    <Content Include="Content\essence\core-style.css" />
+    <Content Include="Content\essence\font-awesome.min.css" />
+    <Content Include="Content\essence\jquery-ui.min.css" />
+    <Content Include="Content\essence\magnific-popup.css" />
+    <Content Include="Content\essence\nice-select.css" />
+    <Content Include="Content\essence\owl.carousel.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\material-design-iconic-font.min.css" />
@@ -216,6 +225,7 @@
     <Content Include="Content\template\img\bg-img\rp2.jpg" />
     <Content Include="Content\template\img\bg-img\rp3.jpg" />
     <Content Include="Content\template\img\bg-img\rp4.jpg" />
+    <Content Include="Content\template\img\core-img\add-user2.svg" />
     <Content Include="Content\template\img\core-img\add.png" />
     <Content Include="Content\template\img\core-img\arrow-down.svg" />
     <Content Include="Content\template\img\core-img\arrow-left.svg" />
@@ -233,9 +243,11 @@
     <Content Include="Content\template\img\core-img\heart-fill.svg" />
     <Content Include="Content\template\img\core-img\heart.svg" />
     <Content Include="Content\template\img\core-img\logined.png" />
+    <Content Include="Content\template\img\core-img\logined2.svg" />
     <Content Include="Content\template\img\core-img\logo.png" />
     <Content Include="Content\template\img\core-img\logo2.png" />
     <Content Include="Content\template\img\core-img\logout.png" />
+    <Content Include="Content\template\img\core-img\logout2.svg" />
     <Content Include="Content\template\img\core-img\long-arrow-left.svg" />
     <Content Include="Content\template\img\core-img\long-arrow-right.svg" />
     <Content Include="Content\template\img\core-img\pin.png" />
@@ -340,8 +352,6 @@
     <Content Include="Images\Index\shop2.png" />
     <Content Include="Images\Index\shop3.png" />
     <Content Include="Images\Index\shop4.png" />
-    <Content Include="Images\Index\shop5.png" />
-    <Content Include="Images\Index\shop6.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Member\0.png" />
     <Content Include="Images\Member\1.png" />
@@ -363,11 +373,10 @@
     <Content Include="Images\Member\signup.jpg" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\News\hot_hot.png" />
+    <Content Include="Images\News\ic_news.png" />
     <Content Include="Images\News\news_icc.png" />
     <Content Include="Images\News\qquiz.png" />
     <Content Include="Images\News\stich.gif" />
-    <Content Include="Images\News\截圖 2020-03-04 下午6.20.22.png" />
-    <Content Include="Images\News\截圖 2020-03-04 下午6.29.01.png" />
     <Content Include="Images\PostList.png" />
     <Content Include="Images\Product\0-1.jpg" />
     <Content Include="Images\Product\0.jpg" />

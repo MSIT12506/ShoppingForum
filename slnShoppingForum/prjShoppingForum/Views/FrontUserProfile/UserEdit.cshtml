@@ -3,7 +3,6 @@
     ViewBag.Title = "UserEdit";
 }
 
-<div class="body">
     <div class="wrappers">
         <h3>編輯會員資料</h3>
         <form action="/FrontUserProfile/UserEdit" method="post" name="editform">
@@ -19,28 +18,37 @@
             </div>
             <div class="form-row">
                 <div class="form-holder">
-                    手機<br /><input type="text" name="fPhone" value="@Model.fPhone" />
 
+                    生日<br /><input type="text" name="fBirthday" pattern="{0:yyyy/MM/dd}" placeholder="如:1923/02/05" value="@Model.fBirthday" />
                 </div>
                 <div class="form-holder">
-                    城市<br /><input type="text" name="fCity" value="@Model.fCity" />
+                    手機<br /><input type="text" name="fPhone" value="@Model.fPhone" />
 
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-holder">
-                    地址<br /><input type="text" name="fAddress" value="@Model.fAddress" />
+                    城市<br /><input type="text" name="fCity" value="@Model.fCity" />
 
                 </div>
                 <div class="form-holder">
+                    地址<br /><input type="text" name="fAddress" value="@Model.fAddress" />
 
                 </div>
             </div>
-           
-            
+            <div class="form-row">
+                <div class="form-holder">
+                    <input type="submit" class="btn btn-warning" value="送出" name="editbutton" />
+
+                </div>
+                <div class="form-holder">
+                    @*<input type="submit" class="btn btn-warning" value="送出" name="editbutton" />*@
+                </div>
+            </div>
+
+
         </form>
     </div>
-</div>
 
 <link rel="stylesheet" href="~/Content/styles.css">
 

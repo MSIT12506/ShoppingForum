@@ -86,7 +86,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
 
         //[Authorize]
         [HttpPost]
-        public ActionResult UserEdit(string fName, string fTel, string fPhone, string fCity, string fAddress)
+        public ActionResult UserEdit(string fName, string fTel,string fBirthday, string fPhone, string fCity, string fAddress)
         {
             var g = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
             tUserProfile cust = db.tUserProfiles.FirstOrDefault(u => u.fUserId == g);
@@ -94,6 +94,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             {
                 cust.fName = fName;
                 cust.fTel = fTel;
+                cust.fBirthday = DateTime.Parse(fBirthday);
                 cust.fPhone = fPhone;
                 cust.fCity = fCity;
                 cust.fAddress = fAddress;

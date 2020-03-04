@@ -27,7 +27,8 @@
 
                 <div class="form-group">
                     <label for="pass"></label>
-                    <input type="password" name="fPassword" id="inputPassword" placeholder="Password(6~8字元以內，包含英文大小寫與數字的組合)" @*data-minlength="6"*@ pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required/><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="pwdsp"></span>
+                    <input type="password" name="fPassword" id="inputPassword" placeholder="Password(長度限制6~12字元)" @*data-minlength="6"*@ pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required/><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="pwdsp"></span>
+                    @*<p>請輸入6~12字元以內，包含英文大小寫與數字的組合</p>*@
                 </div>
                 @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })
 

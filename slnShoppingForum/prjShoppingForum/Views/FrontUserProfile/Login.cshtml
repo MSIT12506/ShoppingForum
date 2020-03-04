@@ -22,7 +22,7 @@
 
                 <div class="form-group">
                     <label for="pass"></label>
-                    <input type="password" name="fPassword" id="pass" placeholder="Password" maxlength="12" required/>
+                    <input type="password" name="fPassword" id="pass" placeholder="Password" pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required/>
                    @* @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })*@
 
                 </div>

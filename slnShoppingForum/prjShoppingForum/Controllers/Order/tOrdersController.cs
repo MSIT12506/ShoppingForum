@@ -54,28 +54,28 @@ namespace tw.com.EssentialOil.Controllers.Order
                     var product = db.tProducts;
                     var list = new COrderViews() { Order = noworderrow, OrderDetail = noworderdetail, Product = product };
                     //寄送Email給購買者
-                    //var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
-                    //var receiverEmail = new MailAddress(loginuserid, loginusername);
-                    //var password = "Cai3M!Ef6Z";//管理員寄email所用的信箱密碼，測試時請自行填入
-                    //var sub = "訂單發貨通知信";
-                    //var body = "親愛的 " + loginusername + " 妳好:\n" + "您的訂單 " + orderid + " 已按照您預定的配送方式給您發貨了\n" + "再次感謝您對我們的支持, 歡迎您的再次光臨 !";
-                    //var smtp = new SmtpClient
-                    //{
-                    //    Host = "smtp.gmail.com",
-                    //    Port = 587,
-                    //    EnableSsl = true,
-                    //    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    //    UseDefaultCredentials = false,
-                    //    Credentials = new NetworkCredential(senderEmail.Address, password)
-                    //};
-                    //using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    //{
-                    //    Subject = sub,
-                    //    Body = body
-                    //})
-                    //{
-                    //    smtp.Send(mess);
-                    //}
+                    var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
+                    var receiverEmail = new MailAddress(loginuserid, loginusername);
+                    var password = "vnmuhcmaxieewtbi";//管理員寄email所用的信箱密碼，測試時請自行填入
+                    var sub = "訂單發貨通知信";
+                    var body = "親愛的 " + loginusername + " 妳好:\n" + "您的訂單 " + orderid + " 已按照您預定的配送方式給您發貨了\n" + "再次感謝您對我們的支持, 歡迎您的再次光臨 !";
+                    var smtp = new SmtpClient
+                    {
+                        Host = "smtp.gmail.com",
+                        Port = 587,
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false,
+                        Credentials = new NetworkCredential(senderEmail.Address, password)
+                    };
+                    using (var mess = new MailMessage(senderEmail, receiverEmail)
+                    {
+                        Subject = sub,
+                        Body = body
+                    })
+                    {
+                        smtp.Send(mess);
+                    }
                     return View(list);
                 }
                 return RedirectToAction("Index", "Home");

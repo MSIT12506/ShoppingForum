@@ -151,7 +151,7 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                             Session[UserDictionary.S_AUTHENTICATED_CODE] = null;//清掉當前驗證碼
 
                             //確認今天是否有做過題目
-                            List<DateTime> targetQuizs = db.tTests.Where(t => t.fId == cust.fId).Select(t=>t.fScoreDate).ToList();
+                            List<DateTime> targetQuizs = db.tTests.Where(t => t.fId == cust.fId && t.fQuestionScore != null).Select(t => t.fScoreDate).ToList();
 
                             if (targetQuizs.Count > 0)
                             {

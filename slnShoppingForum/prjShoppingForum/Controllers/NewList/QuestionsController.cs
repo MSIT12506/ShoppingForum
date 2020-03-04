@@ -179,7 +179,6 @@ namespace tw.com.essentialoil.Controllers
                 try
                 {
                     db.SaveChanges();
-                    Session["Quizstatus"] = "done";
                 }
                 catch (Exception ee)
                 {
@@ -195,6 +194,7 @@ namespace tw.com.essentialoil.Controllers
                 try
                 {
                     db.SaveChanges();
+                    Session["Quizstatus"] = "done";
                 }
                 catch (Exception e)
                 {

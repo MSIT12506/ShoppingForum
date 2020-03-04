@@ -29,10 +29,11 @@ namespace tw.com.essentialoil.Controllers
         //前台消息清單
         public ActionResult NewsList()
         {
+
             var t = from i in db.tNews
                     select i;
-            List<tNew> tt = t.ToList();        
-            return View(t);
+            var tt = t.Where(p => p.fNewsDiscontinue != true).ToList();    
+            return View(tt);
         }
 
         //前台消息搜索

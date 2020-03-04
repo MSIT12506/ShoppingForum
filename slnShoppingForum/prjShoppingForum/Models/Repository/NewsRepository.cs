@@ -21,7 +21,7 @@ namespace tw.com.essentialoil.News.Models
         //標題搜尋
         public IEnumerable<tNew> GetNewstitle(string searchKey)
         {
-            var tNewsList = db.tNews.Where(p => p.fNewsTitle.Contains(searchKey));
+            var tNewsList = db.tNews.Where(p => p.fNewsTitle.Contains(searchKey) && p.fNewsDiscontinue != true);
             return tNewsList;
         }
 

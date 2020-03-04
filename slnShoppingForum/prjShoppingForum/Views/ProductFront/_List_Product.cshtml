@@ -1,11 +1,22 @@
 ﻿@model IEnumerable<prjShoppingForum.Models.Entity.tProduct>
+
 <style>
-  
 </style>
+
+<script>
+    //Ajax:加入購物車
+    function addToCart(productId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("addCart", "ShoppingCart")',
+            data: { productId: productId}
+        })
+        cartCount();
+    }
+</script>
+
 <div class="row">
     <!-- Single Product -->
-
-
     @foreach (var item in Model)
     {
         var imageScr = $"../../images/Product/{item.fProductID}.jpg";
@@ -16,13 +27,13 @@
                 <!-- Product Image -->
                 <div class="product-img" style="text-align:center">
                     <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
-                        <img src="@imageScrUra" alt="" 
+                        <img src="@imageScrUra" alt=""
                              style="width:90%;border-radius:120px;border:solid 5px #85DBD5" />
                     </a>
                     <!-- Hover Thumb -->
                     <a href="~/ProductBrowseHistory/Creat?productId=@item.fProductID">
-                        <img class="hover-img" src="@imageScr" alt="" 
-                             style="width:90%;border-radius:120px;border:solid 5px #D85277;margin-left:11px" >
+                        <img class="hover-img" src="@imageScr" alt=""
+                             style="width:90%;border-radius:120px;border:solid 5px #D85277;margin-left:11px">
                     </a>
 
                     <!-- Favourite -->
@@ -40,7 +51,7 @@
 
                     <p class="product-price">NT$ @item.fUnitPrice</p>
                     <div class="add-to-cart-btn">
-                        <a href="#" class="btn btn-outline-info">加入購物車</a>
+                        <a class="btn btn-outline-info addCart" onclick="addToCart(@item.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
                     </div>
 
                 </div>
@@ -49,6 +60,20 @@
     }
 </div>
 
+@section scripts{
+    <script>
+     //更新購物車存量
+    function cartCount() {
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', '@Url.Action("cartTotalQuantity", "ShoppingCart")');
+        xhr.send();
+        xhr.addEventListener('load', function () {
+            var count = xhr.responseText;
+            $("#totalQuantity").text(count);
+        })
+    }
+    </script>
+}
 
 
 

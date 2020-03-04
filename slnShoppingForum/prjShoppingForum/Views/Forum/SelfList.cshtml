@@ -4,7 +4,7 @@
     ViewBag.Title = "SelfList";
 }
 
-<h2>收藏文章清單</h2>
+<h4 style="margin-top:150px">收藏文章清單</h4>
 
 <table class="table table-striped">
     <thead>
@@ -25,15 +25,15 @@
                     @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
                 </td>
                 <td data-postid="@item.fPostId">
-                    <button class="favRev btn btn-primary">取消收藏</button>
+                    <button class="favRev btn btn-outline-secondary">取消收藏</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<hr />
-<h2>隱藏文章清單</h2>
+<hr style="border-top:2px solid #766248"/>
+<h4>隱藏文章清單</h4>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -53,7 +53,7 @@
                     @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
                 </td>
                 <td data-postid="@item.fPostId">
-                    <button class="hideRev btn btn-primary">取消隱藏</button>
+                    <button class="hideRev btn btn-secondary">取消隱藏</button>
                 </td>
             </tr>
         }

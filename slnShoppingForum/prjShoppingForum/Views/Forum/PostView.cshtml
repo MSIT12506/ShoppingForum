@@ -11,16 +11,21 @@
 
 @section Styles{
     <style>
+        .content {
+            width:900px;
+            margin:150px auto auto auto
+
+        }
         .PostContent {
             width: 800px;
             height: auto;
-            margin: auto;
+            margin:20px auto auto auto;
         }
 
         .comment {
             width: 800px;
             height: auto;
-            margin: auto;
+            margin: 60px auto auto auto;
         }
 
         #commentDivNew {
@@ -39,93 +44,116 @@
             border: 1px solid black;
             padding: 5px;
         }
+        .btnimage {
+            width: 15px;
+            height: auto;
+            border: none;
+        }
+
+        .borderline {
+            border: solid 3px #766248 !important ;
+            border-radius: 20px;
+            padding:20px;
+        }
+
+        .borderline2 {
+            border: solid 1.5px #888888 !important;
+            border-radius: 20px;
+            padding: 20px;
+        }
     </style>
 }
-
-<div class="PostContent">
-    <h2>@Model.forum.fPostTitle</h2>
-    <div id="editor">
-    </div>
-</div>
-<br />
-<br />
-<br />
-
-<div class="comment">
-    回覆：<br />
-    <div id="commentDivNew">
-    </div>
-    <button type="button" class="btn btn-primary" id="confirmReply">確認回覆</button>
-</div>
-
-<div class="allreply">
-    @for (int i = 0; i < Model.reply.Count; i++)
-    {
-        for (int k = 0; k < Model.reply[i].Count; k++)
-        {
-            replyCount++;
-
-            <div class="commentElement" data-id="@Model.reply[i][k].replyId" data-seq="@Model.reply[i][k].replySeqNo">
-
-                @*回覆區塊的quill，區塊的ID值必須動態產生*@
-                <div id=@targetId@replyCount.ToString()></div>
-
-                @*用來塞資料的區塊，供後面js使用，不顯示*@
-                <textarea id=@textarea@replyCount.ToString() style="display:none;">@Html.Raw(Model.reply[i][k].replyContent)</textarea>
-                <p>@Model.reply[i][k].userName - @Model.reply[i][k].replyTime.ToLongDateString() - @Model.reply[i][k].replyTime.ToLongTimeString()</p>
-
-                @{
-                    switch (Model.reply[i][k].isLikeOrHate)
-                    {
-                        case null:
-                            <button class="btn btn-primary btn-like">喜歡</button>
-                            <button class="btn btn-primary btn-hate">討厭</button>
-                            break;
-
-                        case "True":
-                            <button class="btn btn-primary btn-like" disabled="disabled">喜歡</button>
-                            <button class="btn btn-primary btn-hate">討厭</button>
-                            break;
-
-                        case "False":
-                            <button class="btn btn-primary btn-like">喜歡</button>
-                            <button class="btn btn-primary btn-hate" disabled="disabled">討厭</button>
-                            break;
-                    }
-                }
-                <button type="button" class="btn btn-primary btn-message" data-toggle="modal" data-target="#exampleModalScrollable">
-                    留言
-                </button>
-            </div>
-        }
-    }
-</div>
-
-@* 紀錄上一筆的ajax時間，用來計算每次ajax的差異，不用每次全抓資料 *@
-<div id="prevGetTime" style="display:none;">@ViewBag.DateTime</div>
-
-@* From Bootstrap Example *@
-<div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalScrollableTitle">編輯回覆</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            @* 回覆留言區塊 *@
-            <div class="modal-body" id="message-editor">
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
-                <button type="button" class="btn btn-primary btn-confrim-message" data-dismiss="modal" id="confirmPost">確認回覆</button>
+    <div class="content  borderline">
+        <div class="PostContent">
+            <h5>標題：@Model.forum.fPostTitle</h5>
+            <h5>作者：</h5>
+            <h5>發表時間：</h5>
+            <div id="editor">
             </div>
         </div>
+        <br />
+        <br />
+        <br />
+
+
+        <div class="allreply">
+            @for (int i = 0; i < Model.reply.Count; i++)
+            {
+                for (int k = 0; k < Model.reply[i].Count; k++)
+                {
+                    replyCount++;
+
+                    <div class="commentElement borderline2" data-id="@Model.reply[i][k].replyId" data-seq="@Model.reply[i][k].replySeqNo">
+
+                        @*回覆區塊的quill，區塊的ID值必須動態產生*@
+                        <div id=@targetId@replyCount.ToString()></div>
+
+                        @*用來塞資料的區塊，供後面js使用，不顯示*@
+                        <textarea id=@textarea@replyCount.ToString() style="display:none;">@Html.Raw(Model.reply[i][k].replyContent)</textarea>
+                        <p>@Model.reply[i][k].userName - @Model.reply[i][k].replyTime.ToLongDateString() - @Model.reply[i][k].replyTime.ToLongTimeString()</p>
+
+                        @{
+                            switch (Model.reply[i][k].isLikeOrHate)
+                            {
+                                case null:
+                                    <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" title="喜歡" /></button>
+                                    <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" title="討厭" /></button>
+                                    break;
+
+                                case "True":
+                                    <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" title="喜歡" /></button>
+                                    <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" title="討厭" /></button>
+                                    break;
+
+                                case "False":
+                                    <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" title="喜歡" /></button>
+                                    <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" title="討厭" /></button>
+                                    break;
+                            }
+                        }
+                        <button class="btn-message" data-toggle="modal" data-target="#exampleModalScrollable"
+                                style="border:none;background-color:none !important;padding-left:6px">
+                            <img class="btnimage" src="~/Images/Forum/message.png" title="留言" />
+                        </button>
+                    </div>
+                }
+            }
+        </div>
+
+
+        @* 紀錄上一筆的ajax時間，用來計算每次ajax的差異，不用每次全抓資料 *@
+        <div id="prevGetTime" style="display:none;">@ViewBag.DateTime</div>
+
+        @* From Bootstrap Example *@
+        <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalScrollableTitle">編輯回覆</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    @* 回覆留言區塊 *@
+                    <div class="modal-body" id="message-editor">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
+                        <button type="button" class="btn btn-success btn-confrim-message" data-dismiss="modal" id="confirmPost">送出回覆</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="comment borderline">
+            回覆：<br />
+            <div id="commentDivNew">
+            </div>
+            <button type="button" class="btn btn-success" id="confirmReply" style="margin-top:15px">送出回覆</button>
+        </div>
     </div>
-</div>
 
 @section Scripts{
     <script>

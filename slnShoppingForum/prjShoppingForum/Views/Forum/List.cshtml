@@ -30,6 +30,9 @@
             border:none;
         }
 
+        tbody tr:nth-child(2n+1) {background-color:#d39ca7
+        }
+
     </style>
 }
 
@@ -42,16 +45,16 @@
 
 @Html.Action("TopList", "Forum")
 
-<h2>文章列表</h2>
-<table class="table table-striped table-mainlist">
-    <thead>
+<h4>文章列表</h4>
+<table class="table table-striped">
+    <thead> 
         <tr>
             <th>Title</th>
             <th>文章作者</th>
             <th>建立時間</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody >
         @foreach (var item in Model)
         {
             <tr>
@@ -62,28 +65,28 @@
                         switch (item.likeOrHate)
                         {
                             case null:
-                                <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png"/></button>
-                                <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" /></button>
+                                <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" title="喜歡"/></button>
+                                <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" title="討厭"/></button>
                                 break;
 
                             case "True":
-                                <button class="btn btn-like" disabled="disabled"><img class="btnimage" src="~/Images/Forum/like.png" /></button>
-                                <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" /></button>
+                                <button class="btn btn-like" disabled="disabled"><img class="btnimage" src="~/Images/Forum/like.png" title="喜歡" /></button>
+                                <button class="btn btn-hate"><img class="btnimage" src="~/Images/Forum/hate.png" title="討厭"/></button>
                                 break;
 
                             case "False":
-                                <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" /></button>
-                                <button class="btn btn-hate" disabled="disabled"><img class="btnimage" src="~/Images/Forum/hate.png" /></button>
+                                <button class="btn btn-like"><img class="btnimage" src="~/Images/Forum/like.png" title="喜歡" /></button>
+                                <button class="btn btn-hate" disabled="disabled"><img class="btnimage" src="~/Images/Forum/hate.png" title="討厭" /></button>
                                 break;
                         }
 
                     }
-                    <button class="btn btn-favorite"><img class="btnimage" src="~/Images/Forum/fav.png" /></button>
-                    <button class="btn btn-hide"><img class="btnimage" src="~/Images/Forum/hide.png" /></button>
+                    <button class="btn btn-favorite"><img class="btnimage" src="~/Images/Forum/fav.png" title="收藏"/></button>
+                    <button class="btn btn-hide"><img class="btnimage" src="~/Images/Forum/hide.png" title="隱藏"/></button>
                     @{
                         if (item.userFid == ViewBag.sessionId)
                         {
-                            <a href="~/Forum/Edit?fPostId=@item.postId"><button class="btn"><img class="btnimage" src="~/Images/Forum/edit.png" /></button></a>
+                            <a href="~/Forum/Edit?fPostId=@item.postId"><button class="btn"><img class="btnimage" src="~/Images/Forum/edit.png" title="編輯" /></button></a>
                         }
                     }
                 </td>

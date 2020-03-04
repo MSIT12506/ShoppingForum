@@ -35,8 +35,8 @@
                     }
                     <img src="@imageScrUra" style="width:100%; position:absolute;margin-top:80px" />
                     <img src="@imageScr" style="width:40%;border-radius:120px;position:absolute;margin-top:60px" />
-                    
- 
+
+
                 </dl>
             </div>
         </div>
@@ -44,9 +44,10 @@
         <div class="col-12 col-md-4 col-lg-4">
             <div>
                 <dl class="dl-horizontal" style="margin-top:60px;margin-left:50px;font-size:18px">
-
+                  
                     <dt>
-                        @Html.DisplayNameFor(model => model.fProductChName)
+                        @Html.DisplayNameFor(model => model.fProductChName)   
+                        <a onclick="addToFavorite(@Model.fProductID)" style="padding-left:200px"><img src="~/Images/Product/like_blue.png" title="收藏" width="35"/></a>
                     </dt>
 
                     <dd>
@@ -78,12 +79,12 @@
                     </dd>
 
                     @*<dt>
-                            @Html.DisplayNameFor(model => model.fDiscontinued)
-                        </dt>
+            @Html.DisplayNameFor(model => model.fDiscontinued)
+        </dt>
 
-                        <dd>
-                            @Html.DisplayFor(model => model.fDiscontinued)
-                        </dd>*@
+        <dd>
+            @Html.DisplayFor(model => model.fDiscontinued)
+        </dd>*@
 
                     <dt>
                         @Html.DisplayNameFor(model => model.tCategory.fCategoryName)
@@ -106,10 +107,10 @@
                         <input type="number" id="buyQuantity" max="@Model.fUnitsInStock" min="1" value="1" />
                         <input type="hidden" class="txtStock" value="@Model.fUnitsInStock" />
                     </dt>
-                    
+
                     <div style="margin-top:20px">
-                        <a class="btn btn-info btn-block" onclick="addToFavorite(@Model.fProductID)">收藏</a>
-                        <a class="btn btn-warning btn-block" onclick="addToCartFromProduct(@Model.fProductID)">
+
+                        <a class="btn btn-outline-info btn-block" style="border:3px solid #85DBD5"; onclick="addToCartFromProduct(@Model.fProductID)">
                             <img src="~/Images/ShoppingCart/carticon.png" />
                         </a>
                     </div>

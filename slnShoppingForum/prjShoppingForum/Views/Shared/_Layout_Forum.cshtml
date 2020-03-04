@@ -16,8 +16,8 @@
     <link rel="stylesheet" href="~/Content/template/css/core-style.css">
     <link rel="stylesheet" href="~/Content/style.css">
     <style>
-        * { 
-            font-family: 'UD Digi Kyokasho N-R' !important; 
+        * {
+            font-family: 'UD Digi Kyokasho N-R' !important;
         }
 
         .forum-mid {
@@ -25,19 +25,31 @@
             min-height:60vh;
             margin: auto;
         }
+        .backgroundImage {
+            background-image: url('../../Images/background/background4.png');
+            background-attachment: scroll;
+            background-repeat: repeat
+        }
+        .liFont {
+           
+            color: white !important;
+        }
+            .liFont:hover {
+             
+                color: black !important;
+            }
     </style>
     @RenderSection("Styles", false)
-
-
+    
 </head>
-<body>
-    <div class="ForumSharedLayout">
-        <header class="header_area">
-            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
+<body class="backgroundImage" >
+    <div class="wrapper">
+        <header class="header_area" style="height:100px">
+            <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between" style="background-color:#729bb0; height:100px">
                 <!-- Classy Menu -->
                 <nav class="classy-navbar" id="essenceNav">
                     <!-- Logo -->
-                    <a class="nav-brand" href="index.html"><img src="img/core-img/logo.png" alt=""></a>
+                    <a class="nav-brand" href="/Home/Index"><img src="~/Images/logo.png" alt="" style="height:85px; width:auto;"></a>
                     <!-- Navbar Toggler -->
                     <div class="classy-navbar-toggler">
                         <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -51,19 +63,19 @@
                         <!-- Nav Start -->
                         <div class="classynav">
                             <ul>
-                                <li>
+                                @*<li>
                                     <a href="~/Home/Index"><img src="~/Images/logo.png" style="height:85px; width:auto;" /></a>
+                                </li>*@
+                                <li>
+                                    <a href="~/Forum/List" class="liFont">文章首頁</a>
                                 </li>
                                 <li>
-                                    <a href="~/Forum/List">文章首頁</a>
+                                    <a href="~/Forum/SelfList" class="liFont">收藏 / 隱藏列表</a>
                                 </li>
                                 <li>
-                                    <a href="~/Forum/SelfList">收藏 / 隱藏列表</a>
-                                </li>
-                                <li>
-                                    <button type="button" class="btn" data-toggle="modal" data-target="#ModalScrollableForPost">
-                                        發表文章
-                                    </button>
+                                        <button type="button" class="btn liFont" data-toggle="modal" data-target="#ModalScrollableForPost" >
+                                            發表文章
+                                        </button>
                                 </li>
 
                             </ul>
@@ -75,10 +87,10 @@
                 <!-- Header Meta Data -->
                 <div class="header-meta d-flex clearfix justify-content-end">
                     <!-- Search Area -->
-                    <div class="search-area">
+                    <div class="search-area"  >
                         <div class="formfake">
-                            <input type="search" name="search" id="searchPost" placeholder="文章標題">
-                            <button type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                            <input type="search" name="search" id="searchPost" placeholder="文章標題" style="background-color:#729bb0"/ >
+                            <button type="button"><i class="fa fa-search" aria-hidden="true" ></i></button>
                         </div>
 
                     </div>
@@ -96,7 +108,7 @@
         </div>
 
         <!-- ##### Footer Area Start ##### -->
-        <footer class="footer_area clearfix" style="background-color:#645447">
+        <footer class="footer_area clearfix" style="background-color:#858E88;margin-top:100px;padding:40px 0 20px">
             <div class="container">
                 <div class="row">
                     <!-- Single Widget Area -->
@@ -167,7 +179,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">離開</button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" id="crmPost">確認發佈</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" id="crmPost">確認送出</button>
                     </div>
                 </div>
             </div>

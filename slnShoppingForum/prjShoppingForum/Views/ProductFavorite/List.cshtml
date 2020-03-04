@@ -20,11 +20,11 @@
     }
 </script>
 
-<div>
-    <h2 style="margin:auto;text-align:center;">    收藏清單    </h2>
+<div style="padding-top:70px;margin-left:600px;">
+    <img src="~/Images/ShoppingCart/favoritebulletin.jpg" />
 </div>
 
-<div style="width:70%;margin:auto;text-align:center">
+<div style="width:70%;margin:auto;text-align:center;font-size:18px;margin-top:50px;">
     <table class="table">
         <thead class="thead-light">
             <tr>
@@ -57,10 +57,10 @@
                         <img src="@imageScr" style="height:100px;width:100px" />
                     </td>
                     <td>
-                        <a href="@producthref" style="color:royalblue">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
+                        <a href="@producthref" style="color:royalblue;font-size:18px;">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
+                        NT$ @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.tProduct.fUnitsInStock)
@@ -69,8 +69,8 @@
                         @item.fAddTime.ToShortDateString()
                     </td>
                     <td>
-                        <a class="btn btn-warning addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
-                        <a class="btn btn-danger" onclick="doubleCheck(@item.fFavoriteId)">刪除</a>
+                        <a class="btn btn-outline-info addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
+                        <a class="btn btn-outline-success" onclick="doubleCheck(@item.fFavoriteId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
                     </td>
                 </tr>
             }

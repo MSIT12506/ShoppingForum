@@ -45,9 +45,9 @@
     <img src="~/Images/ShoppingCart/bulletin.png" style="height:180px;width:700px" />
 </div>
 <div style="width:85%;text-align:right">
-    <a class="btn btn-primary" style="color:black;margin-bottom:10px;" onclick="doubleCheckAll()">清空購物車</a>
+    <a class="btn btn-warning" style="color:black;margin-bottom:10px;" onclick="doubleCheckAll()">清空購物車</a>
 </div>
-<div style="width:70%;text-align:center;margin:auto;padding-top:5px;">
+<div style="width:70%;text-align:center;margin:auto;padding-top:5px;font-size:18px;">
     @using (Html.BeginForm())
     {
         <table class="table">
@@ -68,11 +68,11 @@
                     <th style="width:20%">
                         數量
                     </th>
-                    <th style="width:20%">
+                    <th style="width:15%">
                         小計
                     </th>
-                    <th style="width:20%">
-
+                    <th style="width:30%">
+                        收藏 / 刪除
                     </th>
                 </tr>
             </thead>
@@ -90,10 +90,13 @@
                             <img src="@imageScr" style="height:100px;width:100px" />
                         </td>
                         <td>
-                            <a href="@producthref" style="color:royalblue">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
+                            <a href="@producthref" style="color:royalblue;font-size:18px;">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
+                            NT$
+                            <span class="unitprice">
+                                @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
+                            </span>
                         </td>
                         <td>
                             <input type="button" class="btn btn-secondary numberMinus" value="-" />
@@ -102,14 +105,15 @@
                             <input type="button" class="btn btn-secondary numberPlus" value="+" />
 
                         </td>
-                        <td>
+                        <td style="color:red">
+                            NT$
                             <span class="productSum">
                                 @(item.fQuantity * (double)item.tProduct.fUnitPrice)
                             </span>
                         </td>
                         <td>
-                            <a class="btn btn-warning" onclick="addToFavorite(@item.fProductID)">收藏</a>
-                            <a class="btn btn-danger" onclick="doubleCheck(@item.fBasketId)">刪除</a>
+                            <a class="btn btn-outline-info" onclick="addToFavorite(@item.fProductID)"><img src="~/Images/ShoppingCart/favorite.png" /></a>
+                            <a class="btn btn-outline-success" onclick="doubleCheck(@item.fBasketId)"><img src="~/Images/ShoppingCart/delete.png"/></a>
                         </td>
                     </tr>
                 }
@@ -123,14 +127,15 @@
                 <option>優惠券</option>
             </select>
             <span id="score">
-                <input type="number" name="score" value="0" min="0" style="text-align:center"/>
+                <input type="number" name="score" value="0" min="0" style="text-align:center;height:30px;" />
                 @foreach (var item in Model.UserProfiles)
-                 {
-                    <input type="hidden" value="@item.fScore" name="memberScore"/>
-                 }
-                </span>
+                {
+                    <input type="hidden" value="@item.fScore" name="memberScore" />
+                    <span style="color:orange">目前積分：@item.fScore</span>
+                }
+            </span>
             <span id="coupon">
-                <select name="selectcoupon">
+                <select name="selectcoupon" id="selectcoupon">
                     <option>無</option>
                     @foreach (var item in Model.UserDiscountLists)
                     {
@@ -144,14 +149,16 @@
             總共
             <span class="cartSumCount" style="color:red">0</span>
             項商品，商品總計
+            <span style="color:red">NT$ </span>
             <span class="cartSumPrice" style="color:red">
                 @totalPrice
             </span>
             <span>
                 ，折扣後商品金額為
             </span>
+            <span style="color:red">NT$ </span>
             <span class="totalSumPrice" style="color:red">
-
+                0
             </span>
         </div>
         <div style="text-align:right;border-top:1px dashed black;padding:15px;text-align:center">
@@ -162,21 +169,21 @@
     }
 </div>
 <br />
-<h2 style="text-align:center">瀏覽紀錄</h2>
+<h4 style="text-align:center">瀏覽紀錄</h4>
 <div style="height:240px;width:70%;margin:auto;display:flex;margin-bottom:50px;background-color:aliceblue">
     @foreach (var item in Model.BrowseHistory.OrderByDescending(t=>t.fBrowseTime).Take(7))
     {
         var imageScr = $"/Images/Product/{item.fProductId}.jpg";
         var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
 
-        <a href="@producthref" style="border:2px solid;">
+        <a href="@producthref" style="border:2px solid;margin-right:2px;">
             <div style="display:block;margin:20px;text-align:center;">
                 <img src="@imageScr" style="height:150px;width:150px;" />
-                <div style="text-align:center;margin:4px;font-size:20px;">
+                <div style="text-align:center;margin:4px;font-size:16px;">
                     @item.tProduct.fProductChName
                 </div>
-                <div style="text-align:center;margin:4px;font-size:16px;">
-                    $ @item.tProduct.fUnitPrice
+                <div style="text-align:center;margin:4px;font-size:16px;color:blue;">
+                    NT$ @item.tProduct.fUnitPrice
                 </div>
             </div>
         </a>
@@ -189,7 +196,7 @@
 
     $(document).ready(function () {
         $("#toOrder").prop("disabled", true);               //關掉送出訂單按鈕
-        $("#discount").prop("disabled", true);             //鎖住選擇優惠欄位
+        $("#discount").prop("disabled", true);              //鎖住選擇優惠欄位
         $("#score").hide();                                 //隱藏積分欄位
         $("#coupon").hide();                                //隱藏優惠券欄位
     })
@@ -198,7 +205,7 @@
     $(".numberMinus").click(function () {
         let num = $(this).siblings(".txtNum").val();        //目前商品數量
         let numStock = $(this).siblings(".txtStock").val(); //目前商品存貨數量
-        let productPrice = $(this).parent().prev().text();  //目前商品價格
+        let productPrice = $(this).parent().prev().find(".unitprice").text();  //目前商品價格
 
         if (num <= 1) {
             $(this).prop("disabled", true);                 //關掉減少按鈕
@@ -206,7 +213,7 @@
         else {
             num--;
             $(this).siblings(".txtNum").val(num);                           //減少的值傳給數量欄位
-            $(this).parent().next().text(num * parseInt(productPrice));     //小計更新
+            $(this).parent().next().find(".productSum").text(num * parseInt(productPrice));     //小計更新
             $(this).parent().next().addClass("productSum")                  //小計的顏色變成紅色(上面更新會蓋過格式)
 
             if (num < parseInt(numStock)) {
@@ -220,15 +227,15 @@
     })
     //商品數量增加
     $(".numberPlus").click(function () {
-        let num = $(this).siblings(".txtNum").val();        //目前商品數量
-        let numStock = $(this).siblings(".txtStock").val(); //目前商品存貨數量
-        let productPrice = $(this).parent().prev().text();  //目前商品價格
+        let num = $(this).siblings(".txtNum").val();                            //目前商品數量
+        let numStock = $(this).siblings(".txtStock").val();                     //目前商品存貨數量
+        let productPrice = $(this).parent().prev().find(".unitprice").text();   //目前商品價格
 
         if (num < parseInt(numStock)) {
             num++;
-            $(this).siblings(".txtNum").val(num);                           //增加的值傳給數量欄位
-            $(this).parent().next().text(num * parseInt(productPrice));     //小計更新
-            $(this).parent().next().addClass("productSum")                  //小計的顏色變成紅色(上面更新會蓋過格式)
+            $(this).siblings(".txtNum").val(num);                                               //增加的值傳給數量欄位
+            $(this).parent().next().find(".productSum").text(num * parseInt(productPrice));     //小計更新
+            $(this).parent().next().addClass("productSum")                                      //小計的顏色變成紅色(上面更新會蓋過格式)
 
             if (num > 0)
             {
@@ -287,11 +294,11 @@
         }
         else
         {
-            $(this).val(1)                                                                  //如果值不屬於範圍區間，則返回1
+            $(this).val(1)                                                                                      //如果值不屬於範圍區間，則返回1
         }
 
-        let productPrice = $(this).parent().prev().text();                                  //目前商品價格
-        $(this).parent().next().text($(this).val() * parseInt(productPrice));               //小計修改
+        let productPrice = $(this).parent().prev().find(".unitprice").text();                                    //目前商品價格
+        $(this).parent().next().find(".productSum").text($(this).val() * parseInt(productPrice));                //小計修改
         $(this).parent().next().addClass("productSum");
     })
     //計算總價 & 總數量 (將有打勾的商品全部加總)
@@ -302,14 +309,14 @@
             let checked = $(this).prop("checked")                                                  //每個checkbox狀態
             if (checked) {
                 let productCount = $(this).parent().parent().find(".txtNum").val();                //商品數量
-                let productUnitPrice = parseInt($(this).parent().next().next().next().text());     //商品單價
+                let productUnitPrice = parseInt($(this).parent().next().next().next().find(".unitprice").text());     //商品單價
                 totalSumCount += parseInt(productCount);                                           //數量加到總數量
                 totalSumPrice += productCount * productUnitPrice;                                  //價錢加到總價
             }
         })
         $(".cartSumCount").text(totalSumCount);                                                    //更新總數量
         $(".cartSumPrice").text(totalSumPrice);                                                    //更新總價
-        $(".totalSumPrice").text(totalSumPrice);     
+        $(".totalSumPrice").text(totalSumPrice);                                                   //更新折扣完總價
     }
     //勾選商品後將勾選的數量存進購物車&將勾選的購物車的Id存入隱藏input
     function totalProductId() {
@@ -421,11 +428,14 @@
             $("#coupon").show();
             $("input[name='score']").val(0);
         }
+        tatalResult();
     })
+    //會員積分數量使用上限
     function scoreMax() {
         let sum = parseInt($(".cartSumPrice").text());
         $("input[name='score']").attr("max", sum * 0.1);
     }
+    //判斷輸入的積分是否大於會員積分
     $("input[name='score']").change(function () {
         let score = parseInt( $("input[name='score']").val());
         let memberScore = parseInt($("input[name='memberScore']").val());
@@ -440,6 +450,7 @@
             $("input[name='coupon']").val("無");
         }
     })
+    //判斷使用者是否選擇優惠
     $("select[name='selectcoupon']").change(function () {
         let discountCode = $(this).val();
         let totalMoney = parseInt($(".cartSumPrice").text());
@@ -452,8 +463,8 @@
                 data: { discountCode: discountCode, totalMoney: totalMoney }
             }).done(function (data) {
                 alert(data.message);
-                if (data.message == "已成功使用優惠券") {
-                    $(this)[0].selectedIndex = 0;
+                if (data.message != "已成功使用優惠券") {
+                    $("#selectcoupon")[0].selectedIndex = 0;
                 }
                 $(".totalSumPrice").text(data.returnNum);
                 $("input[name='coupon']").val(discountCode);

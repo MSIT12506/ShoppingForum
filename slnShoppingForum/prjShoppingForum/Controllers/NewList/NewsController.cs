@@ -29,10 +29,11 @@ namespace tw.com.essentialoil.Controllers
         //前台消息清單
         public ActionResult NewsList()
         {
+
             var t = from i in db.tNews
                     select i;
-            List<tNew> tt = t.ToList();        
-            return View(t);
+            var tt = t.Where(p => p.fNewsDiscontinue != true).ToList();    
+            return View(tt);
         }
 
         //前台消息搜索
@@ -70,7 +71,7 @@ namespace tw.com.essentialoil.Controllers
         // 後臺新增消息
         public ActionResult Create()
         {
-            ViewBag.fId = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
+            ViewBag.fAddUser = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
             return View();
         }
 
@@ -91,7 +92,7 @@ namespace tw.com.essentialoil.Controllers
         // 後臺編輯消息
         public ActionResult Edit(int Id)
         {
-            ViewBag.fId = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
+            ViewBag.fChangUser = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
             var News = _NewsRepository.GetNews(Id);
             return View(News);
 

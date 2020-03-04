@@ -359,6 +359,11 @@
     <Content Include="Images\Member\signup-image.jpg" />
     <Content Include="Images\Member\signup.jpg" />
     <Content Include="Images\NewPost.png" />
+    <Content Include="Images\News\hot_hot.png" />
+    <Content Include="Images\News\ic_news.png" />
+    <Content Include="Images\News\news_icc.png" />
+    <Content Include="Images\News\qquiz.png" />
+    <Content Include="Images\News\stich.gif" />
     <Content Include="Images\PostList.png" />
     <Content Include="Images\Product\0-1.jpg" />
     <Content Include="Images\Product\0.jpg" />

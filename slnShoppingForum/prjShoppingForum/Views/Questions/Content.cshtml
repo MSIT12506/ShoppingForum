@@ -3,15 +3,48 @@
 @{
     ViewBag.Title = "Content";
 }
+<style>
+    .top {
+        position: relative;
+        left: 150px;
+    }
 
-<span style="font-size:30px;">每日一問&emsp;&emsp;</span><span>@ViewBag.DateTime</span>
+    .box {
+        float: left;
+        border: 2px solid black;
+        width: 400px;
+        border-radius: 10px;
+        padding: 20px;
+    }
 
-<div>
+    .t1 {
+        background-color: #858188;
+    }
+
+    .btn {
+        text-align: right;
+    }
+
+    .img11 {
+        float: left;
+    }
+</style>
+
+<div class="top">
+    <img src="~/Images/News/qquiz.png" />
     <hr />
+</div>
+
+<div class="img11">
+    <img src="~/Images/News/stich.gif" />
+</div>
+<br /><br /><br /><br />
+<div class="box">
+
     @using (Html.BeginForm())
     {
         <div>
-            <span>題目  :</span>
+            <span class="t1"> 題目  :</span>
             @Html.DisplayFor(model => model.fQuestionName)
         </div>
         <br />
@@ -21,31 +54,16 @@
         </div>
         <br />
         <div>
-            @Html.RadioButton("RadioButton1", "A", false) <span> A選項: @Model.fItemA</span> <br />
-            @Html.RadioButton("RadioButton1", "B", false) <span> B選項: @Model.fItemB</span> <br />
-            @Html.RadioButton("RadioButton1", "C", false) <span> C選項: @Model.fItemC</span> <br />
-            @Html.RadioButton("RadioButton1", "D", false) <span> D選項: @Model.fItemD</span> <br />
-            @Html.RadioButton("RadioButton1", "E", false) <span> E選項: @Model.fItemE</span> <br />
+            @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
+            @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
+            @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
+            @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
+            @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
         </div>
         <br />
-        <div>
+        <div class="btn">
             <input type="submit" value="送出" class="btn btn-dark" />
         </div>
-        <div>
-            @Html.HiddenFor(model => model.fQuestionId)
-        </div>
-        <div>
-            @Html.HiddenFor(model => model.tTests)
-        </div>
-        <div>
-            @Html.HiddenFor(model => model.fAnswer)
-        </div>
-    }
-    @section Scripts{
-        <script>
-
-
-        </script>
     }
 
 </div>

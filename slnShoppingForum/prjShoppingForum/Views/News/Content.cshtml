@@ -2,9 +2,47 @@
 
 @* 前台消息內文 *@
 <style>
+    .top {
+        width: 100%;
+        background-color: #BDB4BF;
+        border: 4px 4px 4px 4px;
+    }
+
     .box {
         margin: auto;
         padding: 15px;
+    }
+
+    .article {
+        display: block;
+        width: 800px;
+        /*border:1px solid gray;*/
+        margin: 5px auto;
+        padding: 30px 80px;
+        background-color: #ffffff;
+        border-radius: 10px;
+    }
+
+    .t1 {
+        color: azure;
+        background-color: #505f95;
+        text-align:center; 
+        text-shadow: 5px 5px 5px gray;
+        margin-bottom: 20px auto;
+        display: initial;
+    }
+    .t2 {
+        text-align: right;
+        font-size: 30px;
+    }
+    .tm1
+    {
+        background-color: #EBE9E1;
+        text-align: right
+    }
+    .mainA 
+    {
+        text-align:center;
     }
 
     .s {
@@ -18,82 +56,51 @@
     }
 
     .star {
-        margin: auto;
-        border: 2px solid #820041;
-        border-radius: 20px;
         width: 800px;
+        text-align: right;
     }
 </style>
 
 <div class="box">
-    <h4>消息列表</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.fClass)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.fClass)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.fNewsTitle)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.fNewsTitle)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.fNewsArticle)
-        </dt>
-        <dd>
-            <div>
-                @Html.Raw(Model.fNewsArticle)
-            </div>
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.fNewsTag)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.fNewsTag)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.fGet_No)
-        </dt>
+    <div class="top">
+        <img src="~/Images/NEWS/SHOP.png" />
+    </div>
+    <hr/>
+    <article>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+        <span class="t1">@Html.DisplayFor(model => model.fClass)</span>&emsp;&emsp;
+        <span class="t2">@Html.DisplayFor(model => model.fNewsTitle)</span>
 
-        <dd>
-            <span id="starsp">@Html.DisplayFor(model => model.fGet_No)</span><br /> 
+        <div class="tm1">
+            @Html.DisplayFor(model => model.fNewsStart)
+            &emsp;&emsp;&emsp;
+            @Html.DisplayFor(model => model.fNewsEnd)
+        </div>
+        <div style="text-align:right">
+            @Html.DisplayNameFor(model => model.fNewsTag)&emsp;@Html.DisplayFor(model => model.fNewsTag)
+        </div>
+        <div style="text-align:right">
+            @Html.DisplayNameFor(model => model.fGet_No) &emsp;&emsp;
+            <span id="starsp">@Html.DisplayFor(model => model.fGet_No)</span><br />
+        </div>
 
-            <span id="starnum"></span> <br />
-        </dd>
-        <dd class="star">
+        <div class="star">
             <a><img id="img1" class="s" src="~/Images/star2.png"></a>
             <a><img id="img2" class="s" src="~/Images/star2.png"></a>
             <a><img id="img3" class="s" src="~/Images/star2.png"></a>
             <a><img id="img4" class="s" src="~/Images/star2.png"></a>
             <a><img id="img5" class="s" src="~/Images/star2.png"></a>
-        </dd>
-        <dt class="btn">
-            <button type="button" class="btn btn-primary" id="Button1"> 重新評點</button>
-        </dt>
-    </dl>
+            <span id="starnum" style="text-align:right"></span>
+        </div>
+        <br />
+        <br />
+        <div class="mainA">
+            @Html.Raw(Model.fNewsArticle)
+        </div>
+    </article>
 </div>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsStart)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.fNewsEnd)
-        </th>
-    </tr>
-    <tr>
-        <td>
-            @Html.DisplayFor(model => model.fNewsStart)
-        </td>
-        <td>
-            @Html.DisplayFor(model => model.fNewsEnd)
-        </td>
-    </tr>
-</table>
+
 
 
 
@@ -166,23 +173,15 @@
             )
 
 
-
-
-
-
         }
-        bbtn.addEventListener("click", re);
-        function re() {
-            flag = false;
-            for (var i = 0; i < Imgs.length; i++) {
-                Imgs[i].addEventListener("mouseover", mOver);
-                Imgs[i].addEventListener("mouseout", mOut);
-                Imgs[i].addEventListener("click", Click);
-            }
-        }
+        //bbtn.addEventListener("click", re);
+        //function re() {
+        //    flag = false;
+        //    for (var i = 0; i < Imgs.length; i++) {
+        //        Imgs[i].addEventListener("mouseover", mOver);
+        //        Imgs[i].addEventListener("mouseout", mOut);
+        //        Imgs[i].addEventListener("click", Click);
+        //    }
+        //}
     </script>
 }
-
-<p>
-    @Html.ActionLink("Back to List", "Index")
-</p>

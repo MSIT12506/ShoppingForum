@@ -313,6 +313,7 @@
     <Content Include="Content\w3cards.css" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
+    <Content Include="favicon.png" />
     <Content Include="Images\disappear.png" />
     <Content Include="Images\favorite.png" />
     <Content Include="Images\form-wizard-bg.jpg" />
@@ -339,6 +340,8 @@
     <Content Include="Images\Index\shop2.png" />
     <Content Include="Images\Index\shop3.png" />
     <Content Include="Images\Index\shop4.png" />
+    <Content Include="Images\Index\shop5.png" />
+    <Content Include="Images\Index\shop6.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Member\0.png" />
     <Content Include="Images\Member\1.png" />
@@ -360,10 +363,11 @@
     <Content Include="Images\Member\signup.jpg" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\News\hot_hot.png" />
-    <Content Include="Images\News\ic_news.png" />
     <Content Include="Images\News\news_icc.png" />
     <Content Include="Images\News\qquiz.png" />
     <Content Include="Images\News\stich.gif" />
+    <Content Include="Images\News\截圖 2020-03-04 下午6.20.22.png" />
+    <Content Include="Images\News\截圖 2020-03-04 下午6.29.01.png" />
     <Content Include="Images\PostList.png" />
     <Content Include="Images\Product\0-1.jpg" />
     <Content Include="Images\Product\0.jpg" />

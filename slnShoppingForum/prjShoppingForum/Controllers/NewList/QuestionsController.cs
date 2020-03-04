@@ -95,7 +95,9 @@ namespace tw.com.essentialoil.Controllers
             }
             else
             {
-                var testTime = testList.fScoreDate;
+                var testmax = db.tTests.Where(p => p.fId == userId && p.fQuestionScore != null).Select(p => p.fScoreDate).ToList();
+                if (testmax.Count > 0) { }
+                DateTime testTime =testmax.Max();
                 string userTestDateString = testTime.ToString("yyyy-MM-dd");
                 //取出scoreDate的值減掉今天>1
                 DateTime dt1 = Convert.ToDateTime(userTestDateString);
@@ -125,6 +127,11 @@ namespace tw.com.essentialoil.Controllers
                 else
                 {
                     //true=做過=不行做
+                    var nullscore = db.tTests.Where(p => p.fId == userId && p.fScoreDate == testTime).FirstOrDefault();
+                    if (nullscore.fQuestionScore ==null)
+                    {
+                        Testflag = false;
+                    }
                     Testflag = true;
                 }
             }

@@ -8,12 +8,16 @@
         position: relative;
         left: 150px;
     }
-
+    .img11 {
+        position: relative;
+        left:300px;
+    }
     .box {
-        float: left;
-        border: 2px solid black;
-        width: 400px;
-        border-radius: 10px;
+        position:absolute;
+        top:500px;
+        border: 2px solid #418066;
+        width: 350px;
+        border-radius: 15px;
         padding: 20px;
     }
 
@@ -22,12 +26,10 @@
     }
 
     .btn {
-        text-align: right;
+        
     }
 
-    .img11 {
-        float: left;
-    }
+
 </style>
 
 <div class="top">
@@ -37,33 +39,34 @@
 
 <div class="img11">
     <img src="~/Images/News/stich.gif" />
-</div>
-<br /><br /><br /><br />
-<div class="box">
 
-    @using (Html.BeginForm())
-    {
-        <div>
-            <span class="t1"> 題目  :</span>
-            @Html.DisplayFor(model => model.fQuestionName)
-        </div>
-        <br />
-        <div>
-            <span>請問   :</span>
-            @Html.DisplayFor(model => model.fQuestion)
-        </div>
-        <br />
-        <div>
-            @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
-            @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
-            @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
-            @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
-            @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
-        </div>
-        <br />
-        <div class="btn">
-            <input type="submit" value="送出" class="btn btn-dark" />
-        </div>
-    }
+   
+    <div class="box">
 
+        @using (Html.BeginForm())
+        {
+            <div>
+                <span class="t1"> 題目  :</span>
+                @Html.DisplayFor(model => model.fQuestionName)
+            </div>
+            <br />
+            <div>
+                <span>請問   :</span>
+                @Html.DisplayFor(model => model.fQuestion)
+            </div>
+            <br />
+            <div>
+                @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
+                @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
+                @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
+                @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
+                @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
+            </div>
+            <br />
+            <div class="btn">
+                <input type="submit" value="送出" class="btn btn-dark" />
+            </div>
+        }
+
+    </div>
 </div>

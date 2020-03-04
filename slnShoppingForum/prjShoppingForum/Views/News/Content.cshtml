@@ -2,11 +2,42 @@
 
 @* 前台消息內文 *@
 <style>
-    .top {
-        width: 100%;
-        background-color: #BDB4BF;
-        border: 4px 4px 4px 4px;
+
+    .hh {
+        text-align: center;
+        color: #7B8670;
     }
+
+    .top {
+        width: 70%;
+        background-color: #BDB4BF;
+        position:relative;
+        left:560px;
+    }
+  
+    .t1 {
+        color: azure;
+        background-color: #505f95;
+        text-shadow: 5px 5px 5px gray;
+        width: 70%;
+        font-size:32px;
+    }
+
+    .t2 {
+        text-align: right;
+        font-size: 30px;
+        width: 70%;
+
+    }
+
+    .tm1 {
+        width: 70%;
+        background-color: #EBE9E1;
+        text-align: right;
+        position: relative;
+        left: 560px;
+    }
+
 
     .box {
         margin: auto;
@@ -23,23 +54,6 @@
         border-radius: 10px;
     }
 
-    .t1 {
-        color: azure;
-        background-color: #505f95;
-        text-align:center; 
-        text-shadow: 5px 5px 5px gray;
-        margin-bottom: 20px auto;
-        display: initial;
-    }
-    .t2 {
-        text-align: right;
-        font-size: 30px;
-    }
-    .tm1
-    {
-        background-color: #EBE9E1;
-        text-align: right
-    }
     .mainA 
     {
         text-align:center;
@@ -57,21 +71,22 @@
 
     .star {
         width: 800px;
-        text-align: right;
+        position:relative;
+        left:950px;
     }
 </style>
 
-<div class="box">
-    <div class="top">
-        <img src="~/Images/NEWS/SHOP.png" />
-    </div>
-    <hr/>
-    <article>
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-        <span class="t1">@Html.DisplayFor(model => model.fClass)</span>&emsp;&emsp;
-        <span class="t2">@Html.DisplayFor(model => model.fNewsTitle)</span>
-
+<article>
+    <div class="box">
+        <h4 class="hh">係精A油</h4>
+        @*<span id="starnum" style="text-align:right"></span>*@
+        <hr />
+        <div class="top">
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+            <span class="t1">@Html.DisplayFor(model => model.fClass)</span>&emsp;&emsp;
+            <span class="t2">@Html.DisplayFor(model => model.fNewsTitle)</span>
+        </div>
         <div class="tm1">
             @Html.DisplayFor(model => model.fNewsStart)
             &emsp;&emsp;&emsp;
@@ -91,16 +106,19 @@
             <a><img id="img3" class="s" src="~/Images/star2.png"></a>
             <a><img id="img4" class="s" src="~/Images/star2.png"></a>
             <a><img id="img5" class="s" src="~/Images/star2.png"></a>
-            <span id="starnum" style="text-align:right"></span>
         </div>
         <br />
         <br />
+        <br />
+        <br />
+
+
         <div class="mainA">
             @Html.Raw(Model.fNewsArticle)
         </div>
-    </article>
-</div>
 
+    </div>
+</article>
 
 
 

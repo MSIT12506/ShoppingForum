@@ -11,61 +11,63 @@
     @Html.ActionLink("新增會員", "UserCreate")
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fUserId)
-        </th>
+    <thead style="background-color:#4E6081">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fUserId)
+            </th>
 
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fGender)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fBirthday)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fTel)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fPhone)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fCity)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fAddress)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fPhoto)
-        </th>*@
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fCreateDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fScore)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fAuth)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fAuthPost)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().fAuthReply)
-        </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().tScore.fId)
-        </th>*@
-        @*<th>
-            @Html.DisplayNameFor(model => model.FirstOrDefault().tUserLog.fUserIP)
-        </th>*@
-        <th></th>
-    </tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fGender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fBirthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fTel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fAddress)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fPhoto)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fCreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fAuth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fAuthPost)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fAuthReply)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tScore.fId)
+            </th>*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserLog.fUserIP)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
 
     @foreach (var item in Model)
     {

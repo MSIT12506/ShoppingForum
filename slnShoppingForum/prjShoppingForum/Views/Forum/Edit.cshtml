@@ -10,39 +10,48 @@
 
 @section Styles{
     <style>
+        .content {
+            width: 900px;
+            margin: 150px auto auto auto
+        }
         .PostContent {
-            width: 600px;
+            width: 800px;
             height: auto;
-            margin: auto;
+            margin: 20px auto auto auto;
         }
 
         .PostContentInner {
-            width: 600px;
-            margin: 20px auto;
+            width: 800px;
+            margin: auto;
         }
 
         #editorForEdit {
             min-height: 500px;
         }
+        .borderline {
+            border: solid 3px #9c577d !important;
+            border-radius: 20px;
+            padding: 20px;
+        }
     </style>
 }
-
-<div class="PostContent">
-    <h2>編輯文章</h2>
-    <div class="PostContentInner">
-        標題：<br />
-        <input type="text" name="postTitle" value="@Model.fPostTitle" id="postTitleForEdit" />
-        <br />
-        <br />
-        內文：<br />
-        <div id="editorForEdit">
+    <div class="content  borderline">
+        <div class="PostContent">
+            <h4>編輯文章</h4>
+            <div class="PostContentInner">
+                標題：<br />
+                <input type="text" name="postTitle" value="@Model.fPostTitle" id="postTitleForEdit" />
+                <br />
+                <br />
+                內文：<br />
+                <div id="editorForEdit">
+                </div>
+                <button type="button" class="btn btn-info" id="confirmEdit" style="margin-top:15px">修改完畢</button>
+            </div>
         </div>
-        <button type="button" class="btn btn-primary" id="confirmEdit">修改完畢</button>
     </div>
-</div>
-
-@section Scripts{
-    <script>
+        @section Scripts{
+            <script>
         let toolbarOptionsForEdit = [
             ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
             ['blockquote', 'code-block'],
@@ -70,9 +79,9 @@
         let content = @Html.Raw(jsonContent);
         console.log(content);
         quillPost.setContents(content);
-    </script>
+            </script>
 
-    <script>
+            <script>
         $("#confirmEdit").click(function () {
             //取得修改後文章內容
             let title = $("#postTitleForEdit").val();
@@ -90,7 +99,7 @@
             )
         })
 
-    </script>
-}
+            </script>
+        }
 
 

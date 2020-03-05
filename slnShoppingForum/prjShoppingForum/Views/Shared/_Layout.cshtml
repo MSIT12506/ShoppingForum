@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @*<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />*@
+
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 
     <!-- Favicon  -->
-    <link rel="icon" href="~/Content/template/img/core-img/favicon.ico">
+    <link rel="icon" href="~/favicon.png">
 
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="~/Content/template/css/core-style.css">
@@ -91,7 +92,7 @@
                     </div>
                     @Html.Action("AfterLogin", "FrontUserProfile");
 
-                
+
                 </div>
 
             </div>
@@ -158,6 +159,12 @@
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/template/js/popper.min.js"></script>
     @*<script src="~/Content/template/js/plugins.js"></script>*@
+    @* full月曆 *@
+    <script src="~/Scripts/fullcalendar/01.js"></script>
+    <script src="~/Scripts/fullcalendar/02.js"></script>
+    <script src="~/Scripts/fullcalendar/03.js"></script>
+    <script src="~/Scripts/fullcalendar/04.js"></script>
+
     <script src="~/Content/template/js/classy-nav.min.js"></script>
     <script src="~/Content/template/js/active.js"></script>
     <script>
@@ -176,7 +183,7 @@
         if (Html.ViewContext.HttpContext.Session["Quizstatus"] != null)
         {
             <script>
-                $('#Quiz').attr('href','#');
+                $('#Quiz').attr('href', '#');
                 $('#Quiz').click(function () {
                     alert("今日已做過題目，不能再答題囉!!!!!!");
                 })

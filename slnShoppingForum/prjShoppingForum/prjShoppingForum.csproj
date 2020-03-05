@@ -189,6 +189,9 @@
     <Content Include="Content\essence\owl.carousel.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\fullca\css01.css" />
+    <Content Include="Content\fullca\css02.css" />
+    <Content Include="Content\fullca\css03.css" />
     <Content Include="Content\material-design-iconic-font.min.css" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\SignUpstyle.css" />
@@ -1116,6 +1119,10 @@
     <Content Include="Content\template\scss\_responsive.scss" />
     <Content Include="Content\template\scss\_theme_color.scss" />
     <Content Include="Content\template\scss\_variables.scss" />
+    <Content Include="Scripts\fullcalendar\01.js" />
+    <Content Include="Scripts\fullcalendar\02.js" />
+    <Content Include="Scripts\fullcalendar\03.js" />
+    <Content Include="Scripts\fullcalendar\04.js" />
     <Content Include="Scripts\index.js.flow" />
     <Content Include="Scripts\esm\popper.min.js.map" />
     <Content Include="Scripts\esm\popper.js.map" />

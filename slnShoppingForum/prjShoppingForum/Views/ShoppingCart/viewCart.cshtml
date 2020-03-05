@@ -139,7 +139,10 @@
                     <option>無</option>
                     @foreach (var item in Model.UserDiscountLists)
                     {
-                        <option value="@item.fDiscountCode">@item.tDiscount.fDiscountName</option>
+                        if (item.fCount != 0)
+                        {
+                            <option value="@item.fDiscountCode">@item.tDiscount.fDiscountName</option>
+                        }
                     }
                 </select>
                 <input type="hidden" name="coupon" value="無"/>

@@ -246,13 +246,26 @@
                 dateClick: function (info) {
                     alert('clicked' + info.dateStr);
                 },
-                //select: function (info) {
-                //    alert('selected' + info.startStr + ' to ' + info.endStr);
-                //}
-            });
+
+                events: [
+                    {
+                        'title': '1234',
+                        'start': '2020-03-06',
+                        'end': '2020-03-15'
+                    }
+                ]
+
+            }
+            )
 
             calendar.render();
+
         });
+
+       
+
+            
+       
 
     </script>
 }

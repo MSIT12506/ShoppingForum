@@ -110,7 +110,7 @@
 
                     <div style="margin-top:20px">
 
-                        <a class="btn btn-outline-info btn-block" style="border:3px solid #85DBD5"; onclick="addToCartFromProduct(@Model.fProductID)">
+                        <a class="btn btn-outline-info btn-block addCart" onclick="addToCartFromProduct(@Model.fProductID)">
                             <img src="~/Images/ShoppingCart/carticon.png" />
                         </a>
                     </div>
@@ -118,9 +118,9 @@
                 </dl>
 
 
-                @section scripts{
-                    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
-                    <script>
+    @section scripts{
+    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
+    <script>
 
     //當數量欄位被鍵盤修改時
     $("#buyQuantity").change(function () {
@@ -150,7 +150,6 @@
             async: false
         })
     }
-
     //加入購物車動畫
     $(".addCart").click(function (event) {
         var addcar = $(this);
@@ -171,8 +170,9 @@
                 addcar.css("cursor", "default");
             }
         });
+        cartCount();
     })
-                    </script>
+    </script>
                 }
             </div>
         </div>

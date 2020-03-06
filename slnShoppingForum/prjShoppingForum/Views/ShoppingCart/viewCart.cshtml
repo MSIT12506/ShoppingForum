@@ -1,8 +1,8 @@
 ﻿@model tw.com.essentialoil.ShoppingCart.ViewModels.CShoppingCart
 
 <style>
-    .hide{
-        display:none;
+    .hide {
+        display: none;
     }
 
     .container {
@@ -35,17 +35,24 @@
     input[type="number"] {
         -moz-appearance: textfield;
     }
+    .checkbox {
+        height:15px !important;
+        width:15px !important;
+    }
 </style>
 @{
     ViewBag.Title = "viewCart";
     double totalPrice = 0;
 }
 
-<div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
-    <img src="~/Images/ShoppingCart/bulletin.png" style="height:180px;width:700px" />
+<div style="width:70%;text-align:left;margin:auto;padding-top:0px;">
+    <div style="margin-top:150px;margin-bottom:10px">
+        <img src="~/Images/ShoppingCart/bulletin.png" style="height:100px;width:320px; margin-right:60px" />
+        <img src="~/Images/ShoppingCart/step1.png" style="height:150px;width:auto;" />
+    </div>
 </div>
 <div style="width:85%;text-align:right">
-    <a class="btn btn-warning" style="color:black;margin-bottom:10px;" onclick="doubleCheckAll()">清空購物車</a>
+    <a class="btn btn-outline-danger" style="margin-bottom:3px;" onclick="doubleCheckAll()">清空購物車</a>
 </div>
 <div style="width:70%;text-align:center;margin:auto;padding-top:5px;font-size:18px;">
     @using (Html.BeginForm())
@@ -79,15 +86,15 @@
             <tbody style="height:100px;line-height:100px;">
                 @foreach (var item in Model.ShoppingCart)
                 {
-                    var imageScr = $"/Images/Product/{item.fProductID}.jpg";
+                    var imageScr = $"/Images/Product/ura/{item.fProductID}.jpg";
                     var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductID}";
 
                     <tr data-id="@item.fBasketId">
                         <td>
-                            <input type="checkbox" />
+                            <input type="checkbox" class="checkbox"/>
                         </td>
                         <td>
-                            <img src="@imageScr" style="height:100px;width:100px" />
+                            <a href="@producthref"><img src="@imageScr" style="height:100px;width:100px" /></a>
                         </td>
                         <td>
                             <a href="@producthref" style="color:royalblue;font-size:18px;">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
@@ -113,7 +120,7 @@
                         </td>
                         <td>
                             <a class="btn btn-outline-info" onclick="addToFavorite(@item.fProductID)"><img src="~/Images/ShoppingCart/favorite.png" /></a>
-                            <a class="btn btn-outline-success" onclick="doubleCheck(@item.fBasketId)"><img src="~/Images/ShoppingCart/delete.png"/></a>
+                            <a class="btn btn-outline-danger" onclick="doubleCheck(@item.fBasketId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
                         </td>
                     </tr>
                 }
@@ -145,10 +152,10 @@
                         }
                     }
                 </select>
-                <input type="hidden" name="coupon" value="無"/>
+                <input type="hidden" name="coupon" value="無" />
             </span>
         </div>
-        <div style="text-align:right;font-size:32px;border-top:1px dashed black;padding:15px">
+        <div style="text-align:right;font-size:24px;border-top:1px dashed black;padding:15px">
             總共
             <span class="cartSumCount" style="color:red">0</span>
             項商品，商品總計
@@ -164,38 +171,40 @@
                 0
             </span>
         </div>
-        <div style="text-align:right;border-top:1px dashed black;padding:15px;text-align:center">
-            @Html.ActionLink("<<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-info", style = "font-size:36px;" })
+        <div style="text-align:right;border-top:1px dashed black;padding:30px;text-align:center">
+            @Html.ActionLink("<<繼續購物", "ProductFrontPage", "ProductFront", null, new { @class = "btn btn-warning", style = "font-size:24px;width:180px" })
             <input type="hidden" id="orderUrl" name="url" />
-            <input type="submit" id="toOrder" value="確認購買>>" class="btn btn-danger" style="font-size:36px" />
+            <input type="submit" id="toOrder" value="確認購買>>" class="btn btn-info" style="font-size:24px;width:180px;" />
         </div>
     }
 </div>
 <br />
-<h4 style="text-align:center">瀏覽紀錄</h4>
+<h4 style="text-align:center;font-family:'UD Digi Kyokasho N-R';margin-top:60px">瀏覽過的商品</h4>
 <div style="height:240px;width:70%;margin:auto;display:flex;margin-bottom:50px;background-color:aliceblue">
-    @foreach (var item in Model.BrowseHistory.OrderByDescending(t=>t.fBrowseTime).Take(7))
+    @foreach (var item in Model.BrowseHistory.OrderByDescending(t => t.fBrowseTime).Take(7))
     {
-        var imageScr = $"/Images/Product/{item.fProductId}.jpg";
+        var imageScr = $"/Images/Product/ura/{item.fProductId}.jpg";
         var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
 
-        <a href="@producthref" style="border:2px solid;margin-right:2px;">
-            <div style="display:block;margin:20px;text-align:center;">
-                <img src="@imageScr" style="height:150px;width:150px;" />
-                <div style="text-align:center;margin:4px;font-size:16px;">
-                    @item.tProduct.fProductChName
+        <div style="margin:auto">
+            <a href="@producthref" style="border:2px solid none;">
+                <div style="display:block;margin:20px;text-align:center;">
+                    <img src="@imageScr" style="height:150px;width:150px;" />
+                    <div style="text-align:center;margin:4px;font-size:16px;">
+                        @item.tProduct.fProductChName
+                    </div>
+                    <div style="text-align:center;margin:4px;font-size:16px;color:blue;">
+                        NT$ @item.tProduct.fUnitPrice
+                    </div>
                 </div>
-                <div style="text-align:center;margin:4px;font-size:16px;color:blue;">
-                    NT$ @item.tProduct.fUnitPrice
-                </div>
-            </div>
-        </a>
+            </a>
+        </div>
     }
 </div>
-
+</div>
 
 @section scripts{
-<script>
+    <script>
 
     $(document).ready(function () {
         $("#toOrder").prop("disabled", true);               //關掉送出訂單按鈕
@@ -478,5 +487,5 @@
             $("input[name='coupon']").val("無");
         }
     })
-</script>
+    </script>
 }

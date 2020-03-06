@@ -531,7 +531,10 @@
     <Content Include="Images\ShoppingCart\carticon.png" />
     <Content Include="Images\ShoppingCart\delete.png" />
     <Content Include="Images\ShoppingCart\favorite.png" />
-    <Content Include="Images\ShoppingCart\favoritebulletin.jpg" />
+    <Content Include="Images\ShoppingCart\favoritebulletin.png" />
+    <Content Include="Images\ShoppingCart\step1.png" />
+    <Content Include="Images\ShoppingCart\step2.png" />
+    <Content Include="Images\ShoppingCart\step3.png" />
     <Content Include="Images\star2.png" />
     <Content Include="Images\係精a油＿003_128X128.png" />
     <Content Include="Models\Entity\dbShoppingForum.Context.tt">

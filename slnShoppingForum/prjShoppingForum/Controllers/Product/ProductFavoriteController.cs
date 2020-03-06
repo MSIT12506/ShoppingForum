@@ -8,13 +8,14 @@ using tw.com.essentialoil.Models;
 using tw.com.essentialoil.ProductFavorite.ViewModels;
 using tw.com.essentialoil.User.Models;
 
+
 namespace tw.com.essentialoil.Controllers
 {
     public class ProductFavoriteController : Controller
     {
         dbShoppingForumEntities db = new dbShoppingForumEntities();
         int userId;
-
+        
         // GET: ProductFavorite
 
         //清單列表

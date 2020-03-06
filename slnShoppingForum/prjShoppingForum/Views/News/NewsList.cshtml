@@ -85,10 +85,10 @@
             </tr>
         </thead>
 
-        @foreach (var item in Model)
-        {
-            <tbody>
-                <tr>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="newsList" data-starty="@item.fNewsStart.Year.ToString()" data-starym="@item.fNewsStart.Month.ToString()" data-startd="@item.fNewsStart.Day.ToString()" data-endy="@item.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@item.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@item.fNewsEnd.AddDays(1).Day.ToString()" data-title="@item.fNewsTitle">
                     <td>
                         <img src="~/Images/News/news_icc.png" />
                     </td>
@@ -111,14 +111,43 @@
                         @Html.ActionLink("文章內容", "Content", new { Id = item.fNewsId }) |
                     </td>
                 </tr>
-            </tbody>
-        }
+            }
+        </tbody>
     </table>
 </div>
 
 @section scripts{
     <script>
+        let resultArray = [];
+        let newsLists = $('.newsList');
+        $(newsLists).each(function (idx, value) {
+            let title         = $(value).attr('data-title');
+            let startYear     = $(value).attr('data-starty');
+            let startMonthTmp = $(value).attr('data-starym');
+            let startMonth    = (startMonthTmp.length > 1) ? startMonthTmp : `0${startMonthTmp}`;
+            let startDayTmp   = $(value).attr('data-startd');
+            let startDay      = (startDayTmp.length > 1) ? startDayTmp : `0${startDayTmp}`;
+            let endYear       = $(value).attr('data-endy');
+            let endMonthTmp   = $(value).attr('data-endm');
+            let endMonth      = (endMonthTmp.length > 1) ? endMonthTmp : `0${endMonthTmp}`;
+            let endDayTmp     = $(value).attr('data-endd');
+            let endDay        = (endDayTmp.length > 1) ? endDayTmp : `0${endDayTmp}`;
+
+            let result = {
+                'title': title,
+                'start': `${startYear}-${startMonth}-${startDay}`,
+                'end': `${endYear}-${endMonth}-${endDay}`
+            };
+
+            resultArray.push(result);
+        });
+
+
+
+
         document.addEventListener('DOMContentLoaded', function () {
+            console.log(resultArray);
+
             var calendarEl = document.getElementById('calendar');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -129,17 +158,7 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
-                dateClick: function (info) {
-                    alert('clicked' + info.dateStr);
-                },
-                //select: function (info) {
-                //    alert('selected' + info.startStr + ' to ' + info.endStr);
-                //}
-                event: [{
-                    'title': '133',
-                    'start': '2020-03-02',
-                    'end': '2020-03-15'
-                }]
+                events: resultArray
             });
 
             calendar.render();

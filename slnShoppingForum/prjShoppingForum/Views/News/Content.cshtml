@@ -115,7 +115,7 @@
             <span class="t1">@Html.DisplayFor(model => model.fClass)</span>&emsp;&emsp;
             <span class="t2">@Html.DisplayFor(model => model.fNewsTitle)</span>
         </div>
-        <div class="tm1" data-starty="@Model.fNewsStart.Year.ToString()" data-starym="@Model.fNewsStart.Month.ToString()" data-startd="@Model.fNewsStart.Day.ToString()" data-endy="@Model.fNewsEnd.Year.ToString()" data-endm="@Model.fNewsEnd.Month.ToString()" data-endd="@Model.fNewsEnd.Day.ToString()">
+        <div class="tm1" data-starty="@Model.fNewsStart.Year.ToString()" data-starym="@Model.fNewsStart.Month.ToString()" data-startd="@Model.fNewsStart.Day.ToString()" data-endy="@Model.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@Model.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@Model.fNewsEnd.AddDays(1).Day.ToString()">
             @Html.DisplayFor(model => model.fNewsStart)
             &emsp;&emsp;&emsp;
             @Html.DisplayFor(model => model.fNewsEnd)
@@ -235,7 +235,18 @@
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
 
-            let start = $('.tm1').attr('data-starty');
+            let title         = $('.t2').text();
+            let startYear     = $('.tm1').attr('data-starty');
+            let startMonthTmp = $('.tm1').attr('data-starym');
+            let startMonth    = (startMonthTmp.length > 1) ? startMonthTmp : `0${startMonthTmp}`;
+            let startDayTmp   = $('.tm1').attr('data-startd');
+            let startDay      = (startDayTmp.length > 1) ? startDayTmp : `0${startDayTmp}`;
+            let endYear       = $('.tm1').attr('data-endy');
+            let endMonthTmp   = $('.tm1').attr('data-endm');
+            let endMonth      = (endMonthTmp.length > 1) ? endMonthTmp : `0${endMonthTmp}`;
+            let endDayTmp     = $('.tm1').attr('data-endd');
+            let endDay        = (endDayTmp.length > 1) ? endDayTmp : `0${endDayTmp}`;
+
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid', 'timeGrid'],
@@ -248,14 +259,14 @@
                 //dateClick: function (info) {
                 //    alert('clicked' + info.dateStr);
                 //},
-                  select: function (info) {
-                    alert('selected' + info.startStr + ' to ' + info.endStr);
-                },
+                //  select: function (info) {
+                //    alert('selected' + info.startStr + ' to ' + info.endStr);
+                //},
                 events: [
                     {
-                        'title': '1234',
-                        'start': '2020-03-09',
-                        'end': '2020-03-14'
+                        'title': title,
+                        'start': `${startYear}-${startMonth}-${startDay}`,
+                        'end': `${endYear}-${endMonth}-${endDay}`
                     }
                 ]
 

@@ -3,32 +3,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "NewsList";
 }
-<style>
-    .top {
-        position: relative;
-        left: 150px;
-    }
 
-    .sear {
-        position: relative;
-        left: 150px;
-        text-align: right;
-        margin-top: 1px;
-        background-color: #EBE9E1;
-        width: 84%;
-    }
-    .yymmdd {
-        position:relative;
-        left:150px;
-    }
-    .table {
-        position:absolute;
-        left:351px;
-        top:0px;
-        width:66%;
+@section Styles
+    {
+    <link href="~/Content/fullca/css03.css" rel="stylesheet" />
+    <link href="~/Content/fullca/css02.css" rel="stylesheet" />
+    <link href="~/Content/fullca/css01.css" rel="stylesheet" />
+    <style>
+        .top {
+            position: relative;
+            left: 150px;
+        }
 
-    }
-</style>
+        .sear {
+            position: relative;
+            left: 150px;
+            text-align: right;
+            margin-top: 1px;
+            background-color: #EBE9E1;
+            width: 84%;
+        }
+        .yyyymmdd {
+            position:relative;
+            left:150px;
+        }
+        #calendar {
+            position: relative;
+            width: 500px;
+            left: 0px;
+        }
+
+        .table {
+            position: absolute;
+            left: 518px;
+            top: 0px;
+            width: 57%;
+        }
+    </style>
+
+}
 @* 前台消息清單 *@
 
 <div class="top">
@@ -45,63 +58,92 @@
     }
     <h5>@ViewBag.Message</h5>
 </div>
-<div class="yymmdd">
-    <iframe src="https://calendar.google.com/calendar/embed?height=240&amp;wkst=1&amp;bgcolor=%23505f95&amp;ctz=Asia%2FTaipei&amp;src=Y3V0ZTMwMTI4QGdtYWlsLmNvbQ&amp;src=YWRkcmVzc2Jvb2sjY29udGFjdHNAZ3JvdXAudi5jYWxlbmRhci5nb29nbGUuY29t&amp;src=Y2QwZW1kOXQ5dXNsYzJhNGlucmFkYXN0ZWdAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&amp;color=%237986CB&amp;color=%23E4C441&amp;color=%23E67C73&amp;showNav=0&amp;showPrint=0&amp;showTabs=0&amp;showCalendars=1&amp;showTz=0&amp;title=%E4%BF%82%E7%B2%BEA%E6%B2%B9%20%20Hot%20News&amp;showDate=1&amp;showTitle=1" style="border:solid 1px #777" width="350" height="240" frameborder="0" scrolling="no"></iframe>
+<div class="yyyymmdd">
+    <div id='calendar'></div>
 
-    <div>
-        <table class="table">
-            <thead style="background-color:#DE883A">
+    <table class="table">
+        <thead style="background-color:#DE883A">
+            <tr>
+                <th>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fClass)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fNewsTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fNewsDesc)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fNewsStart)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.fNewsEnd)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        @foreach (var item in Model)
+        {
+            <tbody>
                 <tr>
-                    <th>
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.fClass)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.fNewsTitle)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.fNewsDesc)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.fNewsStart)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.fNewsEnd)
-                    </th>
-                    <th></th>
+                    <td>
+                        <img src="~/Images/News/news_icc.png" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fClass)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fNewsTitle)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fNewsDesc)
+                    </td>
+                    <td>
+                        @item.fNewsStart.ToLongDateString()
+                    </td>
+                    <td>
+                        @item.fNewsEnd.ToLongDateString()
+                    </td>
+                    <td>
+                        @Html.ActionLink("文章內容", "Content", new { Id = item.fNewsId }) |
+                    </td>
                 </tr>
-            </thead>
-
-            @foreach (var item in Model)
-            {
-                <tbody>
-                    <tr>
-                        <td>
-                            <img src="~/Images/News/news_icc.png" />
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.fClass)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.fNewsTitle)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.fNewsDesc)
-                        </td>
-                        <td>
-                            @item.fNewsStart.ToLongDateString()
-                        </td>
-                        <td>
-                            @item.fNewsEnd.ToLongDateString()
-                        </td>
-                        <td>
-                            @Html.ActionLink("文章內容", "Content", new { Id = item.fNewsId }) |
-                        </td>
-                    </tr>
-                </tbody>
-            }
-
-        </table>
-    </div>
+            </tbody>
+        }
+    </table>
 </div>
+
+@section scripts{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid'],
+                selectable: true,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                dateClick: function (info) {
+                    alert('clicked' + info.dateStr);
+                },
+                //select: function (info) {
+                //    alert('selected' + info.startStr + ' to ' + info.endStr);
+                //}
+                event: [{
+                    'title': '133',
+                    'start': '2020-03-02',
+                    'end': '2020-03-15'
+                }]
+            });
+
+            calendar.render();
+        });
+
+    </script>
+}

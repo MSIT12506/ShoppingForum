@@ -1,86 +1,114 @@
 ﻿@model prjShoppingForum.Models.Entity.tNew
 
 @* 前台消息內文 *@
-<style>
-
-    .hh {
-        text-align: center;
-        color: #7B8670;
-    }
-
-    .top {
-        width: 70%;
-        background-color: #BDB4BF;
-        position:relative;
-        left:560px;
-    }
-  
-    .t1 {
-        color: azure;
-        background-color: #505f95;
-        text-shadow: 5px 5px 5px gray;
-        width: 70%;
-        font-size:32px;
-    }
-
-    .t2 {
-        text-align: right;
-        font-size: 30px;
-        width: 70%;
-
-    }
-
-    .tm1 {
-        width: 70%;
-        background-color: #EBE9E1;
-        text-align: right;
-        position: relative;
-        left: 560px;
-    }
 
 
-    .box {
-        margin: auto;
-        padding: 15px;
-    }
-
-    .article {
-        display: block;
-        width: 800px;
-        /*border:1px solid gray;*/
-        margin: 5px auto;
-        padding: 30px 80px;
-        background-color: #ffffff;
-        border-radius: 10px;
-    }
-
-    .mainA 
+@section Styles
     {
-        text-align:center;
-    }
+    <link href="~/Content/fullca/css03.css" rel="stylesheet" />
+    <link href="~/Content/fullca/css02.css" rel="stylesheet" />
+    <link href="~/Content/fullca/css01.css" rel="stylesheet" />
 
-    .s {
-        -webkit-filter: grayscale(1);
-        /*沒有任何色彩的黑白影像*/
-    }
+    <style>
 
-    .n {
-        -webkit-filter: grayscale(0);
-        /*顏色不變*/
-    }
+        html, body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
 
-    .star {
-        width: 800px;
-        position:relative;
-        left:950px;
-    }
-</style>
+        #calendar {
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        .hh {
+            text-align: center;
+            color: #7B8670;
+        }
+
+        .top {
+            width: 70%;
+            background-color: #BDB4BF;
+            position: relative;
+            left: 560px;
+        }
+
+        .t1 {
+            color: azure;
+            background-color: #505f95;
+            text-shadow: 5px 5px 5px gray;
+            width: 70%;
+            font-size: 32px;
+        }
+
+        .t2 {
+            text-align: right;
+            font-size: 30px;
+            width: 70%;
+        }
+
+        .tm1 {
+            width: 70%;
+            background-color: #EBE9E1;
+            text-align: right;
+            position: relative;
+            left: 560px;
+        }
+
+
+        .box {
+            margin: auto;
+            padding: 15px;
+        }
+
+        .article {
+            display: block;
+            width: 800px;
+            /*border:1px solid gray;*/
+            margin: 5px auto;
+            padding: 30px 80px;
+            background-color: #ffffff;
+            border-radius: 10px;
+        }
+
+        .mainA {
+            text-align: center;
+        }
+
+        .s {
+            -webkit-filter: grayscale(1);
+            /*沒有任何色彩的黑白影像*/
+        }
+
+        .n {
+            -webkit-filter: grayscale(0);
+            /*顏色不變*/
+        }
+
+        .star {
+            width: 800px;
+            position: relative;
+            left: 950px;
+        }
+        #calendar {
+            width:500px;
+            position:absolute;
+            top:200px;
+            left:50px;
+        }
+    </style>
+}
+
 
 <article>
     <div class="box">
         <h4 class="hh">係精A油</h4>
         <span id="starnum" style="text-align:right"></span>
         <hr />
+        <div id='calendar'></div>
+
         <div class="top">
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
@@ -119,6 +147,8 @@
 
     </div>
 </article>
+
+
 
 
 
@@ -201,5 +231,43 @@
         //        Imgs[i].addEventListener("click", Click);
         //    }
         //}
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid', 'timeGrid'],
+                selectable: true,
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                //dateClick: function (info) {
+                //    alert('clicked' + info.dateStr);
+                //},
+                  select: function (info) {
+                    alert('selected' + info.startStr + ' to ' + info.endStr);
+                },
+                events: [
+                    {
+                        'title': '1234',
+                        'start': '2020-03-09',
+                        'end': '2020-03-14'
+                    }
+                ]
+
+            }
+            )
+
+            calendar.render();
+
+        });
+
+       
+
+            
+       
+
     </script>
 }

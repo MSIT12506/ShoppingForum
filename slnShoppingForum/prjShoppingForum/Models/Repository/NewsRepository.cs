@@ -71,7 +71,7 @@ namespace tw.com.essentialoil.News.Models
 
             tNew.fNewsDiscontinue = false;
             tNew.fNewsTag = 0;
-            tNew.fGet_No = 0;
+            tNew.fGet_No = 5;
             tNew.fChangUser = "No";
             tNew.fDeleteUser = "No";
             db.tNews.Add(tNew);

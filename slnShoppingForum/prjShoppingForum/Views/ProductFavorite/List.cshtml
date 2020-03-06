@@ -20,8 +20,10 @@
     }
 </script>
 
-<div style="padding-top:70px;margin-left:600px;">
-    <img src="~/Images/ShoppingCart/favoritebulletin.jpg" />
+<div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
+    <div style="margin-top:170px;margin-bottom:10px">
+        <img src="~/Images/ShoppingCart/favoritebulletin.png" style="height:100px;width:320px;" />
+    </div>
 </div>
 
 <div style="width:70%;margin:auto;text-align:center;font-size:18px;margin-top:50px;">
@@ -43,18 +45,21 @@
                 <th>
                     加入時間
                 </th>
+                <th>
+                    加購物車/刪除
+                </th>
                 <th></th>
             </tr>
         </thead>
         <tbody style="height:100px;line-height:100px;">
             @foreach (var item in Model.ProductFavorite)
             {
-                var imageScr = $"/Images/Product/{item.tProduct.fProductID}.jpg";
-                var producthref = $"/ProductFront/ProductSinglePage?productId={item.tProduct.fProductID}";
+                var imageScr = $"/Images/Product/ura/{item.fProductId}.jpg";
+                var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
 
                 <tr>
                     <td>
-                        <img src="@imageScr" style="height:100px;width:100px" />
+                        <a href="@producthref"> <img src="@imageScr" style="height:100px;width:100px" /></a>
                     </td>
                     <td>
                         <a href="@producthref" style="color:royalblue;font-size:18px;">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
@@ -70,7 +75,7 @@
                     </td>
                     <td>
                         <a class="btn btn-outline-info addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
-                        <a class="btn btn-outline-success" onclick="doubleCheck(@item.fFavoriteId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
+                        <a class="btn btn-outline-danger" onclick="doubleCheck(@item.fFavoriteId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
                     </td>
                 </tr>
             }
@@ -91,17 +96,17 @@
                 start: {
                     left: event.pageX,
                     top: event.pageY - $(window).scrollTop()
-                }, 
+                },
                 end: {
-                    left: $("#essenceCartBtn").offset().left, //結束位置（必填） 
-                    top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填） 
-                    width: 0, //結束時寬度 
-                    height: 0 //結束時高度 
-                }, 
-                onEnd: function () { //結束回撥 
+                    left: $("#essenceCartBtn").offset().left, //結束位置（必填）
+                    top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填）
+                    width: 0, //結束時寬度
+                    height: 0 //結束時高度
+                },
+                onEnd: function () { //結束回撥
                     addcar.css("cursor", "default");
-                } 
-            }); 
+                }
+            });
         })
     </script>
 }

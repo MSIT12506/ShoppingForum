@@ -175,7 +175,7 @@ namespace tw.com.EssentialOil.Controllers.Order
                             orderDetail.fOrderId = noworderid.fOrderId;
                             orderDetail.fProductId = items.fProductID;
                             orderDetail.fOrderQuantity = items.fQuantity;
-                            orderDetail.fUnitPrice = items.fQuantity * db.tProducts.Where(p => p.fProductID == items.fProductID).Select(q => q.fUnitPrice).FirstOrDefault();
+                            orderDetail.fUnitPrice = db.tProducts.Where(p => p.fProductID == items.fProductID).Select(q => q.fUnitPrice).FirstOrDefault();
                             db.tOrderDetails.Add(orderDetail);
                             db.SaveChanges();
                         }

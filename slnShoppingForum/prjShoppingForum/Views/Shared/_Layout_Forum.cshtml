@@ -88,18 +88,18 @@
                 </nav>
 
                 <!-- Header Meta Data -->
-                <div class="header-meta d-flex clearfix justify-content-end" >
+                <div class="header-meta d-flex clearfix justify-content-end">
                     <!-- Search Area -->
-                    <div class="search-area" >
+                    <div class="search-area">
                         <div class="formfake" style="border:none !important;">
                             <input type="search" name="search" id="searchPost" placeholder="文章標題" style="color:white; background-color:#729bb0;"/ >
-                            <button type="button"><i class="fa fa-search" aria-hidden="true" ></i></button>
+                            <button type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </div>
 
                     </div>
                     <!-- User Login Info -->
                     <div class="user-login-info">
-                        <a href="#" class="searchInput" style="border:none !important;"><img src="~/Content/template/img/core-img/user.svg" alt=""></a>
+                        <a href="@Url.Action("LogOut", "FrontUserProfile")" id="logout" style="border:none !important;"><img src="~/Content/template/img/core-img/logout2.svg" height="80" width="80" style="margin:5px;" alt=""></a>
                     </div>
                 </div>
 

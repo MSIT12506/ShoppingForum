@@ -35,9 +35,10 @@
     input[type="number"] {
         -moz-appearance: textfield;
     }
+
     .checkbox {
-        height:15px !important;
-        width:15px !important;
+        height: 15px !important;
+        width: 15px !important;
     }
 </style>
 @{
@@ -91,7 +92,7 @@
 
                     <tr data-id="@item.fBasketId">
                         <td>
-                            <input type="checkbox" class="checkbox"/>
+                            <input type="checkbox" class="checkbox" />
                         </td>
                         <td>
                             <a href="@producthref"><img src="@imageScr" style="height:100px;width:100px" /></a>
@@ -201,7 +202,6 @@
         </div>
     }
 </div>
-</div>
 
 @section scripts{
     <script>
@@ -235,6 +235,8 @@
             tatalResult();
             scoreMax();
             saveToDB();
+            scoreCalculation();
+            coupon();
         }
     })
     //商品數量增加
@@ -257,6 +259,8 @@
             tatalResult();
             scoreMax();
             saveToDB();
+            scoreCalculation();
+            coupon();
         }
         else {
             $(this).prop("disabled", true);                                 //關掉增加按鈕
@@ -301,17 +305,19 @@
     })
     //當數量欄位被鍵盤修改時
     $(".txtNum").change(function () {
-        if (parseInt($(this).val()) > 0 && parseInt($(this).val()) < parseInt($(this).siblings(".txtStock").val())) {
+        if (parseInt($(this).val()) > 0 && parseInt($(this).val()) <= parseInt($(this).siblings(".txtStock").val())) {
             $(this).val()
         }
         else
         {
             $(this).val(1)                                                                                      //如果值不屬於範圍區間，則返回1
         }
-
         let productPrice = $(this).parent().prev().find(".unitprice").text();                                    //目前商品價格
         $(this).parent().next().find(".productSum").text($(this).val() * parseInt(productPrice));                //小計修改
-        $(this).parent().next().addClass("productSum");
+        $(this).parent().next().addClass("productSum");                                                          //小計變色
+        tatalResult();
+        scoreCalculation();
+        coupon();
     })
     //計算總價 & 總數量 (將有打勾的商品全部加總)
     function tatalResult() {
@@ -349,11 +355,6 @@
             let checked = $(this).prop("checked");
             if (checked) {
                 count++;
-                $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", true)
-            }
-            else
-            {
-                $(this).parent().next().next().next().next().find(".txtNum").prop("readonly", false)
             }
         })
         if (count != 0)
@@ -448,8 +449,10 @@
         $("input[name='score']").attr("max", sum * 0.1);
     }
     //判斷輸入的積分是否大於會員積分
-    $("input[name='score']").change(function () {
-        let score = parseInt( $("input[name='score']").val());
+    $("input[name='score']").change(function () { scoreCalculation();})
+
+    function scoreCalculation() {
+        let score = parseInt($("input[name='score']").val());
         let memberScore = parseInt($("input[name='memberScore']").val());
         let totalMoney = parseInt($(".cartSumPrice").text());
 
@@ -461,9 +464,11 @@
             $(".totalSumPrice").text(totalMoney - score);
             $("input[name='coupon']").val("無");
         }
-    })
+    }
+
     //判斷使用者是否選擇優惠
-    $("select[name='selectcoupon']").change(function () {
+    $("select[name='selectcoupon']").change(function () { coupon();})
+    function coupon() {
         let discountCode = $(this).val();
         let totalMoney = parseInt($(".cartSumPrice").text());
 
@@ -486,6 +491,6 @@
             $(".totalSumPrice").text(totalMoney);
             $("input[name='coupon']").val("無");
         }
-    })
+    }
     </script>
 }

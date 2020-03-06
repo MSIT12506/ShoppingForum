@@ -68,26 +68,31 @@ namespace tw.com.essentialoil.Controllers
 
             if (product != null)
             {
-
-                tShoppingCart cart = db.tShoppingCarts.Where(p => p.fId == userId).FirstOrDefault(p=>p.fProductID == productId);
-
-                if (cart != null)
+                if (product.fUnitsInStock != 0)
                 {
-                    if (cart.fQuantity < product.fUnitsInStock)
-                        cart.fQuantity += 1;
+                    tShoppingCart cart = db.tShoppingCarts.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductID == productId);
+                    if (cart != null)
+                    {
+                        if (cart.fQuantity < product.fUnitsInStock)
+                            cart.fQuantity += 1;
+                        else
+                            return JavaScript("alert('購物車內該商品數量已超過庫存');");
+                    }
                     else
-                        return JavaScript("alert('購物車內該商品數量已超過庫存');");
+                    {
+                        tShoppingCart cartNew = new tShoppingCart();
+                        cartNew.fId = userId;
+                        cartNew.fProductID = product.fProductID;
+                        cartNew.fQuantity = 1;
+                        cartNew.fAddTime = DateTime.UtcNow.AddHours(8);
+                        db.tShoppingCarts.Add(cartNew);
+                    }
+                    db.SaveChanges();
                 }
                 else
                 {
-                    tShoppingCart cartNew = new tShoppingCart();
-                    cartNew.fId = userId;
-                    cartNew.fProductID = product.fProductID;
-                    cartNew.fQuantity = 1;
-                    cartNew.fAddTime = DateTime.UtcNow.AddHours(8);
-                    db.tShoppingCarts.Add(cartNew);
+                    return JavaScript("alert('該商品已無庫存');");
                 }
-                db.SaveChanges();
             }
             return View();
         }
@@ -108,24 +113,31 @@ namespace tw.com.essentialoil.Controllers
             tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
             if (product != null)
             {
-                tShoppingCart cart = db.tShoppingCarts.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductID == productId);
-                if (cart != null)
+                if (product.fUnitsInStock != 0)
                 {
-                    if ( (cart.fQuantity + (short)selectQuantity) <= product.fUnitsInStock)
-                        cart.fQuantity += (short)selectQuantity;
+                    tShoppingCart cart = db.tShoppingCarts.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductID == productId);
+                    if (cart != null)
+                    {
+                        if ((cart.fQuantity + (short)selectQuantity) <= product.fUnitsInStock)
+                            cart.fQuantity += (short)selectQuantity;
+                        else
+                            return JavaScript("alert('購物車內該商品數量已超過庫存');");
+                    }
                     else
-                        return JavaScript("alert('購物車內該商品數量已超過庫存');");
+                    {
+                        tShoppingCart cartNew = new tShoppingCart();
+                        cartNew.fId = userId;
+                        cartNew.fProductID = product.fProductID;
+                        cartNew.fQuantity = (short)selectQuantity;
+                        cartNew.fAddTime = DateTime.UtcNow.AddHours(8);
+                        db.tShoppingCarts.Add(cartNew);
+                    }
+                    db.SaveChanges();
                 }
                 else
                 {
-                    tShoppingCart cartNew = new tShoppingCart();
-                    cartNew.fId = userId;
-                    cartNew.fProductID = product.fProductID;
-                    cartNew.fQuantity = (short)selectQuantity;
-                    cartNew.fAddTime = DateTime.UtcNow.AddHours(8);
-                    db.tShoppingCarts.Add(cartNew);
+                    return JavaScript("alert('該商品已無庫存');");
                 }
-                db.SaveChanges();
             }
 
             return View();

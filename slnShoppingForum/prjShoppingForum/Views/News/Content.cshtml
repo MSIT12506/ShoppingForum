@@ -115,7 +115,7 @@
             <span class="t1">@Html.DisplayFor(model => model.fClass)</span>&emsp;&emsp;
             <span class="t2">@Html.DisplayFor(model => model.fNewsTitle)</span>
         </div>
-        <div class="tm1">
+        <div class="tm1" data-starty="@Model.fNewsStart.Year.ToString()" data-starym="@Model.fNewsStart.Month.ToString()" data-startd="@Model.fNewsStart.Day.ToString()" data-endy="@Model.fNewsEnd.Year.ToString()" data-endm="@Model.fNewsEnd.Month.ToString()" data-endd="@Model.fNewsEnd.Day.ToString()">
             @Html.DisplayFor(model => model.fNewsStart)
             &emsp;&emsp;&emsp;
             @Html.DisplayFor(model => model.fNewsEnd)
@@ -234,6 +234,8 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
+
+            let start = $('.tm1').attr('data-starty');
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid', 'timeGrid'],

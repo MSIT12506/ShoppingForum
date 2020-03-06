@@ -60,20 +60,4 @@
     }
 </div>
 
-@section scripts{
-    <script>
-     //更新購物車存量
-    function cartCount() {
-        xhr = new XMLHttpRequest();
-        xhr.open('POST', '@Url.Action("cartTotalQuantity", "ShoppingCart")');
-        xhr.send();
-        xhr.addEventListener('load', function () {
-            var count = xhr.responseText;
-            $("#totalQuantity").text(count);
-        })
-    }
-    </script>
-}
-
-
 

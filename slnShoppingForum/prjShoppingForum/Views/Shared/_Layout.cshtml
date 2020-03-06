@@ -191,22 +191,43 @@
 
 </body>
 </html>
-<script>
 
+<script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
+<script>
     $(document).ready(
         cartCount()
     )
-
+    //計算使用者的購物車總數量
     function cartCount() {
-        xhr = new XMLHttpRequest();
-        xhr.open('POST', '@Url.Action("cartTotalQuantity", "ShoppingCart")');
-        xhr.send();
-        xhr.addEventListener('load', function () {
-            var count = xhr.responseText;
-            $("#totalQuantity").text(count);
-        })
-
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("cartTotalQuantity", "ShoppingCart")',
+        }).done(function (data) {
+            $("#totalQuantity").text(data.totalQuantity);
+            })
     }
+    //加入購物車的動畫
+    $(".addCart").click(function (event) {
+        var addcar = $(this);
+        var img = addcar.find('img').attr('src');
+        var flyer = $('<img class="u-flyer" src="' + img + '">');
+        flyer.fly({
+            start: {
+                left: event.pageX,
+                top: event.pageY - $(window).scrollTop()
+            },
+            end: {
+                left: $("#essenceCartBtn").offset().left, //結束位置（必填） 
+                top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填） 
+                width: 0, //結束時寬度 
+                height: 0 //結束時高度 
+            },
+            onEnd: function () { //結束回撥 
+                addcar.css("cursor", "default");
+            }
+        })
+        cartCount();
+    })
 
     let Quiz = $('#Quiz');
 

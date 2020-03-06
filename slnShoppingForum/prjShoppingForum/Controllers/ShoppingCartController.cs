@@ -91,7 +91,7 @@ namespace tw.com.essentialoil.Controllers
             }
             return View();
         }
-
+        //從商品單項清單加入購物車(會有一個以上的數量)
         public ActionResult addToCartfromProduct(int productId, int selectQuantity)
         {
             //沒有登入過不能進來
@@ -131,7 +131,7 @@ namespace tw.com.essentialoil.Controllers
             return View();
 
         }
-
+        //更改購物車DB數量
         public ActionResult editCart(int basketId, int quantity)
         {
             tShoppingCart cart = db.tShoppingCarts.FirstOrDefault(p => p.fBasketId == basketId);
@@ -143,7 +143,7 @@ namespace tw.com.essentialoil.Controllers
 
             return RedirectToAction("viewCart");
         }
-
+        //刪除單項購物車
         public ActionResult delete(int basket)
         {
             tShoppingCart cart = db.tShoppingCarts.FirstOrDefault(p => p.fBasketId == basket);
@@ -154,7 +154,7 @@ namespace tw.com.essentialoil.Controllers
             }
             return RedirectToAction("viewCart");
         }
-
+        //清空購物車
         public ActionResult deleteAll()
         {
             UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
@@ -170,7 +170,7 @@ namespace tw.com.essentialoil.Controllers
             db.SaveChanges();
             return RedirectToAction("viewCart");
         }
-
+        //回傳使用者的購物車總數量
         public ActionResult cartTotalQuantity()
         {
             //沒有登入回傳空值
@@ -194,8 +194,7 @@ namespace tw.com.essentialoil.Controllers
                 totalQuantity += item.fQuantity;
             }
 
-
-            return Content(totalQuantity.ToString());
+            return Json(new { totalQuantity = totalQuantity },JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult getDiscountValue(string discountCode, int totalMoney)

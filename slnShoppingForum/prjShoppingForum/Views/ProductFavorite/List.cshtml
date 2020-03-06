@@ -77,31 +77,3 @@
         </tbody>
     </table>
 </div>
-
-@section scripts{
-    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
-
-    <script>
-
-        $(".addCart").click(function (event) {
-            var addcar = $(this);
-            var img = addcar.find('img').attr('src');
-            var flyer = $('<img class="u-flyer" src="' + img + '">');
-            flyer.fly({
-                start: {
-                    left: event.pageX,
-                    top: event.pageY - $(window).scrollTop()
-                }, 
-                end: {
-                    left: $("#essenceCartBtn").offset().left, //結束位置（必填） 
-                    top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填） 
-                    width: 0, //結束時寬度 
-                    height: 0 //結束時高度 
-                }, 
-                onEnd: function () { //結束回撥 
-                    addcar.css("cursor", "default");
-                } 
-            }); 
-        })
-    </script>
-}

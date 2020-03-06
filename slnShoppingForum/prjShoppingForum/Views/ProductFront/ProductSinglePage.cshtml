@@ -5,7 +5,7 @@
 }
 <style>
     .dd {
-        padding-bottom:5px;
+        padding-bottom: 5px;
     }
 </style>
 <div class="container">
@@ -19,7 +19,7 @@
                     @*導入商品分類目錄*@
                     @Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
 
-                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage",null, new { @class = "myfont myfont18" })
+                    @Html.ActionLink("進階搜尋", "AdvanceQueryPage", null, new { @class = "myfont myfont18" })
                 </div>
             </div>
         </div>
@@ -44,10 +44,10 @@
         <div class="col-12 col-md-4 col-lg-4">
             <div>
                 <dl class="dl-horizontal" style="margin-top:60px;margin-left:50px;font-size:18px">
-                  
+
                     <dt>
-                        @Html.DisplayNameFor(model => model.fProductChName)   
-                        <a onclick="addToFavorite(@Model.fProductID)" style="padding-left:200px"><img src="~/Images/Product/like_blue.png" title="收藏" width="35"/></a>
+                        @Html.DisplayNameFor(model => model.fProductChName)
+                        <a onclick="addToFavorite(@Model.fProductID)" style="padding-left:200px"><img src="~/Images/Product/like_blue.png" title="收藏" width="35" /></a>
                     </dt>
 
                     <dd>
@@ -79,12 +79,12 @@
                     </dd>
 
                     @*<dt>
-            @Html.DisplayNameFor(model => model.fDiscontinued)
-        </dt>
+                            @Html.DisplayNameFor(model => model.fDiscontinued)
+                        </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.fDiscontinued)
-        </dd>*@
+                        <dd>
+                            @Html.DisplayFor(model => model.fDiscontinued)
+                        </dd>*@
 
                     <dt>
                         @Html.DisplayNameFor(model => model.tCategory.fCategoryName)
@@ -116,12 +116,13 @@
                     </div>
 
                 </dl>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-    @section scripts{
-    <script src="~/Scripts/ShoppingCart/jquery.fly.min.js"></script>
+@section scripts{
     <script>
-
     //當數量欄位被鍵盤修改時
     $("#buyQuantity").change(function () {
         if (parseInt($(this).val()) > 0 && parseInt($(this).val()) <= parseInt($(this).siblings(".txtStock").val())) {
@@ -150,31 +151,5 @@
             async: false
         })
     }
-    //加入購物車動畫
-    $(".addCart").click(function (event) {
-        var addcar = $(this);
-        var img = addcar.find('img').attr('src');
-        var flyer = $('<img class="u-flyer" src="' + img + '">');
-        flyer.fly({
-            start: {
-                left: event.pageX,
-                top: event.pageY - $(window).scrollTop()
-            },
-            end: {
-                left: $("#essenceCartBtn").offset().left, //結束位置（必填）
-                top: $("#essenceCartBtn").offset().top - $(window).scrollTop(), //結束位置（必填）
-                width: 0, //結束時寬度
-                height: 0 //結束時高度
-            },
-            onEnd: function () { //結束回撥
-                addcar.css("cursor", "default");
-            }
-        });
-        cartCount();
-    })
     </script>
-                }
-            </div>
-        </div>
-    </div>
-</div>
+}

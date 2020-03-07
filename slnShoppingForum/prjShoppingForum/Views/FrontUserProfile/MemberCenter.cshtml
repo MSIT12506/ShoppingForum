@@ -2,40 +2,34 @@
 @{
     ViewBag.Title = "MemberCenter";
 }
-@*@section css{
-        <style>
 
+@*<h2>會員中心</h2>*@
 
-            .btn-light {
-                width: 100%
-            }
-        </style>
-    }*@
-
-@*<p>@Html.ActionLink("編輯會員資訊", "UserEdit", "FrontUserProfile")</p>
-    <p>@Html.ActionLink("會員基本資料", "MemberDetail", "FrontUserProfile")</p>*@
-    <div class="body">
-        <div class="form-row">
+<div class="row" style="margin-left:30px">
+    <div class="col-md-3">
+        <div class="container">
             <div class="btn-group-vertical">
-                <input type="button" value="個人資料" id="detail" class="btn btn-info  btn-lg" />
-                <input type="button" value="修改密碼" id="edit" class="btn btn-info  btn-lg" />
-                <input type="button" value="修改個人資料" id="editinfo" class="btn btn-info  btn-lg" />
-                <input type="button" value="歷史訂單" id="orderlist" class="btn btn-info  btn-lg" />
-                <input type="button" value="積分" id="myscore" class="btn btn-info  btn-lg" />
-                <input type="button" value="優惠券" id="discount" class="btn btn-info  btn-lg" />
+                <input type="button" value="個人資料" id="detail" class="btn btn-outline-info  btn-lg" />
+                <input type="button" value="修改密碼" id="edit" class="btn btn-outline-info  btn-lg" />
+                <input type="button" value="修改個人資料" id="editinfo" class="btn btn-outline-info  btn-lg" />
+                <input type="button" value="歷史訂單" id="orderlist" class="btn btn-outline-info  btn-lg" />
+                <input type="button" value="積分" id="myscore" class="btn btn-outline-info  btn-lg" />
+                <input type="button" value="優惠券" id="discount" class="btn btn-outline-info  btn-lg" />
+
             </div>
         </div>
-        <div class="wrappers">
-            <div id="divbox1"></div>
-        </div>
     </div>
+    <div class="col-md-8" id="divbox1"></div>
+</div>
 
-<link rel="stylesheet" href="~/Content/styles.css">
+
 
 @section scripts{
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/mains.js"></script>
     <script>
+        $(function () {
+            var url = '@Url.Action("MemberDetail", "FrontUserProfile")'
+            $('#divbox1').load(url);
+        })
         var detail = document.querySelector('#detail');
         var url = '@Url.Action("MemberDetail", "FrontUserProfile")'
         $('#detail').click(function () {

@@ -1,43 +1,16 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
-@*<h1>我的積分</h1>*@
 
-    <div class="wrappers">
+    <div class="container">
         <h3>積分</h3>
-        <div class="form-row">
-            <div class="form-holder">
+        <div class="row">
+            <div class="col-md-6">
                 姓名: @Model.fName
             </div>
-            <div class="form-holder">
+            <div class="col-md-6">
                 積分: @Model.fScore
             </div>
         </div>
-    </div>
+     </div>
 
-<link rel="stylesheet" href="~/Content/styles.css">
-
-@section Scripts{
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/mains.js"></script>
-}
-
-
-
-@*<table class="table">
-        <thead>
-            <tr>
-                <th>姓名</th>
-                <th>積分</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                @if (Model!= null)
-                {
-                    <td>@Model.fName</td>
-                    <td>@Model.fScore</td>
-                }
-            </tr>
-        </tbody>
-    </table>*@
 

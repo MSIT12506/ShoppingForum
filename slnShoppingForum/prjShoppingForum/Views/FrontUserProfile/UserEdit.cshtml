@@ -3,56 +3,48 @@
     ViewBag.Title = "UserEdit";
 }
 
-    <div class="wrappers">
+    <div class="container">
         <h3>編輯會員資料</h3>
         <form action="/FrontUserProfile/UserEdit" method="post" name="editform">
-            <div class="form-row">
-                <div class="form-holder">
+            <div class="row">
+                <div class="col-md-6">
 
                     姓名<br /><input type="text" name="fName" value="@Model.fName" />
                 </div>
-                <div class="form-holder">
+                <div class="col-md-6">
                     電話<br /><input type="text" name="fTel" value="@Model.fTel" />
 
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-holder">
+            <div class="row">
+                <div class="col-md-6">
 
                     生日<br /><input type="text" name="fBirthday" pattern="{0:yyyy/MM/dd}" placeholder="如:1923/02/05" value="@Model.fBirthday" />
                 </div>
-                <div class="form-holder">
+                <div class="col-md-6">
                     手機<br /><input type="text" name="fPhone" value="@Model.fPhone" />
 
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-holder">
+            <div class="row">
+                <div class="col-md-6">
                     城市<br /><input type="text" name="fCity" value="@Model.fCity" />
 
                 </div>
-                <div class="form-holder">
+                <div class="col-md-6">
                     地址<br /><input type="text" name="fAddress" value="@Model.fAddress" />
 
                 </div>
             </div>
-            <div class="form-row">
-                <div class="form-holder">
+            <div class="row">
+                <div class="col-md-6">
                     <input type="submit" class="btn btn-warning" value="送出" name="editbutton" />
 
                 </div>
-                <div class="form-holder">
-                    @*<input type="submit" class="btn btn-warning" value="送出" name="editbutton" />*@
-                </div>
+             
             </div>
 
 
         </form>
     </div>
 
-<link rel="stylesheet" href="~/Content/styles.css">
-
-@section Scripts{
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/mains.js"></script>
-}

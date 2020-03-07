@@ -55,7 +55,8 @@ namespace tw.com.essentialoil.Controllers
         [HttpPost]
         public ActionResult viewCart(string url, int score, string coupon)
         {
-            Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] = url;
+            string urls = url + "," + score.ToString() + "," + coupon;
+            Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] = urls;
             return RedirectToAction("OrderCreate", "tOrders", new { totalBasketId = url });
         }
 

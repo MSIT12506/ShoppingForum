@@ -1,88 +1,121 @@
 ﻿@model tw.com.essentialoil.ViewModels.COrderViews
 @{
-    ViewBag.Title = "OrderList";
+    decimal discount = 0;
+    if (Model.Order.FirstOrDefault().fDiscountCode != null)
+    {
+        discount = Model.DiscountContent;
+    }
+    var total = 0;
+    var disc = 0;
 }
-
 <div class="body">
     <div class="wrappers">
         <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
             <h3>訂單完成</h3>
-                @foreach (var list in Model.Order)
+
+            <h3>已經確認收到訂單，感謝您的購買</h3>
+
+            <h3>以下為您的訂購明細</h3>
+            @foreach (var list in Model.Order)
+            {
+                int subtotal = 0;
+                var orderid = list.fOrderDate.ToString("yyyyMMdd") + list.fOrderId;
+                foreach (var q in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
                 {
-                    int total = 0;
-                    var orderid = list.fOrderDate.ToShortDateString() + list.fOrderId;
-                    foreach (var q in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
-                    {
-                        var littletotal = Convert.ToInt32(q.fUnitPrice * q.fOrderQuantity);
-                        total += littletotal;
-                    }
-                    <div class="form-row">
-                        <div class="form-holder card" id="card-362120" style="border:hidden">
-                            訂單編號<a class="card-link collapsed" style="color:blue" data-toggle="collapse" data-parent="#card-362120" href="#card-element-608462">@orderid</a>
-                        </div>
-                        <div class="form-holder">
-                            訂單日期: @list.fOrderDate
-                        </div>
+                    var littlesubtotal = Convert.ToInt32(q.fUnitPrice * q.fOrderQuantity);
+                    subtotal += littlesubtotal;
+                }
+                if (discount != 0)
+                {
+                    total = (subtotal * (int)(discount * 10)) / 10;
+                    disc = subtotal - total;
+                }
+                else
+                {
+                    total = subtotal - Convert.ToInt32(Model.Order.FirstOrDefault().fScore);
+                    disc = Convert.ToInt32(Model.Order.FirstOrDefault().fScore);
+                }
+                <div class="form-row">
+                    <div class="form-holder" id="card-362120" >
+                        訂單編號: <a class="card-link collapsed" style="color:blue">@orderid</a>
                     </div>
-                    <div class="form-row">
-                        <div class="form-holder">
-                            收貨人姓名: @list.fConsigneeName
-                        </div>
-                        <div class="form-holder">
-                            發票公司抬頭: @list.fOrderCompanyTitle
-                        </div>
+                    <div class="form-holder">
+                        訂單日期: @list.fOrderDate
                     </div>
-                    <div class="form-row">
-                        <div class="form-holder">
-                            收貨人電話: @list.fConsigneeCellPhone
-                        </div>
-                        <div class="form-holder">
-                            統一編號: @list.fOrderTaxIdDNumber
-                        </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        收貨人姓名: @list.fConsigneeName
                     </div>
-                    <div class="form-row">
-                        <div class="form-holder">
-                            收貨人地址: @list.fConsigneeAddress
-                        </div>
-                        <div class="form-holder">
-                            訂單備註: @list.fOrderPostScript
-                        </div>
+                    <div class="form-holder">
+                        收貨人電話: @list.fConsigneeCellPhone
                     </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-address">
+                        收貨人地址: @list.fConsigneeAddress
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        發票公司抬頭: @list.fOrderCompanyTitle
+                    </div>
+                    <div class="form-holder">
+                        統一編號: @list.fOrderTaxIdDNumber
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        訂單備註: @list.fOrderPostScript
+                    </div>
+                    <div class="form-holder">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        支付方式: @list.fPayment
+                    </div>
+                    <div class="form-holder">
+                        小計: @subtotal
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-holder">
+                        折扣優惠: @disc
+                    </div>
+                    <div class="form-holder">
+                        總計: @total
+                    </div>
+                </div>
+            }
+            @*<div id="card-element-608462" class="table table-info collapse">*@
+
+            <h3>您所購買的商品項目</h3>
+
+            @foreach (var list1 in Model.Order)
+            {
+                foreach (var orderdetial in Model.OrderDetail.Where(p => p.fOrderId == list1.fOrderId))
+                {
+                    var price = orderdetial.fUnitPrice * orderdetial.fOrderQuantity;
+                    var imageScr = $"/Images/Product/{orderdetial.fProductId}.jpg";
+                    var productname = Model.Product.Where(p => p.fProductID == orderdetial.fProductId).FirstOrDefault();
                     <div class="form-row">
                         <div class="form-holder">
-                            支付方式: @list.fPayment
+                            商品: <img src="@imageScr" style="height:50px;width:50px" />
                         </div>
                         <div class="form-holder">
-                            總金額: @total
+                            商品名稱: @productname.fProductChName
+                        </div>
+                        <div class="form-holder">
+                            商品價格: @price
+                        </div>
+                        <div class="form-holder">
+                            商品數量: @orderdetial.fOrderQuantity
                         </div>
                     </div>
                 }
-            <div id="card-element-608462" class="table table-info collapse">
-                @foreach (var list1 in Model.Order)
-                {
-                    foreach (var orderdetial in Model.OrderDetail.Where(p => p.fOrderId == list1.fOrderId))
-                    {
-                        var imageScr = $"/Images/Product/{orderdetial.fProductId}.jpg";
-                        var productname = Model.Product.Where(p => p.fProductID == orderdetial.fProductId).FirstOrDefault();
-                        <div class="form-row">
-                            <div class="form-holder">
-                                商品: <img src="@imageScr" style="height:50px;width:50px" /><br />
-                            </div>
-                            <div class="form-holder">
-                                商品名稱: @productname.fProductChName
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-holder">
-                                商品價格: @orderdetial.fUnitPrice
-                            </div>
-                            <div class="form-holder">
-                                商品數量: @orderdetial.fOrderQuantity
-                            </div>
-                        </div>
-                    }
-                }
-            </div>
+            }
+            @*</div>*@
         </form>
     </div>
 </div>
@@ -96,128 +129,3 @@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script src="~/Scripts/zh-tw.js"></script>
 }
-
-    @*<div class="container">
-            <h2>完成訂單</h2>
-            <table class="table tab-pane" style="margin:0">
-                <thead>
-                    <tr>
-                        <th>
-                            訂單編號
-                        </th>
-                        <th>
-                            訂單日期
-                        </th>
-                        <th>
-                            收貨人姓名
-                        </th>
-                        <th>
-                            收貨人電話
-                        </th>
-                        <th>
-                            收貨人地址
-                        </th>
-                        <th>
-                            發票公司抬頭
-                        </th>
-                        <th>
-                            統一編號
-                        </th>
-                        <th>
-                            訂單備註
-                        </th>
-                        <th>
-                            支付方式
-                        </th>
-                        <th>
-                            總金額
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var list in Model.Order)
-                    {
-                        int total = 0;
-                        foreach (var q in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
-                        {
-                            var littletotal = Convert.ToInt32(q.fUnitPrice * q.fOrderQuantity);
-                            total += littletotal;
-                        }
-                        <tr>
-                            <td class="card" id="card-362120" style="border:hidden">
-                                <a class="card-link collapsed" data-toggle="collapse" data-parent="#card-362120" href="#card-element-608462">@list.fOrderId</a>
-                            </td>
-                            <td>
-                                @list.fOrderDate
-                            </td>
-                            <td>
-                                @list.fConsigneeName
-                            </td>
-                            <td>
-                                @list.fConsigneeCellPhone
-                            </td>
-                            <td>
-                                @list.fConsigneeAddress
-                            </td>
-                            <td>
-                                @list.fOrderCompanyTitle
-                            </td>
-                            <td>
-                                @list.fOrderTaxIdDNumber
-                            </td>
-                            <td>
-                                @list.fOrderPostScript
-                            </td>
-                            <td>
-                                @list.fPayment
-                            </td>
-                            <td>
-                                @total
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-            <table id="card-element-608462" class="table table-info collapse">
-                <thead>
-                    <tr>
-                        <th>
-                            商品
-                        </th>
-                        <th>
-                            商品名稱
-                        </th>
-                        <th>
-                            商品價格
-                        </th>
-                        <th>
-                            商品數量
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var list in Model.Order)
-                    {
-                        foreach (var orderdetial in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
-                        {
-                            var imageScr = $"/Images/Product/{orderdetial.fProductId}.jpg";
-                            var productname = Model.Product.Where(p => p.fProductID == orderdetial.fProductId).FirstOrDefault();
-                            <tr>
-                                <td>
-                                    <img src="@imageScr" style="height:50px;width:50px" /><br />
-                                </td>
-                                <td>
-                                    @productname.fProductChName<br />
-                                </td>
-                                <td>
-                                    @orderdetial.fUnitPrice<br />
-                                </td>
-                                <td>
-                                    @orderdetial.fOrderQuantity<br />
-                                </td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-            </table>
-        </div>*@

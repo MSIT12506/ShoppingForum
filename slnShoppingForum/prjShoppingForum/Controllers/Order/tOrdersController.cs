@@ -38,11 +38,13 @@ namespace tw.com.EssentialOil.Controllers.Order
         // 顯示完成訂單資訊
         public ActionResult OrderList()
         {
+            //判定登入憑證
             if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
             {
+                //不可重複瀏覽
                 if (Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] != null)
                 {
-                    //var loginuser = 1;
+                    //var loginuser = 4;
                     Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] = null;
                     var loginuser = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
                     var loginuserid = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
@@ -51,31 +53,37 @@ namespace tw.com.EssentialOil.Controllers.Order
                     var orderid = noworderid.fOrderDate.ToString("yyyyMMdd") + noworderid.fOrderId.ToString();
                     var noworderrow = db.tOrders.Where(p => p.fOrderId == noworderid.fOrderId && p.fId == loginuser).Select(q => q);//找出顯示訂單的資訊
                     var noworderdetail = db.tOrderDetails.Where(p => p.fOrderId == noworderid.fOrderId).OrderBy(p => p.fProductId);//顯示訂單明細的資訊，會有多筆
-                    var product = db.tProducts;
-                    var list = new COrderViews() { Order = noworderrow, OrderDetail = noworderdetail, Product = product };
-                    //寄送Email給購買者
-                    var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
-                    var receiverEmail = new MailAddress(loginuserid, loginusername);
-                    var password = "vnmuhcmaxieewtbi";//管理員寄email所用的信箱密碼，測試時請自行填入
-                    var sub = "訂單發貨通知信";
-                    var body = "親愛的 " + loginusername + " 妳好:\n" + "您的訂單 " + orderid + " 已按照您預定的配送方式給您發貨了\n" + "再次感謝您對我們的支持, 歡迎您的再次光臨 !";
-                    var smtp = new SmtpClient
+                    decimal discountpercent = 0;
+                    if (noworderrow.FirstOrDefault().fDiscountCode != null)
                     {
-                        Host = "smtp.gmail.com",
-                        Port = 587,
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false,
-                        Credentials = new NetworkCredential(senderEmail.Address, password)
-                    };
-                    using (var mess = new MailMessage(senderEmail, receiverEmail)
-                    {
-                        Subject = sub,
-                        Body = body
-                    })
-                    {
-                        smtp.Send(mess);
+                        var discountcode = noworderrow.FirstOrDefault().fDiscountCode;
+                        discountpercent = db.tDiscounts.Where(p => p.fDiscountCode == discountcode).Select(p => p.fDiscountContent).FirstOrDefault();
                     }
+                    var product = db.tProducts;
+                    var list = new COrderViews() { Order = noworderrow, OrderDetail = noworderdetail, Product = product, DiscountContent = discountpercent };
+                    //寄送Email給購買者
+                    //var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
+                    //var receiverEmail = new MailAddress(loginuserid, loginusername);
+                    //var password = "Cai3M!Ef6Z";//管理員寄email所用的信箱密碼，測試時請自行填入
+                    //var sub = "訂單發貨通知信";
+                    //var body = "親愛的 " + loginusername + " 妳好:\n" + "您的訂單 " + orderid + " 已按照您預定的配送方式給您發貨了\n" + "再次感謝您對我們的支持, 歡迎您的再次光臨 !";
+                    //var smtp = new SmtpClient
+                    //{
+                    //    Host = "smtp.gmail.com",
+                    //    Port = 587,
+                    //    EnableSsl = true,
+                    //    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    //    UseDefaultCredentials = false,
+                    //    Credentials = new NetworkCredential(senderEmail.Address, password)
+                    //};
+                    //using (var mess = new MailMessage(senderEmail, receiverEmail)
+                    //{
+                    //    Subject = sub,
+                    //    Body = body
+                    //})
+                    //{
+                    //    smtp.Send(mess);
+                    //}
                     return View(list);
                 }
                 return RedirectToAction("Index", "Home");
@@ -86,14 +94,29 @@ namespace tw.com.EssentialOil.Controllers.Order
 
         public ActionResult OrderCreate()
         {
-
+            //判定登入憑證
             if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
             {
                 if (Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] != null)
                 {
                     var loginuser = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
-                    var userinfo = db.tUserProfiles.Where(p => p.fId == loginuser).FirstOrDefault();
-                    COrderView view = new COrderView() { tUserProfiles = userinfo };
+                    var cart = db.tShoppingCarts.Where(p => p.fId == loginuser);
+                    var l = Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART].ToString();
+                    var score = Convert.ToInt32(l.Split(',')[1]);
+                    var discountprice = 0;
+                    if (score != 0)
+                        discountprice = score ;
+                    var discount = l.Split(',')[2];
+                    var discounts = "" ;
+                    decimal usediscounts = 0;
+                    if (discount.Length>2)
+                    {
+                        discounts = db.tUserDiscountLists.Where(p => p.fId == loginuser && p.fDiscountCode == discount).Select(p=>p.fDiscountCode).ToString();
+                        usediscounts = db.tDiscounts.Where(p => p.fDiscountCode == discount).Select(p => p.fDiscountContent).FirstOrDefault();
+                    }
+                    var userinfo = db.tUserProfiles.Where(p => p.fId == loginuser);
+                    var selectproduct = db.tProducts;
+                    COrderViews view = new COrderViews() { UserProfile = userinfo, ShoppingCart = cart , Product = selectproduct, DiscountPrice = discountprice , DiscountContent = usediscounts };
                     return View(view);
                 }
                 return RedirectToAction("viewCart", "ShoppingCart");
@@ -104,12 +127,18 @@ namespace tw.com.EssentialOil.Controllers.Order
         [HttpPost]
         public ActionResult OrderCreate(string ConsigneeName,string ConsigneeCellPhone, string ConsigneeAddress, string OrderCompanyTitle, int? OrderTaxIdDNumber, string OrderPostScript, string Payment, DateTime? RequirtDate )
         {
+            //判定登入憑證
             if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
             {            
                 var loginuser = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
                 var l = Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART].ToString();
-                var list = l.Split('_').ToList();
-                foreach(var w in list)
+                var Cartnumber = l.Split(',')[0];
+                var score = Convert.ToInt32(l.Split(',')[1]);
+                var discount = l.Split(',')[2];
+                var list = Cartnumber.Split('_').ToList();
+                var discountupdate = db.tUserDiscountLists.FirstOrDefault(p => p.fId == loginuser && p.fDiscountCode == discount);
+                //判定購買數量足夠
+                foreach (var w in list)
                 {
                     if (w != "")
                     {
@@ -123,6 +152,7 @@ namespace tw.com.EssentialOil.Controllers.Order
                         }
                     }
                 }
+                //Order Save
                 if (RequirtDate == null)
                 {
                     tOrder order = new tOrder()
@@ -136,9 +166,15 @@ namespace tw.com.EssentialOil.Controllers.Order
                         fOrderCompanyTitle = OrderCompanyTitle,
                         fOrderTaxIdDNumber = OrderTaxIdDNumber,
                         fOrderPostScript = OrderPostScript,
+                        fScore = score,
+                        fDiscountCode = discount,
                         fPayment = Payment
                     };
                     db.tOrders.Add(order);
+                    if (discountupdate != null)
+                    {
+                        discountupdate.fCount -= 1;
+                    }
                     db.SaveChanges();
                 }
                 else
@@ -155,9 +191,15 @@ namespace tw.com.EssentialOil.Controllers.Order
                         fOrderCompanyTitle = OrderCompanyTitle,
                         fOrderTaxIdDNumber = OrderTaxIdDNumber,
                         fOrderPostScript = OrderPostScript,
+                        fScore = score,
+                        fDiscountCode = discount,
                         fPayment = Payment
                     };
                     db.tOrders.Add(order);
+                    if (discountupdate != null)
+                    {
+                        discountupdate.fCount -= 1;
+                    }
                     db.SaveChanges();
                 }
                 //OrderDetail Save
@@ -199,6 +241,25 @@ namespace tw.com.EssentialOil.Controllers.Order
                     tProduct product = db.tProducts.Where(p => p.fProductID == items.fProductId).FirstOrDefault();
                     product.fUnitsInStock -= items.fOrderQuantity;
                     db.SaveChanges();
+                }
+                //扣除積分與建立使用積分紀錄
+                if(score!=0)
+                {
+                    var userscore = Convert.ToInt32(db.tUserProfiles.Where(p=>p.fId== loginuser).Select(p => p.fScore).FirstOrDefault());
+                    var user = db.tUserProfiles.FirstOrDefault(p => p.fId == loginuser);
+                    if(userscore> score)
+                    {
+                        var tscore = new tScore();
+                        tscore.fId = loginuser;
+                        tscore.fQuestionScore = 0;
+                        tscore.fActiveScore = score;//他扣多少分;
+                        tscore.fScoreDate = DateTime.UtcNow.AddHours(8);
+                        tscore.fScore = userscore - score;
+                        db.tScores.Add(tscore);
+                        user.fScore = tscore.fScore;
+                        db.SaveChanges();
+                    }
+
                 }
                 return RedirectToAction("OrderList");
             }

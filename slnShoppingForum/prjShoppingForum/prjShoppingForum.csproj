@@ -380,6 +380,7 @@
     <Content Include="Images\Member\bg_3.jpg" />
     <Content Include="Images\Member\correct.png" />
     <Content Include="Images\Member\error.png" />
+    <Content Include="Images\Member\lavender5.png" />
     <Content Include="Images\Member\loginpicture.jpg" />
     <Content Include="Images\Member\signin-image.jpg" />
     <Content Include="Images\Member\signup-image.jpg" />

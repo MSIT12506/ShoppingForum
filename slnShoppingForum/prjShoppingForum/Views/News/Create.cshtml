@@ -5,8 +5,6 @@
     ViewBag.Title = "Create";
 }
 @* 後臺新增消息 *@
-<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
-
 
 @using (Html.BeginForm())
 {
@@ -47,14 +45,8 @@
         </div>
     </div>
     <div class="col-md-10">
-        @Html.TextAreaFor(model => model.fNewsArticle, new { @ValidateRequestMode = "Enabled", @id = "editor", @style = "weigh:300px,height:350px" })
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#editor'))
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
+        @Html.TextAreaFor(model => model.fNewsArticle, new { @ValidateRequestMode = "Enabled", @class = "ckeditor", @style = "weigh:300px,height:350px" })
+        
     </div>
     <div class="form-group">
         @Html.LabelFor(model => model.fAddUser, "fAddUser", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -136,3 +128,11 @@
 <div>
     @Html.ActionLink("返回", "Index")
 </div>
+
+@section Scripts{
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckfinder/ckfinder.js"></script>
+<script>
+    
+</script>
+    }

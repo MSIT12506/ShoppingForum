@@ -34,7 +34,7 @@
             <div class="sidebar">
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="info">
-                        <a href="#" class="d-block">登入 / 登出</a><a href="@Url.Action("AdminManagerLogOut", "AdminLTE")"><img src="~/Images/Member/signout.jpg" height="30" width="30" alt=""></a>
+                        @Html.Action("AfterAdminLogin", "AdminLTE")
                     </div>
                 </div>
                 <!-- Sidebar Menu -->

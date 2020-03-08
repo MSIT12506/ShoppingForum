@@ -20,7 +20,7 @@ namespace tw.com.essentialoil.Controllers
         {
             return View();
         }
-        //後台Admin登入，缺加密
+        //後台Admin登入
         public ActionResult AdminManagerLogin(CAdminData data)
         {
 
@@ -45,11 +45,10 @@ namespace tw.com.essentialoil.Controllers
             }
             return View();
         }
-        
-        public ActionResult AdminManagerLogOut()
+        //管理員登入登出狀態切換
+        public ActionResult AfterAdminLogin()
         {
-            Session.RemoveAll();
-            return RedirectToAction("AdminManagerLogin");
+            return PartialView();
         }
 
         //數據圖表
@@ -68,6 +67,17 @@ namespace tw.com.essentialoil.Controllers
             return Json(data);
         }
 
+
+        //後台管理員登出
+        public ActionResult AdminManagerLogOut()
+        {
+            if (Session[CAdminData.S_CURRENT_LOGINED_ADMIN] != null)
+            {
+                Session.RemoveAll();
+                return RedirectToAction("AdminManagerLogin");
+            }
+            return RedirectToAction("AdminManagerLogin");
+        }
 
         //會員管理、會員編輯、停權、會員查詢ajax
 
@@ -91,6 +101,11 @@ namespace tw.com.essentialoil.Controllers
         {
             db.SaveChanges();
             return RedirectToAction("MemberList");
+        }
+        //後台會員查詢
+        public ActionResult MemberAdvancedQuery()
+        {
+            return View();
         }
 
 

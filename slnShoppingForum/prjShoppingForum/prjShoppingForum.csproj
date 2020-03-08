@@ -1560,6 +1560,7 @@
     <Content Include="Views\AdminLTE\DisableDiscount.cshtml" />
     <Content Include="Views\FrontUserProfile\userDiscountCode.cshtml" />
     <Content Include="Views\FrontUserProfile\AfterLogin.cshtml" />
+    <Content Include="Views\AdminLTE\AfterAdminLogin.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

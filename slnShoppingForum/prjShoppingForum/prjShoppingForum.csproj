@@ -376,6 +376,8 @@
     <Content Include="Images\Member\7.png" />
     <Content Include="Images\Member\8.png" />
     <Content Include="Images\Member\9.png" />
+    <Content Include="Images\Member\adlogin.svg" />
+    <Content Include="Images\Member\adlogout.svg" />
     <Content Include="Images\Member\bg1.jpg" />
     <Content Include="Images\Member\bg_3.jpg" />
     <Content Include="Images\Member\correct.png" />

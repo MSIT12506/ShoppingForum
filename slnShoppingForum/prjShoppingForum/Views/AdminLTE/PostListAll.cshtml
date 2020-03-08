@@ -1,4 +1,7 @@
-﻿@model IEnumerable<prjShoppingForum.Models.Entity.tForum>
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<prjShoppingForum.Models.Entity.tForum>
 
 @{
     ViewBag.Title = "PostListAll";
@@ -16,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-        @{ 
+        @{
             foreach (var item in Model)
             {
                 <tr>
@@ -27,14 +30,15 @@
                         @item.fPostTitle
                     </td>
                     <td>
-                        @{ 
-                            if (item.fEnableFlag==true)
+                        @{
+                            if (item.fEnableFlag == true)
                             {
                                 <button class="btn btn-danger btn-action" data-action="false" data-postId="@item.fPostId">停用</button>
-                            }else
-	                        {
+                            }
+                            else
+                            {
                                 <button class="btn btn-primary btn-action" data-action="ture" data-postId="@item.fPostId">啟用</button>
-	                        }
+                            }
                         }
                     </td>
                     <td>
@@ -42,11 +46,12 @@
                     </td>
                 </tr>
             }
-            
+
         }
-        
+
     </tbody>
 </table>
+@Html.PagedListPager(Model, page => Url.Action("PostListAll", new { page }))
 
 @section Scripts{
 
@@ -73,7 +78,7 @@
                         thisBtn.text('停用');
                         thisBtn.attr('data-action', 'false');
                     }
-                    
+
                 }
             )
         })

@@ -1,4 +1,7 @@
-﻿@model List<tw.com.essentialoil.Forum.ViewModels.CForumList>
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<tw.com.essentialoil.Forum.ViewModels.CForumList>
 
 @{
     ViewBag.Title = "SetForumPostTop";
@@ -6,7 +9,7 @@
 
 <h2>置頂文章設定</h2>
 
-@Html.Action("ShowForumTopList","AdminLTE")
+@Html.Action("ShowForumTopList", "AdminLTE")
 
 <hr />
 
@@ -46,6 +49,8 @@
         }
     </tbody>
 </table>
+
+@Html.PagedListPager(Model, page => Url.Action("SetForumPostTop", new { page }))
 
 @section Scripts{
     <script>

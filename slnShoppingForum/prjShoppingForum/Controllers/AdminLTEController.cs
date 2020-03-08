@@ -95,18 +95,23 @@ namespace tw.com.essentialoil.Controllers
 
 
         //後台討論區 - 文章停權/恢復權限列表
-        public ActionResult PostListAll()
+        public ActionResult PostListAll(int page = 1)
         {
+            int currentPage = page < 1 ? 1 : page;
+            int pageCount = 15;
+
             CForum forum = new CForum();
-            return View(forum.queryAllPostContainDisable());
+            return View(forum.queryAllPostContainDisable(currentPage, pageCount));
         }
 
         //後台討論區 - 置頂功能
-        public ActionResult SetForumPostTop()
+        public ActionResult SetForumPostTop(int page = 1)
         {
-            CForum forum = new CForum();
+            int currentPage = page < 1 ? 1 : page;
+            int pageCount = 15;
 
-            return View(forum.queryAllEnableNoTopPost());
+            CForum forum = new CForum();
+            return View(forum.queryAllEnableNoTopPost(currentPage, pageCount));
         }
 
         //後台討論區的置頂列表 - 獨立寫，不使用前台的 partial view

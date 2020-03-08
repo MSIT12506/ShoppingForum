@@ -1,4 +1,5 @@
-﻿using prjShoppingForum.Models.Entity;
+﻿using PagedList;
+using prjShoppingForum.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,9 +93,9 @@ namespace tw.com.essentialoil.Forum.Models
         }
 
         //Select All Posts Contain disabled ones
-        public IEnumerable<tForum> queryAllPostContainDisable()
+        public IEnumerable<tForum> queryAllPostContainDisable(int currentPage, int pageCount)
         {
-            var qAll = db.tForums.Select(p => p).OrderBy(p=>p.fCreateTime);
+            IPagedList<tForum> qAll = db.tForums.Select(p => p).OrderBy(p=>p.fCreateTime).ToList().ToPagedList(currentPage, pageCount);
             return qAll;
         }
 
@@ -132,7 +133,7 @@ namespace tw.com.essentialoil.Forum.Models
         }
 
         //選取所有文章，不包含置頂和無效
-        public List<CForumList> queryAllEnableNoTopPost()
+        public IPagedList<CForumList> queryAllEnableNoTopPost(int currentPage, int pageCount)
         {
             List<CForumList> result = (from i in db.tForums
                                        where i.fEnableFlag == true       //刪除的不要被select出來
@@ -140,7 +141,9 @@ namespace tw.com.essentialoil.Forum.Models
                                        orderby i.fPostId ascending
                                        select new CForumList() { postId = i.fPostId, postTitle = i.fPostTitle, userFid = i.tUserProfile.fId, likeOrHate = null }).ToList();
 
-            return result;
+            IPagedList<CForumList> resultPage = result.ToPagedList(currentPage, pageCount);
+
+            return resultPage;
         }
 
         //選取所有置頂文章

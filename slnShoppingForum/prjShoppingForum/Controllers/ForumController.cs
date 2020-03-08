@@ -58,10 +58,18 @@ namespace tw.com.essentialoil.Controllers
         //呈現文章的內容
         public ActionResult PostView(int fPostId) {
 
+            //user - fid
+            int userFid = 0;
+
             //沒有登入過不能進來
             if (!CStaticMethod.isLogin(Session, "Forum", "List"))
             {
                 return RedirectToRoute(new CRedirectToLogin());
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                userFid = userLoginInfo.user_fid;
             }
 
             //一進入Action就先取出當下時間
@@ -71,7 +79,7 @@ namespace tw.com.essentialoil.Controllers
             tForum tForum = forum.queryPostById(fPostId);
 
             CReply reply = new CReply();
-            List<List<CPostReplyInfo>> replys = reply.getReplysById(fPostId);
+            List<List<CPostReplyInfo>> replys = reply.getReplysById(fPostId, userFid);
 
             CPostView postview = new CPostView { forum = tForum, reply = replys };
             

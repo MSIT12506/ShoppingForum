@@ -53,7 +53,7 @@ namespace tw.com.essentialoil.Forum.Models
 
 
         //Get All Reply By Id
-        public List<List<CPostReplyInfo>> getReplysById(int fPostId)
+        public List<List<CPostReplyInfo>> getReplysById(int fPostId, int user_fid)
         {
             List<List<tForumReply>> result = new List<List<tForumReply>>();
             List<List<CPostReplyInfo>> results = new List<List<CPostReplyInfo>>();
@@ -92,7 +92,7 @@ namespace tw.com.essentialoil.Forum.Models
                 foreach (var reply in item)
                 {
                     CPostReplyInfo info = new CPostReplyInfo() { replyId = reply.fReplyId, replyContent = reply.fContent, replyTime = reply.fReplyTime, replySeqNo = reply.fReplySeqNo, userName = reply.tUserProfile.fName, isLikeOrHate = null };
-                    bool? q = db.tForumReplyAnalysis.Where(r => r.fId == reply.fId && r.fPostId == reply.fPostId && r.fReplyId == reply.fReplyId).Select(r => r.fLikeHate).FirstOrDefault();
+                    bool? q = db.tForumReplyAnalysis.Where(r => r.fId == user_fid && r.fPostId == reply.fPostId && r.fReplyId == reply.fReplyId).Select(r => r.fLikeHate).FirstOrDefault();
 
                     if (q != null)
                     {

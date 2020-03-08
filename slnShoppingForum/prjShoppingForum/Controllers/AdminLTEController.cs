@@ -52,6 +52,23 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("AdminManagerLogin");
         }
 
+        //數據圖表
+        //商品銷售排行
+        public ActionResult getReportData(int topNumber = 5)
+        {
+            var data = (from o in db.tOrderDetails
+                        join p in db.tProducts on o.fProductId equals p.fProductID
+                        group o by o.tProduct.fProductChName into g
+                        select new
+                        {
+                            name = g.Key,                        //該項商品Id
+                            y = g.Sum(p => p.fOrderQuantity)     //該項商品營銷總數量
+                        }).OrderByDescending(q => q.y).Take(topNumber).ToList();
+
+            return Json(data);
+        }
+
+
         //會員管理、會員編輯、停權、會員查詢ajax
 
         int pagesize = 10;

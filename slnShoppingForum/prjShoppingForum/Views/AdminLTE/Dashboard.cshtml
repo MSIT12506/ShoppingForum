@@ -6,3 +6,86 @@
 <h2>儀錶板</h2>
 
 <iframe width="960px" height="596px" src="https://app.powerbi.com/reportEmbed?reportId=dd5ee668-54a4-4b26-8d79-0b05800850fe&autoAuth=true&ctid=fbf0cb04-6e6a-4334-9e1d-38fd37234fdb&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLXNvdXRoLWVhc3QtYXNpYS1yZWRpcmVjdC5hbmFseXNpcy53aW5kb3dzLm5ldC8ifQ%3D%3D" frameborder="0" allowFullScreen="true"></iframe>
+
+<div style="text-align:center">
+    請輸入查詢數量(內建為5) : <input id="topNumber" type="number" min="1" value="5"/>
+    <a class="btn btn-outline-info" onclick="topProduct()">查詢</a>
+</div>
+<div id="container" style="width:100%; height:400px;">
+
+</div>
+
+
+
+@section scripts{
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script>
+        $(document).ready(function () {
+            topProduct();
+        })
+
+        function topProduct()
+        {
+            let topNumber = $("#topNumber").val();
+
+            $.ajax({
+                type: 'POST',
+                url: "../AdminLTE/getReportData?topNumber="+ topNumber,
+                success: function (result) {
+
+                    var myChart = Highcharts.chart('container', {
+                        chart: {
+                            type: 'column'
+                        },
+                        title: {
+                            text: `Top ${topNumber}`
+                        },
+                        xAxis: {
+                            type: 'category',
+                            labels: {
+                                style: {
+                                    fontSize: '18px'
+                                }
+                            }
+                        },
+                        yAxis: {
+                            min:0,
+                            title: {
+                                text: '數量',
+                            },
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            headerFormat: '{point.key}<br>',
+                            style: {
+                                fontSize: '18px'
+                            }
+                        },
+                        series: [
+                            {
+                                name: '數量',
+                                colorByPoint: true,
+                                data: result,
+                                dataLabels: {
+                                    enabled: true,
+                                    color: 'black',
+                                    align: 'center',
+                                    format: '{point.y}', // one decimal
+                                    y: 10, // 10 pixels down from the top
+                                    style: {
+                                        fontSize: '13px'
+                                    }
+                                }
+                            },
+                        ],
+                    });
+
+                },
+                cache: false,
+                async: false
+            })
+        }
+    </script>
+}

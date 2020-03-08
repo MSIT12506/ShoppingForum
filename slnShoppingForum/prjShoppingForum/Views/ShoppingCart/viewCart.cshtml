@@ -1,5 +1,11 @@
 ﻿@model tw.com.essentialoil.ShoppingCart.ViewModels.CShoppingCart
 
+@section styles{
+    @*用戶端防止快取(上一頁)*@
+    <meta http-equiv="expires" content="0">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="pragma" content="no-cache">
+}
 <style>
     .hide {
         display: none;
@@ -27,11 +33,11 @@
         width: 40px;
     }
 
+    /*取消input[type=number]箭頭格式*/
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
-
     input[type="number"] {
         -moz-appearance: textfield;
     }
@@ -211,6 +217,8 @@
         $("#discount").prop("disabled", true);              //鎖住選擇優惠欄位
         $("#score").hide();                                 //隱藏積分欄位
         $("#coupon").hide();                                //隱藏優惠券欄位
+        $("#checkAll").trigger("click");                             //進入頁面時所有商品都被勾選
+        if (!$("#checkAll").prop("checked")) { $("#checkAll").click();}  //防止使用者上一頁或重新整理時重複執行勾選導致沒有勾選
     })
 
     //商品數量減少

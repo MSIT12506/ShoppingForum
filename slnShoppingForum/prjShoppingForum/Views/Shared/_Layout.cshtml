@@ -27,8 +27,13 @@
     @*<link rel="stylesheet" href="~/Content/essence/nice-select.css" />*@
 
     @RenderSection("Styles", false)
+    <style>
+        * {
+            font-family: 'UD Digi Kyokasho N-R' !important;
+        }
+    </style>
 </head>
-<body class="myfont">
+<body>
 
     <div class="wrapper">
         <header class="header_area" style="height:100px">
@@ -63,7 +68,7 @@
                                     <a href="@Url.Action("List", "Forum")">討論區</a>
                                 </li>
                                 <li>
-                                    <a id="Quiz" href="@Url.Action("QuizList","Questions")">每日一答</a>
+                                    <a id="Quiz" href="@Url.Action("QuizList","Questions")">問答送積分</a>
                                 </li>
 
                             </ul>

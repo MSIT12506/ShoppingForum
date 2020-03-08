@@ -8,15 +8,16 @@
         position: relative;
         left: 150px;
     }
+
     .img11 {
-        position:relative;
-        left:400px;
+        /*position: relative;*/
+        /*left: 400px;*/
     }
 
     .box {
-        position:absolute;
-        top:84vh;
-        right:600px;
+        /*position: absolute;*/
+        /*top: 84vh;*/
+        /*right: 600px;*/
         border: 2px solid #418066;
         width: 350px;
         border-radius: 15px;
@@ -24,55 +25,102 @@
     }
 
     .t1 {
-        background-color: #858188;
+        background-color: #faf472;
+        /*background-color: #858188;*/
     }
 
     .btn {
         text-align: right;
     }
-
-
 </style>
 
-<div class="top">
-    <img src="~/Images/News/qquiz.png" />
-    <hr />
+
+<div class="content" style="margin:170px auto;text-align:center;width:80%">
+    <div style="margin-bottom:60px">
+        <img src="~/Images/News/qquiz.png" />
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <img src="~/Images/News/stich.gif" title="笑你不會啦" />
+        </div>
+
+        <div class="col-8 box">
+
+            @using (Html.BeginForm("", "", FormMethod.Post, new { id = "questionForm", @class = "row justify-content-center" }))
+            {
+                <div class="col-6">
+
+                    <div class="font-bold" style="font-size:18px">
+                        <span class="t1" style="margin-right:5px"> 題目  </span>
+                        @Html.DisplayFor(model => model.fQuestionName)
+                    </div>
+                    <br />
+                    <div class="text-left">
+                        <span> 請問   :</span>
+                        @Html.DisplayFor(model => model.fQuestion)
+                    </div>
+                    <br />
+                    <div class="text-left">
+                        @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
+                        @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
+                        @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
+                        @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
+                        @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
+                    </div>
+                    <br />
+                    <div class="btn">
+                        <input type="button" id="submitAnswer" value="送出" class="btn btn-primary" />
+                        <input type="button" id="beAnswered" value="已答題明日再來" class="btn btn-default" style="display:none" />
+                    </div>
+                    <div>
+                        @Html.HiddenFor(model => model.fQuestionId)
+                        @Html.HiddenFor(model => model.tTests)
+                        @Html.HiddenFor(model => model.fAnswer)
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
 </div>
 
-<div class="img11">
-    <img src="~/Images/News/stich.gif" />
+<div class="modal" tabindex="-1" role="dialog" id="scoreModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">你的積分</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="scoreArea">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="redirect" class="btn btn-primary">確定</button>
+            </div>
+        </div>
+    </div>
 </div>
-<br /><br /><br /><br />
-                  <div class="box">
 
-                      @using (Html.BeginForm())
-                      {
-                          <div>
-                              <span class="t1"> 題目  :</span>
-                              @Html.DisplayFor(model => model.fQuestionName)
-                          </div>
-                          <br />
-                          <div>
-                              <span>請問   :</span>
-                              @Html.DisplayFor(model => model.fQuestion)
-                          </div>
-                          <br />
-                          <div>
-                              @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
-                              @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
-                              @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
-                              @Html.RadioButton("RadioButton1", "D", false) <span>D選項:@Model.fItemD</span> <br />
-                              @Html.RadioButton("RadioButton1", "E", false) <span>E選項:@Model.fItemE</span> <br />
-                          </div>
-                          <br />
-                          <div class="btn">
-                              <input type="submit" value="送出" class="btn btn-dark" />
-                          </div>
-                          <div>
-                              @Html.HiddenFor(model => model.fQuestionId)
-                              @Html.HiddenFor(model => model.tTests)
-                              @Html.HiddenFor(model => model.fAnswer)
-                          </div>
-                      }
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#submitAnswer").on("click", function () {
 
-                  </div>
+                $.post('/Questions/Content', $('#questionForm').serialize(), function (result) {
+
+                    $("#scoreArea").html(result);
+                    $("#scoreModal").modal("toggle");
+
+                    $("#submitAnswer").hide();
+                    $("#beAnswered").show();
+                });
+
+                $("#redirect").on("click", function () {
+                    window.open("../../home/index", "_self");
+                })
+            })
+        });
+
+    </script>
+}

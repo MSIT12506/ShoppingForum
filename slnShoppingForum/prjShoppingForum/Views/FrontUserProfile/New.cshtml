@@ -1,60 +1,49 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
-@{
-    ViewBag.Title = "New";
-
-}
-
-
 <div class="containers">
-    <div class="signup-content" >
+    <div class="signup-content">
         <div class="signup-form">
             <h2 class="form-title">Register</h2>
-            <form action="/FrontUserProfile/New" method="post" name="LoginForm" class="register-form" id="register-form" onsubmit="return oncheck()">
+            <form action="/FrontUserProfile/New" method="post" name="RegisterForm" class="register-form" id="register-form" onsubmit="return oncheck()">
 
                 <div class="form-group">
-                    <label for="email"></label>
-                    <input type="email" name="fUserId" id="inputUserId" placeholder="Your Email as Account" required/><span style="font-family: 微軟正黑體" id="useridsp"></span>
+                    <input type="email" name="fUserId" id="inputUserId" placeholder="Your Email as Account" required /><span style="font-family: 微軟正黑體" id="useridsp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fUserId, "", new { @class = "text-danger" })
 
                 <div class="form-group">
-                    <label for="name"></label>
-                    <input type="text" name="fName" id="name" placeholder="Your Name" required/><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="namesp"></span>
+                    <input type="text" name="fName" id="name" placeholder="Your Name" required /><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="namesp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fName, "", new { @class = "text-danger" })
 
 
                 <div class="form-group">
-                    <label for="pass"></label>
-                    <input type="password" name="fPassword" id="inputPassword" placeholder="Password(長度限制6~12字元)" @*data-minlength="6"*@ pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required/><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="pwdsp"></span>
-                    @*<p>請輸入6~12字元以內，包含英文大小寫與數字的組合</p>*@
+                    <input type="password" name="fPassword" id="inputPassword" placeholder="Password(限6~12字元英文大小寫+數字)" minlength="6" pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required /><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="pwdsp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })
 
                 <div class="form-group">
-                    <label for="re-pass"></label>
-                    <input type="text" name="fGender" id="Gender" placeholder="Gender" required/>
+                    <label style="margin:0 30px">Female<input type="radio" value="Female" name="fGender" id="Gender" /></label>
+                    <label style="margin-right:30px">Male<input type="radio" value="Male" name="fGender" id="Gender" required /></label>
+                    <label>Personal<input type="radio" value="Personal" name="fGender" id="Gender" /></label>
                 </div>
-                @Html.ValidationMessageFor(model => model.fGender, "", new { @class = "text-danger" })
+                 @Html.ValidationMessageFor(model => model.fGender, "", new { @class = "text-danger" })
 
-                <div class="form-group">
-                    <label for="re-pass"></label>
-                    <input type="text" name="fPhone" id="Phone" placeholder="Phone" maxlength="10" pattern="[0-9]*" required/><span style="font-family: 微軟正黑體; color:lightcoral; font-weight:bold" id="phonesp"></span>
+                <div class="form-group">                   
+                    <input type="text" name="fPhone" id="inputPhone" placeholder="Phone" minlength="9" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')" required /><span style="font-family: 微軟正黑體; color:lightcoral; font-weight:bold" id="phonesp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fPhone, "", new { @class = "text-danger" })
 
 
                 <div class="form-group form-button">
-                    <input type="button" name="userSignUp" id="signup" class="form-submit" value="註冊" @*onclick="return check()"*@/>
-                    <input type="reset"  class="form-submit" value="取消" />
+                    <input type="button" name="userSignUp" id="signup" class="form-submit" value="註冊" />
+                    <input type="reset" class="form-submit" value="取消" />
                 </div>
             </form>
         </div>
 
         <div class="signup-image">
             <figure><img src="~/Images/Member/signup-image.jpg" alt="sing up image"></figure>
-            @*<a href="#" class="signup-image-link">I am already member</a>*@
         </div>
     </div>
 </div>
@@ -64,103 +53,173 @@
 
 
 @section Scripts{
-    <script src="~/Scripts/jquery.min.js"></script>
-    <script src="~/Scripts/main.js"></script>
-    <script>
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/main.js"></script>
+<script>
+    var emlcheck = false;
+    var emailcheck = false;
+    var pwdcheck = false;
+    var phonecheck = false;
 
-     
-        //$(document).ready(){
-        //    check()
-        //}
-
-        function check() {
-            if (document.LoginForm.fUserId.value == '') {
-                alert("帳號未填");
-                document.LoginForm.fUserId.focus();
-                return false;
-                //break;
-            }
-            if (document.LoginForm.fName.value == '') {
-                alert("姓名未填");
-                document.LoginForm.fName.focus();
-                return false;
-                //break;
-            }
-            if (document.LoginForm.fPassword.value == '') {
-                alert("密碼未填");
-                document.LoginForm.fPassword.focus();
-                return false;
-                //break;
-            }
-            if (document.LoginForm.fGender.value == '') {
-                alert("性別未填");
-                document.LoginForm.fGender.focus();
-                return false;
-                //break;
-            }
-            if (document.LoginForm.fPhone.value == '') {
-                alert("手機未填");
-                document.LoginForm.fPhone.focus();
-                
-                return false;
-                //break;
-
-            }
-            return true;
+    function check() {
+        if (document.RegisterForm.fUserId.value == '') {
+            alert("帳號未填");
+            document.RegisterForm.fUserId.focus();
+            return false;
         }
+        if (document.RegisterForm.fName.value == '') {
+            alert("姓名未填");
+            document.RegisterForm.fName.focus();
+            return false;
+        }
+        if (document.RegisterForm.fPassword.value == '') {
+            alert("密碼未填");
+            document.RegisterForm.fPassword.focus();
+            return false;
+        }
+        if (document.RegisterForm.fGender.value == '') {
+            alert("性別未填");
+            document.RegisterForm.fGender.focus();
+            return false;
+        }
+        if (document.RegisterForm.fPhone.value == '') {
+            alert("手機未填");
+            //document.RegisterForm.fPhone.focus();
+            return false;
+        }
+        return true;
+    }
+
+    var btnCreateUser = document.querySelector('input[name="userSignUp"]');
+    var xhr = null;
+    btnCreateUser.addEventListener("click", function () {
+        if (!check()) {
+            event.stopPropagation();
+        } else if (!emailcheck) {
+            alert("此帳號不可註冊")
+            event.stopPropagation();
+        }
+        else if (!emlcheck) {
+            alert("email格式有誤")
+            event.stopPropagation();
+        }
+        else if (!pwdcheck) {
+            alert("密碼格式有誤")
+            event.stopPropagation();
+        }
+        else if (!phonecheck) {
+            alert("手機格式有誤")
+            event.stopPropagation();
+        }
+        else if (emailcheck && pwdcheck && emlcheck && phonecheck && check()) {
+            alert("恭喜您註冊為本店會員！")
+            document.RegisterForm.submit();
+        }else
+            alert("資料格式有誤")
+            event.stopPropagation();
+    })
 
 
-        var btnCreateUser = document.querySelector('input[name="userSignUp"]');
-        var xhr = null;
-        btnCreateUser.addEventListener("click", function () {
-            //check();
-            document.LoginForm.submit();
-        })
+    //1.帳號驗證--是否已存在
+    var UserIdInput = document.querySelector('#inputUserId');
+    var myDiv = document.querySelector('#useridsp');
 
-        //1.帳號驗證--是否已存在
-        var UserIdInput = document.querySelector('#inputUserId');
-        var myDiv = document.querySelector('#useridsp');
-
-        var xhr = null;
-        UserIdInput.addEventListener("blur", function () {
+    var xhr = null;
+    UserIdInput.addEventListener("blur", function () {
+        var emailRule = /^\w+((-\w+)|(\.\w+))*\@@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z]+$/;
+        var theEml = document.getElementById("inputUserId").value;
+        if (theEml.search(emailRule) != -1) {
+            emlcheck = true;
+        }
+        else
+            emlcheck =false;
+        if (emlcheck) {
             xhr = new XMLHttpRequest();
-            var formData = new FormData(document.LoginForm);
+            var formData = new FormData(document.RegisterForm);
             xhr.open('POST', '/FrontUserProfile/NewUserAjax');
             xhr.send(formData);
 
             xhr.addEventListener('load', function () {
                 var data = xhr.responseText;
-                myDiv.innerHTML = `<h6 style="font-family: 微軟正黑體; color:lightcoral">` + data + "</h6>";
+                if (data == "此帳號尚未註冊") {
+                    emailcheck = true;
+                    myDiv.innerHTML = `<h6 style="font-family: 微軟正黑體; color:#55AA00"><img src="@Url.Content("/Images/Member/correct.png")" />` + data + "</h6>";
+                } else {
+                    emailcheck = false;
+                    myDiv.innerHTML = `<h6 style="font-family: 微軟正黑體; color:lightcoral"><img src="@Url.Content("/Images/Member/error.png")" />` + data + "</h6>";
+                }
+
             })
-        });
-        
-
-        //2.密碼驗證:密碼強度
-        document.querySelector("#inputPassword").onblur = checkPwd;
-
-        function checkPwd() {
-            var thePwd = document.getElementById("inputPassword").value;
-            var thesp = document.getElementById("pwdsp");
-            thePwdLen = thePwd.length;
-            var flag1 = false, flag2 = false;
-
-            if (thePwd == "")
-                thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />密碼不得為空白`;
-            else if (thePwdLen >= 6) {
-                for (var i = 0; i < thePwdLen; i++) {
-                    var Pwdch = thePwd.charCodeAt(i);
-
-                    if ((Pwdch >= 97 && Pwdch <= 122) || (Pwdch >= 65 && Pwdch <= 90)) flag1 = true;
-                    else if (Pwdch >= 48 && Pwdch <= 57) flag2 = true;
-
-                    if (flag1 && flag2) thesp.innerHTML = `<img src="@Url.Content("/Images/Member/correct.png")" />correct`;
-                    else if (!flag1) thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />必須包含英文字母`;
-                    else if (!flag2) thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />必須包含數字`;
-                };
-            } else
-                thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />密碼長度必須大於6`;
+        } else if (theEml != "") {
+            emailcheck = false;
+            myDiv.innerHTML = `<h6 style="font-family: 微軟正黑體; color:lightcoral"><img src="@Url.Content("/Images/Member/error.png")" />Email格式有誤</h6>`;
+        } else {
+            emailcheck = false;
+            myDiv.innerHTML = "";
         }
+    });
 
 
-    </script>
+    //2.密碼驗證:密碼強度
+    document.querySelector("#inputPassword").onblur = checkPwd;
+
+    function checkPwd() {
+        var thePwd = document.getElementById("inputPassword").value;
+        var thesp = document.getElementById("pwdsp");
+        thePwdLen = thePwd.length;
+        var flag1 = false, flag2 = false;
+
+        if (thePwd == "") {
+            pwdcheck = false;
+            thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />密碼不得為空白`;
+        }
+        else if (thePwdLen >= 6) {
+            for (var i = 0; i < thePwdLen; i++) {
+                var Pwdch = thePwd.charCodeAt(i);
+
+                if ((Pwdch >= 97 && Pwdch <= 122) || (Pwdch >= 65 && Pwdch <= 90)) flag1 = true;
+                else if (Pwdch >= 48 && Pwdch <= 57) flag2 = true;
+                else {
+                    flag1 = false;
+                    flag2 = false;
+                    thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />不得輸入其他字元`;
+                    pwdcheck = false;
+                    return;
+                }
+            };
+            if (flag1 && flag2) {
+                pwdcheck = true;
+                thesp.innerHTML = `<h6 style="color:#55AA00"><img src="@Url.Content("/Images/Member/correct.png")" />correct</h6>`;
+            }
+            else if (!flag1) {
+                pwdcheck = false;
+                thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />必須包含英文字母`;
+            }
+            else if (!flag2) {
+                pwdcheck = false;
+                thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />必須包含數字`;
+            }
+            
+        }
+        else {
+            pwdcheck = false;
+            thesp.innerHTML = `<img src="@Url.Content("/Images/Member/error.png")" />密碼長度必須大於6`;
+        }
+    }
+
+    //3.手機數字長度驗證
+    var inputPhone = document.querySelector("#inputPhone");
+    
+        inputPhone.addEventListener("blur", function () {
+        if (inputPhone.value.length != 0) {
+            if (inputPhone.value.length < 9 || inputPhone.value.length > 10) {
+                alert("數字長度不符");
+                phonecheck = false;
+            }
+            else {
+                phonecheck =  true;
+            }
+        }})
+    
+</script>
 }

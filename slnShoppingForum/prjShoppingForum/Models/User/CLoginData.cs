@@ -17,6 +17,7 @@ namespace tw.com.essentialoil.User.Models
 
         [DisplayName("密碼")]
         [Required(ErrorMessage = "請輸入密碼")]
+        [StringLength(12, MinimumLength = 6, ErrorMessage = "密碼長度為6~12字元")]
         public string fPassword { get; set; }
         public string fVeriCode { get; set; }
     }

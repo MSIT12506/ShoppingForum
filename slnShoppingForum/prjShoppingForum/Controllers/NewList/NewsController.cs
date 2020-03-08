@@ -7,9 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using prjShoppingForum.Models.Entity;
-using prjShoppingForum.Models.User;
 using tw.com.essentialoil.News.Models;
-using tw.com.essentialoil.User.Models;
 
 namespace tw.com.essentialoil.Controllers
 {

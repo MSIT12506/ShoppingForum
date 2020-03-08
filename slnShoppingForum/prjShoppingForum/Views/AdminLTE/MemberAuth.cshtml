@@ -1,0 +1,82 @@
+﻿@model IQueryable<prjShoppingForum.Models.Entity.tUserProfile>
+@{
+    ViewBag.Title = "MemberAuth";
+}
+
+<h2>會員停權</h2>
+<div class="container">
+    <table class="table table-dark" style="width:100%">
+        <thead style="background-color:#4E6081">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().fUserId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().fAuth)
+                </th>
+                <th>
+                    狀態
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fId, new {id = "fId" })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fUserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.fAuth, new { id = "auth" })
+                    </td>
+                    <td>
+                        <input type="button" id="auth" class="btn btn-danger" value="停權" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script>
+        var btn = document.querySelector('#auth');
+        var fId = document.querySelector('#fId');
+        //$(function () {
+        //    if ($('auth').val() == "0") {
+        //        $(this).val("恢復");
+        //        $(this).attr('class', 'btn btn-success');
+        //    }
+        //    else if ($('auth').val() != "0") {
+        //        $(this).val("停權");
+        //        $(this).attr('class', 'btn btn-danger');
+        //    }
+        //})
+
+        btn.addEventListener('click', function () {
+            //alert或是否視窗
+            if ($('auth').val() == "0") {
+                $(this).val("停權");
+                $(this).attr('class', 'btn btn-danger');
+                $.post(
+                    '@Url.Action("MemberAuth", "AdminLTE")',
+                    {
+                        fId: fId.val()
+                    }, function () {
+                        $(targetTr).remove();
+                        window.alert('已加入收藏清單');
+                    }
+            )
+            }
+            else {
+                $(this).val("恢復");
+                $(this).attr('class', 'btn btn-success');
+            }
+        })
+    </script>
+}

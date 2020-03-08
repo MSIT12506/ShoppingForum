@@ -1438,8 +1438,8 @@
     <Compile Include="Models\Repository\QuizRepository.cs" />
     <Compile Include="Models\Repository\ScoreRepository.cs" />
     <Compile Include="Models\Repository\TestRepository.cs" />
-    <Compile Include="Models\User\BackendUserModel.cs" />
     <Compile Include="Models\User\CAdminData.cs" />
+    <Compile Include="Models\User\CBackendUserMethod.cs" />
     <Compile Include="Models\User\CLoginData.cs" />
     <Compile Include="Models\User\CUser.cs" />
     <Compile Include="Models\User\CUserDataMethod.cs" />
@@ -1561,6 +1561,7 @@
     <Content Include="Views\FrontUserProfile\userDiscountCode.cshtml" />
     <Content Include="Views\FrontUserProfile\AfterLogin.cshtml" />
     <Content Include="Views\AdminLTE\AfterAdminLogin.cshtml" />
+    <Content Include="Views\AdminLTE\MemberAuth.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

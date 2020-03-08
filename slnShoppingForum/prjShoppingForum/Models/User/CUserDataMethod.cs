@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace prjShoppingForum.Models.User
+namespace tw.com.essentialoil.User.Models
 { 
     //前台使用
     public class CUserDataMethod

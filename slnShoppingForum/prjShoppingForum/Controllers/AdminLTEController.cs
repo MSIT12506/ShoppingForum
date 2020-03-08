@@ -1,6 +1,5 @@
 ﻿using PagedList;
 using prjShoppingForum.Models.Entity;
-using prjShoppingForum.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ using System.Web.Mvc;
 using tw.com.essentialoil.Discount.Models;
 using tw.com.essentialoil.Discount.ViewModels;
 using tw.com.essentialoil.Forum.Models;
+using tw.com.essentialoil.User.Models;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -79,35 +79,92 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("AdminManagerLogin");
         }
 
-        //會員管理、會員編輯、停權、會員查詢ajax
+        //會員管理、會員查詢
 
         int pagesize = 10;
         public ActionResult MemberList(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
-
-            var users = db.tUserProfiles.ToList();
-            var pageresult = users.ToPagedList(currentPage, pagesize);
+            IPagedList<tUserProfile> pageresult =  null;
+            var data = db.tUserProfiles.OrderBy(p => p.fId);
+            pageresult = data.ToPagedList(currentPage, pagesize);
             return View(pageresult);
         }
 
+        [HttpPost]
+        public ActionResult MemberList(string searchUserId, string searchName, string searchCity, int page = 1)
+        {
+            int currentPage = page < 1 ? 1 : page;
+            IQueryable<tUserProfile> UserId = null;
+            IQueryable<tUserProfile> Name = null;
+            IQueryable<tUserProfile> City = null;
+            if(searchUserId != "" && searchUserId !=null)
+                UserId = db.tUserProfiles.Where(p => p.fUserId.Contains(searchUserId)).OrderBy(p => p.fId);
+            if (searchName != "" && searchName != null)
+                Name = db.tUserProfiles.Where(p => p.fName.Contains(searchName)).OrderBy(p => p.fId);//尚待調整
+            if (searchCity != "" && searchCity != null)
+                City = db.tUserProfiles.Where(p => p.fCity.Contains(searchCity)).OrderBy(p => p.fId);//尚待調整
+            
+            if (UserId !=null)
+            {
+                var finduserid = UserId.ToPagedList(currentPage, pagesize);
+                return View(finduserid);
+            }
+            if (Name != null)
+            {
+                var findname = Name.ToPagedList(currentPage, pagesize);
+                return View(findname);
+            }
+            if (City != null)
+            {
+                var findcity = City.ToPagedList(currentPage, pagesize);
+                return View(findcity);
+            }
+
+            return View();
+        }
+
+        //會員編輯
         public ActionResult MemberEdit(int id)
         {
             var prod = db.tUserProfiles.Where(m => m.fId == id).FirstOrDefault();
             return View(prod);
         }
         [HttpPost]
-        public ActionResult MemberEdit(tUserProfile prod)
+        public ActionResult MemberEdit(tUserProfile m)
         {
+            var member = db.tUserProfiles.FirstOrDefault(p => p.fId == m.fId);
+            member.fName = m.fName;
+            member.fPhone = m.fPhone;
+            member.fTel = m.fTel;
+            member.fCity = m.fCity;
+            member.fAddress = m.fAddress;
+            member.fScore = m.fScore;
+            member.fAuth = m.fAuth;
+            member.fAuthPost = m.fAuthPost;
+            member.fAuthReply = m.fAuthReply;
             db.SaveChanges();
             return RedirectToAction("MemberList");
         }
-        //後台會員查詢
-        public ActionResult MemberAdvancedQuery()
+       
+        //會員停權
+        public ActionResult MemberAuth()
         {
-            return View();
+            var list = db.tUserProfiles;
+            return View(list);
         }
 
+        [HttpPost]
+        public ActionResult MemberAuth(int? fId)
+        {
+            if (fId != 0)
+            {
+                var auth = db.tUserProfiles.Where(p => p.fId == fId).Select(p => p.fAuth).FirstOrDefault();
+                auth = "0";
+                db.SaveChanges();
+            }
+            return View();
+        }
 
         //後台討論區 - 文章停權/恢復權限列表
         public ActionResult PostListAll(int page = 1)

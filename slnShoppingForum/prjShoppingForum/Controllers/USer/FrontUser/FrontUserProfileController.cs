@@ -14,7 +14,6 @@ using tw.com.essentialoil.Order.Models;
 using System.Text;
 using System.Net.Mail;
 using System.Security.Cryptography;
-using prjShoppingForum.Models.User;
 using System.Web.Security;
 using System.Web.Configuration;
 using tw.com.essentialoil.Services;

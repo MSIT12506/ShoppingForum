@@ -1,5 +1,4 @@
 ﻿using prjShoppingForum.Models.Entity;
-using prjShoppingForum.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +6,7 @@ using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
+using tw.com.essentialoil.User.Models;
 
 namespace tw.com.essentialoil.Services
 {
@@ -48,7 +48,7 @@ namespace tw.com.essentialoil.Services
             return TempString;
         }
 
-        //寄驗證信的方法(待測試修正)
+        //寄驗證信的方法(待測試)
         public void SendSignUpMail(string UserName, string newrdn)
         {
             string fName = membersService.GetUserProfile(UserName).fName.ToString();
@@ -56,7 +56,7 @@ namespace tw.com.essentialoil.Services
             var receiverEmail = new MailAddress(UserName, fName);
             var password = "vnmuhcmaxieewtbi";//管理員寄email所用的信箱密碼，測試時請自行填入
             var sub = "會員驗證碼";
-            var body = "恭喜您註冊為本店會員，請用下面的驗證碼進行登入:" + newrdn + " " + "!";
+            var body = "恭喜您註冊為本店會員，請用下面的驗證碼進行登入:" + newrdn;
             //mail.IsBodyHtml = true;
 
             var smtp = new SmtpClient
@@ -79,14 +79,14 @@ namespace tw.com.essentialoil.Services
             }
         }
 
-        //寄忘記密碼的方法: OK
+        //寄忘記密碼的方法: 
         public void SendNewMail(string UserName, string newrdn)
         {
             var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
             var receiverEmail = new MailAddress(UserName.ToString(), "Receiver");
             var password = "vnmuhcmaxieewtbi";//管理員寄email所用的信箱密碼，測試時請自行填入
             var sub = "更換密碼通知";
-            var body = "您好，已收到您的忘記密碼請求，請用下面的新密碼重新登入:" + newrdn + " " + "!";    
+            var body = "您好，已收到您的忘記密碼請求，請用下面的新密碼重新登入:" + newrdn;    
 
             var smtp = new SmtpClient
             {

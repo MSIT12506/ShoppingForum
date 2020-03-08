@@ -1,5 +1,4 @@
 ﻿using prjShoppingForum.Models.Entity;
-using prjShoppingForum.Models.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;

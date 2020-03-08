@@ -41,22 +41,20 @@ namespace prjShoppingForum.Models.Entity
             public string fGender { get; set; }
 
             [DisplayName("生日")]
-            //[Required(ErrorMessage = "必填")]
             public Nullable<System.DateTime> fBirthday { get; set; }
 
             [DisplayName("電話")]
             public string fTel { get; set; }
 
             [DisplayName("手機")]
+            [StringLength(10, MinimumLength = 9, ErrorMessage = "格式不符")]
             [Required(ErrorMessage = "必填")]
             public string fPhone { get; set; }
 
             [DisplayName("城市")]
-            //[Required(ErrorMessage = "必填")]
             public string fCity { get; set; }
 
             [DisplayName("地址")]
-            //[Required(ErrorMessage = "必填")]
             public string fAddress { get; set; }
             [DisplayName("相片")]
             public string fPhoto { get; set; }

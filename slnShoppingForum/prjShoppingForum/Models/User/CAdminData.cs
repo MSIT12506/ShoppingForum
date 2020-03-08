@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace prjShoppingForum.Models.User
+namespace tw.com.essentialoil.User.Models
 {
     public class CAdminData
     {

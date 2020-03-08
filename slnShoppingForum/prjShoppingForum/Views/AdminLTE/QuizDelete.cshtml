@@ -1,0 +1,81 @@
+﻿@model prjShoppingForum.Models.Entity.tQuestion
+
+<h2>刪除</h2>
+
+<h3>確定要刪除題目嗎?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fQuestionName) &emsp;&emsp; @Html.DisplayFor(model => model.fQuestionName)
+        </dt>
+        <dd>        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fQuestion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fQuestion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fAnswer)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fAnswer)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fItemA)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fItemA)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fItemB)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fItemB)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fItemC)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fItemC)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fItemD)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fItemD)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fItemE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fItemE)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color" style="text-align:right">
+            <input type="submit" value="刪除" class="btn btn-danger" /> |
+            @Html.ActionLink("返回", "QuizList" , new{ },new { @class = "btn btn-primary" })
+        </div>
+    }
+</div>
+

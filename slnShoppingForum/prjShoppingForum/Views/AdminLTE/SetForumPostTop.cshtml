@@ -1,4 +1,5 @@
 ﻿@model List<tw.com.essentialoil.Forum.ViewModels.CForumList>
+@* vvvv *@
 
 @{
     ViewBag.Title = "SetForumPostTop";
@@ -6,13 +7,13 @@
 
 <h2>置頂文章設定</h2>
 
-@Html.Action("ShowForumTopList","AdminLTE")
+@Html.Action("ShowForumTopList", "AdminLTE")
 
 <hr />
 
 <h2>文章列表</h2>
-<table class="table table-dark" style="width:100%">
-    <thead style="background-color:#4E6081">
+<table class="table" style="width:100%">
+    <thead style="background-color:#524087 ;color:aliceblue">
         <tr>
             <th>
                 文章序號
@@ -61,7 +62,7 @@
             //新增td
             let newTd = $('<td></td>');
             let cancelBtn = $('<button></button>');
-            $(cancelBtn).text('取消置頂').addClass('btn').addClass('btn-primary').addClass('btn-cancelSetTopList');
+            $(cancelBtn).text('取消置頂').addClass('btn').addClass('btn-danger').addClass('btn-cancelSetTopList');
             $(newTd).append(cancelBtn);
             $(targetRow).append(newTd);
             $('#tableTop').append(targetRow);

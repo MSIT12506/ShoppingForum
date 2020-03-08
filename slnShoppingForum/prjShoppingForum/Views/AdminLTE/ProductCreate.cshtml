@@ -1,0 +1,136 @@
+﻿@model prjShoppingForum.Models.Entity.tProduct
+@* vvvv *@
+
+@{
+    ViewBag.Title = "ProductCreate";
+}
+
+<h2>新增商品頁</h2>
+
+
+@using (Html.BeginForm(
+    "ProductCreate", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <p> 商品圖片 <input type="file" name="prodImg" id="prodImg" /></p>
+    @*<p><input type="submit" value="上傳" /></p>*@
+    @Html.AntiForgeryToken()
+
+
+    <div class="form-horizontal">
+
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.fProductChName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fProductChName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fProductChName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fProductDesc, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fProductDesc, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fProductDesc, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fUnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fUnitPrice, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fUnitPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fQuantityPerUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fQuantityPerUnit, new { htmlAttributes = new { @class = "form-control"
+           } })
+                @Html.ValidationMessageFor(model => model.fQuantityPerUnit, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fCategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.fCategoryID, (IEnumerable<SelectListItem>)ViewBag.CategoryDropList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.fCategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">特性</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.tProductVegetableoil.tfeature.ffeatureName, (IEnumerable<SelectListItem>)ViewBag.featureDropList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tProductVegetableoil.tfeature.ffeatureName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tProductUnilateral.tPart.fPartName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.tProductUnilateral.fPartID, (IEnumerable<SelectListItem>)ViewBag.PartDropDownList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tProductUnilateral.tPart.fPartName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tProductUnilateral.tNote.fNoteName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.tProductUnilateral.fNoteID, (IEnumerable<SelectListItem>)ViewBag.NoteDropList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.tProductUnilateral.tNote.fNoteName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">產地</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tProductUnilateral.fOrigin, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tProductUnilateral.fOrigin, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">萃取方式</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tProductUnilateral.fextraction, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tProductUnilateral.fextraction, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fUnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.fUnitsInStock, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.fUnitsInStock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.fDiscontinued, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <select name="fDiscontinued" id="fDiscontinued">
+                    <option value="false">False</option>
+                    <option value="true">True</option>
+                </select>
+                @Html.ValidationMessageFor(model => model.fDiscontinued, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10" style="text-align:right">
+                <input type="submit" value="確定新增" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@*<div>
+        @Html.ActionLink("返回商品列表", "ProductPage")
+    </div>*@
+
+

@@ -22,6 +22,7 @@
     <WebStackScaffolding_DbContextTypeFullName>prjShoppingForum.Models.Entity.dbShoppingForumEntities</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
     <NameOfLastUsedPublishProfile>oilshoppingforum - Web Deploy</NameOfLastUsedPublishProfile>
+    <ActiveDebugTarget />
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

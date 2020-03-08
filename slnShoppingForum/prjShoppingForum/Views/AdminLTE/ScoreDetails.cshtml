@@ -1,0 +1,63 @@
+﻿@model prjShoppingForum.Models.Entity.tScore
+
+
+<h2>積分明細</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fActiveScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fActiveScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fQuestionScore)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fQuestionScore)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fScoreDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fScoreDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fScoreDiscontinue)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fScoreDiscontinue)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tUserProfile.fUserId)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯", "ScoreEdit", new { id = Model.fScoreId },new { @class = "btn btn-info"}) |
+    @Html.ActionLink("返回", "ScoreList",new { },new { @class = "btn btn-primary"})
+</p>
+

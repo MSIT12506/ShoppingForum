@@ -1,0 +1,158 @@
+﻿@model prjShoppingForum.Models.Entity.tNew
+
+@{
+    ViewBag.Title = "Details";
+}
+@* 後台消息明細 *@
+
+<style>
+    .title {
+        font-weight: bold;
+    }
+</style>
+
+<div>
+    <h2>消息明細</h2>
+    <table class="table">
+        <thead style="background-color:#524087 ;color:aliceblue">
+            <tr>
+                <th class="title">
+                    <h5>標題</h5>
+                </th>
+                <th class="title">
+                    <h5>內容</h5>
+                </th>
+                <th class="title">
+                    <h6>操作</h6>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsTitle)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fClass)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fClass)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsDesc)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsArticle)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsArticle)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsTag)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsTag)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fGet_No)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fGet_No)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fAddUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fAddUser)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fChangUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fChangUser)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fDeleteUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fDeleteUser)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fApproved)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fApproved)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsDiscontinue)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsDiscontinue)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsStart)
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="title">
+                    @Html.DisplayNameFor(model => model.fNewsEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fNewsEnd)
+                </td>
+                <td></td>
+
+        </tbody>
+    </table>
+
+</div>
+
+<div style="text-align:right">
+    <p>
+        @Html.ActionLink("編輯", "NewsEdit", new { id = Model.fNewsId }, new { @class = "btn btn-info" }) |
+        @Html.ActionLink("返回", "NewsList",new { }, new { @class = "btn btn-primary" })
+    </p>
+</div>

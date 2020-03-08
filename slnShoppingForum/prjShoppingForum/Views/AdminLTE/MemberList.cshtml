@@ -1,17 +1,19 @@
 ﻿@model IPagedList<prjShoppingForum.Models.Entity.tUserProfile>
 @using PagedList;
 @using PagedList.Mvc;
+@* vvv *@
+
 @{
     ViewBag.Title = "MemberList";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-<h2>MemberList</h2>
+<h2>會員清單列表</h2>
 
-<p>
-    @Html.ActionLink("新增會員", "UserCreate")
-</p>
+@*<p>
+        @Html.ActionLink("新增會員", "UserCreate", new { }, new { @class = "btn btn-outline-primary" })
+    </p>*@
 <table class="table">
-    <thead style="background-color:#4E6081">
+    <thead style="background-color:#524087 ;color:aliceblue">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
@@ -19,7 +21,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().fUserId)
             </th>
-
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().fName)
             </th>
@@ -42,8 +43,8 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().fAddress)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fPhoto)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().fPhoto)
+                </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.FirstOrDefault().fCreateDate)
             </th>
@@ -60,11 +61,11 @@
                 @Html.DisplayNameFor(model => model.FirstOrDefault().fAuthReply)
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().tScore.fId)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().tScore.fId)
+                </th>*@
             @*<th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserLog.fUserIP)
-            </th>*@
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().tUserLog.fUserIP)
+                </th>*@
             <th></th>
         </tr>
     </thead>
@@ -101,8 +102,8 @@
                 @Html.DisplayFor(modelItem => item.fAddress)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.fPhoto)
-            </td>*@
+                    @Html.DisplayFor(modelItem => item.fPhoto)
+                </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.fCreateDate)
             </td>
@@ -119,14 +120,14 @@
                 @Html.DisplayFor(modelItem => item.fAuthReply)
             </td>
             @*<td>
-                @Html.DisplayFor(modelItem => item.tScore.fId)
-            </td>
+                    @Html.DisplayFor(modelItem => item.tScore.fId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tUserLog.fUserIP)
+                </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.tUserLog.fUserIP)
-            </td>*@
-            <td>
-                @Html.ActionLink("編輯", "MemberEdit", new { id = item.fId },new{ @class = "btn btn-info" }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.fId },new{ @class = "btn btn-danger" })
+                @Html.ActionLink("編輯", "MemberEdit", new { id = item.fId }, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("刪除", "Delete", new { id = item.fId }, new { @class = "btn btn-danger" })
             </td>
         </tr>
     }

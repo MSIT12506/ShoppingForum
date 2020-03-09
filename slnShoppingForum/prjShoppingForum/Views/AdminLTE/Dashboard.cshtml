@@ -11,9 +11,8 @@
     請輸入查詢數量(內建為5) : <input id="topNumber" type="number" min="1" value="5"/>
     <a class="btn btn-outline-info" onclick="topProduct()">查詢</a>
 </div>
-<div id="container" style="width:100%; height:400px;">
-
-</div>
+<div id="topProduct" style="width:100%; height:400px;"></div>
+<div id="weekRevenue"></div>
 
 
 
@@ -22,18 +21,20 @@
     <script>
         $(document).ready(function () {
             topProduct();
+            weekRevenue();
         })
 
+        //銷售數量最多的商品
         function topProduct()
         {
             let topNumber = $("#topNumber").val();
 
             $.ajax({
                 type: 'GET',
-                url: "../AdminLTE/getReportData?topNumber="+ topNumber,
+                url: "../AdminLTE/getTopProductData?topNumber="+ topNumber,
                 success: function (result) {
-
-                    var myChart = Highcharts.chart('container', {
+                    console.log(result);
+                    var myChart = Highcharts.chart('topProduct', {
                         chart: {
                             type: 'column'
                         },
@@ -78,6 +79,67 @@
                                         fontSize: '13px'
                                     }
                                 }
+                            },
+                        ],
+                    });
+
+                },
+                cache: false,
+                async: false
+            })
+        }
+
+        //這禮拜的營業額
+        function weekRevenue() {
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("getWeekRevenueData", "AdminLTE")',
+                success: function (result) {
+                    console.log(result.y);
+                    var myChart = Highcharts.chart('weekRevenue', {
+                        chart: {
+                            type: 'spline'
+                        },
+                        title: {
+                            text: `Week of Revenue`
+                        },
+                        xAxis: {
+                            categories: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+                        },
+                        yAxis: {
+                            min: 0,
+                            title: {
+                                text: '營業額',
+                            },
+                            labels: {
+                                formatter: function () {
+                                    return 'NT$ ' + this.value;
+                                }
+                            }
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        tooltip: {
+                            crosshairs: true,
+                            shared: true
+                        },
+                        plotOptions: {
+                            spline: {
+                                marker: {
+                                    radius: 4,
+                                    lineColor: '#666666',
+                                    lineWidth: 1
+                                }
+                            }
+                        },
+                        series: [
+                            {
+                                name: '營業額',
+                                marker: {
+                                    symbol: 'square'
+                                },
+                                data: result.y,
                             },
                         ],
                     });

@@ -1748,6 +1748,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AdminLTE\CAdminLTE.cs" />
     <Compile Include="Models\CDictionary.cs" />
     <Compile Include="Models\CRedirectToLogin.cs" />
     <Compile Include="Models\Discount\CDiscount.cs" />
@@ -1897,6 +1898,7 @@
     <Compile Include="Services\CUserMailService.cs" />
     <Compile Include="Services\CUsersDBService.cs" />
     <Compile Include="Services\ForPaging.cs" />
+    <Compile Include="ViewModels\AdminLTE\CAdminLTETime.cs" />
     <Compile Include="ViewModels\COrderView.cs" />
     <Compile Include="ViewModels\Discount\CDiscountCreate.cs" />
     <Compile Include="ViewModels\LineChatBot\CLineBotModel.cs" />

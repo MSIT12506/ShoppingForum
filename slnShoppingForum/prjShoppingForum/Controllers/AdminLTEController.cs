@@ -9,6 +9,7 @@ using tw.com.essentialoil.Discount.Models;
 using tw.com.essentialoil.Discount.ViewModels;
 using tw.com.essentialoil.Forum.Models;
 using tw.com.essentialoil.User.Models;
+using tw.com.essentialoil.AdminLTE.Models;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -53,7 +54,7 @@ namespace tw.com.essentialoil.Controllers
 
         //數據圖表
         //商品銷售排行
-        public ActionResult getReportData(int topNumber = 5)
+        public ActionResult getTopProductData(int topNumber = 5)
         {
             var data = (from o in db.tOrderDetails
                         join p in db.tProducts on o.fProductId equals p.fProductID
@@ -67,6 +68,13 @@ namespace tw.com.essentialoil.Controllers
             return Json(data,JsonRequestBehavior.AllowGet);
         }
 
+        //營業額
+        public ActionResult getWeekRevenueData()
+        {
+            CAdminLTE LTE = new CAdminLTE();
+
+            return Json(new { y = LTE.revenue() },JsonRequestBehavior.AllowGet);
+        }
 
         //後台管理員登出
         public ActionResult AdminManagerLogOut()

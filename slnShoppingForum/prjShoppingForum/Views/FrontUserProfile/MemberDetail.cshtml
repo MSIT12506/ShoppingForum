@@ -3,8 +3,10 @@
 @section Styles{
     <style>
         .col-md-6{
-            font-size:large;
+            
         }
+
+
 /*.container { 
   background: url("/Images/form-wizard-bg.jpg") no-repeat center center;
 
@@ -16,38 +18,65 @@
     </style>
 }
 
-<div class="container">
-    <h4>會員基本資料</h4>
-    <div class="row">
-        <div class="col-md-6" >
-            帳號: @Model.fUserId
+<div class="container" style="text-align:left;font-size:18px;">
+    <h3>會員基本資料</h3>
+    <hr style="border-bottom:3px solid #CDA0A9;"/>
+    <div class="row" style="padding-top:15px;">
+        <div class="col-md-1">
+            帳號:
         </div>
-        <div class="col-md-6">
-            姓名: @Model.fName
+        <div class="col-md-5">
+            @Model.fUserId
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            性別: @Model.fGender
+
+        <div class="col-md-1">
+            姓名:
         </div>
-        <div class="col-md-6">
-            生日: @Model.fBirthday
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-6">
-            電話: @Model.fTel
-        </div>
-        <div class="col-md-6">
-            手機: @Model.fPhone
+        <div class="col-md-5">
+           @Model.fName
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-6">
-            城市: @Model.fCity
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-1">
+            性別:
         </div>
-        <div class="col-md-6">
-            地址: @Model.fAddress
+        <div class="col-md-5">
+            @Model.fGender
+        </div>
+
+        <div class="col-md-1">
+            生日:
+        </div>
+        <div class="col-md-5">
+            @Model.fBirthday
+        </div>
+    </div>
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-1">
+            電話:
+        </div>
+        <div class="col-md-5">
+            @Model.fTel
+        </div>
+        <div class="col-md-1">
+            手機:
+        </div>
+        <div class="col-md-5">
+            @Model.fPhone
+        </div>
+    </div>
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-1">
+            城市:
+        </div>
+        <div class="col-md-5">
+            @Model.fCity
+        </div>
+        <div class="col-md-1">
+            地址:
+        </div>
+        <div class="col-md-5">
+            @Model.fAddress
         </div>
     </div>
 

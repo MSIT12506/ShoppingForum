@@ -31,10 +31,12 @@
         *:not(.fa-search) {
             font-family: 'UD Digi Kyokasho N-R' !important;
         }
+        li a{
+            font-size:18px !important;
+        }
     </style>
 </head>
 <body>
-
     <div class="wrapper">
         <header class="header_area" style="height:100px">
             <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between" style="background-color:#ebe9e1; height:100px">
@@ -68,7 +70,8 @@
                                     <a href="@Url.Action("List", "Forum")">討論區</a>
                                 </li>
                                 <li>
-                                    <a id="Quiz" href="@Url.Action("QuizList","Questions")">問答送積分</a>
+                                    <a id="Quiz" href="@Url.Action("QuizList","Questions")"
+                                       >問答送積分</a>
                                 </li>
 
                             </ul>
@@ -96,8 +99,6 @@
                         <a href="@Url.Action("viewCart", "ShoppingCart")" id="essenceCartBtn"><img src="~/Content/template/img/core-img/bag.svg" alt=""> <span id="totalQuantity"></span></a>
                     </div>
                     @Html.Action("AfterLogin", "FrontUserProfile");
-
-
                 </div>
 
             </div>
@@ -105,7 +106,7 @@
 
 
         <!--中間區塊-->
-        <div id="content" style="min-height:800px; margin-top:120px">
+        <div id="content" style="min-height:600px; margin-top:120px">
             @RenderBody()
         </div>
     </div>

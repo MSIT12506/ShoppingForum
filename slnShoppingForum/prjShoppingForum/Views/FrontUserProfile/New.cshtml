@@ -1,39 +1,47 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
+<style>
 
-<div class="containers">
+    .span2 {
+        color:red;
+    }
+</style>
+<div class="containers" style="margin:170px auto 80px auto">
     <div class="signup-content">
         <div class="signup-form">
             <h3 class="form-title font-family">註冊會員</h3>
             <form action="/FrontUserProfile/New" method="post" name="RegisterForm" class="register-form" id="register-form" onsubmit="return oncheck()">
 
                 <div class="form-group">
+                    <span>帳號(Email) <span class="span2">*</span></span>
                     <input type="email" name="fUserId" id="inputUserId" placeholder="Your Email as Account" required /><span style="font-family: 微軟正黑體" id="useridsp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fUserId, "", new { @class = "text-danger" })
 
                 <div class="form-group">
+                    <span>姓名 <span class="span2">*</span></span>
                     <input type="text" name="fName" id="name" placeholder="Your Name" required /><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="namesp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fName, "", new { @class = "text-danger" })
 
-
                 <div class="form-group">
+                    <span>密碼 <span class="span2">*</span></span>
                     <input type="password" name="fPassword" id="inputPassword" placeholder="Password(限6~12字元英文大小寫+數字)" minlength="6" pattern="^[a-zA-Z0-9]{6,12}" maxlength="12" required /><span style="font-family: 微軟正黑體;  color:lightcoral; font-weight:bold" id="pwdsp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fPassword, "", new { @class = "text-danger" })
 
                 <div class="form-group">
-                    <label style="margin:0 30px">Female<input type="radio" value="Female" name="fGender" id="Gender" /></label>
-                    <label style="margin-right:30px">Male<input type="radio" value="Male" name="fGender" id="Gender" required /></label>
-                    <label>Personal<input type="radio" value="Personal" name="fGender" id="Gender" /></label>
+                    <span>性別 <span class="span2">*</span></span>
+                        <label style="margin:0 30px">男<input type="radio" value="Female" name="fGender" id="Gender" /></label>
+                        <label style="margin-right:30px">女<input type="radio" value="Male" name="fGender" id="Gender" required /></label>
+                        <label>其他<input type="radio" value="Personal" name="fGender" id="Gender" /></label>
                 </div>
                  @Html.ValidationMessageFor(model => model.fGender, "", new { @class = "text-danger" })
 
-                <div class="form-group">                   
+                <div class="form-group">  
+                    <span>聯絡電話 <span class="span2">*</span></span>
                     <input type="text" name="fPhone" id="inputPhone" placeholder="Phone" minlength="9" maxlength="10" onkeyup="value=value.replace(/[^\d]/g,'')" required /><span style="font-family: 微軟正黑體; color:lightcoral; font-weight:bold" id="phonesp"></span>
                 </div>
                 @Html.ValidationMessageFor(model => model.fPhone, "", new { @class = "text-danger" })
-
 
                 <div class="form-group form-button">
                     <input type="button" name="userSignUp" id="signup" class="btn btn-primary font-family" value="註冊" @*onclick="return check()"*@ />

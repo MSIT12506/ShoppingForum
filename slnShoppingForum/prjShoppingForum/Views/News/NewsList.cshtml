@@ -1,8 +1,16 @@
-﻿@model IEnumerable<prjShoppingForum.Models.Entity.tNew>
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<prjShoppingForum.Models.Entity.tNew>
+
+
+
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "NewsList";
 }
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
 
 @section Styles
     {
@@ -17,7 +25,7 @@
 
         .sear {
             text-align: right;
-            margin-top:30px;
+            margin-top: 30px;
             margin-bottom: 10px;
             /*background-color: #EBE9E1;*/
         }
@@ -38,78 +46,81 @@
 
 }
 @* 前台消息清單 *@
-  
-    <div class="content" style="margin:170px auto;text-align:center;width:80%">
-        <div style="margin-bottom:60px">
-            <img src="~/Images/News/hot_hot.png" />
-        </div>
-     
-        <hr style="border:1px solid #55C1A1" />
-        <div class="sear">
-            @using (Html.BeginForm())
-            {
-                @Html.TextBox("SearchKey", "");
-                <input type="submit" value="文章搜尋" class="btn btn-info" />
-            }
-            <h5>@ViewBag.Message</h5>
-        </div>
-        <div class="row">
-            <div id='calendar' class="col-5"></div>
-            <table class="table col-7">
-                <thead style="background-color:#ffd800;">
-                    <tr style="height:50px">
-                        <th>
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.fClass)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.fNewsTitle)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.fNewsDesc)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.fNewsStart)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.fNewsEnd)
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr class="newsList" data-starty="@item.fNewsStart.Year.ToString()" data-starym="@item.fNewsStart.Month.ToString()" data-startd="@item.fNewsStart.Day.ToString()" data-endy="@item.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@item.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@item.fNewsEnd.AddDays(1).Day.ToString()" data-title="@item.fNewsTitle">
-                            <td>
-                                <img src="~/Images/News/news_icc.png" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fClass)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fNewsTitle)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.fNewsDesc)
-                            </td>
-                            <td>
-                                @item.fNewsStart.ToLongDateString()
-                            </td>
-                            <td>
-                                @item.fNewsEnd.ToLongDateString()
-                            </td>
-                            <td>
-                                @Html.ActionLink("看内容", "Content", new { Id = item.fNewsId }, new { @class = "btn btn-success" })
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<div class="content" style="margin:170px auto;text-align:center;width:80%">
+    <div style="margin-bottom:60px">
+        <img src="~/Images/News/hot_hot.png" />
+    </div>
+
+    <hr style="border:1px solid #55C1A1" />
+    <div class="sear">
+        @using (Html.BeginForm())
+        {
+            @Html.TextBox("SearchKey", "");
+            <input type="submit" value="文章搜尋" class="btn btn-info" />
+        }
+        <h5>@ViewBag.Message</h5>
+    </div>
+    <div class="row">
+        <div id='calendar' class="col-5"></div>
+        <table class="table col-7">
+            <thead style="background-color:#ffd800;">
+                <tr style="height:50px">
+                    <th>
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fClass)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsTitle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsDesc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsEnd)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="newsList" data-starty="@item.fNewsStart.Year.ToString()" data-starym="@item.fNewsStart.Month.ToString()" data-startd="@item.fNewsStart.Day.ToString()" data-endy="@item.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@item.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@item.fNewsEnd.AddDays(1).Day.ToString()" data-title="@item.fNewsTitle">
+                        <td>
+                            <img src="~/Images/News/news_icc.png" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fClass)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fNewsTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fNewsDesc)
+                        </td>
+                        <td>
+                            @item.fNewsStart.ToLongDateString()
+                        </td>
+                        <td>
+                            @item.fNewsEnd.ToLongDateString()
+                        </td>
+                        <td>
+                            @Html.ActionLink("看内容", "Content", new { Id = item.fNewsId }, new { @class = "btn btn-success" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="col-11">
+            @Html.PagedListPager(Model, page => Url.Action("NewsList", new { page }))
         </div>
     </div>
+</div>
 
 @section scripts{
     <script>

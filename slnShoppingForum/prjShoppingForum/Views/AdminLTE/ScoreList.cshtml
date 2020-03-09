@@ -1,5 +1,10 @@
-﻿@model IEnumerable<prjShoppingForum.Models.Entity.tScore>
-@* vvvv *@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<prjShoppingForum.Models.Entity.tScore>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
 <h2>積分異動查詢區</h2>
 @using (Html.BeginForm())
 {
@@ -23,10 +28,10 @@
     <thead style="background-color:#524087 ;color:aliceblue">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fUserId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.tUserProfile.fName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fName)
             </th>
             <th>
                 總分
@@ -35,7 +40,7 @@
                 活動分
             </th>
             <th>
-                任務分            
+                任務分
             </th>
             <th>
                 積分改變日
@@ -46,7 +51,7 @@
             <th></th>
         </tr>
     </thead>
-    <tbody class="table table-active accent-pink">
+    <tbody>
         @foreach (var item in Model)
         {
 
@@ -81,4 +86,8 @@
         }
     </tbody>
 </table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("ScoreList", new { page }))
+</div>
+
 

@@ -1,11 +1,10 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-
 @model IPagedList<prjShoppingForum.Models.Entity.tForum>
-
 @{
     ViewBag.Title = "PostListAll";
 }
+<link href="~/Content/PagedList.css" rel="stylesheet" />
 
 <h2>文章停權/恢復權限</h2>
 <br />
@@ -48,13 +47,10 @@
             }
 
         }
-
     </tbody>
 </table>
 @Html.PagedListPager(Model, page => Url.Action("PostListAll", new { page }))
-
 @section Scripts{
-
     <script>
         $(document).on('click', '.btn-action', function () {
             let thisBtn = $(this);
@@ -83,10 +79,6 @@
             )
         })
     </script>
-
-
-
-
 
 
 

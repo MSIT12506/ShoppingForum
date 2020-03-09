@@ -1,5 +1,10 @@
-﻿@model IEnumerable<prjShoppingForum.Models.Entity.tQuestion>
-@* vvvv *@
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<prjShoppingForum.Models.Entity.tQuestion>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
 <h2>天天答題題目列表</h2>
 
 <div class="sear">
@@ -15,7 +20,7 @@
     }
     <h5>@ViewBag.Message</h5>
 </div>
-
+<hr />
 <div style="text-align:right">
     <p>
         @Html.ActionLink("新增題目", "QuizCreate", new { }, new { @class = "btn btn-outline-primary" })
@@ -25,13 +30,13 @@
     <thead style="background-color:#524087 ;color:aliceblue">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.fQuestionName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fQuestionName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fQuestion)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fQuestion)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fAnswer)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fAnswer)
             </th>
 
             <th>
@@ -61,4 +66,7 @@
         }
     </tbody>
 </table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("QuizList", new { page }))
+</div>
 

@@ -10,12 +10,43 @@ using tw.com.essentialoil.Discount.ViewModels;
 using tw.com.essentialoil.Forum.Models;
 using tw.com.essentialoil.User.Models;
 using tw.com.essentialoil.AdminLTE.Models;
+using tw.com.essentialoil.News.Models;
+using tw.com.essentialoil.Product.Models;
+using tw.com.essentialoil.Questions.Models;
+using tw.com.essentialoil.Tests.Models;
+using tw.com.essentialoil.Score.Models;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Net;
+using tw.com.essentialoil.ViewModels;
+using System.Text;
 
 namespace tw.com.essentialoil.Controllers
 {
     public class AdminLTEController : Controller
     {
         private dbShoppingForumEntities db = new dbShoppingForumEntities();
+        private NewsRepository _NewsRepository;
+        ProductRepository productRepository = new ProductRepository();
+        DropDownList DropDownList = new DropDownList();
+        private QuizRepository _QuizRepository;
+        private TestRepository _TestRepository;
+        private ScoreRepository _ScoreRepository;
+
+        //建構子
+        public AdminLTEController()
+        {
+            _QuizRepository = new QuizRepository();
+            _TestRepository = new TestRepository();
+            _NewsRepository = new NewsRepository();
+            _ScoreRepository = new ScoreRepository();
+
+        }
+
+
+
+        //=======================================後台=======================================
+
         //後台首頁 - 儀表板
         public ActionResult Dashboard()
         {
@@ -86,10 +117,13 @@ namespace tw.com.essentialoil.Controllers
             }
             return RedirectToAction("AdminManagerLogin");
         }
+        //=======================================後台=======================================
+
+        //=======================================會員=======================================
 
         //會員管理、會員查詢
+        int pagesize = 6;
 
-        int pagesize = 10;
         public ActionResult MemberList(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
@@ -173,12 +207,15 @@ namespace tw.com.essentialoil.Controllers
             }
             return View();
         }
+        //=======================================會員=======================================
+
+        //======================================討論區======================================
 
         //後台討論區 - 文章停權/恢復權限列表
         public ActionResult PostListAll(int page = 1)
         {
             int currentPage = page < 1 ? 1 : page;
-            int pageCount = 15;
+            int pageCount = 10;
 
             CForum forum = new CForum();
             return View(forum.queryAllPostContainDisable(currentPage, pageCount));
@@ -201,27 +238,6 @@ namespace tw.com.essentialoil.Controllers
             return PartialView(forum.queryTopPost());
         }
 
-        //後台優惠券清單
-        public ActionResult DiscountList()
-        {
-            CDiscount discount = new CDiscount();
-            return View(discount.queryAllDiscount().ToList());
-        }
-
-        public ActionResult DisableDiscount()
-        {
-            CDiscount discount = new CDiscount();
-            return PartialView(discount.queryDisableDiscount().ToList());
-        }
-
-        //後台新增優惠券
-        public ActionResult DiscountCreate()
-        {
-            CDiscount discount = new CDiscount();
-            return View();
-        }
-
-
         //--------------------Ajax--------------------
         //文章權限設定
         public ActionResult ActionToEnableOrNot(string pid, string actionName)
@@ -243,6 +259,9 @@ namespace tw.com.essentialoil.Controllers
 
             return Content("");
         }
+        //======================================討論區======================================
+
+        //======================================優惠卷======================================
 
         //新增優惠券
         public ActionResult DiscountCreatePost(CDiscountCreate[] datas)
@@ -269,6 +288,570 @@ namespace tw.com.essentialoil.Controllers
             bool result = discount.enableCode(discountCode);
 
             return Content(result.ToString());
+        }
+        //後台優惠券清單
+        public ActionResult DiscountList()
+        {
+            CDiscount discount = new CDiscount();
+            return View(discount.queryAllDiscount().ToList());
+        }
+
+        public ActionResult DisableDiscount()
+        {
+            CDiscount discount = new CDiscount();
+            return PartialView(discount.queryDisableDiscount().ToList());
+        }
+
+        //後台新增優惠券
+        public ActionResult DiscountCreate()
+        {
+            CDiscount discount = new CDiscount();
+            return View();
+        }
+        //======================================優惠卷======================================
+
+        //=======================================商品=======================================
+        // 檢視全部商品
+        public ActionResult ProductPage(int page = 1)
+        {
+
+            IPagedList<tProduct> pageresult = productRepository.ProdPageList(page);
+            return View(pageresult);
+        }
+
+        //新增商品
+        public ActionResult ProductCreate()
+        {
+            ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
+            ViewBag.NoteDropList = DropDownList.GetNoteDropList();
+            ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult ProductCreate(tProduct prod, HttpPostedFileBase prodImg)
+        {
+            ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
+            ViewBag.NoteDropList = DropDownList.GetNoteDropList();
+            ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
+
+            productRepository.InsertProduct(prod, prodImg, Server);
+
+            return RedirectToAction("ProductPage");
+        }
+
+        //刪除商品
+        public ActionResult ProductDelete(int prodId)
+        {
+            productRepository.deleteProd(prodId);
+            return RedirectToAction("ProductPage");
+        }
+
+        //修改商品
+        public ActionResult ProductEdit(int prodId)
+        {
+            ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
+            ViewBag.NoteDropList = DropDownList.GetNoteDropList();
+            ViewBag.CategoryDropList = DropDownList.GetCategoryDropList();
+            ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
+            ViewBag.featureDropList = DropDownList.GetfeatureDropList();
+
+            var prod = db.tProducts.Where(m => m.fProductID == prodId).FirstOrDefault();
+            return View(prod);
+        }
+        [HttpPost]
+        public ActionResult ProductEdit(tProduct prod, HttpPostedFileBase prodImg)
+        {
+            productRepository.UpdateProduct(prod, prodImg, Server);
+            tProductImage productImage = new tProductImage();
+            return RedirectToAction("ProductPage");
+        }
+
+        //=======================================商品=======================================
+
+        //=======================================消息=======================================
+
+        //消息清單,沒有剔除不顯示因為是後台
+        public ActionResult NewsList(int page = 1)
+        {
+            int pagesize = 10;
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Newspage = db.tNews.OrderBy(p => p.fNewsId).ToList();
+            var result = Newspage.ToPagedList(currentPage, pagesize);
+            return View(result);
+        }
+
+        //消息搜索,沒有剔除不顯示因為是後台
+        [HttpPost]
+        public ActionResult NewsList(string searchKey)
+        {
+            ViewBag.Message = searchKey;
+            IEnumerable<tNew> NewsList = _NewsRepository.GetBackNewstitle(searchKey);
+            return View("NewsList", NewsList);
+        }
+
+        //消息明細
+        public ActionResult NewsDetails(int Id)
+        {
+            var News = db.tNews.FirstOrDefault(p => p.fNewsId == Id);
+            return View(News);
+        }
+
+        //新增消息
+        public ActionResult NewsCreate()
+        {
+            ViewBag.fAddUser = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
+            return View();
+        }
+
+        //確認新增
+        [HttpPost]
+        public ActionResult NewsCreate(tNew tNew)
+        {
+
+            if (ModelState.IsValid)
+            {
+                _NewsRepository.InsertNews(tNew);
+                db.SaveChanges();
+                return RedirectToAction("NewsList");
+            }
+            return View(tNew);
+        }
+
+        // 編輯消息
+        public ActionResult NewsEdit(int Id)
+        {
+            ViewBag.fChangUser = new SelectList(db.tAdminManagers, "ManagerEmail", "ManagerId");
+            var News = _NewsRepository.GetNews(Id);
+            return View(News);
+
+        }
+
+        // 點擊編輯
+        [HttpPost]
+        public ActionResult NewsEdit(tNew tNew)
+        {
+            if (ModelState.IsValid)
+            {
+                _NewsRepository.UpdateNews(tNew);
+                return RedirectToAction("NewsDetails", new { Id = tNew.fNewsId });
+            }
+            return View(tNew);
+        }
+
+        // 刪除使用不顯示方式
+        public ActionResult NewsDelete(int Id)
+        {
+            _NewsRepository.EditNewsToDiscontinue(Id);
+            return RedirectToAction("NewsList");
+        }
+
+        //日曆
+
+        public ActionResult NewsCalendar()
+        {
+            return View();
+        }
+
+
+        //=======================================消息=======================================
+
+        //=======================================問題=======================================
+
+        // 後臺_題目
+        public ActionResult QuizList(int page = 1)
+        {
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Quizpage = db.tQuestions.OrderBy(p => p.fQuestionId).ToList();
+            var result = Quizpage.ToPagedList(currentPage, pagesize);
+            return View(result);
+        }
+
+        // 後台_題目明細
+        public ActionResult QuizDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tQuestion tQuestion = db.tQuestions.Find(id);
+            if (tQuestion == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tQuestion);
+        }
+
+        // 後台_新增題目
+        public ActionResult QuizCreate()
+        {
+            return View();
+        }
+
+        //後台_新增存資料庫
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult QuizCreate(tQuestion tQuestion)
+        {
+            if (ModelState.IsValid)
+            {
+                db.tQuestions.Add(tQuestion);
+                db.SaveChanges();
+                return RedirectToAction("QuizList");
+            }
+            return View(tQuestion);
+        }
+
+        // 後台_編輯題目
+        public ActionResult QuizEdit(int Id)
+        {
+            var Quiz = _QuizRepository.GetQuiz(Id);
+            return View(Quiz);
+        }
+
+        //後台_編輯題目存資料庫
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult QuizEdit(tQuestion tQuestion)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tQuestion).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("QuizList");
+            }
+            return View(tQuestion);
+        }
+
+        // 後台_刪除題目
+        public ActionResult QuizDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tQuestion tQuestion = db.tQuestions.Find(id);
+            if (tQuestion == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tQuestion);
+        }
+
+        //後台_刪除題目存資料庫
+        [HttpPost, ActionName("QuizDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult QuizDeleteConfirmed(int id)
+        {
+            tQuestion tQuestion = db.tQuestions.Find(id);
+            db.tQuestions.Remove(tQuestion);
+            db.SaveChanges();
+            return RedirectToAction("QuizList");
+        }
+
+        //=======================================問題=======================================
+
+        //=======================================測驗=======================================
+
+        // 後台_測驗
+        public ActionResult TestList(int page = 1)
+        {
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Testpage = db.tTests.OrderBy(p => p.fTestId).ToList();
+            var result = Testpage.ToPagedList(currentPage, pagesize);
+            return View(result);
+        }
+
+        [HttpPost]
+        //測驗搜尋功能
+        public ActionResult TestList(string searchKey)
+        {
+            ViewBag.Message = searchKey;
+            IEnumerable<tTest> TestList = _TestRepository.GetTestAccount(searchKey);
+            return View(TestList);
+        }
+
+        // 後台_測驗明細
+        public ActionResult TestDetails(int Id)
+        {
+            var testList = _TestRepository.GetTest(Id);
+            return View(testList);
+        }
+
+        // 後台_新增測驗
+        public ActionResult TestCreate()
+        {
+            ViewBag.fQuestionId = new SelectList(db.tQuestions, "fQuestionId", "fQuestionName");
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fId");
+            return View();
+        }
+
+        // 後台_新增測驗到資料庫
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TestCreate(tTest tTest)
+        {
+            if (ModelState.IsValid)
+            {
+                tTest.fScoreDate = DateTime.UtcNow.AddHours(8);
+                tTest.fTestDiscontinue = false;
+                db.tTests.Add(tTest);
+                db.SaveChanges();
+                return RedirectToAction("TestList");
+            }
+
+            ViewBag.fQuestionId = new SelectList(db.tQuestions, "fQuestionId", "fQuestionName", tTest.fQuestionId);
+            ViewBag.fId = new SelectList(db.tScores, "fId", "fId", tTest.fId);
+            return View(tTest);
+        }
+
+        // 後台_編輯測驗
+        public ActionResult TestEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tTest tTest = db.tTests.Find(id);
+            if (tTest == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.fQuestionId = new SelectList(db.tQuestions, "fQuestionId", "fQuestionName", tTest.fQuestionId);
+            ViewBag.fId = new SelectList(db.tScores, "fId", "fId", tTest.fId);
+            return View(tTest);
+        }
+
+        //後台_編輯測驗到資料庫
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult TestEdit(tTest tTest)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tTest).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("TestList");
+            }
+            ViewBag.fQuestionId = new SelectList(db.tQuestions, "fQuestionId", "fQuestionName", tTest.fQuestionId);
+            ViewBag.fId = new SelectList(db.tScores, "fId", "fId", tTest.fId);
+            return View(tTest);
+        }
+
+        // 後台刪除測驗紀錄
+        public ActionResult TestDelete(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tTest tTest = db.tTests.Find(id);
+            if (tTest == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tTest);
+        }
+
+        // 後台_刪除測驗到資料庫
+        [HttpPost, ActionName("TestDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            tTest tTest = db.tTests.Find(id);
+            tTest.fTestDiscontinue = true;
+            db.tTests.Remove(tTest);
+            db.SaveChanges();
+            return RedirectToAction("TestList");
+        }
+
+        //=======================================測驗=======================================
+
+        //=======================================分數=======================================
+
+        //分數清單
+        public ActionResult ScoreList(int page = 1)
+        {
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Scorepage = db.tScores.OrderBy(p => p.fId).ToList();
+            var result = Scorepage.ToPagedList(currentPage, pagesize);
+            return View(result);
+        }
+
+        [HttpPost]
+        //分數搜尋
+        public ActionResult ScoreList(string searchKey)
+        {
+            ViewBag.Message = searchKey;
+            IEnumerable<tScore> ScoreList = _ScoreRepository.GetScoreAccount(searchKey);
+            return View(ScoreList);
+        }
+
+        // GET: Scores/Details/5
+        public ActionResult ScoreDetails(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tScore tScore = db.tScores.Find(id);
+            if (tScore == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tScore);
+        }
+
+        // 新增積分
+        public ActionResult ScoreCreate()
+        {
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ScoreCreate(tScore tScore)
+        {
+            if (ModelState.IsValid)
+            {
+                _ScoreRepository.InsertScore(tScore);
+                db.SaveChanges();
+                return RedirectToAction("ScoreList");
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tScore.fId);
+            return View(tScore);
+        }
+
+        //編輯分數
+        public ActionResult ScoreEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tScore tScore = db.tScores.Find(id);
+            if (tScore == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tScore.fId);
+            return View(tScore);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ScoreEdit(tScore tScore)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tScore).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("ScoreList");
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tScore.fId);
+            return View(tScore);
+        }
+
+        // 不顯示
+        public ActionResult ScoreDelete(int Id)
+        {
+            _ScoreRepository.EditScoreToAuth(Id);
+            return RedirectToAction("ScoreList");
+        }
+
+
+        //=======================================分數=======================================
+
+        //=======================================訂單=======================================
+
+        public async Task<ActionResult> Index()
+        {
+            var tOrders = db.tOrders.Include(t => t.tUserProfile);
+            return View(await tOrders.ToListAsync());
+        }
+
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tOrder tOrder = await db.tOrders.FindAsync(id);
+            if (tOrder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tOrder);
+        }
+
+        //存出檔案(未完成)
+        public ActionResult ExportFile(int? id)
+        {
+            var query = db.tOrders.Where(p => p.fOrderId == id);
+            var items = db.tOrderDetails.Where(p => p.fOrderId == id);
+            var customer = db.tUserProfiles.Where(p => p.fId == query.FirstOrDefault().fId);
+            COrderViews views = new COrderViews() { Order = query, OrderDetail = items, UserProfile = customer };
+            string fileName = string.Format("Order-{0}.csv", DateTime.UtcNow.AddHours(8).ToString("yyyyMMdd"));
+            StringBuilder sb = new StringBuilder();
+            sb.Append(";fOrderId,fOrderDate,fShippedDate,fRequiredDate,fConsigneeName,fConsigneeCellPhone,fConsigneeAddress," +
+                "fOrderCompanyTitle,fOrderTaxIdDNumber,fOrderPostScript");
+            foreach (var row in views.Order.ToList())
+            {
+                sb.AppendFormat("\n{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                    row.fOrderId, row.fOrderDate, row.fShippedDate, row.fRequiredDate, row.fConsigneeName, row.fConsigneeCellPhone,
+                    row.fConsigneeAddress, row.fOrderCompanyTitle, row.fOrderTaxIdDNumber, row.fOrderPostScript);
+            }
+
+            byte[] OutputContent = new UTF8Encoding().GetBytes(sb.ToString());
+
+            return File(OutputContent, "text/csv", fileName);
+        }
+
+        //GET: BacktOrders/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tOrder tOrder = await db.tOrders.FindAsync(id);
+            if (tOrder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tOrder.fId);
+            return View(tOrder);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "fOrderId,fId,fOrderDate,fShippedDate,fRequiredDate,fScore,fConsigneeName,fConsigneeTelephone,fConsigneeCellPhone,fConsigneeAddress,fOrderCompanyTitle,fOrderTaxIdDNumber,fOrderPostScript,fDiscountCode,fPayment")] tOrder tOrder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tOrder).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tOrder.fId);
+            return View(tOrder);
+        }
+
+        //=======================================訂單=======================================
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }

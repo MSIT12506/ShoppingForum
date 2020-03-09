@@ -1,16 +1,23 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
 
-    <div class="container">
-        <h3>積分</h3>
-        <div class="row">
-            <div class="col-md-6">
-                姓名: @Model.fName
-            </div>
-            <div class="col-md-6">
-                積分: @Model.fScore
-            </div>
+<div class="container" style="text-align:left;font-size:18px;">
+    <h3>積分</h3>
+    <hr style="border-bottom:3px solid #CDA0A9;" />
+    <div class="row" style="padding-top:15px">
+        <div class="col-md-1">
+            姓名:
         </div>
-     </div>
+        <div class="col-md-5">
+            @Model.fName
+        </div>
+        <div class="col-md-1">
+            積分:
+        </div>
+        <div class="col-md-5">
+            @Model.fScore
+        </div>
+    </div>
+</div>
 
 

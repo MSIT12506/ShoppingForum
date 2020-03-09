@@ -19,66 +19,66 @@
         }
     }
 </script>
-
-<div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
-    <div style="margin-top:170px;margin-bottom:10px">
-        <img src="~/Images/ShoppingCart/favoritebulletin.png" style="height:100px;width:320px;" />
+<div style="margin:170px auto 80px auto">
+    <div style="width:70%;text-align:center;margin:auto;padding-top:0px;">
+        <div style="margin-top:170px;margin-bottom:10px">
+            <img src="~/Images/ShoppingCart/favoritebulletin.png" style="height:100px;width:320px;" />
+        </div>
     </div>
-</div>
-
-<div style="width:70%;margin:auto;text-align:center;font-size:18px;margin-top:50px;">
-    <table class="table">
-        <thead class="thead-light">
-            <tr>
-                <th>
-                    照片
-                </th>
-                <th>
-                    商品名稱
-                </th>
-                <th>
-                    單價
-                </th>
-                <th>
-                    庫存數量
-                </th>
-                <th>
-                    加入時間
-                </th>
-                <th>
-                    加購物車/刪除
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody style="height:100px;line-height:100px;">
-            @foreach (var item in Model.ProductFavorite)
-            {
-                var imageScr = $"/Images/Product/ura/{item.fProductId}.jpg";
-                var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
-
+    <div style="width:70%;margin:auto;text-align:center;font-size:18px;margin-top:50px;">
+        <table class="table">
+            <thead class="thead-light">
                 <tr>
-                    <td>
-                        <a href="@producthref"> <img src="@imageScr" style="height:100px;width:100px" /></a>
-                    </td>
-                    <td>
-                        <a href="@producthref" style="color:royalblue;font-size:18px;">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
-                    </td>
-                    <td>
-                        NT$ @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tProduct.fUnitsInStock)
-                    </td>
-                    <td>
-                        @item.fAddTime.ToShortDateString()
-                    </td>
-                    <td>
-                        <a class="btn btn-outline-info addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
-                        <a class="btn btn-outline-danger" onclick="doubleCheck(@item.fFavoriteId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
-                    </td>
+                    <th>
+                        照片
+                    </th>
+                    <th>
+                        商品名稱
+                    </th>
+                    <th>
+                        單價
+                    </th>
+                    <th>
+                        庫存數量
+                    </th>
+                    <th>
+                        加入時間
+                    </th>
+                    <th>
+                        加購物車/刪除
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody style="height:100px;line-height:100px;">
+                @foreach (var item in Model.ProductFavorite)
+                {
+                    var imageScr = $"/Images/Product/ura/{item.fProductId}.jpg";
+                    var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
+
+                    <tr>
+                        <td>
+                            <a href="@producthref"> <img src="@imageScr" style="height:100px;width:100px" /></a>
+                        </td>
+                        <td>
+                            <a href="@producthref" style="color:royalblue;font-size:18px;">@Html.DisplayFor(modelItem => item.tProduct.fProductChName)</a>
+                        </td>
+                        <td>
+                            NT$ @Html.DisplayFor(modelItem => item.tProduct.fUnitPrice)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tProduct.fUnitsInStock)
+                        </td>
+                        <td>
+                            @item.fAddTime.ToShortDateString()
+                        </td>
+                        <td>
+                            <a class="btn btn-outline-info addCart" onclick="addToCart(@item.tProduct.fProductID)"><img src="~/Images/ShoppingCart/carticon.png" /></a>
+                            <a class="btn btn-outline-danger" onclick="doubleCheck(@item.fFavoriteId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

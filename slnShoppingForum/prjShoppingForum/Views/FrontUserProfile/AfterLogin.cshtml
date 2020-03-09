@@ -3,10 +3,10 @@
 @if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
 {
     <div class="user-login-info">
-        <a href="@Url.Action("MemberCenter", "FrontUserProfile")"><img src="~/Content/template/img/core-img/logined2.svg" alt=""></a>
+        <a href="@Url.Action("LogOut", "FrontUserProfile")" id="logout"><img src="~/Content/template/img/core-img/logout2.svg" height="80" width="80" style="margin:5px;" alt=""></a>
     </div>
     <div class="user-login-info">
-        <a href="@Url.Action("LogOut", "FrontUserProfile")" id="logout"><img src="~/Content/template/img/core-img/logout2.svg" height="80" width="80" style="margin:5px;" alt=""></a>
+        <a href="@Url.Action("MemberCenter", "FrontUserProfile")"><img src="~/Content/template/img/core-img/logined2.svg" alt=""></a>
     </div>
 }
 else

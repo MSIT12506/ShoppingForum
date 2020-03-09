@@ -32,6 +32,15 @@
     .btn {
         text-align: right;
     }
+
+    .gameRule {
+        text-align: center;
+        margin-top: 30px;
+    }
+
+    .gameRule li {
+        list-style-type: disc !important;
+    }
 </style>
 
 
@@ -40,11 +49,18 @@
         <img src="~/Images/News/qquiz.png" />
     </div>
     <div class="row">
-        <div class="col-4">
-            <img src="~/Images/News/stich.gif" title="笑你不會啦" />
+        <div class="col-3">
+            @*<img src="~/Images/News/stich.gif" title="笑你不會啦" />*@
+            <ul class="gameRule">
+                <h3>遊戲規則</h3>
+                <li><p>每日可答題一次</p></li>
+                <li><p>不可重複答題</p></li>
+                <li><p>答對可獲得100積分</p></li>
+                <li><p>積分可折抵部分購物金額</p></li>
+            </ul>
         </div>
 
-        <div class="col-8 box">
+        <div class="col-9 box">
 
             @using (Html.BeginForm("", "", FormMethod.Post, new { id = "questionForm", @class = "row justify-content-center" }))
             {

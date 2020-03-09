@@ -8,9 +8,67 @@
     var total = 0;
     var disc = 0;
 }
-<div class="body">
-    <div class="wrappers">
-        <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
+
+
+@section styles{
+    <style>
+        .hide {
+            display: none;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        tr.active {
+            background: lightblue;
+        }
+
+        .productSum {
+            color: red
+        }
+
+        .numberPlus {
+            height: 40px;
+            width: 40px;
+        }
+
+        .numberMinus {
+            height: 40px;
+            width: 40px;
+        }
+
+        /*取消input[type=number]箭頭格式*/
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        .checkbox {
+            height: 15px !important;
+            width: 15px !important;
+        }
+
+        .form-row {
+            text-align:left;
+        }
+    </style>
+}
+
+<div style="width:70%;text-align:left;margin:auto;padding-top:0px;">
+    <div style="margin-top:150px;margin-bottom:10px">
+        <img src="~/Images/ShoppingCart/CompleteOrder.png" style="height:100px;width:320px; margin-right:60px" />
+        <img src="~/Images/ShoppingCart/step3.png" style="height:150px;width:auto;" />
+    </div>
+</div>
+
+<div class="container" style="width:70%;text-align:center;margin:auto;padding-top:5px;padding-bottom:10px;font-size:18px;">
+    @*<div class="wrappers">*@
+        @*<form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">*@
             <h3>訂單完成</h3>
 
             <h3>已經確認收到訂單，感謝您的購買</h3>
@@ -36,7 +94,7 @@
                     disc = Convert.ToInt32(Model.Order.FirstOrDefault().fScore);
                 }
                 <div class="form-row">
-                    <div class="form-holder" id="card-362120" >
+                    <div class="form-holder" id="card-362120">
                         訂單編號: <a class="card-link collapsed" style="color:blue">@orderid</a>
                     </div>
                     <div class="form-holder">
@@ -116,8 +174,8 @@
                 }
             }
             @*</div>*@
-        </form>
-    </div>
+        @*</form>*@
+    @*</div>*@
 </div>
 
 <link rel="stylesheet" href="~/Content/styles.css">

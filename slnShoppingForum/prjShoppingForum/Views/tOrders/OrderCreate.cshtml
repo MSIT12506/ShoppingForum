@@ -1,5 +1,5 @@
 ﻿@model tw.com.essentialoil.ViewModels.COrderViews
-@{ 
+@{
     var total = 0;
     var distotal = 0;
     decimal discount = 0;
@@ -12,9 +12,60 @@
         discount = Model.DiscountContent;
     }
 }
-<div class="container" @*class="body"*@ style="margin-top:150px" >
+
+@section styles{
+<style>
+    .hide {
+        display: none;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    tr.active {
+        background: lightblue;
+    }
+
+    .productSum {
+        color: red
+    }
+
+    .numberPlus {
+        height: 40px;
+        width: 40px;
+    }
+
+    .numberMinus {
+        height: 40px;
+        width: 40px;
+    }
+
+    /*取消input[type=number]箭頭格式*/
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    .checkbox {
+        height: 15px !important;
+        width: 15px !important;
+    }
+</style>
+}
+
+<div style="width:70%;text-align:left;margin:auto;padding-top:0px;">
+    <div style="margin-top:150px;margin-bottom:10px">
+        <img src="~/Images/ShoppingCart/EditOrder.png" style="height:100px;width:320px; margin-right:60px" />
+        <img src="~/Images/ShoppingCart/step2.png" style="height:150px;width:auto;" />
+    </div>
+</div>
+<div style="width:70%;text-align:center;margin:auto;padding-top:5px;font-size:18px;">
     <div @*class="wrappers"*@>
-        <h3>資料填寫</h3>
         <h6 class="container">已選購商品</h6>
         <table class="table table-light">
             <tr>
@@ -59,11 +110,11 @@
                     </td>
                 </tr>
             }
-            @{ 
+            @{
                 var disc = 0;
                 if (discount < 1 && discount > 0)
                 {
-                    distotal = (total * (int)(discount*100))/100;
+                    distotal = (total * (int)(discount * 100)) / 100;
                     disc = total - distotal;
                 }
                 else
@@ -99,7 +150,7 @@
             </div>
             <div class="form-row">
                 <div class="form-address">
-                    <p>購買者地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault(). fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
+                    <p>購買者地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
                     <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
                 </div>
             </div>
@@ -134,16 +185,20 @@
             </div>
             <div class="form-row">
                 <div class="form-radio">
-                    <p>支付方式<label style="color:crimson">&nbsp;*必填</label><input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM"/>ATM</p>
+                    <p>支付方式<label style="color:crimson">&nbsp;*必填</label><input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM" />ATM</p>
                 </div>
                 <div class="form-radio">
-                    <p style="font-size:8px"><input type="checkbox" disabled name="OrderCheck" id="check"  />確認您所輸入的資料正確，以利出貨正常配送。</p>
+                    <p style="font-size:8px"><input type="checkbox" disabled name="OrderCheck" id="check" />確認您所輸入的資料正確，以利出貨正常配送。</p>
                 </div>
+                <br />
                 <div class="form-radio">
-                    <input type="button" class="btn btn-outline-success" disabled value="產生訂單" id="CreateOrder" name="CreateOrder" />
+                    <br /><br />
+                    @Html.ActionLink("回購物車", "viewCart", "ShoppingCart", null, new { @class = "btn btn-outline-success", style = "font-size:24px;width:180px" })
+                    <input type="button" class="btn btn-info" style="font-size:24px;width:180px;" disabled value="去產生訂單" id="CreateOrder" name="CreateOrder" />
                 </div>
             </div>
         </form>
+
     </div>
 </div>
 

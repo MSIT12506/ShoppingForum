@@ -23,10 +23,10 @@
             margin: 40px auto;
         }
 
-        .hh {
+        /*.hh {
             text-align: center;
             color: #7B8670;
-        }
+        }*/
 
         .top {
             width: 70%;
@@ -52,16 +52,16 @@
         .tm1 {
             width: 70%;
             background-color: #EBE9E1;
-            text-align: right;
-            position: relative;
-            left: 560px;
+            /*text-align: right;*/
+            /*position: relative;
+            left: 560px;*/
         }
 
 
-        .box {
+        /*.box {
             margin: auto;
             padding: 15px;
-        }
+        }*/
 
         .article {
             display: block;
@@ -74,82 +74,95 @@
         }
 
         .mainA {
-            text-align: center;
+            text-align: left;
+            margin:50px auto;
         }
 
         .s {
             -webkit-filter: grayscale(1);
+            height:40px;
+            width:40px;
             /*沒有任何色彩的黑白影像*/
         }
 
         .n {
             -webkit-filter: grayscale(0);
+            height: 40px;
+            width: 40px;
             /*顏色不變*/
         }
 
         .star {
             width: 800px;
-            position: relative;
-            left: 950px;
+            /*position: relative;*/
+            /*left: 950px;*/
         }
+
         #calendar {
-            width:500px;
-            position:absolute;
-            top:200px;
-            left:50px;
+            width: 500px;
+            position: absolute;
+            top: 200px;
+            left: 50px;
+        }
+        .img {
+            width:50px;
+            height:50px
         }
     </style>
 }
 
 
-<article>
-    <div class="box">
-        <h4 class="hh">係精A油</h4>
-        <span id="starnum" style="text-align:right"></span>
-        <hr />
-        <div id='calendar'></div>
+    <article>
+        <div class="content" style="margin:170px auto;text-align:center;width:75%">
+            <div style="margin-bottom:10px; text-align:center">
+                <a style="font-size:16px;background-color:#FFD800">@Html.DisplayFor(model => model.fClass)</a>
+                <a style="font-size:26px">@Html.DisplayFor(model => model.fNewsTitle)</a>
+            </div>
+            <div data-starty="@Model.fNewsStart.Year.ToString()" data-starym="@Model.fNewsStart.Month.ToString()" data-startd="@Model.fNewsStart.Day.ToString()" data-endy="@Model.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@Model.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@Model.fNewsEnd.AddDays(1).Day.ToString()">
+                @Html.DisplayFor(model => model.fNewsStart) ~
+                @Html.DisplayFor(model => model.fNewsEnd)
+            </div>
+            @*<img src="~/Images/News/lesson1.jpg" />*@
 
-        <div class="top">
+            @*<span id="starnum" style="text-align:right"></span>*@
+
+            @*<div id='calendar'></div>*@
+
+            @*<div class="top">
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
             &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
-            <span class="t1">@Html.DisplayFor(model => model.fClass)</span>&emsp;&emsp;
-            <span class="t2">@Html.DisplayFor(model => model.fNewsTitle)</span>
+            <span class="t1"></span>&emsp;&emsp;
+            <span class="t2"></span>
+        </div>*@
+
+            @*文章內容*@
+            <div class="mainA">
+                @Html.Raw(Model.fNewsArticle)
+            </div>
+            <hr style="border:1px solid #55C1A1" />
+            <div class="row">
+                <div class="col-2">
+                    <div style="text-align:left">
+                        @Html.DisplayNameFor(model => model.fNewsTag)  @Html.DisplayFor(model => model.fNewsTag)
+                    </div>
+                    <div style="text-align:left">
+                        @Html.DisplayNameFor(model => model.fGet_No)
+                        <span id="starsp">@Html.DisplayFor(model => model.fGet_No)</span>
+                    </div>
+                </div>
+                <div class="col-10" style="text-align:center">
+                    <div class="star">
+                        <p>喜歡我們的文章嗎? 給個厭世小星星吧</p>
+                        <a><img id="img1" class="s" src="~/Images/star2.png"></a>
+                        <a><img id="img2" class="s" src="~/Images/star2.png"></a>
+                        <a><img id="img3" class="s" src="~/Images/star2.png"></a>
+                        <a><img id="img4" class="s" src="~/Images/star2.png"></a>
+                        <a><img id="img5" class="s" src="~/Images/star2.png"></a>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="tm1" data-starty="@Model.fNewsStart.Year.ToString()" data-starym="@Model.fNewsStart.Month.ToString()" data-startd="@Model.fNewsStart.Day.ToString()" data-endy="@Model.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@Model.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@Model.fNewsEnd.AddDays(1).Day.ToString()">
-            @Html.DisplayFor(model => model.fNewsStart)
-            &emsp;&emsp;&emsp;
-            @Html.DisplayFor(model => model.fNewsEnd)
-        </div>
-        <div style="text-align:right">
-            @Html.DisplayNameFor(model => model.fNewsTag)&emsp;@Html.DisplayFor(model => model.fNewsTag)
-        </div>
-        <div style="text-align:right">
-            @Html.DisplayNameFor(model => model.fGet_No) &emsp;&emsp;
-            <span id="starsp">@Html.DisplayFor(model => model.fGet_No)</span><br />
-        </div>
-
-        <div class="star">
-            <a><img id="img1" class="s" src="~/Images/star2.png"></a>
-            <a><img id="img2" class="s" src="~/Images/star2.png"></a>
-            <a><img id="img3" class="s" src="~/Images/star2.png"></a>
-            <a><img id="img4" class="s" src="~/Images/star2.png"></a>
-            <a><img id="img5" class="s" src="~/Images/star2.png"></a>
-        </div>
-        <br />
-        <br />
-        <br />
-        <br />
-
-
-        <div class="mainA">
-            @Html.Raw(Model.fNewsArticle)
-        </div>
-
-    </div>
-</article>
-
-
-
+    </article>
 
 
 @section Scripts{
@@ -277,10 +290,10 @@
 
         });
 
-       
 
-            
-       
+
+
+
 
     </script>
 }

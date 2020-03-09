@@ -19,7 +19,7 @@ namespace tw.com.essentialoil.Controllers
         DropDownList DropDownList = new DropDownList();
         ProductMenuRepository productMenuRepository = new ProductMenuRepository();
         ProductRepository productRepository = new ProductRepository();
-        int pagesize = 10;
+        int pagesize = 12;
 
 
         // 檢視全部商品&分類、查詢、進階查詢檢視

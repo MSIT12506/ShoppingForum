@@ -388,12 +388,15 @@
     <Content Include="Images\Member\error.png" />
     <Content Include="Images\Member\lavender5.png" />
     <Content Include="Images\Member\loginpicture.jpg" />
+    <Content Include="Images\Member\passwordForget.png" />
+    <Content Include="Images\Member\passwordForget_big.png" />
     <Content Include="Images\Member\signin-image.jpg" />
     <Content Include="Images\Member\signup-image.jpg" />
     <Content Include="Images\Member\signup.jpg" />
     <Content Include="Images\NewPost.png" />
     <Content Include="Images\News\hot_hot.png" />
     <Content Include="Images\News\ic_news.png" />
+    <Content Include="Images\News\lesson1.jpg" />
     <Content Include="Images\News\news_icc.png" />
     <Content Include="Images\News\qquiz.png" />
     <Content Include="Images\News\stich.gif" />

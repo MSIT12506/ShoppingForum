@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -40,7 +40,7 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("Content", "Questions");
         }
 
-       
+
 
         //    //var list = new List<T>();
         //    //fillList(list);
@@ -66,7 +66,7 @@ namespace tw.com.essentialoil.Controllers
             DateTime oldTime = DateTime.Parse("1900-01-01");
 
             //上一次做完的時間，判斷test裡面，score不為null的最大時間
-            var tmpList =  db.tTests.Where(p => p.fId == userId && p.fQuestionScore != null).ToList();
+            var tmpList = db.tTests.Where(p => p.fId == userId && p.fQuestionScore != null).ToList();
 
             DateTime dateTime = (tmpList.Count > 0) ? tmpList.Max(p => p.fScoreDate) : oldTime;
 
@@ -86,6 +86,9 @@ namespace tw.com.essentialoil.Controllers
                                                             p.fScoreDate.Month == DateTime.UtcNow.AddHours(8).Month &&
                                                             p.fScoreDate.Day == DateTime.UtcNow.AddHours(8).Day).FirstOrDefault();
 
+            //測試用 By 小安                                            
+            //diff = 1;
+            //targetTest = null;
             if (targetTest == null)
             {
                 //找題目
@@ -111,12 +114,11 @@ namespace tw.com.essentialoil.Controllers
                     throw;
                 }
             }
-            
 
-            if (diff>=1)
+            if (diff >= 1)
             {
                 //只要找這個user,目前在tTest裡面的最後一筆就好
-                tTest targetRow = db.tTests.AsEnumerable().Where(p => p.fId == userId).OrderBy(p=>p.fTestId).LastOrDefault();
+                tTest targetRow = db.tTests.AsEnumerable().Where(p => p.fId == userId).OrderBy(p => p.fTestId).LastOrDefault();
                 var QuizId = targetRow.fQuestionId;
                 var AllQuiz = db.tQuestions.ToList();
                 return View(AllQuiz[QuizId - 1]);
@@ -228,7 +230,7 @@ namespace tw.com.essentialoil.Controllers
             //{
             //    return View(AllQuiz[qq]);
             //}
-            
+
         }
 
 
@@ -236,13 +238,13 @@ namespace tw.com.essentialoil.Controllers
         [HttpPost]
         //只接受頁面post
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Content(int fQuestionId,string fAnswer,string RadioButton1)
+        public ActionResult Content(int fQuestionId, string fAnswer, string RadioButton1)
         {
             var userId = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
             var QAns = fAnswer;
             var UserAns = RadioButton1;
             var dd = DateTime.UtcNow.AddHours(8);
-            var userTest = db.tTests.Where(p => p.fQuestionId == fQuestionId && p.fId==userId && p.fQuestionScore == null).FirstOrDefault();
+            var userTest = db.tTests.Where(p => p.fQuestionId == fQuestionId && p.fId == userId && p.fQuestionScore == null).FirstOrDefault();
             var userdetail = db.tUserProfiles.Where(p => p.fId == userId).FirstOrDefault();
             int userTotalScore = Convert.ToInt32(userdetail.fScore);
 

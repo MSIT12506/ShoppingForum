@@ -64,7 +64,7 @@
 
             @using (Html.BeginForm("", "", FormMethod.Post, new { id = "questionForm", @class = "row justify-content-center" }))
             {
-                <div class="col-6">
+                <div class="col-3">
 
                     <div class="font-bold" style="font-size:18px">
                         <span class="t1" style="margin-right:5px"> 題目  </span>
@@ -85,8 +85,16 @@
                     </div>
                     <br />
                     <div class="btn">
-                        <input type="button" id="submitAnswer" value="送出" class="btn btn-primary" />
-                        <input type="button" id="beAnswered" value="已答題明日再來" class="btn btn-default" style="display:none" />
+                        @{
+                            if (ViewBag.Quizstatus == null)
+                            {
+                                <input type="button" id="submitAnswer" value="送出" class="btn btn-primary" />
+                            }
+                            else
+                            {
+                                <input type="button" id="beAnswered" value="已答題明日再來" class="btn btn-default" />
+                            }
+                        }
                     </div>
                     <div>
                         @Html.HiddenFor(model => model.fQuestionId)
@@ -95,8 +103,18 @@
                     </div>
                 </div>
             }
+            @{ 
+                if (ViewBag.Quizstatus != null)
+                {
+                    <div class="col-3">
+                        <div class="text-left">
+                            <span> 解答   :</span>
+                            <p>@ViewBag.Answer</p>
+                        </div>
+                    </div>
+                }
+            }
         </div>
-    </div>
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" id="scoreModal">

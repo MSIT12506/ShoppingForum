@@ -123,8 +123,20 @@ namespace tw.com.essentialoil.Controllers
                 var AllQuiz = db.tQuestions.ToList();
                 return View(AllQuiz[QuizId - 1]);
             }
+            else
+            {
+                //找到今天已經答完的題目呈現出來
+                tTest targetRow = db.tTests.AsEnumerable().Where(p => p.fId == userId).OrderBy(p => p.fTestId).LastOrDefault();
+                var QuizId = targetRow.fQuestionId;
+                var AllQuiz = db.tQuestions.ToList();
 
-            return RedirectToAction("Index", "Home");
+                string answer = AllQuiz[QuizId - 1].fAnswer;
+                ViewBag.Quizstatus = Session["Quizstatus"];
+                ViewBag.Answer = answer;
+
+                return View(AllQuiz[QuizId - 1]);
+            }
+
 
 
 

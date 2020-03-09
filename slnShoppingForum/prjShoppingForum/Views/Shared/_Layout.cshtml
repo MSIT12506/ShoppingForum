@@ -28,7 +28,7 @@
 
     @RenderSection("Styles", false)
     <style>
-        * {
+        *:not(.fa-search) {
             font-family: 'UD Digi Kyokasho N-R' !important;
         }
     </style>
@@ -183,7 +183,7 @@
     @RenderSection("Scripts", false)
 
     @{
-        if (Html.ViewContext.HttpContext.Session["Quizstatus"] != null)
+        @*if (Html.ViewContext.HttpContext.Session["Quizstatus"] != null)
         {
             <script>
                 $('#Quiz').attr('href', '#');
@@ -191,7 +191,7 @@
                     alert("今日已做過題目，不能再答題囉!!!!!!");
                 })
             </script>
-        }
+        }*@
     }
 
 </body>

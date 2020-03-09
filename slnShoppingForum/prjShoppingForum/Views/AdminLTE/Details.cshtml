@@ -1,0 +1,143 @@
+﻿
+@model prjShoppingForum.Models.Entity.tOrder
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <h2>訂單明細</h2>
+    </div>
+    <div class="row justify-content-center align-items-center">
+        <p>
+            @Html.ActionLink("編輯訂單", "Edit", new { id = Model.fOrderId },new { @class = "btn btn-info"}) |
+            @Html.ActionLink("訂單總覽", "Index",new { },new { @class="btn btn-primary"})
+        </p>
+    </div>
+    <div class="row justify-content-around align-items-center">
+        <dl class="col-2">
+            <dt>
+                @Html.DisplayNameFor(model => model.fOrderId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fOrderId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.fId)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fId)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.fOrderDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fOrderDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fShippedDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fShippedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fRequiredDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fRequiredDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fScore)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fScore)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fDiscountCode)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.fDiscountCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.fPayment)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fPayment)
+            </dd>
+        </dl>
+
+        <dl class="col-2">
+            <dt>
+                @Html.DisplayNameFor(model => model.tUserProfile.fUserId)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.tUserProfile.fUserId)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fConsigneeName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fConsigneeName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fConsigneeTelephone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fConsigneeTelephone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fConsigneeCellPhone)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fConsigneeCellPhone)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fConsigneeAddress)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fConsigneeAddress)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fOrderCompanyTitle)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fOrderCompanyTitle)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fOrderTaxIdDNumber)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fOrderTaxIdDNumber)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.fOrderPostScript)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.fOrderPostScript)
+            </dd>
+        </dl>
+    </div>
+</div>
+

@@ -18,6 +18,8 @@ using tw.com.essentialoil.Score.Models;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Net;
+using tw.com.essentialoil.ViewModels;
+using System.Text;
 
 namespace tw.com.essentialoil.Controllers
 {
@@ -771,6 +773,73 @@ namespace tw.com.essentialoil.Controllers
         {
             var tOrders = db.tOrders.Include(t => t.tUserProfile);
             return View(await tOrders.ToListAsync());
+        }
+
+        public async Task<ActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tOrder tOrder = await db.tOrders.FindAsync(id);
+            if (tOrder == null)
+            {
+                return HttpNotFound();
+            }
+            return View(tOrder);
+        }
+
+        //存出檔案(未完成)
+        public ActionResult ExportFile(int? id)
+        {
+            var query = db.tOrders.Where(p => p.fOrderId == id);
+            var items = db.tOrderDetails.Where(p => p.fOrderId == id);
+            var customer = db.tUserProfiles.Where(p => p.fId == query.FirstOrDefault().fId);
+            COrderViews views = new COrderViews() { Order = query, OrderDetail = items, UserProfile = customer };
+            string fileName = string.Format("Order-{0}.csv", DateTime.UtcNow.AddHours(8).ToString("yyyyMMdd"));
+            StringBuilder sb = new StringBuilder();
+            sb.Append(";fOrderId,fOrderDate,fShippedDate,fRequiredDate,fConsigneeName,fConsigneeCellPhone,fConsigneeAddress," +
+                "fOrderCompanyTitle,fOrderTaxIdDNumber,fOrderPostScript");
+            foreach (var row in views.Order.ToList())
+            {
+                sb.AppendFormat("\n{0},{1},{2},{3},{4},{5},{6},{7},{8},{9}",
+                    row.fOrderId, row.fOrderDate, row.fShippedDate, row.fRequiredDate, row.fConsigneeName, row.fConsigneeCellPhone,
+                    row.fConsigneeAddress, row.fOrderCompanyTitle, row.fOrderTaxIdDNumber, row.fOrderPostScript);
+            }
+
+            byte[] OutputContent = new UTF8Encoding().GetBytes(sb.ToString());
+
+            return File(OutputContent, "text/csv", fileName);
+        }
+
+        //GET: BacktOrders/Edit/5
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            tOrder tOrder = await db.tOrders.FindAsync(id);
+            if (tOrder == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tOrder.fId);
+            return View(tOrder);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit([Bind(Include = "fOrderId,fId,fOrderDate,fShippedDate,fRequiredDate,fScore,fConsigneeName,fConsigneeTelephone,fConsigneeCellPhone,fConsigneeAddress,fOrderCompanyTitle,fOrderTaxIdDNumber,fOrderPostScript,fDiscountCode,fPayment")] tOrder tOrder)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(tOrder).State = EntityState.Modified;
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.fId = new SelectList(db.tUserProfiles, "fId", "fUserId", tOrder.fId);
+            return View(tOrder);
         }
 
         //=======================================訂單=======================================

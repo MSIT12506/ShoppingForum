@@ -2043,6 +2043,8 @@
     <Content Include="Views\AdminLTE\ScoreCreate.cshtml" />
     <Content Include="Views\AdminLTE\ScoreEdit.cshtml" />
     <Content Include="Views\AdminLTE\NewsCalendar.cshtml" />
+    <Content Include="Views\AdminLTE\Details.cshtml" />
+    <Content Include="Views\AdminLTE\Edit.cshtml" />
     <Content Include="Views\FrontUserProfile\_PageAjax.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

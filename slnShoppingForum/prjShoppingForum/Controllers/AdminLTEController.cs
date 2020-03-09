@@ -64,7 +64,7 @@ namespace tw.com.essentialoil.Controllers
                             y = g.Sum(p => p.fOrderQuantity)     //該項商品營銷總數量
                         }).OrderByDescending(q => q.y).Take(topNumber).ToList();
 
-            return Json(data);
+            return Json(data,JsonRequestBehavior.AllowGet);
         }
 
 

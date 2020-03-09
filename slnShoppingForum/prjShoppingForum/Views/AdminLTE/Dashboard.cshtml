@@ -29,7 +29,7 @@
             let topNumber = $("#topNumber").val();
 
             $.ajax({
-                type: 'POST',
+                type: 'GET',
                 url: "../AdminLTE/getReportData?topNumber="+ topNumber,
                 success: function (result) {
 

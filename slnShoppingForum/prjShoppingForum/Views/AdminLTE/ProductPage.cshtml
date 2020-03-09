@@ -11,10 +11,12 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
 <h2>商品清單列表</h2>
-
-<p>
-    @Html.ActionLink("新增商品", "ProductCreate", new { }, new { @class = "btn btn-outline-primary" })
-</p>
+<hr />
+<div style="text-align:right">
+    <p>
+        @Html.ActionLink("新增商品", "ProductCreate", new { }, new { @class = "btn btn-outline-primary" })
+    </p>
+</div>
 <table class="table">
     <thead style="background-color:#524087 ;color:aliceblue">
         <tr>

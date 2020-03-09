@@ -5,8 +5,8 @@
 
 <h2>會員停權</h2>
 <div class="container">
-    <table class="table table-dark" style="width:100%">
-        <thead style="background-color:#4E6081">
+    <table class="table" style="width:100%">
+        <thead style="background-color:#524087 ;color:aliceblue">
             <tr>
                 <th>
                     @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
@@ -27,7 +27,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.fId, new {id = "fId" })
+                        @Html.DisplayFor(modelItem => item.fId, new { id = "fId" })
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.fUserId)

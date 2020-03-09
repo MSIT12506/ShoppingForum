@@ -17,12 +17,21 @@ namespace tw.com.essentialoil.News.Models
             db = new dbShoppingForumEntities();
         }
 
-        //標題搜尋
+        //前標題搜尋
         public IEnumerable<tNew> GetNewstitle(string searchKey)
         {
             var tNewsList = db.tNews.Where(p => p.fNewsTitle.Contains(searchKey) && p.fNewsDiscontinue != true);
             return tNewsList;
         }
+
+        //後標題搜尋
+        public IEnumerable<tNew> GetBackNewstitle(string searchKey)
+        {
+            var tNewsList = db.tNews.Where(p => p.fNewsTitle.Contains(searchKey));
+            return tNewsList;
+        }
+
+
 
         //消息清單
         public tNew GetNews(int Id)
@@ -31,7 +40,7 @@ namespace tw.com.essentialoil.News.Models
             return News;
         }
 
-
+        //更新消息
         public void UpdateNews(tNew tNew)
         {
             var tNewsFromDb = GetNews(tNew.fNewsId);
@@ -58,6 +67,7 @@ namespace tw.com.essentialoil.News.Models
             db.SaveChanges();
         }
 
+        //不顯示
         public void EditNewsToDiscontinue(int Id)
         {
             var News = GetNews(Id);
@@ -65,6 +75,7 @@ namespace tw.com.essentialoil.News.Models
             db.SaveChanges();
         }
 
+        //新增消息
         public void InsertNews(tNew tNew)
         {
 
@@ -73,6 +84,7 @@ namespace tw.com.essentialoil.News.Models
             tNew.fGet_No = 5;
             tNew.fChangUser = "No";
             tNew.fDeleteUser = "No";
+            tNew.fApproved = "N";
             db.tNews.Add(tNew);
             try
             {

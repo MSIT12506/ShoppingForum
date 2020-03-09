@@ -16,11 +16,13 @@
     <link href="~/Content/AdminLTE/dist/css/adminlte.css" rel="stylesheet" />
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'UD Digi Kyokasho N-R' !important;
+    <!--icon圖-->
+    <link href="~/Content/AdminLTE/plugins/fontawesome-free/css/all.css" rel="stylesheet" />
+    @*<style>
+        *:not(.fas) {
+            font-family: 'ud digi kyokasho n-r' !important;
         }
-    </style>
+    </style>*@
 </head>
 
 <body class="hold-transition sidebar-mini myfont">
@@ -45,13 +47,23 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+        with font-awesome or any other icon font library -->
+                        @*============================排行榜============================*@
+
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="~/AdminLTE/Dashboard" class="nav-link active">
+                                <i class="nav-icon fas fa-piggy-bank"></i>
+                                <p>
+                                    $$係精A油$$
+                                </p>
+                            </a>
+                            @*============================會員============================*@
 
                         <li class="nav-item has-treeview">
-                            <a href="~/AdminLTE/MemberList" class="nav-link active">
+                            <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    會員管理
+                                    會員管理區
                                     <i class="right fas fa-angle-left"></i>
 
                                 </p>
@@ -73,35 +85,177 @@
                                 </li>
                             </ul>
                         </li>
-
+                        @*===========================公告/活動===========================*@
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-calendar-alt"></i>
                                 <p>
-                                    商品管理
+                                    消息管理區
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">
+                                    <a href="~/AdminLTE/NewsList" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>查詢消息</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/NewsCreate" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>發佈新消息</p>
+                                    </a>
+                                </li>
+                                @*<li class="nav-item">
+                        <a href="~/AdminLTE/NewsEdit" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>編輯消息</p>
+                        </a>
+                    </li>*@
+                                @*<li class="nav-item">
+                        <a href="~/AdminLTE/NewsCalendar" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>News日曆</p>
+                        </a>
+                    </li>*@
+                            </ul>
+                        </li>
+                        @*===========================問答===========================*@
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-question-circle"></i>
+                                <p>
+                                    問答管理區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/QuizList" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>查詢題目列表</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/QuizCreate" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>發佈天天題目</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @*===========================測驗===========================*@
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-edit"></i>
+                                <p>
+                                    測驗管理區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/TestList" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>查詢測驗列表</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/TestCreate" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>新增測驗</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @*===========================積分===========================*@
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-trophy"></i>
+                                <p>
+                                    積分管理區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/ScoreList" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>查詢積分列表</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/ScoreCreate" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>新增積分</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        @*============================商品============================*@
+
+                        @*============================商品============================*@
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-store"></i>
+                                <p>
+                                    商品管理區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/ProductPage" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>商品清單列表</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">
+                                    <a href="~/AdminLTE/ProductCreate" class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>商品異動</p>
+                                        <p>新增商品</p>
+                                    </a>
+                                </li>
+                                @*<li class="nav-item">
+                        <a href="~/AdminLTE/ProductEdit" class="nav-link active">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>編輯商品</p>
+                        </a>
+                    </li>*@
+                            </ul>
+                        </li>
+                        @*============================訂單============================*@
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link active">
+                                <i class="nav-icon fas fa-calculator"></i>
+                                <p>
+                                    訂單管理區
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="~/AdminLTE/Index" class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>訂單清單列表</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
+
+                        @*============================優惠卷============================*@
+
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-gift"></i>
                                 <p>
-                                    優惠券管理
+                                    優惠券管理區
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -120,11 +274,12 @@
                                 </li>
                             </ul>
                         </li>
+                        @*============================討論區============================*@
                         <li class="nav-item has-treeview">
                             <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <i class="nav-icon fas fa-comments"></i>
                                 <p>
-                                    討論區管理
+                                    討論區管理區
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
@@ -143,90 +298,13 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    最新消息管理
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index","News")" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>查詢消息</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Create","News")" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>發布新消息</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    天天問答區
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index","Questions")" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>查詢天天題目</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Create","Questions")" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>發布天天題目</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    測驗查詢區
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index","Tests")" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>查詢</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item has-treeview">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    積分查詢區
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index","Scores")" class="nav-link active">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>查詢</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-
-
                     </ul>
+
+                    @*===============================中間區塊===============================*@
+
+
+
+                    
                 </nav>
                 <!-- /.sidebar-menu -->
             </div>

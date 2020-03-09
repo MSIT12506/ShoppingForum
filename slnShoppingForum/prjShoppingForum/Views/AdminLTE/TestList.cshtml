@@ -1,6 +1,11 @@
-﻿@model IEnumerable<prjShoppingForum.Models.Entity.tTest>
+﻿@using PagedList
+@using PagedList.Mvc
 
-@*vvv  *@
+@model IPagedList<prjShoppingForum.Models.Entity.tTest>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
 <h2>測驗歷史紀錄</h2>
 
 @using (Html.BeginForm())
@@ -14,6 +19,12 @@
     </button>
 }
 <h5>@ViewBag.Message</h5>
+<hr />
+<div style="text-align:right">
+    <p>
+        @Html.ActionLink("新增測驗", "TestCreate", new { }, new { @class = "btn btn-outline-primary" })
+    </p>
+</div>
 
 <table class="table">
     <thead style="background-color:#524087 ;color:aliceblue">
@@ -22,27 +33,26 @@
                 編號
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.tUserProfile.fName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.tQuestion.fQuestionName)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tQuestion.fQuestionName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fScoreDate)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fScoreDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fQuestionScore)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fQuestionScore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.fTestDiscontinue)
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fTestDiscontinue)
             </th>
             <th></th>
         </tr>
     </thead>
-
-    @foreach (var item in Model)
-    {
-        <tbody class="table table-active accent-pink">
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.tUserProfile.fId)
@@ -68,8 +78,10 @@
                     @Html.ActionLink("下架", "TestDelete", new { id = item.fTestId }, new { @class = "btn btn-warning" })
                 </td>
             </tr>
-        </tbody>
-    }
-
+        }
+    </tbody>
 </table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("TestList", new { page }))
+</div>
 

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using prjShoppingForum.Models.Entity;
 using tw.com.essentialoil.News.Models;
 
@@ -22,16 +23,15 @@ namespace tw.com.essentialoil.Controllers
             _NewsRepository = new NewsRepository();
         }
 
-
+        int pagesize = 6;
 
         //前台消息清單
-        public ActionResult NewsList()
+        public ActionResult NewsList(int page =1)
         {
-
-            var t = from i in db.tNews
-                    select i;
-            var tt = t.Where(p => p.fNewsDiscontinue != true).ToList();    
-            return View(tt);
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Newspage = db.tNews.Where(p => p.fNewsDiscontinue != true).OrderBy(p => p.fNewsId).ToList();
+            var result = Newspage.ToPagedList(currentPage, pagesize);
+            return View(result);
         }
 
         //前台消息搜索

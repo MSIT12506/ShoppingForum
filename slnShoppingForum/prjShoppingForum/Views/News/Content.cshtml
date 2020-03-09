@@ -115,8 +115,8 @@
     <article>
         <div class="content" style="margin:170px auto;text-align:center;width:75%">
             <div style="margin-bottom:10px; text-align:center">
-                <a style="font-size:16px;background-color:#FFD800">@Html.DisplayFor(model => model.fClass)</a>
-                <a style="font-size:26px">@Html.DisplayFor(model => model.fNewsTitle)</a>
+                <a style="font-size:16px;background-color:#FFD800">&emsp;@Html.DisplayFor(model => model.fClass)&emsp;</a>
+                <a style="font-size:28px">@Html.DisplayFor(model => model.fNewsTitle)</a>
             </div>
             <div data-starty="@Model.fNewsStart.Year.ToString()" data-starym="@Model.fNewsStart.Month.ToString()" data-startd="@Model.fNewsStart.Day.ToString()" data-endy="@Model.fNewsEnd.AddDays(1).Year.ToString()" data-endm="@Model.fNewsEnd.AddDays(1).Month.ToString()" data-endd="@Model.fNewsEnd.AddDays(1).Day.ToString()">
                 @Html.DisplayFor(model => model.fNewsStart) ~
@@ -143,7 +143,7 @@
             <div class="row">
                 <div class="col-2">
                     <div style="text-align:left">
-                        @Html.DisplayNameFor(model => model.fNewsTag)  @Html.DisplayFor(model => model.fNewsTag)
+                        點閲率  @Html.DisplayFor(model => model.fNewsTag)
                     </div>
                     <div style="text-align:left">
                         @Html.DisplayNameFor(model => model.fGet_No)

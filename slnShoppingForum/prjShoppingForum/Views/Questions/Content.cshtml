@@ -41,6 +41,10 @@
     .gameRule li {
         list-style-type: disc !important;
     }
+    li p {
+        color:blue;
+        font-size:16px;
+    }
 </style>
 
 
@@ -50,11 +54,10 @@
     </div>
     <div class="row">
         <div class="col-3">
-            @*<img src="~/Images/News/stich.gif" title="笑你不會啦" />*@
-            <ul class="gameRule">
-                <h3>遊戲規則</h3>
-                <li><p>每日可答題一次</p></li>
-                <li><p>不可重複答題</p></li>
+            <ul class="gameRule" style="text-align:left;">
+                <h3>--遊戲規則--</h3>
+                <br />
+                <li><p>毎日可作答一次，不可重複答題</p></li>
                 <li><p>答對可獲得100積分</p></li>
                 <li><p>積分可折抵部分購物金額</p></li>
             </ul>
@@ -64,10 +67,10 @@
 
             @using (Html.BeginForm("", "", FormMethod.Post, new { id = "questionForm", @class = "row justify-content-center" }))
             {
-                <div class="col-3">
+                <div class="col-4">
 
                     <div class="font-bold" style="font-size:18px">
-                        <span class="t1" style="margin-right:5px"> 題目  </span>
+                        <span class="t1" style="margin-right:5px;font-size:20px"> 題目  </span>
                         @Html.DisplayFor(model => model.fQuestionName)
                     </div>
                     <br />
@@ -76,7 +79,7 @@
                         @Html.DisplayFor(model => model.fQuestion)
                     </div>
                     <br />
-                    <div class="text-left">
+                    <div class="text-left" style="font-size:18px;">
                         @Html.RadioButton("RadioButton1", "A", false) <span>A選項:@Model.fItemA</span> <br />
                         @Html.RadioButton("RadioButton1", "B", false) <span>B選項:@Model.fItemB</span> <br />
                         @Html.RadioButton("RadioButton1", "C", false) <span>C選項:@Model.fItemC</span> <br />
@@ -92,7 +95,7 @@
                             }
                             else
                             {
-                                <input type="button" id="beAnswered" value="已答題明日再來" class="btn btn-default" />
+                                <input type="button" id="beAnswered" value="已答題明日再來" class="btn btn-outline-primary" />
                             }
                         }
                     </div>
@@ -106,10 +109,10 @@
             @{ 
                 if (ViewBag.Quizstatus != null)
                 {
-                    <div class="col-3">
-                        <div class="text-left">
+                    <div class="row" style="margin:auto;font-size:22px">
+                        <div style="color:red;margin:auto" >
                             <span> 解答   :</span>
-                            <p>@ViewBag.Answer</p>
+                            <span style="color:red">@ViewBag.Answer</span>
                         </div>
                     </div>
                 }

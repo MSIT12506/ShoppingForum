@@ -1,0 +1,64 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tQuestion>
+@* vvvv *@
+<h2>天天答題題目列表</h2>
+
+<div class="sear">
+    @using (Html.BeginForm())
+    {
+        <span>
+            搜尋:
+        </span>
+        @Html.TextBox("SearchKey", "");
+        <button class="btn btn-navbar" type="submit" value="搜尋">
+            <i class="fas fa-search"></i>
+        </button>
+    }
+    <h5>@ViewBag.Message</h5>
+</div>
+
+<div style="text-align:right">
+    <p>
+        @Html.ActionLink("新增題目", "QuizCreate", new { }, new { @class = "btn btn-outline-primary" })
+    </p>
+</div>
+<table class="table">
+    <thead style="background-color:#524087 ;color:aliceblue">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.fQuestionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fQuestion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fAnswer)
+            </th>
+
+            <th>
+                操作
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fQuestionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fQuestion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fAnswer)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "QuizEdit", new { id = item.fQuestionId }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("明細", "QuizDetails", new { id = item.fQuestionId }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("刪除", "QuizDelete", new { id = item.fQuestionId }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

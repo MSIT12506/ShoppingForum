@@ -4,8 +4,8 @@
     int seq = 0;
 }
 
-<table class="table table-dark" style="width:100%">
-    <thead style="background-color:#4E6081">
+<table class="table" style="width:100%">
+    <thead style="background-color:#524087 ;color:aliceblue">
         <tr>
             <th>
                 文章序號
@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tbody id="tableTop">
-        @{ 
+        @{
             foreach (var item in Model)
             {
                 seq++;
@@ -37,7 +37,7 @@
                         @seq
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-cancelSetTopList">
+                        <button class="btn btn-danger btn-cancelSetTopList">
                             取消置頂
                         </button>
                     </td>

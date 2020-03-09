@@ -1,0 +1,51 @@
+﻿@model prjShoppingForum.Models.Entity.tTest
+
+
+<h2>測驗明細</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.fScoreDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fScoreDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fQuestionScore)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fQuestionScore)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.fTestDiscontinue)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.fTestDiscontinue)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tQuestion.fQuestionName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tQuestion.fQuestionName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tUserProfile.fId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tUserProfile.fId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.tUserProfile.fName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.tUserProfile.fName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("編輯", "TestEdit", new { id = Model.fTestId } ,new { @class = "btn btn-info "}) |
+    @Html.ActionLink("返回", "TestList" ,new { } ,new { @class = "btn btn-primary" })
+</p>

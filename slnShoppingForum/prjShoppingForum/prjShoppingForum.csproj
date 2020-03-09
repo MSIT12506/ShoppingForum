@@ -170,7 +170,11 @@
     <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.bundle.min.js" />
     <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.js" />
     <Content Include="Content\AdminLTE\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Content\AdminLTE\plugins\calendar.html" />
     <Content Include="Content\AdminLTE\plugins\fontawesome-free\css\all.css" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\webfonts\fa-brands-400.svg" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\webfonts\fa-regular-400.svg" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\webfonts\fa-solid-900.svg" />
     <Content Include="Content\AdminLTE\plugins\jquery\core.js" />
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.js" />
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.min.js" />
@@ -1613,6 +1617,9 @@
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.min.map" />
     <Content Include="Content\AdminLTE\plugins\jquery\jquery.slim.min.map" />
     <Content Include="fonts\UDDigiKyokashoN-R.ttc" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\webfonts\fa-brands-400.ttf" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\webfonts\fa-regular-400.ttf" />
+    <Content Include="Content\AdminLTE\plugins\fontawesome-free\webfonts\fa-solid-900.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\oilshoppingforum - Web Deploy.pubxml" />
     <Content Include="Scripts\ckeditor\CHANGES.md" />
@@ -2014,6 +2021,28 @@
     <Content Include="Views\FrontUserProfile\AfterLogin.cshtml" />
     <Content Include="Views\AdminLTE\AfterAdminLogin.cshtml" />
     <Content Include="Views\AdminLTE\MemberAuth.cshtml" />
+    <Content Include="Views\AdminLTE\NewsList.cshtml" />
+    <Content Include="Views\AdminLTE\NewsDetails.cshtml" />
+    <Content Include="Views\AdminLTE\NewsCreate.cshtml" />
+    <Content Include="Views\AdminLTE\NewsEdit.cshtml" />
+    <Content Include="Views\AdminLTE\ProductPage.cshtml" />
+    <Content Include="Views\AdminLTE\ProductCreate.cshtml" />
+    <Content Include="Views\AdminLTE\ProductEdit.cshtml" />
+    <Content Include="Views\AdminLTE\Index.cshtml" />
+    <Content Include="Views\AdminLTE\QuizList.cshtml" />
+    <Content Include="Views\AdminLTE\QuizDetails.cshtml" />
+    <Content Include="Views\AdminLTE\QuizCreate.cshtml" />
+    <Content Include="Views\AdminLTE\QuizEdit.cshtml" />
+    <Content Include="Views\AdminLTE\QuizDelete.cshtml" />
+    <Content Include="Views\AdminLTE\TestList.cshtml" />
+    <Content Include="Views\AdminLTE\TestDetails.cshtml" />
+    <Content Include="Views\AdminLTE\TestCreate.cshtml" />
+    <Content Include="Views\AdminLTE\TestEdit.cshtml" />
+    <Content Include="Views\AdminLTE\ScoreList.cshtml" />
+    <Content Include="Views\AdminLTE\ScoreDetails.cshtml" />
+    <Content Include="Views\AdminLTE\ScoreCreate.cshtml" />
+    <Content Include="Views\AdminLTE\ScoreEdit.cshtml" />
+    <Content Include="Views\AdminLTE\NewsCalendar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,126 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@model IPagedList<prjShoppingForum.Models.Entity.tProduct>
+@* vvvv *@
+
+@{
+    ViewBag.Title = "ProductPage";
+}
+
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+<h2>商品清單列表</h2>
+
+<p>
+    @Html.ActionLink("新增商品", "ProductCreate", new { }, new { @class = "btn btn-outline-primary" })
+</p>
+<table class="table">
+    <thead style="background-color:#524087 ;color:aliceblue">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fProductID)
+            </th>
+            <th>
+                商品圖片
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fProductChName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fProductDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fUnitPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fQuantityPerUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fUnitsInStock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fDiscontinued)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fCategoryID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tProductUnilateral.tPart.fPartName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tProductUnilateral.tNote.fNoteName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tProductUnilateral.fOrigin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tProductUnilateral.fextraction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().tProductVegetableoil.tfeature.ffeatureName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var imageScr = $"../../images/Product/{item.fProductID}.jpg";
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fProductID)
+                </td>
+                <td>
+                    <img src="@imageScr" style="width:80px" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fProductChName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fProductDesc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fUnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fQuantityPerUnit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fUnitsInStock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fDiscontinued)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tCategory.fCategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tProductUnilateral.tPart.fPartName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tProductUnilateral.tNote.fNoteName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tProductUnilateral.fOrigin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tProductUnilateral.fextraction)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tProductVegetableoil.tfeature.ffeatureName)
+                </td>
+                <td>
+
+                    @Html.ActionLink("修改商品", "ProductEdit", new {prodID=item.fProductID},
+                  new {@class = "btn btn-info" })
+                    @Html.ActionLink("刪除商品", "ProductDelete",new {prodID=item.fProductID}
+               ,new {onclick="return confirm('確定要刪除嗎?');", @class="btn btn-danger"})
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+@Html.PagedListPager(Model, page => Url.Action("ProductPage", new { page }))

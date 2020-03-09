@@ -1,0 +1,75 @@
+﻿@model IEnumerable<prjShoppingForum.Models.Entity.tTest>
+
+@*vvv  *@
+<h2>測驗歷史紀錄</h2>
+
+@using (Html.BeginForm())
+{
+    <span>
+        搜尋:
+    </span>
+    @Html.TextBox("SearchKey", "");
+    <button class="btn btn-navbar" type="submit" value="搜尋">
+        <i class="fas fa-search"></i>
+    </button>
+}
+<h5>@ViewBag.Message</h5>
+
+<table class="table">
+    <thead style="background-color:#524087 ;color:aliceblue">
+        <tr>
+            <th>
+                編號
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tUserProfile.fName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.tQuestion.fQuestionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fScoreDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fQuestionScore)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fTestDiscontinue)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tbody class="table table-active accent-pink">
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tUserProfile.fId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tQuestion.fQuestionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fScoreDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fQuestionScore)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fTestDiscontinue)
+                </td>
+                <td>
+                    @Html.ActionLink("編輯", "TestEdit", new { id = item.fTestId }, new { @class = "btn btn-info" }) |
+                    @Html.ActionLink("明細", "TestDetails", new { id = item.fTestId }, new { @class = "btn btn-success" }) |
+                    @Html.ActionLink("下架", "TestDelete", new { id = item.fTestId }, new { @class = "btn btn-warning" })
+                </td>
+            </tr>
+        </tbody>
+    }
+
+</table>
+

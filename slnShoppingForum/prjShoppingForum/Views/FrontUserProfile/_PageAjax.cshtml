@@ -1,0 +1,173 @@
+﻿@model IPagedList<prjShoppingForum.Models.Entity.tOrder>
+@using PagedList;
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+@section Styles{
+    <style>
+        .closed {
+            height:0
+        }
+        .opened{
+            height:auto
+        }
+        td{
+            width:auto;
+        }
+    </style>
+}
+
+
+<div class="container">
+    <h3>歷史訂單</h3>
+    <table id="Ordertable" name="Ordertable" class="table table-light">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fOrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fOrderDate)
+            </th>
+            <th>
+                購買者姓名
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().fOrderPostScript)
+            </th>
+            <th>
+                總價
+            </th>
+        </tr>
+        @foreach (var list in Model)
+        {
+            var count = list.tOrderDetails.Count;
+            var orderid = list.fOrderDate.ToString("yyyyMMdd") + list.fOrderId;
+            var totalprice = 0;
+            var usecode = "";
+            foreach (var items in list.tOrderDetails)
+            {
+                var quantity = Convert.ToInt32(items.fOrderQuantity);
+                var price = Convert.ToInt32(items.tProduct.fUnitPrice);
+                var subprice = 0;
+                subprice = price * quantity;
+                totalprice = totalprice + subprice;
+            }
+            var code = list.fDiscountCode;
+            var subtotal = 0;
+            if (list.fScore == 0)
+            {
+                if (code != "無" && code !=null)
+                {
+                    var discontent = list.tUserProfile.tUserDiscountLists.FirstOrDefault(p => p.fDiscountCode == code).tDiscount.fDiscountContent;
+                    if (discontent < 1)
+                    {
+                        subtotal = totalprice * (int)(discontent * 100) / 100;
+                    }
+                    else
+                    {
+                        subtotal = totalprice - (int)discontent;
+                    }
+                }
+                else
+                {
+                    subtotal = totalprice;
+                }
+            }else if (list.fScore != 0 && list.fScore!=null)
+            {
+                subtotal = totalprice-(int)list.fScore;
+            }
+            else
+            {
+                subtotal = totalprice;
+            }
+
+            <tr class="">
+                <td class="" >
+                    <a class="" id="aa" style="color:blue">@orderid</a>
+                </td>
+                <td class="">
+                    @list.fOrderDate
+                </td>
+                <td class="">
+                    @list.fConsigneeName
+                </td>
+                <td class="">
+                    @list.fOrderPostScript
+                </td>
+                <td class="">
+                    @subtotal
+                </td>
+            </tr>
+            
+            if (code!=null && code!= "無")
+            {
+                usecode = list.tUserProfile.tUserDiscountLists.Where(p => p.fDiscountCode == code).FirstOrDefault().tDiscount.fDiscountName;
+            }
+            <tr id="100" class="opened">
+                <td class="">
+                    收貨人姓名:<br /> @list.fConsigneeName
+                </td>
+                <td class="">
+                    收貨人電話:<br /> @list.fConsigneeCellPhone
+                </td>
+                <td class="">
+                    收貨人地址:<br /> @list.fConsigneeAddress
+                </td>
+                <td class="">
+                    使用優惠券:<br /> @usecode
+                </td>
+                <td class="">
+                    使用積分:<br /> @list.fScore
+                </td>
+                <td class="">
+                    支付方式:<br /> @list.fPayment
+                </td>
+                <td class="">
+                    發票公司抬頭:<br /> @list.fOrderCompanyTitle
+                </td>
+                <td class="">
+                    統一編號:<br /> @list.fOrderTaxIdDNumber
+                </td>
+            </tr>
+            
+            foreach (var item in list.tOrderDetails)
+            {
+                var quantity = Convert.ToInt32(item.fOrderQuantity);
+                var price = Convert.ToInt32(item.tProduct.fUnitPrice);
+                var subprice = 0;
+                subprice = price * quantity;
+                var imageScr = $"/Images/Product/{item.fProductId}.jpg";
+                var pdhref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
+                
+                <tr>
+                    <td id="100" class="close">
+                        <a href="@pdhref"><img src="@imageScr" style="height:50px;width:50px" /></a>
+                    </td>
+                    <td class="">
+                        商品名稱:<br /> <a href="@pdhref" style="color:blue;font-size:14px;">@item.tProduct.fProductChName</a>
+                    </td>
+                    <td class="">
+                        商品價格:<br /> @item.tProduct.fUnitPrice
+                    </td>
+                    <td class="">
+                        商品數量:<br /> @item.fOrderQuantity
+                    </td>
+                    <td class="">
+                        小計:<br /> @subprice
+                    </td>
+                </tr>
+            }
+            <tr style="height:50px">
+            </tr>
+        }
+    </table>
+    @Html.PagedListPager(Model, page => Url.Action("MyOrderList", new { page }))
+</div>
+
+@section Scripts{
+    <script>
+        var aa = document.querySelector('#aa');
+        aa.addEventListener('click', function () {
+            $('#100').attr("class","closed");
+        })
+    </script>
+}

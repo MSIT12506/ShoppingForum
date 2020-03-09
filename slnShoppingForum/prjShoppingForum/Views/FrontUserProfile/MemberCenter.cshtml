@@ -7,7 +7,7 @@
 
 <div class="row" style="margin-left:100px;margin-top:170px">
     <div class="col-md-3">
-        <div class="container" >
+        <div class="container">
             <div class="btn-group-vertical">
                 <input type="button" value="個人資料" id="detail" class="btn btn-outline-info  btn-lg" />
                 <input type="button" value="修改密碼" id="edit" class="btn btn-outline-info  btn-lg" />
@@ -32,33 +32,62 @@
         var detail = document.querySelector('#detail');
         var url = '@Url.Action("MemberDetail", "FrontUserProfile")'
         $('#detail').click(function () {
+            window.location.hash = "";
             $('#divbox1').load(url);
-        })
-
-        var orderurl = '@Url.Action("MyOrderList", "FrontUserProfile")'
-        $('#orderlist').click(function () {
-            $('#divbox1').load(orderurl);
         })
 
         var editurl = '@Url.Action("MemberPasswordEdit", "FrontUserProfile")'
         $('#edit').click(function () {
+            window.location.hash = "";
             $('#divbox1').load(editurl);
         })
 
 
         var edituserinfo = '@Url.Action("UserEdit", "FrontUserProfile")'
         $('#editinfo').click(function () {
+            window.location.hash = "";
             $('#divbox1').load(edituserinfo);
         })
 
         var myscoreurl = '@Url.Action("MyScore", "FrontUserProfile")'
         $('#myscore').click(function () {
+            window.location.hash = "";
             $('#divbox1').load(myscoreurl);
         })
 
         var mydiscount = '@Url.Action("userDiscountCode", "FrontUserProfile")'
         $('#discount').click(function () {
+            window.location.hash = "";
             $('#divbox1').load(mydiscount);
         })
+
+
+
+
+        $('#orderlist').click(function () {
+            var page = window.location.hash ? window.location.hash.slice(1) : 1;
+            Page(page);
+        })
+
+        var Page = function (page) {
+            var pageUrl = '@Url.Action("MyOrderList", "FrontUserProfile")';
+            $.get(pageUrl, { page: page }, function (data) {
+                window.location.hash = page;
+                $('#divbox1').html(data);
+
+                $('#divbox1 .pagination li a').each(function (i, item) {
+                  var hyperLinkUrl = $(item).attr('href');
+                  if (typeof hyperLinkUrl != 'undefined' && hyperLinkUrl != false) {
+                      var pageNumber = $(item).attr('href').replace('/FrontUserProfile/MyOrderList?page=', '');
+                      $(item).attr('href', '#').click(function(event) {
+                          event.preventDefault();
+                          $(event.target).attr('href');
+                          Page(pageNumber);
+                      });
+                  }
+                });
+
+            })
+        }
     </script>
 }

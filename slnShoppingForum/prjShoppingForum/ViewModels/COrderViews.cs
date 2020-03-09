@@ -1,4 +1,5 @@
-﻿using prjShoppingForum.Models.Entity;
+﻿using PagedList;
+using prjShoppingForum.Models.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace tw.com.essentialoil.ViewModels
         public tUserProfile tUserProfiles { get; set; }
         public tProduct tProducts { get; set; }
         public tShoppingCart tShoppingCarts { get; set; }
+        public IPagedList<tOrder> OrderList { get; set; }
         public IQueryable<tShoppingCart> ShoppingCart { get; set; }
         public IQueryable<tOrder> Order { get; set; }
         public IQueryable<tOrderDetail> OrderDetail { get; set; }

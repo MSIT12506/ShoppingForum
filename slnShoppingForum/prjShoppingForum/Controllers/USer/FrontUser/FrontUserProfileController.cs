@@ -19,6 +19,7 @@ using System.Web.Configuration;
 using tw.com.essentialoil.Services;
 using tw.com.essentialoil.ViewModels;
 using tw.com.essentialoil.Discount.Models;
+using PagedList;
 
 namespace tw.com.essentialoil.Controllers.FrontUser
 {
@@ -323,16 +324,18 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         }
         //會員個人歷史訂單
         //[Authorize]
-        public ActionResult MyOrderList()
+        public ActionResult MyOrderList(int page = 1)
         {
+            int pagesize = 3;
             if (Session[UserDictionary.S_CURRENT_LOGINED_USERFID] != null)
             {
+                int currentPage = page < 1 ? 1 : page;
+
                 var q = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
-                var prod = db.tOrders.Where(p => p.fId == q).Select(p => p);
-                var detail = db.tOrderDetails.Select(p => p);
-                var product = db.tProducts;
-                var list = new COrderViews() { Order = prod, OrderDetail = detail, Product = product };
-                return PartialView(list);
+                var prod = db.tOrders.Where(p => p.fId == q).OrderByDescending(p => p.fOrderDate);
+                var pageresult = prod.ToPagedList(currentPage, pagesize);
+                ViewData.Model = pageresult;
+                return PartialView("_PageAjax");
             }
             return RedirectToAction("Login");
         }

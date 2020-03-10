@@ -72,7 +72,7 @@
 <div style="width:70%;text-align:center;margin:auto;padding-top:5px;font-size:18px;">
     <div @*class="wrappers"*@>
         <h4 class="container">--已選購商品--</h4>
-        <table class="table table-secondary" style="font-size:12px">
+        <table class="table table-secondary" style="font-size:16px">
             <thead class="thead-light">
                 <tr>
                     <th>
@@ -100,7 +100,7 @@
 
                     <tr>
                         <td>
-                            <img src="@pict" style="height:30px;width:30px" />
+                            <img src="@pict" style="height:40px;width:40px" />
                         </td>
                         <td>
                             @prod.fProductChName
@@ -154,11 +154,11 @@
                         <p>聯絡電話@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fPhone, new { id = "buyphone", @class = "form-control", placeholder = "Member Cell Phone" });}</p>
                     </div>
                 </div>
-                @*<div class="row">
+                <div class="row">
                         <div class="col-12 form-address">
                             <p>購買者地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
                         </div>
-                    </div>*@
+                    </div>
                 <br />
                 <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
                 <div class="row" style="margin-top:15px">
@@ -192,7 +192,8 @@
                 </div>
                 <div class="row" style="margin-top:20px">
                     <div class="col-12">
-                        <p>支付方式<label style="color:crimson">&nbsp;*必填</label><input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM" /> ATM</p>
+                        <p>支付方式<label style="color:crimson">&nbsp;*必填</label><span>　</span>
+                        <input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM" /> ATM</p>
                     </div>
                 </div>
                 <div class="row" style="margin-top:20px">

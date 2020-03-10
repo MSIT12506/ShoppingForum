@@ -4,6 +4,32 @@
     ViewBag.Title = "SelfList";
 }
 
+@section Styles{
+    <style>
+        .postTitle {
+            font-size: 20px;
+        }
+
+            .postTitle:hover {
+                font-size: 20px;
+            }
+
+        .btnimage {
+            width: 15px;
+            height: auto;
+            border: none;
+        }
+
+        .btn {
+            border: none;
+        }
+
+        tbody tr:nth-child(2n+1) {
+            background-color: #d39ca7
+        }
+    </style>
+}
+
 <h4 style="margin-top:150px">[收藏文章清單]</h4>
 
 <table class="table table-striped">
@@ -24,7 +50,7 @@
                     @item.fPostId
                 </td>
                 <td>
-                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId }, new { @class = "postTitle" })
                 </td>
                 <td>@item.tUserProfile.fName</td>
                 <td>@item.fCreateTime.ToLongDateString() - @item.fCreateTime.ToLongTimeString()</td>
@@ -36,7 +62,7 @@
     </tbody>
 </table>
 
-<hr style="border-top:2px solid #766248"/>
+<hr style="border-top:2px solid #766248" />
 <h4>[隱藏文章清單]</h4>
 <table class="table table-striped">
     <thead>
@@ -51,19 +77,19 @@
     <tbody>
         @foreach (var item in Model[0])
         {
-        <tr>
-            <td>
-                @item.fPostId
-            </td>
-            <td>
-                @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
-            </td>
-            <td>@item.tUserProfile.fName</td>
-            <td>@item.fCreateTime.ToLongDateString() - @item.fCreateTime.ToLongTimeString()</td>
-            <td data-postid="@item.fPostId">
-                <button class="hideRev btn btn-info">取消隱藏</button>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @item.fPostId
+                </td>
+                <td>
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId }, new { @class = "postTitle" })
+                </td>
+                <td>@item.tUserProfile.fName</td>
+                <td>@item.fCreateTime.ToLongDateString() - @item.fCreateTime.ToLongTimeString()</td>
+                <td data-postid="@item.fPostId">
+                    <button class="hideRev btn btn-info">取消隱藏</button>
+                </td>
+            </tr>
         }
     </tbody>
 </table>

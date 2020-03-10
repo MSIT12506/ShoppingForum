@@ -3,6 +3,32 @@
     ViewBag.Title = "SearchPost";
 }
 
+@section Styles{
+    <style>
+        .postTitle {
+            font-size: 20px;
+        }
+
+        .postTitle:hover {
+            font-size: 20px;
+        }
+
+        .btnimage {
+            width: 15px;
+            height: auto;
+            border: none;
+        }
+
+        .btn {
+            border: none;
+        }
+
+        tbody tr:nth-child(2n+1) {
+            background-color: #d39ca7
+        }
+    </style>
+}
+
 <h4 style="margin-top:150px">搜尋結果</h4>
 
 <table class="table table-striped">
@@ -20,7 +46,7 @@
                     @item.fPostId
                 </td>
                 <td>
-                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId })
+                    @Html.ActionLink(item.fPostTitle, "PostView", new { fPostId = item.fPostId }, new { @class = "postTitle" })
                 </td>
             </tr>
         }

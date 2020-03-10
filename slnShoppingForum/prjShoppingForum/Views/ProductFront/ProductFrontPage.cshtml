@@ -34,7 +34,15 @@
                 <div class="row">
                     <div class="col-12">
                         <div id="productListShow" class="product-topbar d-flex align-items-center justify-content-between">
-                            @Html.Partial("_List_Product", Model)
+                            @if (Model.Count > 0)
+                            {
+                                @Html.Partial("_List_Product", Model)
+                            }
+                            else
+                            {
+                               <h4 style="color:red">無符合條件的商品</h4>
+                            }
+
                         </div>
                     </div>
                 </div>

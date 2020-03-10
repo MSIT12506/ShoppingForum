@@ -23,21 +23,21 @@
                 </div>
             </div>
 
-                <div class="form-group">
-                    @Html.Label("種類", htmlAttributes: new { @class = "control-label col-md-6" })
-                    <div class="col-md-6">
-                        @Html.DropDownListFor(model => model.categoryId, (IEnumerable<SelectListItem>)ViewBag.CategoryDropList, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.categoryId, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.Label("種類", htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(model => model.categoryId, (IEnumerable<SelectListItem>)ViewBag.CategoryDropList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.categoryId, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.Label("功效", htmlAttributes: new { @class ="control-label col-md-6" })
-                    <div class="col-md-6">
-                        @Html.DropDownList("efficacyId", (IEnumerable<SelectListItem>)ViewBag.efficacyDropList, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.efficacyId, "", new { @class = "text-danger" })
-                    </div>
+            @*<div class="form-group">
+                @Html.Label("功效", htmlAttributes: new { @class = "control-label col-md-6" })
+                <div class="col-md-6">
+                    @Html.DropDownList("efficacyId", (IEnumerable<SelectListItem>)ViewBag.efficacyDropList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.efficacyId, "", new { @class = "text-danger" })
                 </div>
+            </div>*@
 
             <div class="form-group">
                 @Html.Label("香調", htmlAttributes: new { @class = "control-label col-md-6" })
@@ -76,3 +76,43 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@section Scripts{
+    
+    <script>
+        $(document).ready(function () {
+
+            $("#noteId").closest(".form-group").hide();
+            $("#partId").closest(".form-group").hide();
+            $("#featureId").closest(".form-group").hide();
+
+            $("#categoryId").on("change", function () {
+                var categoryValue = $(this).val();
+                switch (categoryValue)
+                {
+                    case "1":
+                        $("#noteId").closest(".form-group").show();
+                        $("#partId").closest(".form-group").show();
+                        $("#featureId").closest(".form-group").hide();
+                        break;
+
+                    case "2":
+                        $("#noteId").closest(".form-group").hide();
+                        $("#partId").closest(".form-group").hide();
+                        $("#featureId").closest(".form-group").hide();
+                        break;
+
+                    case "3":
+                    case "4":
+                        $("#noteId").closest(".form-group").hide();
+                        $("#partId").closest(".form-group").hide();
+                        $("#featureId").closest(".form-group").show();
+                        break;
+                }
+            })
+        })
+
+    </script>
+
+
+}

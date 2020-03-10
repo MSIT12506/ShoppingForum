@@ -67,8 +67,8 @@
     <div class="content  borderline">
         <div class="PostContent">
             <h5>標題：@Model.forum.fPostTitle</h5>
-            <h5>作者：</h5>
-            <h5>發表時間：</h5>
+            <h5>作者：@Model.forum.tUserProfile.fName</h5>
+            <h5>發表時間：@Model.forum.fCreateTime.ToLongDateString() - @Model.forum.fCreateTime.ToLongTimeString()</h5>
             <div id="editor">
             </div>
         </div>

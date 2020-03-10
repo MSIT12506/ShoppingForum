@@ -27,7 +27,7 @@
                         {
                             <td>已失效</td>
                         }
-                        else if (item.tDiscount.fStartdate < DateTime.UtcNow.AddHours(8))
+                        else if (item.tDiscount.fStartdate > DateTime.UtcNow.AddHours(8))
                         {
                             <td>優惠活動尚未開始</td>
                         }

@@ -3,47 +3,50 @@
 @{ 
     int seq = 0;
 }
-
-<table class="table" style="width:100%">
-    <thead style="background-color:#524087 ;color:aliceblue">
-        <tr>
-            <th>
-                文章序號
-            </th>
-            <th>
-                文章標題
-            </th>
-            <th>
-                置頂序號
-            </th>
-            <th>
-                取消置頂
-            </th>
-        </tr>
-    </thead>
-    <tbody id="tableTop">
-        @{
-            foreach (var item in Model)
-            {
-                seq++;
-                <tr>
-                    <td data-postId="@item.fPostId">
-                        @item.fPostId
-                    </td>
-                    <td>
-                        @item.fPostTitle
-                    </td>
-                    <td>
-                        @seq
-                    </td>
-                    <td>
-                        <button class="btn btn-danger btn-cancelSetTopList">
-                            取消置頂
-                        </button>
-                    </td>
-                </tr>
+<div class="d-flex p-2 bd-highlight">
+    <table class="table" style="width:100%">
+        <thead style="background-color:#524087 ;color:aliceblue">
+            <tr>
+                <th>
+                    文章序號
+                </th>
+                <th>
+                    文章標題
+                </th>
+                <th>
+                    置頂序號
+                </th>
+                <th>
+                    取消置頂
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableTop">
+            @{
+                foreach (var item in Model)
+                {
+                    seq++;
+                    <tr>
+                        <td data-postId="@item.fPostId">
+                            @item.fPostId
+                        </td>
+                        <td>
+                            @item.fPostTitle
+                        </td>
+                        <td>
+                            @seq
+                        </td>
+                        <td>
+                            <button class="btn btn-danger btn-cancelSetTopList">
+                                取消置頂
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
-<button class="btn btn-primary btn-confirmSetTopList">確認</button>
+        </tbody>
+    </table>
+    </div>
+    <div style="text-align:right">
+        <button class="btn btn-primary btn-confirmSetTopList">確認</button>
+    </div>

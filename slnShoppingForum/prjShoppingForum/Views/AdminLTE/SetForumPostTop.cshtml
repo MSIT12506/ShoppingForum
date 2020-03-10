@@ -1,59 +1,57 @@
 ﻿@using PagedList;
 @using PagedList.Mvc;
-
 @model IPagedList<tw.com.essentialoil.Forum.ViewModels.CForumList>
-
 @{
     ViewBag.Title = "SetForumPostTop";
 }
-
 @section Styles{
     <link href="~/Content/PagedList.css" rel="stylesheet" />
 }
 
 <h2>置頂文章設定</h2>
-
+<br />
 @Html.Action("ShowForumTopList", "AdminLTE")
-
 <hr />
 
 <h2>文章列表</h2>
-<table class="table" style="width:100%">
-    <thead style="background-color:#524087 ;color:aliceblue">
-        <tr>
-            <th>
-                文章序號
-            </th>
-            <th>
-                文章標題
-            </th>
-            <th>
-                加入置頂
-            </th>
-        </tr>
-    </thead>
-    <tbody id="tableDown">
-        @{
-            foreach (var item in Model)
-            {
-                <tr>
-                    <td data-postId="@item.postId">
-                        @item.postId
-                    </td>
-                    <td>
-                        @item.postTitle
-                    </td>
-                    <td>
-                        <button class="btn btn-primary btn-addToTop">
-                            加入置頂
-                        </button>
-                    </td>
-                </tr>
+<br />
+<div class="d-flex p-2 bd-highlight">
+    <table class="table" style="width:100%">
+        <thead style="background-color:#524087 ;color:aliceblue">
+            <tr>
+                <th>
+                    文章序號
+                </th>
+                <th>
+                    文章標題
+                </th>
+                <th>
+                    加入置頂
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tableDown">
+            @{
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td data-postId="@item.postId">
+                            @item.postId
+                        </td>
+                        <td>
+                            @item.postTitle
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-addToTop">
+                                加入置頂
+                            </button>
+                        </td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
-
+        </tbody>
+    </table>
+</div>
 @Html.PagedListPager(Model, page => Url.Action("SetForumPostTop", new { page }))
 
 @section Scripts{
@@ -164,9 +162,6 @@
 
         })
     </script>
-
-
-
 
 
 }

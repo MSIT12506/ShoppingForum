@@ -2,68 +2,67 @@
 
 <h2>題目明細</h2>
 
-<div>
     <hr />
-    <table class="table">
-        <thead style="background-color:#524087 ;color:aliceblue">
+    <div class="d-flex p-2 bd-highlight">
+        <table class="table">
+            <thead style="background-color:#524087 ;color:aliceblue">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fQuestionName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fQuestion)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fAnswer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fItemA)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fItemB)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fItemC)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fItemD)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.fItemE)
+                    </th>
+                </tr>
+            </thead>
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.fQuestionName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fQuestion)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fAnswer)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fItemA)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fItemB)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fItemC)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fItemD)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fItemE)
-                </th>
+                <td>
+                    @Html.DisplayFor(model => model.fQuestionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fQuestion)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fAnswer)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fItemA)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fItemB)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fItemC)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fItemD)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => model.fItemE)
+                </td>
             </tr>
-        </thead>
-        <tr>
-            <td>
-                @Html.DisplayFor(model => model.fQuestionName)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fQuestion)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fAnswer)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fItemA)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fItemB)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fItemC)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fItemD)
-            </td>
-            <td>
-                @Html.DisplayFor(model => model.fItemE)
-            </td>
-        </tr>
-    </table>
-
+        </table>
+    </div>
+<div style="text-align:right">
+    @Html.ActionLink("編輯", "QuizEdit", "AdminLTE", new { id = Model.fQuestionId }, new { @class = "btn btn-info" }) |
+    @Html.ActionLink("返回", "QuizList", "AdminLTE", new { },new { @class = "btn btn-primary" })
 </div>
-<p>
-    @Html.ActionLink("編輯", "QuizEdit", new { id = Model.fQuestionId }, new { @class = "btn btn-info" }) |
-    @Html.ActionLink("返回", "QuizList",new { },new { @class = "btn btn-primary" })
-</p>
 

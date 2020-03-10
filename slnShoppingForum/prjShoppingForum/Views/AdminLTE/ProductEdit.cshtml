@@ -9,7 +9,7 @@
 
 
 @using (Html.BeginForm(
-    "ProductEdit", "Product", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    "ProductEdit", "AdminLTE", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <p> 商品圖片 <input type="file" name="prodImg" id="prodImg" /></p>
     @*<p><input type="submit" value="上傳" /></p>*@

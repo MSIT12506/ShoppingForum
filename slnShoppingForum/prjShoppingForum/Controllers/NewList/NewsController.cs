@@ -39,7 +39,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult NewsList(string searchKey)
         {
             ViewBag.Message = searchKey;
-            IEnumerable<tNew> NewsList = _NewsRepository.GetNewstitle(searchKey);
+            IPagedList<tNew> NewsList = _NewsRepository.GetNewstitle(searchKey).ToPagedList(1,6);
             return View("NewsList",NewsList);
         }
 

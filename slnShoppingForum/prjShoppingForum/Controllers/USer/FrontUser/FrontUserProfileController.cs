@@ -43,11 +43,36 @@ namespace tw.com.essentialoil.Controllers.FrontUser
         {
             if (ModelState.IsValid)
             {               
-                //信箱驗證碼
+                //信箱驗證碼、註冊成功寄信
                 string AuthCode = mailService.GetNewPassword();
                 c.fAuthCode = AuthCode;
                 membersService.New(c);
-            
+
+                var RegisterUserId = c.fUserId;
+                var RegisterUserName = c.fName;
+                var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//isgoldAoil@gmail.com
+                var receiverEmail = new MailAddress(RegisterUserId, RegisterUserName);
+                var password = "vnmuhcmaxieewtbi";//vnmuhcmaxieewtbi
+                var sub = "恭禧您成功加入 係精ㄟ油 註冊會員";
+                var body = "親愛的 " + RegisterUserName + " 您好:\n" + "恭喜您已成功加入 係精ㄟ油 的會員，\n希望您在 係精ㄟ油 能有美好的購物時光！\n謝謝您！\n" + "本站網址:https://oilshoppingforum.azurewebsites.net/";
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(senderEmail.Address, password)
+                };
+                using (var mess = new MailMessage(senderEmail, receiverEmail)
+                {
+                    Subject = sub,
+                    Body = body
+                })
+                {
+                    smtp.Send(mess);
+                }
+
                 return RedirectToAction("Login");
             }        
             return RedirectToAction("Index", "Home");

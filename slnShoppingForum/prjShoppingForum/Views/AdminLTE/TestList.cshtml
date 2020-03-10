@@ -15,16 +15,16 @@
         <span>
             搜尋:
         </span>
-        @Html.TextBox("SearchKey", "");
+        @Html.TextBox("SearchKey","",null,new { placeholder="請輸入姓名" });
         <button class="btn btn-navbar" type="submit" value="搜尋">
             <i class="fas fa-search"></i>
         </button>
     }
     </div>
     <h5>@ViewBag.Message</h5>
-    <div class="d-flex p-2 justify-content-between align-items-center">
+    <div class="d-flex p-2">
         @Html.PagedListPager(Model, page => Url.Action("TestList", new { page }))
-        @Html.ActionLink("新增測驗", "TestCreate", new { }, new { @class = "btn btn-outline-primary" })
+        @*@Html.ActionLink("新增測驗", "TestCreate", new { }, new { @class = "btn btn-outline-primary" })*@
     </div>
     <div class="d-flex p-2 bd-highlight">
         <table class="table">
@@ -74,10 +74,10 @@
                             @Html.DisplayFor(modelItem => item.fTestDiscontinue)
                         </td>
                         <td>
-                            @Html.ActionLink("編輯", "TestEdit", "AdminLTE", new { id = item.fTestId }, new { @class = "btn btn-info" }) |
-                            @Html.ActionLink("明細", "TestDetails", "AdminLTE", new { id = item.fTestId }, new { @class = "btn btn-success" }) |
-                            @Html.ActionLink("下架", "TestDelete", "AdminLTE", new { id = item.fTestId }
-                            , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })
+                            @*@Html.ActionLink("編輯", "TestEdit", "AdminLTE", new { id = item.fTestId }, new { @class = "btn btn-info" }) |*@
+                            @Html.ActionLink("明細", "TestDetails", "AdminLTE", new { id = item.fTestId }, new { @class = "btn btn-success" }) 
+                            @*@Html.ActionLink("下架", "TestDelete", "AdminLTE", new { id = item.fTestId }
+                            , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })*@
                         </td>
                     </tr>
                 }

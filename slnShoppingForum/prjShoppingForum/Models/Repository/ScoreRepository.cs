@@ -18,7 +18,7 @@ namespace tw.com.essentialoil.Score.Models
 
         public IEnumerable<tScore> GetScoreAccount(string searchKey)
         {
-            var ScoreList = db.tScores.Where(p => p.tUserProfile.fName.Contains(searchKey));
+            var ScoreList = db.tScores.Where(p => p.tUserProfile.fName.Contains(searchKey)).OrderBy(p =>p.fId);
             return ScoreList;
         }
 

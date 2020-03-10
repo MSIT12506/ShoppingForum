@@ -37,7 +37,7 @@ namespace tw.com.essentialoil.Tests.Models
 
         public IEnumerable<tTest> GetTestAccount(string searchKey)
         {
-            var TestList = db.tTests.Where(p => p.fId.ToString().Contains(searchKey));
+            var TestList = db.tTests.Where(p => p.tUserProfile.fName.ToString().Contains(searchKey)).OrderBy(p =>p.fId);
             return TestList;
         }
 

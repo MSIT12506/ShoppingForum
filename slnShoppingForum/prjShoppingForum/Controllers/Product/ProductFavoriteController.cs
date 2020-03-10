@@ -64,9 +64,15 @@ namespace tw.com.essentialoil.Controllers
             {
                 tUserProductFavorite favorite = db.tUserProductFavorites.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductId == productId);
 
+                string blueHeart = "/Images/Product/like_blue.png";              //藍色愛心
+                string redHeart = "/Images/Product/like_red.png";                //紅色愛心
+
                 if (favorite != null)
                 {
-                    return JavaScript("alert('該商品已經加入到收藏清單內')");
+                    db.tUserProductFavorites.Remove(favorite);
+                    db.SaveChanges();
+
+                    return Json(new { pic = blueHeart, mess = "商品已從收藏清單移除" });
                 }
                 else
                 {
@@ -76,7 +82,7 @@ namespace tw.com.essentialoil.Controllers
                     favoriteNew.fAddTime = DateTime.UtcNow.AddHours(8);
                     db.tUserProductFavorites.Add(favoriteNew);
                     db.SaveChanges();
-                    return JavaScript("alert('加入成功')");
+                    return Json(new { pic = redHeart, mess = "商品已加入收藏清單" });
                 }
             }
             else
@@ -105,9 +111,15 @@ namespace tw.com.essentialoil.Controllers
             {
                 tUserProductFavorite favorite = db.tUserProductFavorites.Where(p => p.fId == userId).FirstOrDefault(p => p.fProductId == productId);
 
+                string blueHeart = "/Images/Product/like_blue.png";            //藍色愛心
+                string redHeart = "/Images/Product/like_red.png";              //紅色愛心
+
                 if (favorite != null)
                 {
-                    return JavaScript("alert('該商品已經加入到收藏清單內')");
+                    db.tUserProductFavorites.Remove(favorite);
+                    db.SaveChanges();
+
+                    return Json(new { pic = blueHeart, mess = "商品已從收藏清單移除" });
                 }
                 else
                 {
@@ -117,7 +129,7 @@ namespace tw.com.essentialoil.Controllers
                     favoriteNew.fAddTime = DateTime.UtcNow.AddHours(8);
                     db.tUserProductFavorites.Add(favoriteNew);
                     db.SaveChanges();
-                    return JavaScript("alert('加入成功')");
+                    return Json(new { pic = redHeart, mess = "商品已加入收藏清單"});
                 }
             }
             else
@@ -125,7 +137,7 @@ namespace tw.com.essentialoil.Controllers
                 return Content("<script >alert('沒有該項商品');</script >", "text/html");
             }
         }
-
+        //刪除收藏
         public ActionResult Delete(int fFavoriteId)
         {
             tUserProductFavorite favorite = db.tUserProductFavorites.FirstOrDefault(p => p.fFavoriteId == fFavoriteId);
@@ -135,6 +147,33 @@ namespace tw.com.essentialoil.Controllers
                 db.SaveChanges();
             }
             return RedirectToAction("List");
+        }
+        //判斷商品是否已經在使用者收藏清單
+        public ActionResult favoriteJudge(int productId)
+        {
+            string redHeart = "/Images/Product/like_red.png";
+            string blueHeart = "/Images/Product/like_blue.png";
+
+            //沒有登入傳藍色的愛心圖
+            if (!CStaticMethod.isLogin(Session, "ProductFavorite", "List"))
+            {
+                return Json(new { pic = blueHeart });
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                userId = userLoginInfo.user_fid;
+
+                tUserProductFavorite favorite = db.tUserProductFavorites.Where(u => u.fId == userId).FirstOrDefault(p => p.fProductId == productId);
+                if (favorite != null)
+                {
+                    return Json(new { pic = redHeart });
+                }
+                else
+                {
+                    return Json(new { pic = blueHeart });
+                }
+            }
         }
     }
 }

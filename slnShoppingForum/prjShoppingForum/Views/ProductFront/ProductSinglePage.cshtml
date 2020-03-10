@@ -47,7 +47,7 @@
 
                     <dt>
                         @Html.DisplayNameFor(model => model.fProductChName)
-                        <a onclick="addToFavorite(@Model.fProductID)" style="padding-left:200px"><img src="~/Images/Product/like_blue.png" title="收藏" width="35" /></a>
+                        <a onclick="addToFavorite(@Model.fProductID)" style="padding-left:200px"><img id="fav" data-id="@Model.fProductID" src="#" title="收藏" width="35" /></a>
                     </dt>
 
                     <dd>
@@ -123,6 +123,11 @@
 
 @section scripts{
     <script>
+    $(document).ready(function () {
+        let prodId = parseInt($("#fav").attr("data-id"));
+        favoriteJudge(prodId);
+    })
+    
     //當數量欄位被鍵盤修改時
     $("#buyQuantity").change(function () {
         if (parseInt($(this).val()) > 0 && parseInt($(this).val()) <= parseInt($(this).siblings(".txtStock").val())) {
@@ -132,12 +137,30 @@
             $(this).val(1)                                                                  //如果值不屬於範圍區間，則返回1
         }
     })
+    //Ajax : 判斷商品是否已經加入收藏清單
+    function favoriteJudge(productId) {
+        $.ajax({
+            type: 'POST',
+            url:'@Url.Action("favoriteJudge", "ProductFavorite")',
+            data: { productId: productId },
+            async: false
+        }).done(function (data) {
+            $("#fav").attr("src", data.pic);
+        })
+    }
     //Ajax : 加入收藏清單
     function addToFavorite(productId) {
         $.ajax({
             type: 'POST',
             url:'@Url.Action("CreatFromProduct", "ProductFavorite")',
-            data: { productId : productId}
+            data: { productId: productId },
+            async: false
+        }).done(function (data) {
+            $("#fav").attr("src", data.pic);
+            if (data.mess == "商品已加入收藏清單" || data.mess== "商品已從收藏清單移除")
+            {
+                alert(data.mess);
+            }
         })
     }
     //Ajax:加入購物車

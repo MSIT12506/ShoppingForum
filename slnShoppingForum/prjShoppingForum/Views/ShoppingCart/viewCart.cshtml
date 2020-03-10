@@ -96,7 +96,7 @@
                     var imageScr = $"/Images/Product/ura/{item.fProductID}.jpg";
                     var producthref = $"/ProductFront/ProductSinglePage?productId={item.fProductID}";
 
-                    <tr data-id="@item.fBasketId">
+                    <tr data-id="@item.fBasketId" data-prodId="@item.fProductID">
                         <td>
                             <input type="checkbox" class="checkbox" />
                         </td>
@@ -126,7 +126,7 @@
                             </span>
                         </td>
                         <td>
-                            <a class="btn btn-outline-info" onclick="addToFavorite(@item.fProductID)"><img src="~/Images/ShoppingCart/favorite.png" /></a>
+                            <a class="btn btn-outline-info" onclick="addToFavorite(@item.fProductID)"><img class="fav" src="~/Images/Product/like_blue.png" style="width:27px" /></a>
                             <a class="btn btn-outline-danger" onclick="doubleCheck(@item.fBasketId)"><img src="~/Images/ShoppingCart/delete.png" /></a>
                         </td>
                     </tr>
@@ -213,12 +213,13 @@
     <script>
 
     $(document).ready(function () {
-        $("#toOrder").prop("disabled", true);               //關掉送出訂單按鈕
-        $("#discount").prop("disabled", true);              //鎖住選擇優惠欄位
-        $("#score").hide();                                 //隱藏積分欄位
-        $("#coupon").hide();                                //隱藏優惠券欄位
-        $("#checkAll").trigger("click");                             //進入頁面時所有商品都被勾選
-        if (!$("#checkAll").prop("checked")) { $("#checkAll").click();}  //防止使用者上一頁或重新整理時重複執行勾選導致沒有勾選
+    checkFavorite()                                     //檢查購物車商品是否在收藏內
+    $("#toOrder").prop("disabled", true);               //關掉送出訂單按鈕
+    $("#discount").prop("disabled", true);              //鎖住選擇優惠欄位
+    $("#score").hide();                                 //隱藏積分欄位
+    $("#coupon").hide();                                //隱藏優惠券欄位
+    $("#checkAll").trigger("click");                             //進入頁面時所有商品都被勾選
+    if (!$("#checkAll").prop("checked")) { $("#checkAll").click();}  //防止使用者上一頁或重新整理時重複執行勾選導致沒有勾選
     })
 
     //商品數量減少
@@ -409,12 +410,35 @@
             })
         })
     })
-    //Ajax : 加入收藏清單
-    function addToFavorite(productId) {
+    //檢查購物車物品是否在收藏清單
+    function checkFavorite() {
+        $("tbody :checkbox").each(function () {
+            let prodId = $(this).parent().parent().attr("data-prodId");                 //商品Id
+            let img;
+
+            $.ajax({
+                type: 'POST',
+                url:'@Url.Action("favoriteJudge", "ProductFavorite")',
+                data: { productId: prodId },
+                async: false
+            }).done(function (data) {
+                img = data.pic;
+            })
+
+            $(this).parent().parent().find(".fav").attr("src", img);                    //當前購物車商品的圖片
+        })
+    }
+    //加入收藏清單
+        function addToFavorite(productId) {
+        let img = $(event.target).find(".fav").prevObject[0];               //抓到該事件的物件中的圖片
         $.ajax({
             type: 'POST',
             url:'@Url.Action("Creat", "ProductFavorite")',
-            data: { productId : productId}
+            data: { productId: productId },
+            async: false
+        }).done(function (data) {
+            img.src = data.pic;
+            alert(data.mess);
         })
     }
     //清空購物車(確認後執行)
@@ -475,11 +499,12 @@
     }
 
     //判斷使用者是否選擇優惠
-    $("select[name='selectcoupon']").change(function () { coupon(event);})
-        function coupon(event) {
+        $("select[name='selectcoupon']").change(function () { couponCalculate(event); })
+
+        function couponCalculate(event) {
         let discountCode = event.target.value;
         let totalMoney = parseInt($(".cartSumPrice").text());
-
+        
         if (discountCode != "無") {
             $.ajax({
                 type: 'POST',

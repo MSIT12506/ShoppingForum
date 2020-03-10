@@ -5,89 +5,93 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
-<h2>積分異動查詢區</h2>
-@using (Html.BeginForm())
-{
-    <span>
-        搜尋:
-    </span>
-    @Html.TextBox("SearchKey", "");
-    <button class="btn btn-navbar" type="submit" value="搜尋">
-        <i class="fas fa-search"></i>
-    </button>
-}
-<h5>@ViewBag.Message</h5>
 
-<hr />
-<div style="text-align:right">
-    <p>
-        @Html.ActionLink("新增積分", "ScoreCreate", new { }, new { @class = "btn btn-outline-primary" })
-    </p>
-</div>
-<table class="table">
-    <thead style="background-color:#524087 ;color:aliceblue">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fUserId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fName)
-            </th>
-            <th>
-                總分
-            </th>
-            <th>
-                活動分
-            </th>
-            <th>
-                任務分
-            </th>
-            <th>
-                積分改變日
-            </th>
-            <th>
-                不顯示
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
+    <h2>積分異動查詢區</h2>
+    @using (Html.BeginForm())
+    {
+        <span>
+            搜尋:
+        </span>
+        @Html.TextBox("SearchKey", "");
+        <button class="btn btn-navbar" type="submit" value="搜尋">
+            <i class="fas fa-search"></i>
+        </button>
+    }
+    <h5>@ViewBag.Message</h5>
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.tUserProfile.fName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fScore)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fActiveScore)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fQuestionScore)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fScoreDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fScoreDiscontinue)
-                </td>
-                <td>
-                    @Html.ActionLink("編輯", "ScoreEdit", new { id = item.fScoreId }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("明細", "ScoreDetails", new { id = item.fScoreId }, new { @class = "btn btn-success" }) |
-                    @Html.ActionLink("刪除", "ScoreDelete", new { id = item.fScoreId }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div>
-    @Html.PagedListPager(Model, page => Url.Action("ScoreList", new { page }))
-</div>
+    <hr />
+    <div style="text-align:right">
+        <p>
+            @Html.ActionLink("新增積分", "ScoreCreate", "AdminLTE", new { }, new { @class = "btn btn-outline-primary" })
+        </p>
+    </div>
+    <div class="d-flex p-2 bd-highlight">
+        <table class="table">
+            <thead style="background-color:#524087 ;color:aliceblue">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fUserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fName)
+                    </th>
+                    <th>
+                        總分
+                    </th>
+                    <th>
+                        活動分
+                    </th>
+                    <th>
+                        任務分
+                    </th>
+                    <th>
+                        積分改變日
+                    </th>
+                    <th>
+                        不顯示
+                    </th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
 
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tUserProfile.fUserId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fActiveScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fQuestionScore)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fScoreDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fScoreDiscontinue)
+                        </td>
+                        <td>
+                            @Html.ActionLink("編輯", "ScoreEdit", "AdminLTE", new { id = item.fScoreId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("明細", "ScoreDetails", "AdminLTE", new { id = item.fScoreId }, new { @class = "btn btn-success" }) |
+                            @Html.ActionLink("刪除", "ScoreDelete", "AdminLTE", new { id = item.fScoreId }
+                            , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+        <div>
+            @Html.PagedListPager(Model, page => Url.Action("ScoreList", new { page }))
+        </div>
 

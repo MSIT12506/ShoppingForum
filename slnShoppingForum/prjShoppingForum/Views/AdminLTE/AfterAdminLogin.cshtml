@@ -3,14 +3,14 @@
 @if (Session[CAdminData.S_CURRENT_LOGINED_ADMIN] != null)
 {
     <div class="user-login-info">
-        <a href="@Url.Action("AdminManagerLogOut", "AdminLTE")" id="logout"><img src="~/Images/Member/adlogout.svg" height="100" width="100" style="margin:5px;" alt=""></a>
+        <a href="@Url.Action("AdminManagerLogOut","AdminLTE")" id="logout"><img src="~/Images/Member/adlogout.svg" height="100" width="100" style="margin:5px;" alt=""></a>
     </div>
 }
 else
 {
 
     <div class="user-login-info">
-        <a href="@Url.Action("AdminManagerLogin", "AdminLTE")" id="login"><img src="~/Images/Member/adlogin.svg" height="100" width="100" style="margin:5px;" alt=""></a>
+        <a href="@Url.Action("AdminManagerLogin","AdminLTE")" id="login"><img src="~/Images/Member/adlogin.svg" height="100" width="100" style="margin:5px;" alt=""></a>
     </div>
 
 }

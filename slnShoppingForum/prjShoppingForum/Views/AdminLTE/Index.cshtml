@@ -1,73 +1,84 @@
-﻿@model IEnumerable<prjShoppingForum.Models.Entity.tOrder>
-@* vvv *@
-<div class="container" style="overflow-x:auto">
+﻿@using PagedList
+@using PagedList.Mvc
+
+@model IPagedList<prjShoppingForum.Models.Entity.tOrder>
+
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+
     <h2>訂單總覽</h2>
-    <table class="table">
-        <thead style="background-color:#524087 ;color:aliceblue">
-            <tr>
-                <th>
-                    編號
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tUserProfile.fName)
-                </th>
-                <th>
-                    建立日期
-                </th>
-                <th>
-                    希望日期
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.fPayment)
-                </th>
-                <th>
-                    總金額
-                </th>
-                <th>
-                    備註
-                </th>
-                <th>
-                    操作
-                </th>
-            </tr>
-            </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <hr />
+    <div class="d-flex p-2 bd-highlight">
+
+        <table class="table">
+            <thead style="background-color:#524087 ;color:aliceblue">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fOrderId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tUserProfile.fName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fOrderDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fRequiredDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fPayment)
-                    </td>
-                    <td>
-                        totolprice
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fOrderPostScript)
-                    </td>
-                    <td>
-                        @Html.ActionLink("編輯", "Edit", new { id = item.fOrderId } ,new { @class = "btn btn-info" }) |
-                        @Html.ActionLink("明細", "Details", new { id = item.fOrderId }, new { @class = "btn btn-success" })
-                    </td>
+                    <th>
+                        編號
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fName)
+                    </th>
+                    <th>
+                        建立日期
+                    </th>
+                    <th>
+                        希望日期
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fPayment)
+                    </th>
+                    <th>
+                        總金額
+                    </th>
+                    <th>
+                        備註
+                    </th>
+                    <th>
+                        操作
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fOrderId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fOrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fRequiredDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fPayment)
+                        </td>
+                        <td>
+                            totolprice
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fOrderPostScript)
+                        </td>
+                        <td>
+                            @Html.ActionLink("編輯", "Edit", "AdminLTE", new { id = item.fOrderId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("明細", "Details", "AdminLTE", new { id = item.fOrderId }, new { @class = "btn btn-success" })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>
+        <div>
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+        </div>

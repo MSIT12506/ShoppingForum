@@ -7,96 +7,100 @@
 
 @* 後台消息清單 *@
 
-<h2>最新消息列表</h2>
-<div class="sear">
-    @using (Html.BeginForm())
-    {
-        <span>
-            搜尋:
-        </span>
-        @Html.TextBox("SearchKey", "");
-        <button class="btn btn-navbar" type="submit" value="搜尋">
-            <i class="fas fa-search"></i>
-        </button>
-
-    }
-    <h5>@ViewBag.Message</h5>
-</div>
-<hr />
-<div style="text-align:right">
-    <p>
-        @Html.ActionLink("新增消息", "NewsCreate", new { }, new { @class = "btn btn-outline-primary" })
-    </p>
-</div>
-<table class="table">
-    <thead style="background-color:#524087 ;color:aliceblue">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fClass)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsTitle)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsDesc)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsEnd)
-            </th>
-
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fApproved)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsDiscontinue)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-
-
-    <tbody>
-
-        @foreach (var item in Model)
+    <h2>最新消息列表</h2>
+    <br />
+    <div class="sear">
+        @using (Html.BeginForm())
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fClass)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fNewsTitle)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fNewsDesc)
-                </td>
-                <td>
-                    @item.fNewsStart.ToLongDateString()
-                </td>
-                <td>
-                    @item.fNewsEnd.ToLongDateString()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fApproved)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.fNewsDiscontinue)
-                </td>
+            <span>
+                搜尋:
+            </span>
+            @Html.TextBox("SearchKey", "");
+            <button class="btn btn-navbar" type="submit" value="搜尋">
+                <i class="fas fa-search"></i>
+            </button>
 
-                <td>
-                    @Html.ActionLink("編輯", "NewsEdit", new { id = item.fNewsId }, new { @class = "btn btn-info" }) |
-                    @Html.ActionLink("明細", "NewsDetails", new { id = item.fNewsId }, new { @class = "btn btn-success" }) |
-                    @Html.ActionLink("下架 ","NewsDelete", new { id = item.fNewsId }
-                        , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })
-                    )
-                </td>
-            </tr>
         }
-    </tbody>
-</table>
-<div>
-    @Html.PagedListPager(Model, page => Url.Action("NewsList", new { page }))
-</div>
+        <h5>@ViewBag.Message</h5>
+    </div>
+    <hr />
+    <div style="text-align:right">
+        <p>
+            @Html.ActionLink("新增消息", "NewsCreate", new { }, new { @class = "btn btn-outline-primary" })
+        </p>
+    </div>
+    <div class="d-flex p-2 bd-highlight">
+        <table class="table">
+            <thead style="background-color:#524087 ;color:aliceblue">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fClass)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsTitle)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsDesc)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsStart)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsEnd)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fApproved)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fNewsDiscontinue)
+                    </th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fClass)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fNewsTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fNewsDesc)
+                        </td>
+                        <td>
+                            @item.fNewsStart.ToLongDateString()
+                        </td>
+                        <td>
+                            @item.fNewsEnd.ToLongDateString()
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fApproved)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fNewsDiscontinue)
+                        </td>
+
+                        <td>
+                            @Html.ActionLink("編輯", "NewsEdit", "AdminLTE", new { id = item.fNewsId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("明細", "NewsDetails", "AdminLTE", new { id = item.fNewsId }, new { @class = "btn btn-success" }) |
+                            @Html.ActionLink("下架 ","NewsDelete", "AdminLTE", new { id = item.fNewsId }
+                                , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })
+                            )
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+        <div>
+            @Html.PagedListPager(Model, page => Url.Action("NewsList", new { page }))
+        </div>
+    
 

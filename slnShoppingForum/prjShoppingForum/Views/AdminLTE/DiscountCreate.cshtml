@@ -2,66 +2,68 @@
 @{
     ViewBag.Title = "DiscountCreate";
 }
-
 <h2>新增優惠券</h2>
+<br />
+<div class="d-flex align-items-center">
+    <table class="table" style="width:100%;">
+        <thead style="background-color:#524087 ;color:aliceblue ;">
+            <tr>
+                <th><button id="createDiscountData">+</button></th>
+                <th>優惠券名稱</th>
+                <th>優惠種類</th>
+                <th>最低金額</th>
+                <th>
+                    優惠內容<br />
+                    折扣% - 請輸入1~99的數字<br />
+                    折扣金 - 請輸入折抵多少金額
+                </th>
+                <th>有效起日</th>
+                <th>有效迄日</th>
+                <th>發行數量</th>
+            </tr>
+        </thead>
+        <tbody id="discountBody">
+            @* --------------------這是隱藏起來的-------------------- *@
+            <tr class="createDiscount" style="display:none;">
+                <td><button class="delRecord">-</button></td>
+                <td><input type="text" data-field="fDiscountName" /></td>
+                <td>
+                    <select data-field="fDiscountCategory">
+                        <option value="P">折扣%</option>
+                        <option value="C">折扣金</option>
+                    </select>
+                </td>
+                <td><input type="number" data-field="fMoneyLimit" /></td>
+                <td><input type="number" data-field="discountContent" /></td>
+                <td><input type="date" data-field="fStartDate" /></td>
+                <td><input type="date" data-field="fEndDate" /></td>
+                <td><input type="number" data-field="fCount" /></td>
+            </tr>
+            @* --------------------這是隱藏起來的-------------------- *@
 
-<table class="table" style="width:100%">
-    <thead style="background-color:#524087 ;color:aliceblue">
-        <tr>
-            <th><button id="createDiscountData">+</button></th>
-            <th>優惠券名稱</th>
-            <th>優惠種類</th>
-            <th>最低金額</th>
-            <th>
-                優惠內容<br />
-                折扣% - 請輸入1~99的數字<br />
-                折扣金 - 請輸入折抵多少金額
-            </th>
-            <th>有效起日</th>
-            <th>有效迄日</th>
-            <th>發行數量</th>
-        </tr>
-    </thead>
-    <tbody id="discountBody">
-        @* --------------------這是隱藏起來的-------------------- *@
-        <tr class="createDiscount" style="display:none;">
-            <td><button class="delRecord">-</button></td>
-            <td><input type="text" data-field="fDiscountName" /></td>
-            <td>
-                <select data-field="fDiscountCategory">
-                    <option value="P">折扣%</option>
-                    <option value="C">折扣金</option>
-                </select>
-            </td>
-            <td><input type="number" data-field="fMoneyLimit" /></td>
-            <td><input type="number" data-field="discountContent" /></td>
-            <td><input type="date" data-field="fStartDate" /></td>
-            <td><input type="date" data-field="fEndDate" /></td>
-            <td><input type="number" data-field="fCount" /></td>
-        </tr>
-        @* --------------------這是隱藏起來的-------------------- *@
+            <tr class="createDiscount">
+                <td><button class="delRecord">-</button></td>
+                <td><input type="text" data-field="fDiscountName" /></td>
+                <td>
+                    <select data-field="fDiscountCategory">
+                        <option value="P">折扣%</option>
+                        <option value="C">折扣金</option>
+                    </select>
+                </td>
+                <td><input type="number" data-field="fMoneyLimit" /></td>
+                <td><input type="number" data-field="discountContent" /></td>
+                <td><input type="date" data-field="fStartDate" /></td>
+                <td><input type="date" data-field="fEndDate" /></td>
+                <td><input type="number" data-field="fCount" /></td>
+            </tr>
 
-        <tr class="createDiscount">
-            <td><button class="delRecord">-</button></td>
-            <td><input type="text" data-field="fDiscountName" /></td>
-            <td>
-                <select data-field="fDiscountCategory">
-                    <option value="P">折扣%</option>
-                    <option value="C">折扣金</option>
-                </select>
-            </td>
-            <td><input type="number" data-field="fMoneyLimit" /></td>
-            <td><input type="number" data-field="discountContent" /></td>
-            <td><input type="date" data-field="fStartDate" /></td>
-            <td><input type="date" data-field="fEndDate" /></td>
-            <td><input type="number" data-field="fCount" /></td>
-        </tr>
-
-    </tbody>
-</table>
-<div style="text-align:right">
-    <button id="confirmCreate" class="btn btn-primary">確認新增</button>
+        </tbody>
+    </table>
 </div>
+    <div style="text-align:right">
+        <button id="confirmCreate" class="btn btn-primary">確認新增</button>
+    </div>
+
 
 @section Scripts{
     <script>

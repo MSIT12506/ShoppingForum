@@ -768,11 +768,20 @@ namespace tw.com.essentialoil.Controllers
         //=======================================分數=======================================
 
         //=======================================訂單=======================================
+       
+            
+        
 
-        public async Task<ActionResult> Index()
+
+
+
+        public ActionResult Index(int page = 1)
         {
-            var tOrders = db.tOrders.Include(t => t.tUserProfile);
-            return View(await tOrders.ToListAsync());
+            int pagesize = 10;
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Orders = db.tOrders.Include(t => t.tUserProfile).OrderBy(p => p.fId).ToList();
+            var result = Orders.ToPagedList(currentPage, pagesize);
+            return View(result);
         }
 
         public async Task<ActionResult> Details(int? id)

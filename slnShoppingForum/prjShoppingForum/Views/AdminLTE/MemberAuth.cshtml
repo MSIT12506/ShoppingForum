@@ -2,49 +2,49 @@
 @{
     ViewBag.Title = "MemberAuth";
 }
-
-<h2>會員停權</h2>
-<div class="container">
-    <table class="table" style="width:100%">
-        <thead style="background-color:#524087 ;color:aliceblue">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().fUserId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().fAuth)
-                </th>
-                <th>
-                    狀態
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <h2>會員停權</h2>
+    <br />
+    <div class="d-flex p-2 bd-highlight">
+        <table class="table" style="width:100%">
+            <thead style="background-color:#524087 ;color:aliceblue">
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fId, new { id = "fId" })
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fUserId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fAuth, new { id = "auth" })
-                    </td>
-                    <td>
-                        <input type="button" id="auth" class="btn btn-danger" value="停權" />
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fUserId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstOrDefault().fAuth)
+                    </th>
+                    <th>
+                        狀態
+                    </th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
-@section Scripts{
-    <script>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fId, new { id = "fId" })
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fUserId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fAuth, new { id = "auth" })
+                        </td>
+                        <td>
+                            <input type="button" id="auth" class="btn btn-danger" value="停權" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @section Scripts{
+        <script>
         var btn = document.querySelector('#auth');
         var fId = document.querySelector('#fId');
         //$(function () {
@@ -78,5 +78,5 @@
                 $(this).attr('class', 'btn btn-success');
             }
         })
-    </script>
-}
+        </script>
+    }

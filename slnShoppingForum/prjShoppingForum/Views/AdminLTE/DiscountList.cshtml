@@ -5,69 +5,67 @@
 }
 
 <h2>優惠券列表</h2>
-
 <br />
-
 <h3>優惠券</h3>
-<table class="table" style="width:100%">
-    <thead style="background-color:#524087 ;color:aliceblue">
-        <tr>
-            <th>優惠券名稱</th>
-            <th>優惠種類</th>
-            <th>最低金額</th>
-            <th>優惠內容</th>
-            <th>有效起日</th>
-            <th>有效迄日</th>
-            <th>剩餘數量</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @{
-            foreach (var item in Model)
-            {
-                <tr data-discountCode=@item.fDiscountCode>
-                    <td>
-                        @item.fDiscountName
-                    </td>
-
-                    @{
-                        switch (item.fDiscountCategory)
-                        {
-                            case "P":
-                                <td>折扣%</td>
-                                break;
-                            case "C":
-                                <td>折扣金</td>
-                                break;
+<div class="d-flex p-2 bd-highlight">
+    <table class="table" style="width:100%">
+        <thead style="background-color:#524087 ;color:aliceblue">
+            <tr>
+                <th>優惠券名稱</th>
+                <th>優惠種類</th>
+                <th>最低金額</th>
+                <th>優惠內容</th>
+                <th>有效起日</th>
+                <th>有效迄日</th>
+                <th>剩餘數量</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                foreach (var item in Model)
+                {
+                    <tr data-discountCode=@item.fDiscountCode>
+                        <td>
+                            @item.fDiscountName
+                        </td>
+                        @{
+                            switch (item.fDiscountCategory)
+                            {
+                                case "P":
+                                    <td>折扣%</td>
+                                    break;
+                                case "C":
+                                    <td>折扣金</td>
+                                    break;
+                            }
                         }
-                    }
-
-                    <td>@item.fMoneyLimit</td>
-                    <td>@item.fDiscountContent</td>
-                    <td>@item.fStartdate</td>
-                    <td>@item.fEndDate</td>
-                    <td>@item.fCount</td>
-                    <td>
-                        @*<button class="discountEdit,btn btn-info">編輯</button>*@
-                        <button class="discountDisabled btn btn-warning">下架</button>
-                    </td>
-                    <td></td>
-                </tr>
+                        <td>@item.fMoneyLimit</td>
+                        <td>@item.fDiscountContent</td>
+                        <td>@item.fStartdate</td>
+                        <td>@item.fEndDate</td>
+                        <td>@item.fCount</td>
+                        <td>
+                            @*<button class="discountEdit btn btn-info">編輯</button>*@
+                            <button class="discountDisabled btn btn-warning">下架</button>
+                        </td>
+                        <td></td>
+                    </tr>
+                }
             }
-        }
-    </tbody>
-</table>
-
+        </tbody>
+    </table>
+</div>
 <br />
 <br />
-
 <h3>優惠券-已失效</h3>
-@Html.Action("DisableDiscount", "AdminLTE")
+<div class="d-flex p-2 bd-highlight">
 
+    @Html.Action("DisableDiscount", "AdminLTE")
+</div>
 
-@section Scripts{
-    <script>
+    @section Scripts{
+        <script>
         $('.discountDisabled').click(function () {
             let discountCode = $(this).parent().parent().attr('data-discountCode')
 
@@ -85,9 +83,8 @@
                 }
             )
         })
-    </script>
-
-    <script>
+        </script>
+        <script>
         $('.discountEnable').click(function () {
             let discountCode = $(this).parent().parent().attr('data-discountCode')
 
@@ -105,5 +102,5 @@
                 }
             )
         })
-    </script>
-}
+        </script>
+    }

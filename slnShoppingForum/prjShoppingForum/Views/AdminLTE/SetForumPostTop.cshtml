@@ -7,14 +7,17 @@
 @section Styles{
     <link href="~/Content/PagedList.css" rel="stylesheet" />
 }
-
-<h2>置頂文章設定</h2>
-<br />
+<div class="d-flex p-2 ">
+    <h2>置頂文章設定</h2>
+</div>
 @Html.Action("ShowForumTopList", "AdminLTE")
 <hr />
-
-<h2>文章列表</h2>
-<br />
+<div class="d-flex p-2 ">
+    <h2>文章列表</h2>
+</div>
+<div class="d-flex p-2 ">
+    @Html.PagedListPager(Model, page => Url.Action("SetForumPostTop", new { page }))
+</div>
 <div class="d-flex p-2 bd-highlight">
     <table class="table" style="width:100%">
         <thead style="background-color:#524087 ;color:aliceblue">
@@ -52,7 +55,6 @@
         </tbody>
     </table>
 </div>
-@Html.PagedListPager(Model, page => Url.Action("SetForumPostTop", new { page }))
 
 @section Scripts{
     <script>

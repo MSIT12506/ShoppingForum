@@ -384,13 +384,12 @@ namespace tw.com.essentialoil.Controllers
             var result = Newspage.ToPagedList(currentPage, pagesize);
             return View(result);
         }
-
         //消息搜索,沒有剔除不顯示因為是後台
         [HttpPost]
         public ActionResult NewsList(string searchKey)
         {
             ViewBag.Message = searchKey;
-            IEnumerable<tNew> NewsList = _NewsRepository.GetBackNewstitle(searchKey);
+            IPagedList<tNew> NewsList = _NewsRepository.GetBackNewstitle(searchKey).ToPagedList(1,10);
             return View("NewsList", NewsList);
         }
 
@@ -469,6 +468,14 @@ namespace tw.com.essentialoil.Controllers
             var Quizpage = db.tQuestions.OrderBy(p => p.fQuestionId).ToList();
             var result = Quizpage.ToPagedList(currentPage, pagesize);
             return View(result);
+        }
+
+        [HttpPost]
+        public ActionResult QuizList(string searchKey)
+        {
+            ViewBag.Message = searchKey;
+            IPagedList<tQuestion> QuizList =_QuizRepository.GetQuizName(searchKey).ToPagedList(1, 10);
+            return View(QuizList);
         }
 
         // 後台_題目明細
@@ -560,6 +567,7 @@ namespace tw.com.essentialoil.Controllers
         // 後台_測驗
         public ActionResult TestList(int page = 1)
         {
+            int pagesize = 10;
             int currentPage = pagesize < 1 ? 1 : page;
             var Testpage = db.tTests.OrderBy(p => p.fTestId).ToList();
             var result = Testpage.ToPagedList(currentPage, pagesize);
@@ -571,7 +579,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult TestList(string searchKey)
         {
             ViewBag.Message = searchKey;
-            IEnumerable<tTest> TestList = _TestRepository.GetTestAccount(searchKey);
+            IPagedList<tTest> TestList = _TestRepository.GetTestAccount(searchKey).ToPagedList(1, 10);
             return View(TestList);
         }
 
@@ -676,6 +684,7 @@ namespace tw.com.essentialoil.Controllers
         //分數清單
         public ActionResult ScoreList(int page = 1)
         {
+            int pagesize = 10;
             int currentPage = pagesize < 1 ? 1 : page;
             var Scorepage = db.tScores.OrderBy(p => p.fId).ToList();
             var result = Scorepage.ToPagedList(currentPage, pagesize);
@@ -687,7 +696,7 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult ScoreList(string searchKey)
         {
             ViewBag.Message = searchKey;
-            IEnumerable<tScore> ScoreList = _ScoreRepository.GetScoreAccount(searchKey);
+            IPagedList<tScore> ScoreList = _ScoreRepository.GetScoreAccount(searchKey).ToPagedList(1, 10);
             return View(ScoreList);
         }
 
@@ -769,12 +778,6 @@ namespace tw.com.essentialoil.Controllers
 
         //=======================================訂單=======================================
        
-            
-        
-
-
-
-
         public ActionResult Index(int page = 1)
         {
             int pagesize = 10;

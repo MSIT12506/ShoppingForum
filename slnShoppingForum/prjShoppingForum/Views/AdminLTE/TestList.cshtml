@@ -5,9 +5,11 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
+<div class="d-flex p-2 ">
 
     <h2>測驗歷史紀錄</h2>
-
+</div>
+<div class="d-flex p-2 ">
     @using (Html.BeginForm())
     {
         <span>
@@ -18,12 +20,11 @@
             <i class="fas fa-search"></i>
         </button>
     }
+    </div>
     <h5>@ViewBag.Message</h5>
-    <hr />
-    <div style="text-align:right">
-        <p>
-            @Html.ActionLink("新增測驗", "TestCreate", new { }, new { @class = "btn btn-outline-primary" })
-        </p>
+    <div class="d-flex p-2 justify-content-between align-items-center">
+        @Html.PagedListPager(Model, page => Url.Action("TestList", new { page }))
+        @Html.ActionLink("新增測驗", "TestCreate", new { }, new { @class = "btn btn-outline-primary" })
     </div>
     <div class="d-flex p-2 bd-highlight">
         <table class="table">
@@ -83,8 +84,4 @@
             </tbody>
         </table>
     </div>
-        <div>
-            @Html.PagedListPager(Model, page => Url.Action("TestList", new { page }))
-        </div>
 
-   

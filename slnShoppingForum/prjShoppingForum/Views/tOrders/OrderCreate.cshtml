@@ -14,48 +14,53 @@
 }
 
 @section styles{
-<style>
-    .hide {
-        display: none;
-    }
+    <style>
+        .hide {
+            display: none;
+        }
 
-    .container {
-        margin-top: 20px;
-    }
+        .container {
+            margin-top: 20px;
+        }
 
-    tr.active {
-        background: lightblue;
-    }
+        tr.active {
+            background: lightblue;
+        }
 
-    .productSum {
-        color: red
-    }
+        .productSum {
+            color: red
+        }
 
-    .numberPlus {
-        height: 40px;
-        width: 40px;
-    }
+        .numberPlus {
+            height: 40px;
+            width: 40px;
+        }
 
-    .numberMinus {
-        height: 40px;
-        width: 40px;
-    }
+        .numberMinus {
+            height: 40px;
+            width: 40px;
+        }
 
-    /*取消input[type=number]箭頭格式*/
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-    }
+        /*取消input[type=number]箭頭格式*/
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+        }
 
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
 
-    .checkbox {
-        height: 15px !important;
-        width: 15px !important;
-    }
-</style>
+        .checkbox {
+            height: 15px !important;
+            width: 15px !important;
+        }
+
+        div p {
+            color: black !important;
+            font-size:16px;
+        }
+    </style>
 }
 
 <div style="width:70%;text-align:left;margin:auto;padding-top:0px;">
@@ -66,141 +71,147 @@
 </div>
 <div style="width:70%;text-align:center;margin:auto;padding-top:5px;font-size:18px;">
     <div @*class="wrappers"*@>
-        <h6 class="container">已選購商品</h6>
-        <table class="table table-light">
-            <tr>
-                <th>
-                    商品圖片
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tProducts.fProductChName)
-                </th>
-                <th>
-                    數量 @*@Html.DisplayNameFor(model => model.tShoppingCarts.fQuantity)*@
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.tProducts.fUnitPrice)
-                </th>
-                <th>
-                    小計
-                </th>
-            </tr>
-            @foreach (var select in Model.ShoppingCart)
-            {
-                var pict = $"/Images/Product/{select.fProductID}.jpg";
-                var prod = Model.Product.FirstOrDefault(p => p.fProductID == select.fProductID);
-                var price = Convert.ToInt32(select.fQuantity * prod.fUnitPrice);
-                total += price;
-
+        <h4 class="container">--已選購商品--</h4>
+        <table class="table table-secondary" style="font-size:12px">
+            <thead class="thead-light">
                 <tr>
+                    <th>
+                        <b>圖片</b>
+                    </th>
+                    <th>
+                        <b>商品名稱</b>
+                    </th>
+                    <th>
+                        <b>單價</b>
+                    </th>
+                    <th>
+                        <b>數量</b>
+                    </th>
+                    <th>
+                        <b>小計</b>
+                    </th>
+                </tr>
+                @foreach (var select in Model.ShoppingCart)
+                {
+                    var pict = $"/Images/Product/ura/{select.fProductID}.jpg";
+                    var prod = Model.Product.FirstOrDefault(p => p.fProductID == select.fProductID);
+                    var price = Convert.ToInt32(select.fQuantity * prod.fUnitPrice);
+                    total += price;
+
+                    <tr>
+                        <td>
+                            <img src="@pict" style="height:30px;width:30px" />
+                        </td>
+                        <td>
+                            @prod.fProductChName
+                        </td>
+                        <td>
+                            @select.fQuantity
+                        </td>
+                        <td>
+                            @prod.fUnitPrice
+                        </td>
+                        <td>
+                            @price
+                        </td>
+                    </tr>
+                }
+                @{
+                    var disc = 0;
+                    if (discount < 1 && discount > 0)
+                    {
+                        distotal = (total * (int)(discount * 100)) / 100;
+                        disc = total - distotal;
+                    }
+                    else
+                    {
+                        distotal = total - (int)discount;
+                        disc = total - distotal;
+                    }
+                }
+                <tr>
+                    <td></td>
+                    <td></td>
                     <td>
-                        <img src="@pict" style="height:50px;width:50px" />
+                        <b>訂單小計： @total</b>
                     </td>
                     <td>
-                        @prod.fProductChName
+                        <b>使用折扣：@disc</b>
                     </td>
                     <td>
-                        @select.fQuantity
-                    </td>
-                    <td>
-                        @prod.fUnitPrice
-                    </td>
-                    <td>
-                        @price
+                        <b>訂單總金額： @distotal</b>
                     </td>
                 </tr>
-            }
-            @{
-                var disc = 0;
-                if (discount < 1 && discount > 0)
-                {
-                    distotal = (total * (int)(discount * 100)) / 100;
-                    disc = total - distotal;
-                }
-                else
-                {
-                    distotal = total - (int)discount;
-                    disc = total - distotal;
-                }
-            }
-            <tr>
-                <td>
-                    訂單小計： @total
-                </td>
-                <td>
-                    使用折扣：@disc
-                </td>
-                <td>
-                    訂單總金額： @distotal
-                </td>
-            </tr>
+            <thead class="thead-light">
         </table>
-        <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
-
-            <div class="form-row">
-                <div class="form-holder" style="font-size:12px">
-                    <p>購買者姓名@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fName, new { id = "buyname", @class = "form-control", placeholder = "Member Name" });}</p>
-                    @*<input type="text" class="form-control" placeholder="First Name">*@
+        <div style="text-align:left;font-size:24px;border-top:1px dashed black;padding:15px">
+            <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
+                <div class="row form-row" style="margin-top:20px;">
+                    <div class="col-6">
+                        <p>購買人@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fName, new { id = "buyname", @class = "form-control", placeholder = "Member Name" });}</p>
+                    </div>
+                    <div class="col-6">
+                        <p>聯絡電話@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fPhone, new { id = "buyphone", @class = "form-control", placeholder = "Member Cell Phone" });}</p>
+                    </div>
                 </div>
-                <div class="form-holder">
-                    <p>購買者手機@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fPhone, new { id = "buyphone", @class = "form-control", placeholder = "Member Cell Phone" });}</p>
-
-                    @*<input type="text" class="form-control" placeholder="Last Name">*@
+                @*<div class="row">
+                        <div class="col-12 form-address">
+                            <p>購買者地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
+                        </div>
+                    </div>*@
+                <br />
+                <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
+                <div class="row" style="margin-top:15px">
+                    <div class="col-6">
+                        <p>收貨人<label style="color:crimson">&nbsp;*必填</label><input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" class="form-control" placeholder="Full Name" /></p>
+                    </div>
+                    <div class="col-6">
+                        <p>聯絡電話<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" class="form-control" placeholder="CellPhone" /></p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-address">
-                    <p>購買者地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
-                    <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
+                <div class="row" style="margin-top:20px">
+                    <div class="col-12">
+                        <p>收貨地址<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" class="form-control" placeholder="Address" /></p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-holder">
-                    <p>收貨者姓名<label style="color:crimson">&nbsp;*必填</label><input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" class="form-control" placeholder="Full Name" /></p>
+                <div class="row" style="margin-top:20px">
+                    <div class="col-6">
+                        <p>公司抬頭(選填)<input type="text" name="OrderCompanyTitle" class="form-control" placeholder="CompanyTitle" /></p>
+                    </div>
+                    <div class="col-6">
+                        <p>統一編號(選填)<input type="text" name="OrderTaxIdDNumber" class="form-control" placeholder="TaxIdDNumber" /></p>
+                    </div>
                 </div>
-                <div class="form-holder">
-                    <p>收貨者手機<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" class="form-control" placeholder="CellPhone" /></p>
+                <div class="row" style="margin-top:20px">
+                    <div class="col-6">
+                        <p>訂單備註(選填)<input type="text" name="OrderPostScript" class="form-control" placeholder="PostScript" /></p>
+                    </div>
+                    <div class="col-6">
+                        <p>希望送達日(選填，無指定預定於三日後到貨)<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" class="form-control" @*placeholder="HopeDate"*@ /></p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-address">
-                    <p>收貨者地址<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" class="form-control" placeholder="Address" /></p>
+                <div class="row" style="margin-top:20px">
+                    <div class="col-12">
+                        <p>支付方式<label style="color:crimson">&nbsp;*必填</label><input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM" /> ATM</p>
+                    </div>
                 </div>
-            </div>
-            <div class="form-row">
-                <div class="form-holder">
-                    <p>公司抬頭(可選填)<input type="text" name="OrderCompanyTitle" class="form-control" placeholder="CompanyTitle" /></p>
-                </div>
-                <div class="form-holder">
-                    <p>統一編號(可選填)<input type="text" name="OrderTaxIdDNumber" class="form-control" placeholder="TaxIdDNumber" /></p>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-holder">
-                    <p>訂單備註(可選填)<input type="text" name="OrderPostScript" class="form-control" placeholder="PostScript" /></p>
-                </div>
-                <div class="form-holder">
-                    <p>希望送達日(可選填，如無選填將會於三天後到貨)<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" class="form-control" @*placeholder="HopeDate"*@ /></p>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-radio">
-                    <p>支付方式<label style="color:crimson">&nbsp;*必填</label><input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM" />ATM</p>
-                </div>
-                <div class="form-radio">
-                    <p style="font-size:8px"><input type="checkbox" disabled name="OrderCheck" id="check" />確認您所輸入的資料正確，以利出貨正常配送。</p>
+                <div class="row" style="margin-top:20px">
+                    <div class="col-12">
+                        @Html.CheckBox("OrderCheck", new { id = "check" })
+                        @*<input type="checkbox" disabled name="OrderCheck" id="check" style="width:15px;height:15px;" />*@
+                        <span style="color:red;font-size:16px">我已確認上述資料皆正確</span>
+                    </div>
                 </div>
                 <br />
-                <div class="form-radio">
-                    <br /><br />
-                    @Html.ActionLink("回購物車", "viewCart", "ShoppingCart", null, new { @class = "btn btn-outline-success", style = "font-size:24px;width:180px" })
-                    <input type="button" class="btn btn-info" style="font-size:24px;width:180px;" disabled value="去產生訂單" id="CreateOrder" name="CreateOrder" />
-                </div>
-            </div>
-        </form>
-
+                    <div style="text-align:center;font-size:24px;border-top:1px dashed black;padding:15px;padding-top:30px">
+                        @Html.ActionLink("<<回上一頁", "viewCart", "ShoppingCart", null, new { @class = "btn btn-warning", style = "font-size:24px;width:180px" })
+                        <input type="button" class="btn btn-info" style="font-size:24px;width:180px;" disabled value="産生訂單>>" id="CreateOrder" name="CreateOrder" />
+                    </div>
+            </form>
+        </div>
     </div>
 </div>
+
 
 <link rel="stylesheet" href="~/Content/styles.css">
 <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />

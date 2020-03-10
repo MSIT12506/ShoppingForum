@@ -392,6 +392,15 @@
     <Content Include="Images\Member\error.png" />
     <Content Include="Images\Member\lavender5.png" />
     <Content Include="Images\Member\loginpicture.jpg" />
+    <Content Include="Images\Member\membercenter\berries.png" />
+    <Content Include="Images\Member\membercenter\fleur-de-lis.png" />
+    <Content Include="Images\Member\membercenter\flower.png" />
+    <Content Include="Images\Member\membercenter\ginkgo.png" />
+    <Content Include="Images\Member\membercenter\orchid.png" />
+    <Content Include="Images\Member\membercenter\sakura.png" />
+    <Content Include="Images\Member\membercenter\tea-pot.png" />
+    <Content Include="Images\Member\membercenter\tea.png" />
+    <Content Include="Images\Member\membercenter\tulip.png" />
     <Content Include="Images\Member\passwordForget.png" />
     <Content Include="Images\Member\passwordForget_big.png" />
     <Content Include="Images\Member\signin-image.jpg" />

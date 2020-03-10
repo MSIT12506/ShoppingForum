@@ -2,41 +2,11 @@
 @using PagedList;
 @using PagedList.Mvc
 <link href="~/Content/PagedList.css" rel="stylesheet" />
-@section Styles{
-    <style>
-        .closed {
-            height:0
-        }
-        .opened{
-            height:auto
-        }
-        td{
-            width:auto;
-        }
-    </style>
-}
 
-
-<div class="container">
-    <h3>歷史訂單</h3>
-    <table id="Ordertable" name="Ordertable" class="table table-light">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fOrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fOrderDate)
-            </th>
-            <th>
-                購買者姓名
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstOrDefault().fOrderPostScript)
-            </th>
-            <th>
-                總價
-            </th>
-        </tr>
+    <div class="container" style="text-align:left;font-size:18px;">
+        <h3><img src="~/Images/Member/membercenter/berries.png" width="30" height="30"/> 歴史訂單</h3>
+        <hr style="border-bottom:3px solid #CDA0A9;" />
+    
         @foreach (var list in Model)
         {
             var count = list.tOrderDetails.Count;
@@ -55,7 +25,7 @@
             var subtotal = 0;
             if (list.fScore == 0)
             {
-                if (code != "無" && code !=null)
+                if (code != "無" && code != null)
                 {
                     var discontent = list.tUserProfile.tUserDiscountLists.FirstOrDefault(p => p.fDiscountCode == code).tDiscount.fDiscountContent;
                     if (discontent < 1)
@@ -71,97 +41,134 @@
                 {
                     subtotal = totalprice;
                 }
-            }else if (list.fScore != 0 && list.fScore!=null)
+            }
+            else if (list.fScore != 0 && list.fScore != null)
             {
-                subtotal = totalprice-(int)list.fScore;
+                subtotal = totalprice - (int)list.fScore;
             }
             else
             {
                 subtotal = totalprice;
             }
-
-            <tr class="">
-                <td class="" >
-                    <a class="" id="aa" style="color:blue">@orderid</a>
-                </td>
-                <td class="">
+            <div class="row" style="padding-top:15px;">
+                <div class="col-md-2 col-lg-2">
+                    訂單編號:
+                </div>
+                <div class="col-md-4 col-lg-4" style="color:blue">
+                    @orderid
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    訂單時間:
+                </div>
+                <div class="col-md-4 col-lg-4">
                     @list.fOrderDate
-                </td>
-                <td class="">
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    購買人:
+                </div>
+                <div class="col-md-4 col-lg-4">
                     @list.fConsigneeName
-                </td>
-                <td class="">
-                    @list.fOrderPostScript
-                </td>
-                <td class="">
-                    @subtotal
-                </td>
-            </tr>
-            
-            if (code!=null && code!= "無")
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    總價:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    NT$ @subtotal
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    使用積分:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fScore
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    使用優惠卷:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @usecode
+                </div>
+            </div>
+            if (code != null && code != "無")
             {
                 usecode = list.tUserProfile.tUserDiscountLists.Where(p => p.fDiscountCode == code).FirstOrDefault().tDiscount.fDiscountName;
             }
-            <tr id="100" class="opened">
-                <td class="">
-                    收貨人姓名:<br /> @list.fConsigneeName
-                </td>
-                <td class="">
-                    收貨人電話:<br /> @list.fConsigneeCellPhone
-                </td>
-                <td class="">
-                    收貨人地址:<br /> @list.fConsigneeAddress
-                </td>
-                <td class="">
-                    使用優惠券:<br /> @usecode
-                </td>
-                <td class="">
-                    使用積分:<br /> @list.fScore
-                </td>
-                <td class="">
-                    支付方式:<br /> @list.fPayment
-                </td>
-                <td class="">
-                    發票公司抬頭:<br /> @list.fOrderCompanyTitle
-                </td>
-                <td class="">
-                    統一編號:<br /> @list.fOrderTaxIdDNumber
-                </td>
-            </tr>
-            
-            foreach (var item in list.tOrderDetails)
-            {
-                var quantity = Convert.ToInt32(item.fOrderQuantity);
-                var price = Convert.ToInt32(item.tProduct.fUnitPrice);
-                var subprice = 0;
-                subprice = price * quantity;
-                var imageScr = $"/Images/Product/{item.fProductId}.jpg";
-                var pdhref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
-                
-                <tr>
-                    <td id="100" class="close">
-                        <a href="@pdhref"><img src="@imageScr" style="height:50px;width:50px" /></a>
-                    </td>
-                    <td class="">
-                        商品名稱:<br /> <a href="@pdhref" style="color:blue;font-size:14px;">@item.tProduct.fProductChName</a>
-                    </td>
-                    <td class="">
-                        商品價格:<br /> @item.tProduct.fUnitPrice
-                    </td>
-                    <td class="">
-                        商品數量:<br /> @item.fOrderQuantity
-                    </td>
-                    <td class="">
-                        小計:<br /> @subprice
-                    </td>
-                </tr>
-            }
-            <tr style="height:50px">
-            </tr>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    支付方式:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fPayment
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    統一編號:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fOrderTaxIdDNumber
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    收貨人:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fConsigneeName
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    收貨電話:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fConsigneeCellPhone
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    收貨地址:
+                </div>
+                <div class="col-md-10 col-lg-10">
+                    @list.fConsigneeAddress
+                </div>
+            </div>
+
+            <table class="table table-active" style="margin-top:20px;margin-bottom:50px">
+                <thead>
+                    <tr>
+                        <td><b>圖片</b></td>
+                        <td><b>商品名稱</b></td>
+                        <td><b>單價</b></td>
+                        <td><b>數量</b></td>
+                        <td> <b>小計</b></td>
+                    </tr>
+                </thead>
+
+                @foreach (var item in list.tOrderDetails)
+                {
+                    var quantity = Convert.ToInt32(item.fOrderQuantity);
+                    var price = Convert.ToInt32(item.tProduct.fUnitPrice);
+                    var subprice = 0;
+                    subprice = price * quantity;
+                    var imageScr = $"/Images/Product/ura/{item.fProductId}.jpg";
+                    var pdhref = $"/ProductFront/ProductSinglePage?productId={item.fProductId}";
+
+                <tbody>
+                    <tr>
+                        <td id="100"><a href="@pdhref"><img src="@imageScr" style="height:50px;width:50px" /></a></td>
+                        <td><a href="@pdhref" style="font-size:16px">@item.tProduct.fProductChName</a></td>
+                        <td>@item.tProduct.fUnitPrice</td>
+                        <td>@item.fOrderQuantity</td>
+                        <td>@subprice</td>
+                    </tr>
+                </tbody>
+                }
+              
+            </table>
+            <hr style="border:1px solid #CDA0A9"/>
         }
-    </table>
-    @Html.PagedListPager(Model, page => Url.Action("MyOrderList", new { page }))
-</div>
+        @Html.PagedListPager(Model, page => Url.Action("MyOrderList", new { page }))
+    </div>
 
 @section Scripts{
     <script>

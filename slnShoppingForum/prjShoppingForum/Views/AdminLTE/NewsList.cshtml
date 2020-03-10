@@ -6,10 +6,11 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
 @* 後台消息清單 *@
-
+<div class="d-flex p-2 ">
     <h2>最新消息列表</h2>
-    <br />
-    <div class="sear">
+</div>
+    <div class="sear d-flex p-2 ">
+
         @using (Html.BeginForm())
         {
             <span>
@@ -23,11 +24,9 @@
         }
         <h5>@ViewBag.Message</h5>
     </div>
-    <hr />
-    <div style="text-align:right">
-        <p>
-            @Html.ActionLink("新增消息", "NewsCreate", new { }, new { @class = "btn btn-outline-primary" })
-        </p>
+    <div class="d-flex p-2 justify-content-between align-items-center">
+        @Html.PagedListPager(Model, page => Url.Action("NewsList", new { page }))
+        @Html.ActionLink("新增消息", "NewsCreate", new { }, new { @class = "btn btn-outline-primary" })
     </div>
     <div class="d-flex p-2 bd-highlight">
         <table class="table">
@@ -99,8 +98,5 @@
             </tbody>
         </table>
     </div>
-        <div>
-            @Html.PagedListPager(Model, page => Url.Action("NewsList", new { page }))
-        </div>
-    
+
 

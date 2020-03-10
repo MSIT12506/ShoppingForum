@@ -19,7 +19,7 @@ namespace tw.com.essentialoil.Questions.Models
 
         public IEnumerable<tQuestion> GetQuizName(string searchKey)
         {
-            var QuizList = db.tQuestions.Where(p => p.fQuestionName.Contains(searchKey));
+            var QuizList = db.tQuestions.Where(p => p.fQuestionName.Contains(searchKey)).OrderBy(p => p.fQuestionId);
             return QuizList;
         }
 

@@ -475,9 +475,9 @@
     }
 
     //判斷使用者是否選擇優惠
-    $("select[name='selectcoupon']").change(function () { coupon();})
-    function coupon() {
-        let discountCode = $(this).val();
+    $("select[name='selectcoupon']").change(function () { coupon(event);})
+        function coupon(event) {
+        let discountCode = event.target.value;
         let totalMoney = parseInt($(".cartSumPrice").text());
 
         if (discountCode != "無") {

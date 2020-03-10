@@ -7,6 +7,10 @@
     ViewBag.Title = "SetForumPostTop";
 }
 
+@section Styles{
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+}
+
 <h2>置頂文章設定</h2>
 
 @Html.Action("ShowForumTopList", "AdminLTE")

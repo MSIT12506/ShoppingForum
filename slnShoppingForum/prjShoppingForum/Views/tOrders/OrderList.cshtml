@@ -1,7 +1,7 @@
 ﻿@model tw.com.essentialoil.ViewModels.COrderViews
 @{
     decimal discount = 0;
-    if (Model.Order.FirstOrDefault().fDiscountCode != null)
+    if (Model.Order.FirstOrDefault().fDiscountCode != null && Model.Order.FirstOrDefault().fDiscountCode != "無")
     {
         discount = Model.DiscountContent;
     }
@@ -69,11 +69,21 @@
 <div class="container" style="width:70%;text-align:left;margin:auto;padding-top:5px;padding-bottom:10px;font-size:18px;">
     @*<div class="wrappers">*@
     @*<form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">*@
-    <h3 style="margin-top:20px">已經確認收到訂單，我們將盡快安排出貨</h3>
+    <h3 style="margin-top:20px">已經確認收到您的訂單，我們將為您安排出貨</h3>
     <div style="text-align:left;border-top:1px dashed black;padding:30px;">
         <h2>訂購明細</h2>
         @foreach (var list in Model.Order)
         {
+            var shipdate = "";
+            var requiredate = "";
+            if (list.fShippedDate != null)
+            {
+                shipdate = ((DateTime)list.fShippedDate).ToString("yyyy/MM/dd");
+            }            
+            if (list.fRequiredDate != null)
+            {
+                requiredate = ((DateTime)list.fRequiredDate).ToString("yyyy/MM/dd");
+            }
             int subtotal = 0;
             var orderid = list.fOrderDate.ToString("yyyyMMdd") + list.fOrderId;
             foreach (var q in Model.OrderDetail.Where(p => p.fOrderId == list.fOrderId))
@@ -83,8 +93,16 @@
             }
             if (discount != 0)
             {
-                total = (subtotal * (int)(discount * 100)) / 100;
-                disc = subtotal - total;
+                if (discount > 1)
+                {
+                    total = subtotal - (int)discount;
+                    disc = subtotal - total;
+                }
+                else
+                {
+                    total = subtotal * (int)(discount * 100) / 100;
+                    disc = subtotal - total;
+                }
             }
             else
             {
@@ -93,10 +111,18 @@
             }
             <div class="row" style="margin-top:20px">
                 <div class="col-6" id="card-362120">
-                    訂單編號: <a class="card-link collapsed" style="color:blue;font-size:16px">@orderid</a>
+                    <b style="font-weight:bold">訂單編號:</b> <a class="card-link collapsed" style="font-size:18px">@orderid</a>
                 </div>
                 <div class="col-6">
+                    <b style="font-weight:bold">預計送達日: @shipdate</b>
+                </div>
+            </div>
+            <div class="row" style="margin-top:20px">
+                <div class="col-6">
                     訂單日期: @list.fOrderDate
+                </div>
+                <div class="col-6">
+                    希望送達日: @requiredate
                 </div>
             </div>
             <div class="row" style="margin-top:20px">
@@ -111,30 +137,32 @@
                 <div class="col-6">
                     收貨人地址: @list.fConsigneeAddress
                 </div>
+                <div class="col-6">
+                    發票公司抬頭: @list.fOrderCompanyTitle
+                </div>
             </div>
             <div class="row" style="margin-top:20px">
                 <div class="col-6">
-                    訂單備註: @list.fOrderPostScript
-                </div>
-                <div class="col-6">
                     統一編號: @list.fOrderTaxIdDNumber
                 </div>
+                <div class="col-6">
+                    訂單備註: @list.fOrderPostScript
+                </div>
             </div>
-
             <div class="row" style="margin-top:20px">
                 <div class="col-6">
                     支付方式: @list.fPayment
                 </div>
                 <div class="col-6">
-                    小計: @subtotal
+                    <b style="font-weight:bold">小計:</b><b style="color:red"> NT$ @subtotal</b>
                 </div>
             </div>
             <div class="row" style="margin-top:20px">
                 <div class="col-6">
-                    折扣優惠: @disc
+                    <b style="font-weight:bold">折扣優惠:</b><b style="color:red"> NT$ @disc</b>
                 </div>
                 <div class="col-6">
-                    總計: @total
+                    <b style="font-weight:bold">總計:</b><b style="color:red"> NT$ @total</b>
                 </div>
             </div>
         }
@@ -157,9 +185,12 @@
                     <th>
                         <b>數量</b>
                     </th>
+                    <th>
+                        <b style="font-weight:bold">小計</b>
+                    </th>
                     @*<th>
-                            <b>小計</b>
-                        </th>*@
+            <b>小計</b>
+        </th>*@
                 </tr>
                 @foreach (var list1 in Model.Order)
                 {
@@ -167,19 +198,23 @@
                     {
                         var price = orderdetial.fUnitPrice * orderdetial.fOrderQuantity;
                         var imageScr = $"/Images/Product/ura/{orderdetial.fProductId}.jpg";
-                        var productname = Model.Product.Where(p => p.fProductID == orderdetial.fProductId).FirstOrDefault();
+                        var pdhref = $"/ProductFront/ProductSinglePage?productId={orderdetial.fProductId}";
+                        var productname = orderdetial.tProduct.fProductChName;//Model.Product.Where(p => p.fProductID == orderdetial.fProductId).FirstOrDefault();
                         <tr>
                             <td>
-                                <img src="@imageScr" style="height:30px;width:30px" />
+                                <a href="@pdhref"><img src="@imageScr" style="height:30px;width:30px" /></a>
                             </td>
                             <td>
-                                @productname.fProductChName
+                                <a href="@pdhref" style="color:royalblue;font-size:16px;">@productname</a>
                             </td>
                             <td>
-                                @price
+                                NT$ @orderdetial.fUnitPrice
                             </td>
                             <td>
                                 @orderdetial.fOrderQuantity
+                            </td>
+                            <td>
+                                <b> NT$ @price</b>
                             </td>
                         </tr>
                         @*<div class="form-row">
@@ -203,14 +238,23 @@
                 @*</div>*@
         </table>
     </div>
+    <div style="margin:40px 0 20px; text-align:center">
+        @Html.ActionLink("會員中心", "MemberCenter", "FrontUserProfile", null, new { @class = "btn btn-info", style = "font-size:24px;width:180px" })
+        @Html.ActionLink("回到首頁", "Index", "Home", null, new { @class = "btn btn-info", style = "font-size:24px;width:180px" })
+    </div>
+</div>
 
+<link rel="stylesheet" href="~/Content/styles.css">
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="~/Content/styles.css">
-    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
-
-    @section Scripts{
-        <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-        <script src="~/Scripts/mains.js"></script>
-        <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
-        <script src="~/Scripts/zh-tw.js"></script>
-    }
+@section Scripts{
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/mains.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/zh-tw.js"></script>
+    <script>
+        $(function () {
+            alert("恭喜完成訂購！");
+        });
+    </script>
+}

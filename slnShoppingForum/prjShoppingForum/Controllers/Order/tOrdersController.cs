@@ -33,7 +33,8 @@ using tw.com.essentialoil.ViewModels;
  2020.03.06 vision 2.2 view加入顯示優惠券與積分
  2020.03.07 vision 2.3 會員PartialView加入PageList
  2020.03.08 vision 2.4 會員PartialView加入顯示訂單明細資訊
- 
+ 2020.03.09 vision 2.5 OrderCreate新增輸入控制項資料正規化處理、OrderList新增完成後可切換頁面button
+ 2020.03.10 vision 2.6 View訂購流程優化(JS)、修復優惠券bug
 */
 
 namespace tw.com.EssentialOil.Controllers.Order
@@ -51,23 +52,23 @@ namespace tw.com.EssentialOil.Controllers.Order
                 //不可重複瀏覽
                 if (Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] != null)
                 {
-                    //var loginuser = 4;
                     Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART] = null;
                     var loginuser = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
                     var loginuserid = Session[UserDictionary.S_CURRENT_LOGINED_USER].ToString();
                     var loginusername = db.tUserProfiles.Where(p => p.fId == loginuser).Select(p => p.fName).FirstOrDefault().ToString();
-                    var noworderid = db.tOrders.Where(p => p.fId == loginuser).OrderByDescending(p => p.fOrderId).FirstOrDefault();
-                    var orderid = noworderid.fOrderDate.ToString("yyyyMMdd") + noworderid.fOrderId.ToString();
+                    var noworderid = db.tOrders.Where(p => p.fId == loginuser).OrderByDescending(p => p.fOrderId).FirstOrDefault();//找出剛完成的訂單
+                    var orderid = noworderid.fOrderDate.ToString("yyyyMMdd") + noworderid.fOrderId.ToString();//訂單編號
                     var noworderrow = db.tOrders.Where(p => p.fOrderId == noworderid.fOrderId && p.fId == loginuser).Select(q => q);//找出顯示訂單的資訊
                     var noworderdetail = db.tOrderDetails.Where(p => p.fOrderId == noworderid.fOrderId).OrderBy(p => p.fProductId);//顯示訂單明細的資訊，會有多筆
+                    //判斷該筆訂單所使用的優惠券折扣
                     decimal discountpercent = 0;
                     if (noworderrow.FirstOrDefault().fDiscountCode != null)
                     {
                         var discountcode = noworderrow.FirstOrDefault().fDiscountCode;
                         discountpercent = db.tDiscounts.Where(p => p.fDiscountCode == discountcode).Select(p => p.fDiscountContent).FirstOrDefault();
                     }
-                    var product = db.tProducts;
-                    var list = new COrderViews() { Order = noworderrow, OrderDetail = noworderdetail, Product = product, DiscountContent = discountpercent };
+                    //var product = db.tProducts;
+                    var list = new COrderViews() { Order = noworderrow, OrderDetail = noworderdetail, /*Product = product ,*/ DiscountContent = discountpercent };
                     //寄送Email給購買者
                     var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//管理員寄email所用的信箱，若要測試請填自己可用的email
                     var receiverEmail = new MailAddress(loginuserid, loginusername);
@@ -108,14 +109,15 @@ namespace tw.com.EssentialOil.Controllers.Order
                 {
                     var loginuser = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
                     var cart = db.tShoppingCarts.Where(p => p.fId == loginuser);
+                    //取得購物車傳來的資料
                     var l = Session[UserDictionary.S_CURRENT_LOGINED_USERSHOPCART].ToString();
-                    var score = Convert.ToInt32(l.Split(',')[1]);
+                    var score = Convert.ToInt32(l.Split(',')[1]);//訂單所使用積分
                     var discountprice = 0;
                     if (score != 0)
                         discountprice = score ;
-                    var discount = l.Split(',')[2];
-                    var discounts = "" ;
-                    decimal usediscounts = 0;
+                    var discount = l.Split(',')[2];//訂單所使用優惠券
+                    var discounts = "" ;//優惠券字串
+                    decimal usediscounts = 0;//優惠券折扣
                     if (discount.Length>2)
                     {
                         discounts = db.tUserDiscountLists.Where(p => p.fId == loginuser && p.fDiscountCode == discount).Select(p=>p.fDiscountCode).ToString();
@@ -166,7 +168,7 @@ namespace tw.com.EssentialOil.Controllers.Order
                     {
                         fId = loginuser,
                         fOrderDate = DateTime.UtcNow.AddHours(8),
-                        fShippedDate = DateTime.UtcNow.AddHours(8).AddDays(1),
+                        fShippedDate = DateTime.UtcNow.AddHours(8).AddDays(2),
                         fConsigneeName = ConsigneeName,
                         fConsigneeCellPhone = ConsigneeCellPhone,
                         fConsigneeAddress = ConsigneeAddress,

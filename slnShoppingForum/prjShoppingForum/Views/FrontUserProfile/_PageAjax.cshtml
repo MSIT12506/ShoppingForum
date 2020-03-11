@@ -9,6 +9,16 @@
     
         @foreach (var list in Model)
         {
+            var shipdate = "";
+            var requiredate = "";
+            if (list.fShippedDate!=null)
+            {
+                shipdate= ((DateTime)list.fShippedDate).ToString("yyyy/MM/dd");
+            }
+            if (list.fRequiredDate != null)
+            {
+                requiredate = ((DateTime)list.fRequiredDate).ToString("yyyy/MM/dd");
+            }
             var count = list.tOrderDetails.Count;
             var orderid = list.fOrderDate.ToString("yyyyMMdd") + list.fOrderId;
             var totalprice = 0;
@@ -23,6 +33,7 @@
             }
             var code = list.fDiscountCode;
             var subtotal = 0;
+            var disc = 0;
             if (list.fScore == 0)
             {
                 if (code != "無" && code != null)
@@ -50,64 +61,37 @@
             {
                 subtotal = totalprice;
             }
+            if (code != null && code != "無")
+            {
+                usecode = list.tUserProfile.tUserDiscountLists.Where(p => p.fDiscountCode == code).FirstOrDefault().tDiscount.fDiscountName;
+            }
+            disc = totalprice - subtotal;
             <div class="row" style="padding-top:15px;">
-                <div class="col-md-2 col-lg-2">
+                <div class="col-md-2 col-lg-2" style="font-weight:bold">
                     訂單編號:
                 </div>
-                <div class="col-md-4 col-lg-4" style="color:blue">
+                <div class="col-md-4 col-lg-4" style="font-weight:bold">
                     @orderid
                 </div>
+                <div class="col-md-2 col-lg-2" style="font-weight:bold">
+                    預計送達日:
+                </div>
+                <div class="col-md-4 col-lg-4" style="font-weight:bold">
+                    @shipdate
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
                 <div class="col-md-2 col-lg-2">
                     訂單時間:
                 </div>
                 <div class="col-md-4 col-lg-4">
                     @list.fOrderDate
                 </div>
-            </div>
-            <div class="row" style="padding-top:20px;">
                 <div class="col-md-2 col-lg-2">
-                    購買人:
+                    希望送達日:
                 </div>
                 <div class="col-md-4 col-lg-4">
-                    @list.fConsigneeName
-                </div>
-                <div class="col-md-2 col-lg-2">
-                    總價:
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    NT$ @subtotal
-                </div>
-            </div>
-            <div class="row" style="padding-top:20px;">
-                <div class="col-md-2 col-lg-2">
-                    使用積分:
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    @list.fScore
-                </div>
-                <div class="col-md-2 col-lg-2">
-                    使用優惠卷:
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    @usecode
-                </div>
-            </div>
-            if (code != null && code != "無")
-            {
-                usecode = list.tUserProfile.tUserDiscountLists.Where(p => p.fDiscountCode == code).FirstOrDefault().tDiscount.fDiscountName;
-            }
-            <div class="row" style="padding-top:20px;">
-                <div class="col-md-2 col-lg-2">
-                    支付方式:
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    @list.fPayment
-                </div>
-                <div class="col-md-2 col-lg-2">
-                    統一編號:
-                </div>
-                <div class="col-md-4 col-lg-4">
-                    @list.fOrderTaxIdDNumber
+                    @requiredate
                 </div>
             </div>
             <div class="row" style="padding-top:20px;">
@@ -128,11 +112,72 @@
                 <div class="col-md-2 col-lg-2">
                     收貨地址:
                 </div>
-                <div class="col-md-10 col-lg-10">
+                <div class="col-md-4 col-lg-4">
                     @list.fConsigneeAddress
                 </div>
+                <div class="col-md-2 col-lg-2">
+                    發票公司抬頭:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fOrderCompanyTitle
+                </div>
             </div>
-
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    統一編號:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fOrderTaxIdDNumber
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    訂單備註:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fOrderPostScript
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    使用積分:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fScore
+                </div>
+                <div class="col-md-2 col-lg-2">
+                    使用優惠卷:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @usecode
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2">
+                    支付方式:
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    @list.fPayment
+                </div>
+                <div class="col-md-2 col-lg-2" style="font-weight:bold">
+                    小計:
+                </div>
+                <div class="col-md-4 col-lg-4" style="font-weight:bold;color:red">
+                   NT$  @totalprice
+                </div>
+            </div>
+            <div class="row" style="padding-top:20px;">
+                <div class="col-md-2 col-lg-2" style="font-weight:bold">
+                    折扣金額:
+                </div>
+                <div class="col-md-4 col-lg-4" style="font-weight:bold;color:red">
+                   NT$  @disc
+                </div>
+                <div class="col-md-2 col-lg-2" style="font-weight:bold">
+                    總價:
+                </div>
+                <div class="col-md-4 col-lg-4" style="font-weight:bold;color:red">
+                   NT$ @subtotal
+                </div>
+            </div>
             <table class="table table-active" style="margin-top:20px;margin-bottom:50px">
                 <thead>
                     <tr>
@@ -156,10 +201,10 @@
                 <tbody>
                     <tr>
                         <td id="100"><a href="@pdhref"><img src="@imageScr" style="height:50px;width:50px" /></a></td>
-                        <td><a href="@pdhref" style="font-size:16px">@item.tProduct.fProductChName</a></td>
-                        <td>@item.tProduct.fUnitPrice</td>
+                        <td><a href="@pdhref" style="color:royalblue;font-size:16px">@item.tProduct.fProductChName</a></td>
+                        <td>NT$ @item.tProduct.fUnitPrice</td>
                         <td>@item.fOrderQuantity</td>
-                        <td>@subprice</td>
+                        <td>NT$ @subprice</td>
                     </tr>
                 </tbody>
                 }

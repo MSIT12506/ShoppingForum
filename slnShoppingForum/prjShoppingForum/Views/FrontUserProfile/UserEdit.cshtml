@@ -1,8 +1,12 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
 @{
     ViewBag.Title = "UserEdit";
+    var dates = "";
+    if (Model.fBirthday != null)
+    {
+        dates = ((DateTime)Model.fBirthday).ToString("yyyy/MM/dd");
+    }
 }
-
 <div class="container" style="text-align:left;font-size:18px;">
     <h3><img src="~/Images/Member/membercenter/sakura.png" width="30" height="30" /> 編輯會員資料</h3>
     <hr style="border-bottom:3px solid #CDA0A9;" />
@@ -26,7 +30,7 @@
                 生日:
             </div>
             <div class="col-md-4 col-lg-5">
-                <input type="text" name="fBirthday" pattern="{0:yyyy/MM/dd}" placeholder="如:1923/02/05" value="@Model.fBirthday" />
+                <input type="text" name="fBirthday" pattern="{0:yyyy/MM/dd}" placeholder="如:1923/02/05" value="@dates" />
             </div>
             <div class="col-md-2 col-lg-1">
                 城市:

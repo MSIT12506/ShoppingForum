@@ -64,8 +64,15 @@ namespace tw.com.essentialoil.Controllers
         {
             tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
 
-            UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
-            userId = userLoginInfo.user_fid;
+            if (!CStaticMethod.isLogin(Session, "ShoppingCart", "viewCart"))
+            {
+                return RedirectToRoute(new CRedirectToLogin());
+            }
+            else
+            {
+                UserLoginInfo userLoginInfo = Session[CDictionary.UserLoginInfo] as UserLoginInfo;
+                userId = userLoginInfo.user_fid;
+            }
 
             if (product != null)
             {

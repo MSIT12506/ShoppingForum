@@ -1,81 +1,91 @@
 ﻿@model prjShoppingForum.Models.Entity.tUserProfile
 
+@{
+    ViewBag.Title = "MemberDetail";
+    var dates = "";
+    if (Model.fBirthday!=null)
+    {
+        dates = ((DateTime)Model.fBirthday).ToString("yyyy/MM/dd");
+    }
+
+}
+
 @section Styles{
     <style>
 
-/*.container { 
-  background: url("/Images/form-wizard-bg.jpg") no-repeat center center;
+              /*.container {
+        background: url("/Images/form-wizard-bg.jpg") no-repeat center center;
 
-  background-size: cover;
-  display: flex;
+        background-size: cover;
+        display: flex;
 
-  justify-content: center; }*/
+        justify-content: center; }*/
 
     </style>
 }
 
-    <div class="container" style="text-align:left;font-size:18px;">
-        <h3><img src="~/Images/Member/membercenter/flower.png" width="30" height="30" /> 會員基本資料</h3>
-        <hr style="border-bottom:3px solid #CDA0A9;" />
-        <div class="row" style="padding-top:15px;">
-            <div class="col-md-2 col-lg-1">
-                帳號:
-            </div>
-            <div class="col-md-4 col-lg-5">
-                @Model.fUserId
-            </div>
-            <div class="col-md-2 col-lg-1">
-                姓名:
-            </div>
-            <div class="col-md-4 col-lg-5">
-                @Model.fName
-            </div>
+<div class="container" style="text-align:left;font-size:18px;">
+    <h3><img src="~/Images/Member/membercenter/flower.png" width="30" height="30" /> 會員基本資料</h3>
+    <hr style="border-bottom:3px solid #CDA0A9;" />
+    <div class="row" style="padding-top:15px;">
+        <div class="col-md-2 col-lg-1">
+            帳號:
         </div>
-        <div class="row" style="padding-top:15px;">
-            <div class="col-md-2 col-lg-1">
-                性別:
-            </div>
-            <div class="col-md-4 col-lg-5">
-                @Model.fGender
-            </div>
-            <div class="col-md-2 col-lg-1">
-                生日:
-            </div>
-            <div class="col-md-4 col-lg-5">
-                @Model.fBirthday
-            </div>
+        <div class="col-md-4 col-lg-5">
+            @Model.fUserId
         </div>
-        <div class="row" style="padding-top:20px">
-            <div class="col-md-2 col-lg-1">
-                電話:
-            </div>
-            <div class="col-md-4 col-lg-5">
-                @Model.fTel
-            </div>
-            <div class="col-md-2 col-lg-1">
-                手機:
-            </div>
-            <div class="col-md-4 col-lg-5">
-                @Model.fPhone
-            </div>
+        <div class="col-md-2 col-lg-1">
+            姓名:
         </div>
-        <div class="row" style="padding-top:20px">
-            <div class="col-md-2 col-lg-1">
-                城市:
-            </div>
-            <div class="col-md-10 col-lg-11">
-                @Model.fCity
-            </div>
-        </div>
-        <div class="row" style="padding-top:20px">
-            <div class="col-md-2 col-lg-1">
-                地址:
-            </div>
-            <div class="col-md-10 col-lg-11">
-                @Model.fAddress
-            </div>
+        <div class="col-md-4 col-lg-5">
+            @Model.fName
         </div>
     </div>
+    <div class="row" style="padding-top:15px;">
+        <div class="col-md-2 col-lg-1">
+            性別:
+        </div>
+        <div class="col-md-4 col-lg-5">
+            @Model.fGender
+        </div>
+        <div class="col-md-2 col-lg-1">
+            生日:
+        </div>
+        <div class="col-md-4 col-lg-5">
+            @dates
+        </div>
+    </div>
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-2 col-lg-1">
+            電話:
+        </div>
+        <div class="col-md-4 col-lg-5">
+            @Model.fTel
+        </div>
+        <div class="col-md-2 col-lg-1">
+            手機:
+        </div>
+        <div class="col-md-4 col-lg-5">
+            @Model.fPhone
+        </div>
+    </div>
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-2 col-lg-1">
+            城市:
+        </div>
+        <div class="col-md-10 col-lg-11">
+            @Model.fCity
+        </div>
+    </div>
+    <div class="row" style="padding-top:20px">
+        <div class="col-md-2 col-lg-1">
+            地址:
+        </div>
+        <div class="col-md-10 col-lg-11">
+            @Model.fAddress
+        </div>
+    </div>
+</div>
 
 
 

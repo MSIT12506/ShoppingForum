@@ -314,12 +314,13 @@
     })
     //當數量欄位被鍵盤修改時
     $(".txtNum").change(function () {
+        let numStock = parseInt($(this).siblings(".txtStock").val());                     //目前商品存貨數量
         if (parseInt($(this).val()) > 0 && parseInt($(this).val()) <= parseInt($(this).siblings(".txtStock").val())) {
             $(this).val()
         }
         else
         {
-            $(this).val(1)                                                                                      //如果值不屬於範圍區間，則返回1
+            $(this).val(numStock)                                                                                      //如果值不屬於範圍區間，則返回1
         }
         let productPrice = $(this).parent().prev().find(".unitprice").text();                                    //目前商品價格
         $(this).parent().next().find(".productSum").text($(this).val() * parseInt(productPrice));                //小計修改

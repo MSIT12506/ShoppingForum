@@ -53,8 +53,8 @@ namespace tw.com.essentialoil.Controllers.FrontUser
                 var senderEmail = new MailAddress("isgoldAoil@gmail.com", "ESSENCE SHOP");//isgoldAoil@gmail.com
                 var receiverEmail = new MailAddress(RegisterUserId, RegisterUserName);
                 var password = "vnmuhcmaxieewtbi";//vnmuhcmaxieewtbi
-                var sub = "恭禧您成功加入 係精ㄟ油 註冊會員";
-                var body = "親愛的 " + RegisterUserName + " 您好:\n" + "恭喜您已成功加入 係精ㄟ油 的會員，\n希望您在 係精ㄟ油 能有美好的購物時光！\n謝謝您！\n" + "本站網址:https://oilshoppingforum.azurewebsites.net/";
+                var sub = "恭喜您成功加入 係精A油 註冊會員";
+                var body = "親愛的 " + RegisterUserName + " 您好:\n" + "恭喜您已成功加入 係精A油 的會員，\n希望您在 係精ㄟ油 能有美好的購物時光！\n謝謝您！\n" + "本站網址:https://oilshoppingforum.azurewebsites.net/";
                 var smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
@@ -119,7 +119,14 @@ namespace tw.com.essentialoil.Controllers.FrontUser
             {
                 cust.fName = fName;
                 cust.fTel = fTel;
-                cust.fBirthday = DateTime.Parse(fBirthday);
+                if (fBirthday != "" && fBirthday != null)
+                {
+                    cust.fBirthday = DateTime.Parse(fBirthday);
+                }
+                else
+                {
+                    cust.fBirthday = null;
+                }
                 cust.fPhone = fPhone;
                 cust.fCity = fCity;
                 cust.fAddress = fAddress;

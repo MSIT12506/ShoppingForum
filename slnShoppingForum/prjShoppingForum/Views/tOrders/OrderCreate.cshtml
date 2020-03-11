@@ -63,14 +63,14 @@
     </style>
 }
 
-<div style="width:70%;text-align:left;margin:auto;padding-top:0px;">
-    <div style="margin-top:150px;margin-bottom:10px">
-        <img src="~/Images/ShoppingCart/EditOrder.png" style="height:100px;width:320px; margin-right:60px" />
-        <img src="~/Images/ShoppingCart/step2.png" style="height:150px;width:auto;" />
+<div style="width:70%;margin:auto;padding-top:0px;">
+        <div style="margin-top:150px;margin-bottom:10px">
+            <img src="~/Images/ShoppingCart/EditOrder.png" style="height:100px;width:320px; margin-right:60px;" />
+            <img src="~/Images/ShoppingCart/step2.png" style="height:150px;width:auto;" />
+        </div>
     </div>
-</div>
 <div style="width:70%;text-align:center;margin:auto;padding-top:5px;font-size:18px;">
-    <div @*class="wrappers"*@>
+    <div>
         <h4 class="container">--已選購商品--</h4>
         <table class="table table-secondary" style="font-size:16px">
             <thead class="thead-light">
@@ -87,32 +87,34 @@
                     <th>
                         <b>數量</b>
                     </th>
-                    <th>
-                        <b>小計</b>
+                    <th style="font-weight:bold">
+                        <b >小計</b>
                     </th>
                 </tr>
                 @foreach (var select in Model.ShoppingCart)
                 {
                     var pict = $"/Images/Product/ura/{select.fProductID}.jpg";
+                    
+                    var pdhref = $"/ProductFront/ProductSinglePage?productId={select.fProductID}";
                     var prod = Model.Product.FirstOrDefault(p => p.fProductID == select.fProductID);
                     var price = Convert.ToInt32(select.fQuantity * prod.fUnitPrice);
                     total += price;
 
                     <tr>
                         <td>
-                            <img src="@pict" style="height:40px;width:40px" />
+                            <img src="@pict" style="height:30px;width:30px" />
                         </td>
                         <td>
-                            @prod.fProductChName
+                            <a href="@pdhref" style="color:royalblue;font-size:16px;">@prod.fProductChName</a>
+                        </td>
+                        <td>
+                            NT$ @prod.fUnitPrice
                         </td>
                         <td>
                             @select.fQuantity
                         </td>
-                        <td>
-                            @prod.fUnitPrice
-                        </td>
-                        <td>
-                            @price
+                        <td style="font-weight:bold;color:red">
+                            NT$ @price
                         </td>
                     </tr>
                 }
@@ -133,13 +135,13 @@
                     <td></td>
                     <td></td>
                     <td>
-                        <b>訂單小計： @total</b>
+                        <b style="font-weight:bold">訂單小計：</b><b style="color:red"> NT$ @total</b>
                     </td>
                     <td>
-                        <b>使用折扣：@disc</b>
+                        <b style="font-weight:bold">使用折扣：</b><b style="color:red"> NT$ @disc</b>
                     </td>
-                    <td>
-                        <b>訂單總金額： @distotal</b>
+                    <td >
+                        <b style="font-weight:bold">訂單總金額：</b><b style="color:red"> NT$ @distotal</b>
                     </td>
                 </tr>
             <thead class="thead-light">
@@ -148,64 +150,59 @@
             <form action="~/tOrders/OrderCreate" method="post" id="wizard" name="OrderForm">
                 <div class="row form-row" style="margin-top:20px;">
                     <div class="col-6">
-                        <p>購買人@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fName, new { id = "buyname", @class = "form-control", placeholder = "Member Name" });}</p>
+                        <p style="font-size:18px">購買人@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fName, new { id = "buyname", @class = "form-control", placeholder = "Member Name" });}</p>
                     </div>
                     <div class="col-6">
-                        <p>聯絡電話@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fPhone, new { id = "buyphone", @class = "form-control", placeholder = "Member Cell Phone" });}</p>
+                        <p style="font-size:18px">聯絡電話@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fPhone, new { id = "buyphone", @class = "form-control", placeholder = "Member Cell Phone" });}</p>
                     </div>
                 </div>
                 <div class="row">
-                        <div class="col-12 form-address">
-                            <p>購買者地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
-                        </div>
+                    <div class="col-12">
+                        <p style="font-size:18px">購買人地址@{@Html.TextBoxFor(model => model.UserProfile.FirstOrDefault().fAddress, new { id = "buyaddress", @class = "form-control", placeholder = "Address" });}</p>
                     </div>
-                <br />
-                <p>@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買者</p>
+                </div>
+                <label style="font-size:18px">@Html.CheckBox("CheckBox1", new { id = "checkbox" })收貨人同購買人</label>
                 <div class="row" style="margin-top:15px">
                     <div class="col-6">
-                        <p>收貨人<label style="color:crimson">&nbsp;*必填</label><input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" class="form-control" placeholder="Full Name" /></p>
+                        <p style="font-size:18px;font-weight:bold">收貨人<label style="color:crimson">&nbsp;*必填</label><input type="email" name="ConsigneeName" id="name" onchange="str1(this.id)" class="form-control" placeholder="Full Name" /></p>
                     </div>
                     <div class="col-6">
-                        <p>聯絡電話<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" class="form-control" placeholder="CellPhone" /></p>
+                        <p style="font-size:18px;font-weight:bold">聯絡電話<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeCellPhone" id="phone" onchange="str2(this.id)" class="form-control" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="CellPhone" /></p>
                     </div>
-                </div>
-                <div class="row" style="margin-top:20px">
+                    </div>
+                    <div class="row" style="margin-top:20px">
                     <div class="col-12">
-                        <p>收貨地址<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" class="form-control" placeholder="Address" /></p>
+                        <p style="font-size:18px;font-weight:bold;width:auto">收貨地址<label style="color:crimson">&nbsp;*必填</label><input type="text" name="ConsigneeAddress" id="address" onchange="str3(this.id)" class="form-control" placeholder="Address" /></p>
                     </div>
                 </div>
                 <div class="row" style="margin-top:20px">
                     <div class="col-6">
-                        <p>公司抬頭(選填)<input type="text" name="OrderCompanyTitle" class="form-control" placeholder="CompanyTitle" /></p>
+                        <p style="font-size:18px">公司抬頭(選填)<input type="text" name="OrderCompanyTitle" class="form-control" placeholder="CompanyTitle" /></p>
                     </div>
                     <div class="col-6">
-                        <p>統一編號(選填)<input type="text" name="OrderTaxIdDNumber" class="form-control" placeholder="TaxIdDNumber" /></p>
+                        <p style="font-size:18px">統一編號(選填)<input type="text" name="OrderTaxIdDNumber" class="form-control" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="TaxIdDNumber" /></p>
                     </div>
                 </div>
                 <div class="row" style="margin-top:20px">
                     <div class="col-6">
-                        <p>訂單備註(選填)<input type="text" name="OrderPostScript" class="form-control" placeholder="PostScript" /></p>
+                        <p style="font-size:18px">訂單備註(選填)<input type="text" name="OrderPostScript" class="form-control" placeholder="PostScript" /></p>
                     </div>
                     <div class="col-6">
-                        <p>希望送達日(選填，無指定預定於三日後到貨)<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" class="form-control" @*placeholder="HopeDate"*@ /></p>
+                        <p style="font-size:18px">希望送達日(選填，無指定預定於三日後到貨)<input type="text" id="datepicker" name="RequirtDate" autocomplete="off" style="ime-mode:disabled" onkeypress="return false" class="form-control" /></p>
                     </div>
                 </div>
                 <div class="row" style="margin-top:20px">
-                    <div class="col-12">
-                        <p>支付方式<label style="color:crimson">&nbsp;*必填</label><span>　</span>
-                        <input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="ATM" /> ATM</p>
+                    <div class="col-6">
+                        <label id="checklabel" style="font-weight:bold;font-size:18px">支付方式<label style="color:crimson">&nbsp;*必填</label><input type="radio" name="Payment" id="payment" onchange="str4(this.id)" class="w3-radio" value="貨到付款" /> 貨到付款</label>
                     </div>
-                </div>
-                <div class="row" style="margin-top:20px">
-                    <div class="col-12">
-                        @Html.CheckBox("OrderCheck", new { id = "check" })
-                        @*<input type="checkbox" disabled name="OrderCheck" id="check" style="width:15px;height:15px;" />*@
-                        <span style="color:red;font-size:16px">我已確認上述資料皆正確</span>
+                    <div class="col-6">
+                        @*@Html.CheckBox("OrderCheck", new { id = "check" })*@
+                        <label style="color:red;font-weight:bold;font-size:18px"><input type="checkbox" disabled name="OrderCheck" id="check" />請確認上述資料皆正確，以利出貨正常配送。</label>
                     </div>
                 </div>
                 <br />
                     <div style="text-align:center;font-size:24px;border-top:1px dashed black;padding:15px;padding-top:30px">
-                        @Html.ActionLink("<<回上一頁", "viewCart", "ShoppingCart", null, new { @class = "btn btn-warning", style = "font-size:24px;width:180px" })
+                        @Html.ActionLink("<<回購物車", "viewCart", "ShoppingCart", null, new { @class = "btn btn-warning", style = "font-size:24px;width:180px" })
                         <input type="button" class="btn btn-info" style="font-size:24px;width:180px;" disabled value="産生訂單>>" id="CreateOrder" name="CreateOrder" />
                     </div>
             </form>
@@ -230,6 +227,9 @@
         var ConsigneeCellPhone = document.querySelector('#phone');
         var ConsigneeAddress = document.querySelector('#address');
         var Payment = document.querySelector('#payment');
+        var PaymentLabel = document.querySelector('#checklabel');
+        
+            //payment = $("[name='Payment']:checked").val()
         var name = "";
         var phone = "";
         var address = "";
@@ -251,12 +251,14 @@
 
         function str4(x) {
             payment = document.getElementById(x).value;
-            console.log(payment);
+            //console.log(payment);
+            console.log(Payment.value)
         }
 
         var btnCreateOrder = document.querySelector('#CreateOrder');
         var xhr = null;
 
+        //自動帶入購買者資訊
         checkname.addEventListener('click', function () {
             if (checkname.checked) {
                 $('#name').val($('#buyname').val());
@@ -276,29 +278,99 @@
             }
         })
 
-        Payment.addEventListener('blur', function () {
+        //判斷滑鼠移開收貨者姓名欄
+        ConsigneeName.addEventListener('mouseout', function () {
+            if (name != "" && phone != "" && address != "" && payment != "" && payment != null) {
+                check.disabled = false;
+            }
+            else {
+                check.disabled = true;
+                check.checked = false;
+                btnCreateOrder.disabled = true;
+            }
+        });
+        
+        //判斷滑鼠移開收貨者手機欄
+        ConsigneeCellPhone.addEventListener('mouseout', function () {
+            if (name != "" && phone != "" && address != "" && payment != "" && payment != null) {
+                check.disabled = false;
+            }
+            else {
+                check.disabled = true;
+                check.checked = false;
+                btnCreateOrder.disabled = true;
+            }
+        });
+        
+        //判斷滑鼠移開收貨者地址欄
+        ConsigneeAddress.addEventListener('mouseout', function () {
+            if (name != "" && phone != "" && address != "" && payment != "" && payment != null) {
+                check.disabled = false;
+            }
+            else {
+                check.disabled = true;
+                check.checked = false;
+                btnCreateOrder.disabled = true;
+            }
+        });
+
+        //判斷滑鼠移開支付方式
+        Payment.addEventListener('mouseout', function () {
+            console.log(payment);
+            payment = $("[name='Payment']:checked").val();
+            if (name != "" && phone != "" && address != "" && payment != "" && payment != null) {
+                check.disabled = false;
+            }
+            else {
+                check.disabled = true;
+                check.checked = false;
+                btnCreateOrder.disabled = true;
+            }
+        });
+
+        //判斷點擊支付方式
+        Payment.addEventListener('click', function () {
+            payment = $("[name='Payment']:checked").val();
             if (name != "" && phone != "" && address != "" && payment != "") {
                 check.disabled = false;
             }
-            else
+            else {
                 check.disabled = true;
-        });
-
-        check.addEventListener('click', function () {
-            if (check.checked)
-                btnCreateOrder.disabled = false;
-            else
+                check.checked = false;
                 btnCreateOrder.disabled = true;
+            }
         });
 
+        //解除btn鎖定
+        check.addEventListener('click', function () {
+            if (name != "" && phone != "" && address != ""&& check.checked)
+                btnCreateOrder.disabled = false;
+            else {
+                if (check.checked) {
+                    alert("必填欄位不得為空");
+                    check.checked = false;
+                    btnCreateOrder.disabled = true;
+                }
+                else {
+                    btnCreateOrder.disabled = true;
+                }
+            }
+
+        });
+
+        //button產生訂單事件
         btnCreateOrder.addEventListener("click", function () {
-            document.OrderForm.submit();
+            if (name != "" && phone != "" && address != "" && check.checked )
+                document.OrderForm.submit();
+            else {
+                alert("必填欄位不得為空");
+                check.checked = false;
+                btnCreateOrder.disabled = true;
+                event.stopPropagation;
+            }
         });
 
-        if ($('#check').checked) {
-            $('#check').val("ATM");
-        }
-
+        //datepicker
         $(function () {
             $("#datepicker").datepicker({
                 minDate: +1,

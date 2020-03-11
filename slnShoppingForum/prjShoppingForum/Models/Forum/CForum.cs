@@ -317,7 +317,7 @@ namespace tw.com.essentialoil.Forum.Models
         //搜尋文章
         public List<tForum> searchString(string searchText)
         {
-            List<tForum> results = db.tForums.Where(f => f.fPostTitle.Contains(searchText)).ToList();
+            List<tForum> results = db.tForums.Where(f => f.fPostTitle.Contains(searchText) && f.fEnableFlag == true).ToList();
 
             return results;
         }

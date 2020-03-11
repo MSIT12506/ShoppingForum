@@ -64,12 +64,9 @@ namespace tw.com.essentialoil.Product.Models
                   p.tProductVegetableoil.ffeatureID == featureId);
             }
 
-            if (fDiscontinued != null)
-            {
-                products = products.Where(p => p.fDiscontinued != null &&
-                  p.fDiscontinued == false);
-            }
-            return products;
+            var productsResult = products.Where(p => p.fDiscontinued == false);
+
+            return productsResult;
         }
 
         //刪除商品方法
@@ -134,6 +131,7 @@ namespace tw.com.essentialoil.Product.Models
                 product.fQuantityPerUnit = prod.fQuantityPerUnit;
                 product.fCategoryID = prod.fCategoryID;
                 product.fDiscontinued = prod.fDiscontinued;
+                product.fUnitsInStock = prod.fUnitsInStock;
 
                 if (vegetable != null)
                 {
@@ -188,6 +186,7 @@ namespace tw.com.essentialoil.Product.Models
                     fUnitPrice = prod.fUnitPrice,
                     fUnitsInStock = prod.fUnitsInStock,
                     fCategoryID = prod.fCategoryID
+              
                 };
 
                 var productU = new tProductUnilateral()

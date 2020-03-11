@@ -64,9 +64,10 @@ namespace tw.com.essentialoil.Controllers
         {
             tProduct product = db.tProducts.FirstOrDefault(p => p.fProductID == productId);
 
-            if (!CStaticMethod.isLogin(Session, "ShoppingCart", "viewCart"))
+            if (!CStaticMethod.isLogin(Session, "ProductFront", "ProductFrontPage"))
             {
-                return RedirectToRoute(new CRedirectToLogin());
+                return JavaScript("location.href = `/FrontUserProfile/Login`");
+                //return RedirectToAction("Login", "FrontUserProfile");
             }
             else
             {

@@ -41,6 +41,7 @@ namespace prjShoppingForum.Models.Entity
             public string fGender { get; set; }
 
             [DisplayName("生日")]
+            [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
             public Nullable<System.DateTime> fBirthday { get; set; }
 
             [DisplayName("電話")]

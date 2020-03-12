@@ -29,7 +29,12 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult NewsList(int page =1)
         {
             int currentPage = pagesize < 1 ? 1 : page;
-            var Newspage = db.tNews.Where(p => p.fNewsDiscontinue != true).OrderBy(p => p.fNewsId).ToList();
+            //var Newspage = db.tNews.Where(p => p.fNewsDiscontinue != true).OrderBy(p => p.fNewsId).ToList();
+            var News = from a in db.tNews
+                      where a.fNewsDiscontinue != true
+                      orderby a.fNewsId descending
+                      select a;
+            var Newspage = News.ToList();
             var result = Newspage.ToPagedList(currentPage, pagesize);
             return View(result);
         }

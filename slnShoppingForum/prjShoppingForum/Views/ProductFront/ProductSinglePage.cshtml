@@ -1,34 +1,29 @@
 ﻿@model prjShoppingForum.Models.Entity.tProduct
-
 @{
     ViewBag.Title = "ProductSinglePage";
 }
 <style>
+
     .dd {
         padding-bottom: 5px;
     }
 </style>
 <div class="container">
     <div class="row">
-
         @*menu*@
         <div class="col-12 col-md-3 col-lg-3">
             <div class="shop_sidebar_area">
                 <div class="widget catagory mb-50">
-
                     @*導入商品分類目錄*@
                     @Html.Partial("_Product_Menu", (tw.com.essentialoil.Product.ViewModels.ProductMenu)ViewBag.productMenu)
-
                     @Html.ActionLink("進階搜尋", "AdvanceQueryPage", null, new { @class = "myfont myfont18" })
                 </div>
             </div>
         </div>
-
         @*商品圖片*@
         <div class="col-12 col-md-5 col-lg-5">
             <div>
                 <dl class="dl-horizontal">
-
                     @{
                         var imageScr = $"../../images/Product/{Model.fProductID}.jpg";
                         var imageScrUra = $"../../images/Product/ura/{Model.fProductID}.jpg";
@@ -36,48 +31,37 @@
                     <img src="@imageScrUra" style="width:100%; position:absolute;margin-top:80px" />
                     <img src="@imageScr" style="width:40%;border-radius:120px;position:absolute;margin-top:60px" />
 
-
                 </dl>
             </div>
         </div>
-
         <div class="col-12 col-md-4 col-lg-4">
             <div>
                 <dl class="dl-horizontal" style="margin-top:60px;margin-left:50px;font-size:18px">
-
                     <dt>
                         @Html.DisplayNameFor(model => model.fProductChName)
                         <a onclick="addToFavorite(@Model.fProductID)" style="padding-left:200px"><img id="fav" data-id="@Model.fProductID" src="#" title="收藏" width="35" /></a>
                     </dt>
-
                     <dd>
                         @Html.DisplayFor(model => model.fProductChName)
                     </dd>
-
                     <dt>
                         @Html.DisplayNameFor(model => model.fProductDesc)
                     </dt>
-
                     <dd>
                         @Html.DisplayFor(model => model.fProductDesc)
                     </dd>
-
                     <dt>
                         @Html.DisplayNameFor(model => model.fUnitPrice)
                     </dt>
-
                     <dd>
                         NT$ @Html.DisplayFor(model => model.fUnitPrice)
                     </dd>
-
                     <dt>
                         @Html.DisplayNameFor(model => model.fQuantityPerUnit)
                     </dt>
-
                     <dd>
                         @Html.DisplayFor(model => model.fQuantityPerUnit)
                     </dd>
-
                     @*<dt>
                             @Html.DisplayNameFor(model => model.fDiscontinued)
                         </dt>
@@ -85,49 +69,51 @@
                         <dd>
                             @Html.DisplayFor(model => model.fDiscontinued)
                         </dd>*@
-
                     <dt>
                         @Html.DisplayNameFor(model => model.tCategory.fCategoryName)
                     </dt>
-
                     <dd>
                         @Html.DisplayFor(model => model.tCategory.fCategoryName)
                     </dd>
-
                     <dt>
-                        @Html.DisplayNameFor(model => model.tProductUnilateral.fOrigin)
+                        産地
                     </dt>
-
                     <dd>
                         @Html.DisplayFor(model => model.tProductUnilateral.fOrigin)
                     </dd>
+                    <dt>
+                        功效
+                    </dt>
 
-                    <dt style="font-family:UD Digi Kyokasho N-R">
+                    @{ foreach (var item in Model.tEfficacies)
+                        {
+                            <dd>
+                                @item.fEfficacyName
+                            </dd>
+                        }}
+
+                    <dt style="font-family:UD Digi Kyokasho N-R;margin-top:20px">
                         購買數量
                         <input type="number" id="buyQuantity" max="@Model.fUnitsInStock" min="1" value="1" />
                         <input type="hidden" class="txtStock" value="@Model.fUnitsInStock" />
                     </dt>
-
                     <div style="margin-top:20px">
-
                         <a class="btn btn-outline-info btn-block addCart" onclick="addToCartFromProduct(@Model.fProductID)">
                             <img src="~/Images/ShoppingCart/carticon.png" />
                         </a>
                     </div>
-
                 </dl>
             </div>
         </div>
     </div>
 </div>
-
 @section scripts{
     <script>
     $(document).ready(function () {
         let prodId = parseInt($("#fav").attr("data-id"));
         favoriteJudge(prodId);
     })
-    
+
     //當數量欄位被鍵盤修改時
     $("#buyQuantity").change(function () {
         if (parseInt($(this).val()) > 0 && parseInt($(this).val()) <= parseInt($(this).siblings(".txtStock").val())) {

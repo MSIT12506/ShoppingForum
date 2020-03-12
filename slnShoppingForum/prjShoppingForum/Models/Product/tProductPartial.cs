@@ -42,5 +42,7 @@ namespace prjShoppingForum.Models.Entity
             public int fCategoryID { get; set; }
 
         }
+
+        public string TempEfficacyListString { get; set; }
     }
 }

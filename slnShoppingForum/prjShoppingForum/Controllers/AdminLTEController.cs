@@ -331,7 +331,7 @@ namespace tw.com.essentialoil.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult ProductCreate(tProduct prod, HttpPostedFileBase prodImg)
+        public ActionResult ProductCreate(tProduct prod, HttpPostedFileBase prodImg, HttpPostedFileBase produraImg)
         {
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
@@ -339,7 +339,7 @@ namespace tw.com.essentialoil.Controllers
             ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
             ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
-            productRepository.InsertProduct(prod, prodImg, Server);
+            productRepository.InsertProduct(prod, prodImg,produraImg,Server);
 
             return RedirectToAction("ProductPage");
         }
@@ -364,9 +364,9 @@ namespace tw.com.essentialoil.Controllers
             return View(prod);
         }
         [HttpPost]
-        public ActionResult ProductEdit(tProduct prod, HttpPostedFileBase prodImg)
+        public ActionResult ProductEdit(tProduct prod, HttpPostedFileBase prodImg, HttpPostedFileBase produraImg)
         {
-            productRepository.UpdateProduct(prod, prodImg, Server);
+            productRepository.UpdateProduct(prod, prodImg, Server,produraImg);
             tProductImage productImage = new tProductImage();
             return RedirectToAction("ProductPage");
         }
@@ -778,14 +778,79 @@ namespace tw.com.essentialoil.Controllers
 
         //=======================================訂單=======================================
        
+            
+        
+
+
+
+
         public ActionResult Index(int page = 1)
         {
             int pagesize = 10;
             int currentPage = pagesize < 1 ? 1 : page;
-            var Orders = db.tOrders.Include(t => t.tUserProfile).OrderBy(p => p.fId).ToList();
+            var Orders = db.tOrders.Include(t => t.tUserProfile).OrderByDescending(p => p.fOrderId);
             var result = Orders.ToPagedList(currentPage, pagesize);
             return View(result);
         }
+
+        [HttpPost]
+        public ActionResult Index(string Search, string minprice, string maxprice)
+        {
+            int page = 1;
+            int pagesize = 10;
+            int currentPage = pagesize < 1 ? 1 : page;
+            var Orders = db.tOrders.Include(t => t.tUserProfile).OrderByDescending(p => p.fOrderId);
+            if (!string.IsNullOrEmpty(Search))
+            {
+                Orders = db.tOrders.Include(t => t.tUserProfile).Where(p => p.fOrderId.ToString().Contains(Search) || p.fId.ToString().Contains(Search)  || p.fConsigneeName.ToString().Contains(Search)).OrderByDescending(p => p.fOrderId);
+            }
+            //if (!string.IsNullOrEmpty(minprice) && !string.IsNullOrEmpty(maxprice))
+            //{
+            //    var tot = db.tOrderDetails.GroupBy(p=>p.fOrderId).Sum(p => p.FirstOrDefault().fUnitPrice * p.FirstOrDefault().fOrderQuantity);
+            //    if(Convert.ToInt32(tot) > Convert.ToInt32(minprice))
+            //    {
+            //        var total = db.tOrders.Include(t => t.tUserProfile).FirstOrDefault().tOrderDetails.GroupBy(p=>p.fOrderId).Sum(p => p.FirstOrDefault().fUnitPrice * p.FirstOrDefault().fOrderQuantity);
+            //    }
+                
+            //    Orders = db.tOrders.Include(t => t.tUserProfile).FirstOrDefault().tOrderDetails.Sum(p=>p.fUnitPrice*p.fOrderQuantity).OrderByDescending(p => p.fOrderId);
+            //}
+            var result = Orders.ToPagedList(currentPage, pagesize);
+            return View(result);
+        }
+
+        //[HttpPost]
+        //public ActionResult MemberList(string searchUserId, string searchName, string searchCity, int page = 1)
+        //{
+        //    int currentPage = page < 1 ? 1 : page;
+        //    IQueryable<tUserProfile> UserId = null;
+        //    IQueryable<tUserProfile> Name = null;
+        //    IQueryable<tUserProfile> City = null;
+        //    if (searchUserId != "" && searchUserId != null)
+        //        UserId = db.tUserProfiles.Where(p => p.fUserId.Contains(searchUserId)).OrderBy(p => p.fId);
+        //    if (searchName != "" && searchName != null)
+        //        Name = db.tUserProfiles.Where(p => p.fName.Contains(searchName)).OrderBy(p => p.fId);//尚待調整
+        //    if (searchCity != "" && searchCity != null)
+        //        City = db.tUserProfiles.Where(p => p.fCity.Contains(searchCity)).OrderBy(p => p.fId);//尚待調整
+
+        //    if (UserId != null)
+        //    {
+        //        var finduserid = UserId.ToPagedList(currentPage, pagesize);
+        //        return View(finduserid);
+        //    }
+        //    if (Name != null)
+        //    {
+        //        var findname = Name.ToPagedList(currentPage, pagesize);
+        //        return View(findname);
+        //    }
+        //    if (City != null)
+        //    {
+        //        var findcity = City.ToPagedList(currentPage, pagesize);
+        //        return View(findcity);
+        //    }
+
+        //    return View();
+        //}
+
 
         public async Task<ActionResult> Details(int? id)
         {

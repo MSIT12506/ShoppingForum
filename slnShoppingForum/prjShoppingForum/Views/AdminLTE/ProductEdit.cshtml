@@ -1,34 +1,30 @@
 ﻿@model prjShoppingForum.Models.Entity.tProduct
 @* vvvv *@
-
 @{
     ViewBag.Title = "ProductEdit";
 }
-
 <h2>商品修改頁面</h2>
 
-
 @using (Html.BeginForm(
-    "ProductEdit", "AdminLTE", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    "ProductEdit", "AdminLTE", FormMethod.Post, new { enctype = "multipart/form-data", id = "productForm" }))
 {
 
     var imageScr = $"../../images/Product/{Model.fProductID}.jpg";
     var imageScrUra = $"../../images/Product/ura/{Model.fProductID}.jpg";
-    <p> 商品圖片 <input type="file" name="prodImg" id="prodImg" /></p>
-    @*<p><input type="submit" value="上傳" /></p>*@
-    @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
-
         @Html.HiddenFor(model => model.fProductID)
-
         <hr />
-        <div class="form-group">
-            @Html.Label("商品圖", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <img src="@imageScrUra" style="height:50px;width:50px" />
-            </div>
-        </div>
+        <p> 商品圖片  <img src="@imageScrUra" style="height:50px;width:50px"/>&emsp;
+        <input type="file" name="produraImg" id="produraImg" />
+        </p>
+
+        <p>植物圖片 <img src="@imageScr" style="height:50px;width:50px" />&emsp;
+            <input type="file" name="prodImg" id="prodImg" />
+        </p>
+        @Html.AntiForgeryToken()
+
+
         <div class="form-group">
             @Html.LabelFor(model => model.fProductChName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -36,7 +32,6 @@
                 @Html.ValidationMessageFor(model => model.fProductChName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fProductDesc, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -44,7 +39,6 @@
                 @Html.ValidationMessageFor(model => model.fProductDesc, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fUnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -52,7 +46,6 @@
                 @Html.ValidationMessageFor(model => model.fUnitPrice, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fQuantityPerUnit, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -60,7 +53,6 @@
                 @Html.ValidationMessageFor(model => model.fQuantityPerUnit, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fCategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -75,7 +67,6 @@
                 @Html.ValidationMessageFor(model => model.tProductVegetableoil.tfeature.ffeatureName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.tProductUnilateral.tPart.fPartName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -83,7 +74,6 @@
                 @Html.ValidationMessageFor(model => model.tProductUnilateral.tPart.fPartName, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.tProductUnilateral.tNote.fNoteName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -105,7 +95,6 @@
                 @Html.ValidationMessageFor(model => model.tProductUnilateral.fextraction, "", new { @class = "text-danger" })
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fUnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -115,7 +104,6 @@
                 </div>
             </div>
         </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.fDiscontinued, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -128,19 +116,115 @@
         </div>
 
         <div class="form-group">
+            <label class="control-label col-md-2">功效</label>
+            <div class="col-md-10">
+                <div class="row">
+                    @Html.HiddenFor(p => p.TempEfficacyListString)
+                    @foreach (var item in (ViewBag.EfficacyDropLise as List<SelectListItem>).Where(p => p.Value != null))
+                    {
+                        // 上面的foreach直接拿原本的下拉選的資料來用反正跟資料庫差不多,有需要在自己改! BY 小安
+                        // 用來判斷這個商品有沒有綁訂這個功效 BY 小安
+                        var isChecked = Model.tEfficacies.Any(p => p.fEfficacyID == int.Parse(item.Value));
+
+                        <div class="col-3">
+                            <div class="form-check">
+                                @if (isChecked)
+                                {
+
+                                    <input type="checkbox" class="form-check-input efficacyCheckBox" value="@item.Value" checked="checked">
+                                }
+                                else
+                                {
+                                    <input type="checkbox" class="form-check-input efficacyCheckBox" value="@item.Value">
+
+                                }
+                                <label class="form-check-label" for="exampleCheck1">@item.Text</label>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- 將 submit 改為 button 並且新增Id productSubmit 目的是使用JS做POST by小安 -->
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10" style="text-align:right">
-                <input type="submit" value="確定修改" class="btn btn-primary" />
+                <input type="button" value="確定修改" class="btn btn-primary" id="productSubmit" />
             </div>
         </div>
     </div>
+}
+@*<div>
+        @Html.ActionLink("返回商品頁面", "ProductPage")
+    </div>*@
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            $("#tProductUnilateral_fNoteID").closest(".form-group").hide();
+            $("#tProductUnilateral_fPartID").closest(".form-group").hide();
+            $("#tProductVegetableoil_tfeature_ffeatureName").closest(".form-group").hide();
+            $("#tProductUnilateral_fextraction").closest(".form-group").hide();
+
+            // 頁面讀取的時候,先判斷怎麼顯示 BY 小安
+            changeForm($("#fCategoryID"));
+
+            $("#fCategoryID").on("change",
+                function () {
+                    changeForm($(this));
+                });
+
+            // Submit form BY 小安
+            $("#productSubmit").on("click",
+                function () {
+
+                    var tempEfficacyListString = "";
+
+                    // 送出前將有勾選的checkbox value丟給tempEfficacyListString BY 小安
+                    // 會長成這樣 => "1,2,3,4," 最後的逗點會在server端排除 BY 小安
+                    $(".efficacyCheckBox").each(function (data) {
+                        if ($(this).prop("checked")) {
+                            tempEfficacyListString += `${$(this).val()},`;
+                        }
+                    });
+                    // 把兜好的字串丟進hidden的欄位中,好讓他在submit的時候送給ActionResult BY 小安
+                    $("#TempEfficacyListString").val(tempEfficacyListString);
+                    // 送出表單 BY 小安
+                    $("#productForm").submit();
+                });
+        })
+        // 我把這個抽出來了 會用到兩次 BY 小安
+        function changeForm(obj) {
+            var categoryValue = $(obj).val();
+            switch (categoryValue) {
+                case "1":
+                    $("#tProductUnilateral_fNoteID").closest(".form-group").show();
+                    $("#tProductUnilateral_fPartID").closest(".form-group").show();
+                    $("#tProductVegetableoil_tfeature_ffeatureName").closest(".form-group").hide();
+                    $("#tProductUnilateral_fextraction").closest(".form-group").show();
+                    break;
+
+                case "2":
+                    $("#tProductUnilateral_fNoteID").closest(".form-group").hide();
+                    $("#tProductUnilateral_fPartID").closest(".form-group").hide();
+                    $("#tProductVegetableoil_tfeature_ffeatureName").closest(".form-group").hide();
+                    $("#tProductUnilateral_fextraction").closest(".form-group").hide();
+                    break;
+
+                case "3":
+                case "4":
+                    $("#tProductUnilateral_fNoteID").closest(".form-group").hide();
+                    $("#tProductUnilateral_fPartID").closest(".form-group").hide();
+                    $("#tProductVegetableoil_tfeature_ffeatureName").closest(".form-group").show();
+                    $("#tProductUnilateral_fextraction").closest(".form-group").hide();
+                    break;
+            }
         }
 
-        @*<div>
-            @Html.ActionLink("返回商品頁面", "ProductPage")
-        </div>*@
+    </script>
 
-        <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-        <script src="~/Scripts/jquery.validate.min.js"></script>
-        <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-
+}
 

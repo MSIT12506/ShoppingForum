@@ -5,14 +5,21 @@
 
 <link href="~/Content/PagedList.css" rel="stylesheet" />
 
-<div class="d-flex p-2 ">
-    <h2>訂單總覽</h2>
-</div>
-<div class="d-flex p-2 ">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+
+<h2>訂單總覽</h2>
+<hr />   
+ <div>
+     <form action="~/AdminLTE/Index" method="post">
+         關鍵字 : <input type="text" name="Search" />
+         @*金額範圍：<input type="text" name="minprice" /> - <input type="text" name="maxprice" />*@
+         <button type="submit" class="btn btn-navbar" value="搜尋">
+             <i class="fas fa-search"></i>
+         </button>
+     </form>
 </div>
 <div class="d-flex p-2 bd-highlight">
 
+    <br />
     <table class="table">
         <thead style="background-color:#524087 ;color:aliceblue">
             <tr>
@@ -23,7 +30,7 @@
                     @Html.DisplayNameFor(model => model.FirstOrDefault().fId)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstOrDefault().tUserProfile.fName)
+                    @Html.DisplayNameFor(model => model.FirstOrDefault().fConsigneeName)
                 </th>
                 <th>
                     建立日期
@@ -46,40 +53,92 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @if (Model != null)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fOrderId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.tUserProfile.fName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fOrderDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fRequiredDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fPayment)
-                    </td>
-                    <td>
-                        totolprice
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.fOrderPostScript)
-                    </td>
-                    <td>
-                        @Html.ActionLink("編輯", "Edit", "AdminLTE", new { id = item.fOrderId }, new { @class = "btn btn-info" }) |
-                        @Html.ActionLink("明細", "Details", "AdminLTE", new { id = item.fOrderId }, new { @class = "btn btn-success" })
-                    </td>
-                </tr>
+                foreach (var item in Model)
+                {
+                    var count = item.tOrderDetails.Count;
+                    var orderid = item.fOrderDate.ToString("yyyyMMdd") + item.fOrderId;
+                    var totalprice = 0;
+                    var usecode = "";
+                    foreach (var items in item.tOrderDetails)
+                    {
+                        var quantity = Convert.ToInt32(items.fOrderQuantity);
+                        var price = Convert.ToInt32(items.tProduct.fUnitPrice);
+                        var subprice = 0;
+                        subprice = price * quantity;
+                        totalprice = totalprice + subprice;
+                    }
+                    var code = item.fDiscountCode;
+                    var subtotal = 0;
+                    var disc = 0;
+                    if (item.fScore == 0)
+                    {
+                        if (code != "無" && code != null)
+                        {
+                            var discontent = item.tUserProfile.tUserDiscountLists.FirstOrDefault(p => p.fDiscountCode == code).tDiscount.fDiscountContent;
+                            if (discontent < 1)
+                            {
+                                subtotal = totalprice * (int)(discontent * 100) / 100;
+                            }
+                            else
+                            {
+                                subtotal = totalprice - (int)discontent;
+                            }
+                        }
+                        else
+                        {
+                            subtotal = totalprice;
+                        }
+                    }
+                    else if (item.fScore != 0 && item.fScore != null)
+                    {
+                        subtotal = totalprice - (int)item.fScore;
+                    }
+                    else
+                    {
+                        subtotal = totalprice;
+                    }
+                    if (code != null && code != "無")
+                    {
+                        usecode = item.tUserProfile.tUserDiscountLists.Where(p => p.fDiscountCode == code).FirstOrDefault().tDiscount.fDiscountName;
+                    }
+                    disc = totalprice - subtotal;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fOrderId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.tUserProfile.fName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fOrderDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fRequiredDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fPayment)
+                        </td>
+                        <td>
+                            @subtotal
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.fOrderPostScript)
+                        </td>
+                        <td>
+                            @Html.ActionLink("編輯", "Edit", "AdminLTE", new { id = item.fOrderId }, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("明細", "Details", "AdminLTE", new { id = item.fOrderId }, new { @class = "btn btn-success" })
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
 </div>
-
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>

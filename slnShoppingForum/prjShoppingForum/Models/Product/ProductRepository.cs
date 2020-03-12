@@ -75,6 +75,23 @@ namespace tw.com.essentialoil.Product.Models
             var prod = db.tProducts.Where(m => m.fProductID == prodId).FirstOrDefault();
             var prodU = db.tProductUnilaterals.Where(m => m.fProductID == prodId).FirstOrDefault();
             var prodV = db.tProductVegetableoils.Where(m => m.fProductID == prodId).FirstOrDefault();
+            //var prodEffRelation = db. (m => m.fProductID == prodId).FirstOrDefault();
+
+            //取得這個商品的所有功效
+            var product = db.tProducts.FirstOrDefault(p => p.fProductID == prod.fProductID);
+            var removeEfficacyList = product.tEfficacies.ToList();
+
+            foreach (var tEfficacy in removeEfficacyList)
+            {
+                product.tEfficacies.Remove(tEfficacy);
+            }
+
+            //刪除瀏覽紀錄
+            var prodBrowseList = db.tUserBrowseHistories.Where(p => p.fProductId == prodId);
+            foreach (var item in prodBrowseList)
+            {
+                db.tUserBrowseHistories.Remove(item);
+            }
 
             if (prodU != null)
             {
@@ -88,6 +105,7 @@ namespace tw.com.essentialoil.Product.Models
 
             db.tProducts.Remove(prod);
             db.SaveChanges();
+
         }
 
         //ProductID重複解法
@@ -106,7 +124,7 @@ namespace tw.com.essentialoil.Product.Models
 
         //更新商品方法
         public void UpdateProduct
-            (tProduct prod, HttpPostedFileBase prodImg, HttpServerUtilityBase server)
+            (tProduct prod, HttpPostedFileBase prodImg, HttpServerUtilityBase server, HttpPostedFileBase produraImg)
         {
             string fileName = "";
             if (prodImg != null)
@@ -114,8 +132,17 @@ namespace tw.com.essentialoil.Product.Models
                 if (prodImg.ContentLength > 0)
                 {
                     fileName = prod.fProductID + Path.GetExtension(prodImg.FileName); //ID+取得副檔名
-                    var path = Path.Combine(server.MapPath("~/Images/Product"), fileName); //合成(取得存檔路徑+名稱)
+                    var path = Path.Combine(server.MapPath("~\\Images\\Product"), fileName); //合成(取得存檔路徑+名稱)
                     prodImg.SaveAs(path); //存檔上傳照片 至path
+                }
+            }
+            if (produraImg != null)
+            {
+                if (produraImg.ContentLength > 0)
+                {
+                    fileName = prod.fProductID + Path.GetExtension(produraImg.FileName); //ID+取得副檔名
+                    var path = Path.Combine(server.MapPath("~\\Images\\Product\\ura"), fileName); //合成(取得存檔路徑+名稱)
+                    produraImg.SaveAs(path); //存檔上傳照片 至path
                 }
             }
 
@@ -146,6 +173,29 @@ namespace tw.com.essentialoil.Product.Models
                     unil.fextraction = prod.tProductUnilateral.fextraction;
                 }
 
+                // 修改功效表 By 小安 ---------------------------------
+
+                // 將字串的功效ID轉換為List<int>
+                var efficacyList = prod.TempEfficacyListString.Split(',')
+                        .Where(p => !string.IsNullOrWhiteSpace(p) && int.TryParse(p, out var temp))
+                        .Select(int.Parse).ToList();
+
+                // 新增功效(不用管有沒有存在)
+                foreach (var efficacyId in efficacyList)
+                {
+                    var efficacy = db.tEfficacies.FirstOrDefault(p => p.fEfficacyID == efficacyId);
+                    product.tEfficacies.Add(efficacy);
+                }
+
+                // 取得被取消勾選的功效
+                var removeEfficacyList = product.tEfficacies.Where(p => !efficacyList.Contains(p.fEfficacyID)).ToList();
+
+                // 移除功效(沒有勾選的就要刪掉)
+                foreach (var tEfficacy in removeEfficacyList)
+                {
+                    product.tEfficacies.Remove(tEfficacy);
+                }
+
                 db.SaveChanges();
             }
             catch (Exception ee)
@@ -155,10 +205,11 @@ namespace tw.com.essentialoil.Product.Models
         }
 
         //新增商品方法
-        public void InsertProduct(tProduct prod, HttpPostedFileBase prodImg, HttpServerUtilityBase server)
+        public void InsertProduct(tProduct prod, HttpPostedFileBase prodImg, HttpPostedFileBase produraImg, 
+            HttpServerUtilityBase server)
         {
             string fileName = "";
-            
+
 
             //限定同時只有一位操作者能增加ProdcutID
             lock (lockObject)
@@ -175,6 +226,15 @@ namespace tw.com.essentialoil.Product.Models
                         prodImg.SaveAs(path); //存檔上傳照片 至path
                     }
                 }
+                if (produraImg != null)
+                {
+                    if (produraImg.ContentLength > 0)
+                    {
+                        fileName = prod.fProductID + Path.GetExtension(produraImg.FileName);
+                        var path = Path.Combine(server.MapPath("~\\Images\\Product\\ura"), fileName);
+                        produraImg.SaveAs(path);
+                    }
+                }
 
                 var product = new tProduct()
                 {
@@ -186,7 +246,7 @@ namespace tw.com.essentialoil.Product.Models
                     fUnitPrice = prod.fUnitPrice,
                     fUnitsInStock = prod.fUnitsInStock,
                     fCategoryID = prod.fCategoryID
-              
+
                 };
 
                 var productU = new tProductUnilateral()
@@ -203,6 +263,26 @@ namespace tw.com.essentialoil.Product.Models
                     fProductID = prod.fProductID,
                     ffeatureID = prod.tProductVegetableoil.ffeatureID,
                 };
+
+                // 新增功效 ----- By 小安
+
+                // 將字串的功效ID轉為List<string>
+                var efficacyList = prod.TempEfficacyListString.Split(',').Where(p => !string.IsNullOrWhiteSpace(p)).ToList();
+
+                foreach (var efficacyIdString in efficacyList)
+                {
+                    // 將字串轉型為int
+                    if (int.TryParse(efficacyIdString, out int efficacyId))
+                    {
+                        // 取得功效本人
+                        var efficacy = db.tEfficacies.FirstOrDefault(p => p.fEfficacyID == efficacyId);
+                        // 加入這個商品的關聯
+                        product.tEfficacies.Add(efficacy);
+                    }
+
+                }
+
+                // 新增功效結束----
 
                 db.tProductUnilaterals.Add(productU);
                 db.tProductVegetableoils.Add(productV);

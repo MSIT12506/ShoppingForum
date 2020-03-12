@@ -41,7 +41,7 @@ namespace tw.com.essentialoil.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult ProductCreate(tProduct prod, HttpPostedFileBase prodImg)
+        public ActionResult ProductCreate(tProduct prod, HttpPostedFileBase prodImg, HttpPostedFileBase produraImg)
         {
             ViewBag.PartDropDownList = DropDownList.GetPartDropDownList();
             ViewBag.NoteDropList = DropDownList.GetNoteDropList();
@@ -49,7 +49,7 @@ namespace tw.com.essentialoil.Controllers
             ViewBag.EfficacyDropLise = DropDownList.GetEfficacyDropLise();
             ViewBag.featureDropList = DropDownList.GetfeatureDropList();
 
-            productRepository.InsertProduct(prod, prodImg, Server);
+            productRepository.InsertProduct(prod, prodImg, produraImg, Server);
 
             return RedirectToAction("ProductPage");
         }
@@ -74,9 +74,9 @@ namespace tw.com.essentialoil.Controllers
             return View(prod);
         }
         [HttpPost]
-        public ActionResult ProductEdit(tProduct prod, HttpPostedFileBase prodImg)
+        public ActionResult ProductEdit(tProduct prod, HttpPostedFileBase prodImg, HttpPostedFileBase produraImg)
         {
-            productRepository.UpdateProduct(prod, prodImg, Server);
+            productRepository.UpdateProduct(prod, prodImg, Server, produraImg);
             tProductImage productImage = new tProductImage();
             return RedirectToAction("ProductPage");
         }

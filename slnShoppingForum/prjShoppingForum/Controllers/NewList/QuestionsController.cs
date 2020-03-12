@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -40,22 +41,6 @@ namespace tw.com.essentialoil.Controllers
             return RedirectToAction("Content", "Questions");
         }
 
-
-
-        //    //var list = new List<T>();
-        //    //fillList(list);
-        //    //var randomizedList = new List<T>();
-        //    //var rnd = new Random();
-        //    //while (list.Count != 0)
-        //    //{
-        //    //    var index = rnd.Next(0, list.Count);
-        //    //    randomizedList.Add(list[index]);
-        //    //    list.RemoveAt(index);
-        //    //}
-        //    //var list = new List<T>();
-        //    //var randomizedList = new List<T>();
-
-
         //前台題目畫面
         public ActionResult Content()
         {
@@ -91,16 +76,19 @@ namespace tw.com.essentialoil.Controllers
             //targetTest = null;
             if (targetTest == null)
             {
-                //找題目
-                var AllQuiz = db.tQuestions.ToList();
-                int quiznum = AllQuiz.Count;
 
-                Random rnd = new Random();
-                int quizId = rnd.Next(0, quiznum - 1);
+                //找題目
+                var AllQuiz = db.tQuestions.Select(p =>p.fQuestionId).ToList();
+                int quiznum = AllQuiz.Count;
+                var rndList = new List<int>();
+                var rnd = new Random();
+                var rndQuiz = rnd.Next(0, quiznum);
+                rndList.Add(AllQuiz[rndQuiz]);
+
 
                 var tTest = new tTest();
                 tTest.fId = userId;
-                tTest.fQuestionId = quizId + 1;
+                tTest.fQuestionId = AllQuiz[rndQuiz];
                 tTest.fScoreDate = nowTime;
                 tTest.fQuestionScore = null;
                 tTest.fTestDiscontinue = false;
@@ -120,132 +108,24 @@ namespace tw.com.essentialoil.Controllers
                 //只要找這個user,目前在tTest裡面的最後一筆就好
                 tTest targetRow = db.tTests.AsEnumerable().Where(p => p.fId == userId).OrderBy(p => p.fTestId).LastOrDefault();
                 var QuizId = targetRow.fQuestionId;
-                var AllQuiz = db.tQuestions.ToList();
-                return View(AllQuiz[QuizId - 1]);
+                var todyQuiz = db.tQuestions.Where(p=>p.fQuestionId == QuizId).FirstOrDefault();
+                return View(todyQuiz);
             }
             else
             {
                 //找到今天已經答完的題目呈現出來
                 tTest targetRow = db.tTests.AsEnumerable().Where(p => p.fId == userId).OrderBy(p => p.fTestId).LastOrDefault();
                 var QuizId = targetRow.fQuestionId;
-                var AllQuiz = db.tQuestions.ToList();
+                var todayQuiz = db.tQuestions.Where(p => p.fQuestionId == QuizId).FirstOrDefault();
 
-                string answer = AllQuiz[QuizId - 1].fAnswer;
+                string answer = todayQuiz.fAnswer;
                 ViewBag.Quizstatus = Session["Quizstatus"];
                 ViewBag.Answer = answer;
 
-                return View(AllQuiz[QuizId - 1]);
+                return View(todayQuiz);
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //var AllQuiz = db.tQuestions.ToList();
-            //int quiznum = AllQuiz.Count;
-            ////todo沒題目
-            //var rnd = new Random();
-            ////qq=題目Id
-            //int qq = rnd.Next(0, quiznum - 1);
-            //var dd = DateTime.UtcNow.AddHours(8);
-            //string userDateString = dd.ToString("yyyy-MM-dd");
-
-            //var userId = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
-            //var testList = db.tTests.Where(p => p.fId == userId).FirstOrDefault();
-            ////true 不行做 ; false 可以做
-            //bool Testflag = true;
-
-            //if (testList == null)
-            //{
-
-            //    //新增一筆到ttest
-            //    var tTest = new tTest();
-            //    tTest.fId = userId;
-            //    tTest.fQuestionId = qq+1;
-            //    tTest.fScoreDate = dd;
-            //    tTest.fTestDiscontinue = false;
-            //    db.tTests.Add(tTest);
-            //    try
-            //    {
-            //        db.SaveChanges();
-            //    }
-            //    catch (Exception e)
-            //    {
-            //        throw;
-            //    }
-            //    Testflag = false;
-            //}
-            //else
-            //{
-            //    var testTime = testList.fScoreDate;
-            //    string userTestDateString = testTime.ToString("yyyy-MM-dd");
-            //    //取出scoreDate的值減掉今天>1
-            //    DateTime dt1 = Convert.ToDateTime(userTestDateString);
-            //    DateTime dt2 = Convert.ToDateTime(userDateString);
-            //    TimeSpan span = dt2 - dt1;
-            //    double days = span.TotalDays;
-            //    int diff = Convert.ToInt32(days);
-            //    if (diff >= 1)
-            //    {
-            //        //新增一筆到ttest
-            //        var tTest = new tTest();
-            //        tTest.fId = userId;
-            //        tTest.fQuestionId = qq + 1;
-            //        tTest.fScoreDate = dd;
-            //        tTest.fTestDiscontinue = false;
-            //        db.tTests.Add(tTest);
-            //        try
-            //        {
-            //            db.SaveChanges();
-            //        }
-            //        catch (Exception e)
-            //        {
-            //            throw;
-            //        }
-            //        Testflag = false;
-            //    }
-            //    else
-            //    {
-            //        //true=做過=不行做
-            //        Testflag = true;
-            //    }
-            ////}
-            //if (quiznum > 0  && Testflag == false)  //&& 要寫一個flag)
-            //{
-            //    return View(AllQuiz[qq]);
-            //}
-
         }
-
-
 
         [HttpPost]
         //只接受頁面post
@@ -415,5 +295,94 @@ namespace tw.com.essentialoil.Controllers
             }
             base.Dispose(disposing);
         }
+
+        //    //var list = new List<T>();
+        //    //fillList(list);
+        //    //var randomizedList = new List<T>();
+        //    //var rnd = new Random();
+        //    //while (list.Count != 0)
+        //    //{
+        //    //    var index = rnd.Next(0, list.Count);
+        //    //    randomizedList.Add(list[index]);
+        //    //    list.RemoveAt(index);
+        //    //}
+        //    //var list = new List<T>();
+        //    //var randomizedList = new List<T>();
+
+
+        //var AllQuiz = db.tQuestions.ToList();
+        //int quiznum = AllQuiz.Count;
+        ////todo沒題目
+        //var rnd = new Random();
+        ////qq=題目Id
+        //int qq = rnd.Next(0, quiznum - 1);
+        //var dd = DateTime.UtcNow.AddHours(8);
+        //string userDateString = dd.ToString("yyyy-MM-dd");
+
+        //var userId = Convert.ToInt32(Session[UserDictionary.S_CURRENT_LOGINED_USERFID]);
+        //var testList = db.tTests.Where(p => p.fId == userId).FirstOrDefault();
+        ////true 不行做 ; false 可以做
+        //bool Testflag = true;
+
+        //if (testList == null)
+        //{
+
+        //    //新增一筆到ttest
+        //    var tTest = new tTest();
+        //    tTest.fId = userId;
+        //    tTest.fQuestionId = qq+1;
+        //    tTest.fScoreDate = dd;
+        //    tTest.fTestDiscontinue = false;
+        //    db.tTests.Add(tTest);
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw;
+        //    }
+        //    Testflag = false;
+        //}
+        //else
+        //{
+        //    var testTime = testList.fScoreDate;
+        //    string userTestDateString = testTime.ToString("yyyy-MM-dd");
+        //    //取出scoreDate的值減掉今天>1
+        //    DateTime dt1 = Convert.ToDateTime(userTestDateString);
+        //    DateTime dt2 = Convert.ToDateTime(userDateString);
+        //    TimeSpan span = dt2 - dt1;
+        //    double days = span.TotalDays;
+        //    int diff = Convert.ToInt32(days);
+        //    if (diff >= 1)
+        //    {
+        //        //新增一筆到ttest
+        //        var tTest = new tTest();
+        //        tTest.fId = userId;
+        //        tTest.fQuestionId = qq + 1;
+        //        tTest.fScoreDate = dd;
+        //        tTest.fTestDiscontinue = false;
+        //        db.tTests.Add(tTest);
+        //        try
+        //        {
+        //            db.SaveChanges();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            throw;
+        //        }
+        //        Testflag = false;
+        //    }
+        //    else
+        //    {
+        //        //true=做過=不行做
+        //        Testflag = true;
+        //    }
+        ////}
+        //if (quiznum > 0  && Testflag == false)  //&& 要寫一個flag)
+        //{
+        //    return View(AllQuiz[qq]);
+        //}
+
     }
 }

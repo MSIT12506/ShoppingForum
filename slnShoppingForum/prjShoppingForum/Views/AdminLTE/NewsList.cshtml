@@ -83,14 +83,16 @@
                             @Html.DisplayFor(modelItem => item.fApproved)
                         </td>
                         <td>
+                            @Html.ActionLink("下架 ","NewsDelete", "AdminLTE", new { id = item.fNewsId }
+                                , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })
                             @Html.DisplayFor(modelItem => item.fNewsDiscontinue)
                         </td>
 
                         <td>
                             @Html.ActionLink("編輯", "NewsEdit", "AdminLTE", new { id = item.fNewsId }, new { @class = "btn btn-info" }) |
                             @Html.ActionLink("明細", "NewsDetails", "AdminLTE", new { id = item.fNewsId }, new { @class = "btn btn-success" }) |
-                            @Html.ActionLink("下架 ","NewsDelete", "AdminLTE", new { id = item.fNewsId }
-                                , new { onclick = "return confirm('確定要下架?');", @class = "btn btn-warning" })
+                            @Html.ActionLink("刪除 ","NewsRemove", "AdminLTE", new { id = item.fNewsId }
+                                , new { onclick = "return confirm('確定要刪除?');", @class = "btn btn-danger" })
                             )
                         </td>
                     </tr>

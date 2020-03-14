@@ -2,7 +2,6 @@
 @*vvv  *@
 
 @* 後臺編輯消息 *@
-<script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
 
 @using (Html.BeginForm())
 {
@@ -40,14 +39,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.fNewsArticle, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.fNewsArticle, new { @ValidateRequestMode = "Enabled", @id = "editor", @style = "weigh:300px,height:350px" })
-                <script>
-                    ClassicEditor
-                        .create(document.querySelector('#editor'))
-                        .catch(error => {
-                            console.error(error);
-                        });
-                </script>
+                @Html.TextAreaFor(model => model.fNewsArticle, new { @ValidateRequestMode = "Enabled", @class = "ckeditor", @style = "weigh:300px,height:350px" })
             </div>
         </div>
 
@@ -127,4 +119,11 @@
             <input type="submit" value="保存" class="btn btn-primary" />
         </div>
     </div>
+}
+@section Scripts{
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/Scripts/ckfinder/ckfinder.js"></script>
+    <script>
+
+    </script>
 }

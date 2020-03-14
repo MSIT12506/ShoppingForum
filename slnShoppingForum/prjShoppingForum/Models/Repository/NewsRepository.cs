@@ -84,7 +84,7 @@ namespace tw.com.essentialoil.News.Models
             tNew.fGet_No = 5;
             tNew.fChangUser = "No";
             tNew.fDeleteUser = "No";
-            tNew.fApproved = "N";
+            //tNew.fApproved = "N";
             db.tNews.Add(tNew);
             try
             {

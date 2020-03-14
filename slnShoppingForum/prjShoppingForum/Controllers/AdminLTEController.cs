@@ -380,7 +380,13 @@ namespace tw.com.essentialoil.Controllers
         {
             int pagesize = 10;
             int currentPage = pagesize < 1 ? 1 : page;
-            var Newspage = db.tNews.OrderBy(p => p.fNewsId).ToList();
+            //var Newspage = db.tNews.OrderBy(p => p.fNewsId).ToList();
+            var News = from a in db.tNews
+                       where a.fNewsDiscontinue != true
+                       orderby a.fNewsId ascending
+                       orderby a.fApproved descending
+                       select a;
+            var Newspage = News.ToList();
             var result = Newspage.ToPagedList(currentPage, pagesize);
             return View(result);
         }
@@ -415,7 +421,11 @@ namespace tw.com.essentialoil.Controllers
             if (ModelState.IsValid)
             {
                 _NewsRepository.InsertNews(tNew);
-                db.SaveChanges();
+                if (tNew.fApproved == null)
+                {
+                    tNew.fApproved = "N";
+                    db.SaveChanges();
+                }
                 return RedirectToAction("NewsList");
             }
             return View(tNew);
@@ -446,6 +456,13 @@ namespace tw.com.essentialoil.Controllers
         public ActionResult NewsDelete(int Id)
         {
             _NewsRepository.EditNewsToDiscontinue(Id);
+            return RedirectToAction("NewsList");
+        }
+
+        //直接刪除
+        public ActionResult NewsRemove(int Id)
+        {
+            _NewsRepository.RemoveNews(Id);
             return RedirectToAction("NewsList");
         }
 
